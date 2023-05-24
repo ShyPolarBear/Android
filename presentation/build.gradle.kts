@@ -44,9 +44,7 @@ dependencies {
 
     implementation(AndroidX.CORE_KTX)
     implementation(AndroidX.APP_COMPAT)
-
     implementation(Google.MATERIAL)
-
     testImplementation(AndroidX.JUNIT)
     androidTestImplementation(AndroidX.EXT_JUNIT)
     androidTestImplementation(AndroidX.ESPRESSO_CORE)
@@ -54,5 +52,8 @@ dependencies {
     // Hilt
     implementation(Google.HILT_ANDROID)
     kapt(Google.HILT_ANDROID_COMPILER)
+
+    // Coroutine
+    implementation(KotlinX.KOTLINX_COROUTINE)
 
 }
