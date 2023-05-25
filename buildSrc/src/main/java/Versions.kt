@@ -16,5 +16,5 @@ object Versions {
     const val RETROFIT2 = "2.9.0"
     const val OKHTTP3_BOM = "4.9.0"
 
-    const val KOTLINX_COROUTINE = "1.3.9"
+    const val KOTLINX_COROUTINE = "1.7.1"
 }
