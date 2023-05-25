@@ -12,4 +12,9 @@ object Versions {
 
     const val MATERIAL = "1.9.0"
     const val HILT = "2.44"
+
+    const val RETROFIT2 = "2.9.0"
+    const val OKHTTP3_BOM = "4.9.0"
+
+    const val KOTLINX_COROUTINE = "1.7.1"
 }
