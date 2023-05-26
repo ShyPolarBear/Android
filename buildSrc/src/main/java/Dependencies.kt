@@ -3,6 +3,9 @@ object AndroidX {
     const val CORE_KTX = "androidx.core:core-ktx:${Versions.CORE_KTX}"
     const val LIFECYCLE_RUNTIME = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.LIFECYCLE_RUNTIME}"
 
+    const val FRAGMENT_KTX = "androidx.fragment:fragment-ktx:${Versions.FRAGMENT_KTX}"
+    const val LIFECYCLE_VIEWMODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE_VIEWMODEL_KTX}"
+
     const val JUNIT = "junit:junit:${Versions.JUNIT}"
     const val EXT_JUNIT = "androidx.test.ext:junit:${Versions.EXT_JUNIT}"
     const val ESPRESSO_CORE = "androidx.test.espresso:espresso-core:${Versions.ESPRESSO_CORE}"
@@ -25,3 +28,4 @@ object SquareUp {
 object KotlinX {
     const val KOTLINX_COROUTINE = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.KOTLINX_COROUTINE}"
 }
+
