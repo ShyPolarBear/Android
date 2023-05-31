@@ -35,6 +35,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    dataBinding {
+        enable = true
+    }
 }
 
 dependencies {
@@ -45,6 +48,9 @@ dependencies {
     implementation(AndroidX.CORE_KTX)
     implementation(AndroidX.APP_COMPAT)
     implementation(Google.MATERIAL)
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.5.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     testImplementation(AndroidX.JUNIT)
     androidTestImplementation(AndroidX.EXT_JUNIT)
     androidTestImplementation(AndroidX.ESPRESSO_CORE)
