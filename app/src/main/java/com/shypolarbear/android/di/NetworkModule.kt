@@ -16,7 +16,7 @@ import javax.inject.Singleton
 object NetworkModule {
 
     const val BASEURL = ""
-    const val SAMPLEURL = "https://api.chucknorris.io/"
+    const val SAMPLE_URL = "https://api.chucknorris.io/"
 
     @Singleton
     @Provides
@@ -31,7 +31,7 @@ object NetworkModule {
             .build()
 
         return Retrofit.Builder()
-            .baseUrl(SAMPLEURL)
+            .baseUrl(SAMPLE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

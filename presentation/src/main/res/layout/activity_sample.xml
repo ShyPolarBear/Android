@@ -11,8 +11,8 @@
         android:layout_height="match_parent">
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragment1"
-            android:name="com.shypolarbear.presentation.MainFragment"
+            android:id="@+id/fragment_sample"
+            android:name="com.shypolarbear.presentation.sample.SampleFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"

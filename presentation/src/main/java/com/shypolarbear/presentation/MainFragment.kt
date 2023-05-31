@@ -14,11 +14,7 @@ class MainFragment: BaseFragment<FragmentMainBinding, MainViewModel>(
 
     override fun initView() {
         binding.apply {
-            binding.text1.text = "부끄북극"
 
-            viewModel.sampleData.observe(viewLifecycleOwner) {
-                binding.exampleModel = it
-            }
         }
     }
 }
