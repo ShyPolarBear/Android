@@ -3,7 +3,9 @@ package com.shypolarbear.presentation
 import androidx.fragment.app.viewModels
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainFragment: BaseFragment<FragmentMainBinding, MainViewModel>(
     R.layout.fragment_main
 ) {
@@ -13,6 +15,10 @@ class MainFragment: BaseFragment<FragmentMainBinding, MainViewModel>(
     override fun initView() {
         binding.apply {
             binding.text1.text = "부끄북극"
+
+            viewModel.sampleData.observe(viewLifecycleOwner) {
+                binding.exampleModel = it
+            }
         }
     }
 }
