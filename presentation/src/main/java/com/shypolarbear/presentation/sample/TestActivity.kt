@@ -1,5 +1,6 @@
-package com.shypolarbear.presentation
+package com.shypolarbear.presentation.sample
 
+import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseActivity
 import com.shypolarbear.presentation.databinding.ActivityTestBinding
 

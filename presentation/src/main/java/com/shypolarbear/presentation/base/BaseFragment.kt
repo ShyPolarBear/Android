@@ -36,7 +36,7 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : BaseViewModel>(
 
     abstract fun initView()
 
-    //뷰 해제 해주는게 좋음
+    // lifecycleOwner는 객체를 갖고있는데 view만 제거하고 객체는 살아있으므로 메모리누수가 발생함. 이를 막기위해 null값 배정
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
