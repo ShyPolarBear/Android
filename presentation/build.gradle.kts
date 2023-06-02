@@ -45,6 +45,8 @@ dependencies {
     // Multi Module
     implementation(project(":domain"))
 
+    implementation(AndroidX.FRAGMENT_KTX)
+    implementation(AndroidX.LIFECYCLE_VIEWMODEL_KTX)
     implementation(AndroidX.CORE_KTX)
     implementation(AndroidX.APP_COMPAT)
     implementation(Google.MATERIAL)

@@ -17,4 +17,7 @@ object Versions {
     const val OKHTTP3_BOM = "4.9.0"
 
     const val KOTLINX_COROUTINE = "1.7.1"
+    const val FRAGMENT_KTX = "1.5.5"
+    const val LIFECYCLE_VIEWMODEL_KTX = "2.5.1"
+
 }
