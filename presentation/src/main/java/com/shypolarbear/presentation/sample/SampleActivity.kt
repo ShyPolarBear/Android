@@ -16,12 +16,8 @@ class SampleActivity : BaseActivity<ActivitySampleBinding, SampleViewModel>(
 
     override fun initView() {
         binding.apply {
-            setupTimber()
             Timber.d("Timber Test(Activity)")
         }
     }
 }
 
-private fun setupTimber() {
-    Timber.plant(Timber.DebugTree())
-}
