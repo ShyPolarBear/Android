@@ -7,6 +7,7 @@ import com.shypolarbear.presentation.databinding.FragmentSampleBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.coroutineScope
+import timber.log.Timber
 
 @AndroidEntryPoint
 class SampleFragment: BaseFragment<FragmentSampleBinding, SampleViewModel> (
@@ -16,6 +17,7 @@ class SampleFragment: BaseFragment<FragmentSampleBinding, SampleViewModel> (
 
     override fun initView() {
         binding.apply {
+            Timber.d("Timber Test(Fragment)")
 
             binding.tvSampleTitle.text = "부끄북극"
 

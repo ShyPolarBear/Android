@@ -1,10 +1,12 @@
 package com.shypolarbear.presentation.sample
 
+import android.os.Bundle
 import androidx.activity.viewModels
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseActivity
 import com.shypolarbear.presentation.databinding.ActivitySampleBinding
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class SampleActivity : BaseActivity<ActivitySampleBinding, SampleViewModel>(
@@ -14,7 +16,12 @@ class SampleActivity : BaseActivity<ActivitySampleBinding, SampleViewModel>(
 
     override fun initView() {
         binding.apply {
-
+            setupTimber()
+            Timber.d("Timber Test(Activity)")
         }
     }
+}
+
+private fun setupTimber() {
+    Timber.plant(Timber.DebugTree())
 }

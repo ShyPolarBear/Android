@@ -1,7 +1,6 @@
 package com.shypolarbear.presentation.base
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -19,6 +18,8 @@ abstract class BaseActivity<B: ViewDataBinding, VM: BaseViewModel>(
 
         binding = DataBindingUtil.setContentView(this, layoutId)
         binding.lifecycleOwner = this
+
+        initView()
     }
     
     protected abstract fun initView()

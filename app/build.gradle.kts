@@ -73,5 +73,7 @@ dependencies {
     implementation(SquareUp.OKHTTP3_LOGGING)
     implementation(SquareUp.OKHTTP3_BOM)
 
+    // Timber
+    implementation(Jakewharton.TIMBER)
 }
 

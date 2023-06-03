@@ -20,4 +20,6 @@ object Versions {
     const val OKHTTP3_BOM = "4.9.0"
 
     const val KOTLINX_COROUTINE = "1.7.1"
+
+    const val TIMBER = "5.0.1"
 }

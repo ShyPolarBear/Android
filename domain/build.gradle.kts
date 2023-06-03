@@ -10,4 +10,7 @@ java {
 
 dependencies {
     implementation(KotlinX.KOTLINX_COROUTINE)
+
+    // Timber
+    implementation(Jakewharton.TIMBER)
 }

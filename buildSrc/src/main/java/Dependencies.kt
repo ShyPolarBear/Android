@@ -29,3 +29,6 @@ object KotlinX {
     const val KOTLINX_COROUTINE = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.KOTLINX_COROUTINE}"
 }
 
+object Jakewharton {
+    const val TIMBER = "com.jakewharton.timber:timber:${Versions.TIMBER}"
+}
