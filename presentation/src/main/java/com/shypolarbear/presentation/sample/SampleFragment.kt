@@ -5,6 +5,8 @@ import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentSampleBinding
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.scopes.ViewModelScoped
+import kotlinx.coroutines.coroutineScope
 
 @AndroidEntryPoint
 class SampleFragment: BaseFragment<FragmentSampleBinding, SampleViewModel> (
@@ -14,7 +16,10 @@ class SampleFragment: BaseFragment<FragmentSampleBinding, SampleViewModel> (
 
     override fun initView() {
         binding.apply {
+
             binding.tvSampleTitle.text = "부끄북극"
+
+            viewModel.loadSampleData()
 
             viewModel.sampleData.observe(viewLifecycleOwner) {
                 binding.exampleModel = it
