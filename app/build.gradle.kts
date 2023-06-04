@@ -42,6 +42,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        dataBinding = true
+    }
 }
 
 dependencies {
@@ -70,5 +73,7 @@ dependencies {
     implementation(SquareUp.OKHTTP3_LOGGING)
     implementation(SquareUp.OKHTTP3_BOM)
 
+    // Timber
+    implementation(Jakewharton.TIMBER)
 }
 

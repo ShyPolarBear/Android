@@ -6,6 +6,9 @@ object Versions {
     const val CORE_KTX = "1.8.0"
     const val LIFECYCLE_RUNTIME = "2.3.1"
 
+    const val FRAGMENT_KTX = "1.5.5"
+    const val LIFECYCLE_VIEWMODEL_KTX = "2.5.1"
+
     const val JUNIT = "4.13.2"
     const val EXT_JUNIT = "1.1.5"
     const val ESPRESSO_CORE = "3.5.1"
@@ -17,4 +20,6 @@ object Versions {
     const val OKHTTP3_BOM = "4.9.0"
 
     const val KOTLINX_COROUTINE = "1.7.1"
+
+    const val TIMBER = "5.0.1"
 }

@@ -1,5 +1,6 @@
 package com.shypolarbear.android.di
 
+import com.shypolarbear.data.api.ExampleApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +16,7 @@ import javax.inject.Singleton
 object NetworkModule {
 
     const val BASEURL = ""
+    const val SAMPLE_URL = "https://api.chucknorris.io/"
 
     @Singleton
     @Provides
@@ -29,7 +31,7 @@ object NetworkModule {
             .build()
 
         return Retrofit.Builder()
-            .baseUrl(BASEURL)
+            .baseUrl(SAMPLE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
