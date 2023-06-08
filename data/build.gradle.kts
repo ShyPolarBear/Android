@@ -39,7 +39,6 @@ android {
 
 dependencies {
 
-    // Multi Module
     implementation(project(":domain"))
 
     implementation(AndroidX.APP_COMPAT)
@@ -49,20 +48,16 @@ dependencies {
     androidTestImplementation(AndroidX.EXT_JUNIT)
     androidTestImplementation(AndroidX.ESPRESSO_CORE)
 
-    // Hilt
     implementation(Google.HILT_ANDROID)
     kapt(Google.HILT_ANDROID_COMPILER)
 
-    // Retrofit
     implementation(SquareUp.RETROFIT2)
     implementation(SquareUp.RETROFIT2_CONVERTER_GSON)
     implementation(SquareUp.OKHTTP3)
     implementation(SquareUp.OKHTTP3_LOGGING)
     implementation(SquareUp.OKHTTP3_BOM)
 
-    // Coroutine
     implementation(KotlinX.KOTLINX_COROUTINE)
 
-    // Timber
     implementation(Jakewharton.TIMBER)
 }

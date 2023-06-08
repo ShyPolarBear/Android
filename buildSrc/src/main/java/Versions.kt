@@ -9,7 +9,7 @@ object Versions {
     const val FRAGMENT_KTX = "1.5.5"
     const val LIFECYCLE_VIEWMODEL_KTX = "2.5.1"
 
-    const val SPLASHSCREEN = "1.0.0-alpha02"
+    const val SPLASHSCREEN = "1.0.0"
 
     const val JUNIT = "4.13.2"
     const val EXT_JUNIT = "1.1.5"
