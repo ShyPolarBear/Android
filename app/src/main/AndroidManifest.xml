@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ShyPolarBear"
+        android:theme="@style/Theme.SplashScreen.ShyPolarBear"
         tools:targetApi="31">
 
 <!--        <activity-->
@@ -28,8 +28,7 @@
         <activity
             android:name="com.shypolarbear.presentation.sample.SampleActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.ShyPolarBear">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

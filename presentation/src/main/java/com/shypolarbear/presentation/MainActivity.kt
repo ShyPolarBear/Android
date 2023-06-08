@@ -1,6 +1,7 @@
 package com.shypolarbear.presentation
 
 import androidx.activity.viewModels
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.shypolarbear.presentation.base.BaseActivity
 import com.shypolarbear.presentation.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,6 +16,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
         binding.apply {
 
         }
+    }
+
+    override fun preLoad() {
+        installSplashScreen()
     }
 
 }
