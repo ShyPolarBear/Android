@@ -65,4 +65,7 @@ dependencies {
 
     // Timber
     implementation(Jakewharton.TIMBER)
+
+    // Splash Screen api
+    implementation(AndroidX.SPLASHSCREEN)
 }
