@@ -2,6 +2,7 @@ package com.shypolarbear.presentation.sample
 
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseActivity
 import com.shypolarbear.presentation.databinding.ActivitySampleBinding
@@ -18,6 +19,10 @@ class SampleActivity : BaseActivity<ActivitySampleBinding, SampleViewModel>(
         binding.apply {
             Timber.d("Timber Test(Activity)")
         }
+    }
+
+    override fun preLoad() {
+        installSplashScreen()
     }
 }
 

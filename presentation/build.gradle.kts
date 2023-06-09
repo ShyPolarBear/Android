@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.storage.CacheResetOnProcessCanceled.enabled
-
 plugins {
 
     id("com.android.library")
@@ -44,7 +42,6 @@ android {
 
 dependencies {
 
-    // Multi Module
     implementation(project(":domain"))
 
     implementation(AndroidX.CORE_KTX)
@@ -56,13 +53,12 @@ dependencies {
     androidTestImplementation(AndroidX.EXT_JUNIT)
     androidTestImplementation(AndroidX.ESPRESSO_CORE)
 
-    // Hilt
     implementation(Google.HILT_ANDROID)
     kapt(Google.HILT_ANDROID_COMPILER)
 
-    // Coroutine
     implementation(KotlinX.KOTLINX_COROUTINE)
 
-    // Timber
     implementation(Jakewharton.TIMBER)
+
+    implementation(AndroidX.SPLASH_SCREEN)
 }
