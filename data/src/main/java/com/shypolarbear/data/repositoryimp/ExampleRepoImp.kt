@@ -8,7 +8,7 @@ import javax.inject.Inject
 class ExampleRepoImp @Inject constructor (
     private val api: ExampleApi
 ): ExampleRepo {
-    override suspend fun getSampleData(): ExampleModel {
-        return api.getExample()
+    override suspend fun getSampleData(): Result<ExampleModel>  = runCatching{
+        return Result.success(api.getExample())
     }
 }

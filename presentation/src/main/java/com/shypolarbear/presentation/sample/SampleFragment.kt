@@ -28,7 +28,7 @@ class SampleFragment: BaseFragment<FragmentSampleBinding, SampleViewModel> (
                 viewModel.sampleState.collect {
                     binding.pgSample.isVisible = it.loading
                     binding.tvSampleErrorMsg.isVisible = it.error
-                    binding.tvSampleData.text = it.category.toString()
+                    binding.tvSampleData.text = it.category
                 }
             }
         }

@@ -6,7 +6,7 @@ import com.shypolarbear.domain.repository.ExampleRepo
 class ExampleUseCase(
     private val repo: ExampleRepo
 ) {
-    suspend fun loadSampleData(): ExampleModel {
+    suspend fun loadSampleData(): Result<ExampleModel> {
         return repo.getSampleData()
     }
 }
