@@ -17,7 +17,7 @@ class SampleViewModel @Inject constructor(
     private val exampleUseCase: ExampleUseCase
 ): BaseViewModel() {
 
-    private val _sampleState: MutableStateFlow<SampleState> = MutableStateFlow(SampleState(true, false, ""))
+    private val _sampleState: MutableStateFlow<SampleState> = MutableStateFlow(SampleState(loading = true, error = false, category = ""))
     val sampleState: StateFlow<SampleState> = _sampleState.asStateFlow()
 
     fun loadSampleData() {
