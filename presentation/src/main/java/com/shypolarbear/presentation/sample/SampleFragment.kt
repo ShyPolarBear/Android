@@ -1,12 +1,13 @@
 package com.shypolarbear.presentation.sample
 
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentSampleBinding
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.scopes.ViewModelScoped
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -23,8 +24,12 @@ class SampleFragment: BaseFragment<FragmentSampleBinding, SampleViewModel> (
 
             viewModel.loadSampleData()
 
-            viewModel.sampleData.observe(viewLifecycleOwner) {
-                binding.exampleModel = it
+            lifecycleScope.launch {
+                viewModel.sampleState.collect {
+                    binding.pgSample.isVisible = it.loading
+                    binding.tvSampleErrorMsg.isVisible = it.error
+                    binding.tvSampleData.text = it.category
+                }
             }
         }
     }
