@@ -14,25 +14,25 @@
         android:theme="@style/Theme.SplashScreen.ShyPolarBear"
         tools:targetApi="31">
 
-        <!--        <activity-->
-        <!--            android:name="com.shypolarbear.presentation.MainActivity"-->
-        <!--            android:exported="true"-->
-        <!--            android:label="@string/app_name"-->
-        <!--            android:theme="@style/Theme.ShyPolarBear">-->
-        <!--            <intent-filter>-->
-        <!--                <action android:name="android.intent.action.MAIN"/>-->
-        <!--                <category android:name="android.intent.category.LAUNCHER"/>-->
-        <!--            </intent-filter>-->
-        <!--        </activity>-->
         <activity
-            android:name="com.shypolarbear.presentation.sample.SampleActivity"
+            android:name="com.shypolarbear.presentation.ui.main.MainActivity"
             android:exported="true"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:theme="@style/Theme.ShyPolarBear">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+<!--        <activity-->
+<!--            android:name="com.shypolarbear.presentation.sample.SampleActivity"-->
+<!--            android:exported="true"-->
+<!--            android:label="@string/app_name">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN"/>-->
+<!--                <category android:name="android.intent.category.LAUNCHER"/>-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
 
     </application>
 </manifest>

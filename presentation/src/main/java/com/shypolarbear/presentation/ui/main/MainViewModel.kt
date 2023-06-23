@@ -1,4 +1,4 @@
-package com.shypolarbear.presentation
+package com.shypolarbear.presentation.ui.main
 
 import com.shypolarbear.presentation.base.BaseViewModel
 
