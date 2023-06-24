@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -8,6 +9,57 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/text_h1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/H1"
+            android:text="부끄북극"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/text_h2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/H2"
+            android:text="부끄북극"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_h1"/>
+
+        <TextView
+            android:id="@+id/text_h3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/H3"
+            android:text="부끄북극"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_h2"/>
+
+        <TextView
+            android:id="@+id/text_h4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/H4"
+            android:text="부끄북극"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_h3"/>
+
+        <TextView
+            android:id="@+id/text_h5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/H5"
+            android:text="부끄북극"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_h4"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

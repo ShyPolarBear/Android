@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--    text style    -->
+    <style name="H1" parent="TextAppearance.MaterialComponents.Headline3">
+
+    </style>
+
+    <style name="H2" parent="TextAppearance.M3.Sys.Typescale.HeadlineMedium">
+
+    </style>
+
+    <style name="H3" parent="TextAppearance.MaterialComponents.Headline5">
+
+    </style>
+
+    <style name="H4" parent="Base.TextAppearance.MaterialComponents.Headline6">
+
+    </style>
+
+    <style name="H5" parent="TextAppearance.MaterialComponents.Subtitle1">
+
+    </style>
+
+    <style name="b1" parent="TextAppearance.MaterialComponents.Subtitle1">
+
+    </style>
+
+    <style name="B2" parent="TextAppearance.MaterialComponents.Subtitle1">
+
+    </style>
+
+    <style name="B3" parent="TextAppearance.MaterialComponents.Body2">
+
+    </style>
+
+    <style name="L1" parent="TextAppearance.MaterialComponents.Body2"> 14
+
+    </style>
+
+    <style name="l2" parent="TextAppearance.M3.Sys.Typescale.BodySmall"> 12
+
+    </style>
+
+    <style name="l3" parent="TextAppearance.M3.Sys.Typescale.BodySmall">
+
+    </style>
+
+<!--    <style name="Button1" parent="">18sp-->
+
+<!--    </style>-->
+
+    <style name="caption1" parent="TextAppearance.MaterialComponents.Subtitle1">
+
+    </style>
+
+    <style name="Caption2" parent="TextAppearance.M3.Sys.Typescale.BodySmall">12
+
+    </style>
+</resources>
