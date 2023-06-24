@@ -59,6 +59,7 @@ dependencies {
     implementation(KotlinX.KOTLINX_COROUTINE)
 
     implementation(Jakewharton.TIMBER)
-
     implementation(AndroidX.SPLASH_SCREEN)
+    implementation(PowerMenu.POWER_MENU)
+
 }
