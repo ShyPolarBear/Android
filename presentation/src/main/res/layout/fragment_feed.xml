@@ -6,60 +6,60 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/text_h1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/H1"
-            android:text="부끄북극"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/text_h2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/H2"
-            android:text="부끄북극"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_h1"/>
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/White_01"
+                app:layout_scrollFlags="scroll|enterAlways">
 
-        <TextView
-            android:id="@+id/text_h3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/H3"
-            android:text="부끄북극"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_h2"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/text_h4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/H4"
-            android:text="부끄북극"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_h3"/>
+                    <TextView
+                        android:id="@+id/toolbar_feed_title"
+                        style="@style/H3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32sp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/feed_title"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/text_h5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/H5"
-            android:text="부끄북극"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_h4"/>
+                    <ImageView
+                        android:id="@+id/feed_toolbar_notification"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="60dp"
+                        android:src="@drawable/ic_feed_toolbar_notification"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/toolbar_feed_title" />
 
+                    <ImageView
+                        android:id="@+id/feed_toolbar_sort"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/ic_feed_toolbar_sort"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/toolbar_feed_title" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
