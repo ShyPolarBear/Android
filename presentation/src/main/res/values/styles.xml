@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--    text style    -->
+    <style name="H1" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="fontFamily">@font/ptd_extra_bold</item>
+        <item name="android:lineSpacingExtra">12sp</item>
+        <item name="android:textColor">@color/Black_01</item>
+    </style>
+
+    <style name="H2" parent="TextAppearance.M3.Sys.Typescale.HeadlineMedium">
+        <item name="fontFamily">@font/ptd_semi_bold</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textColor">@color/Black_01</item>
+    </style>
+
+    <style name="H3" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="fontFamily">@font/ptd_semi_bold</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textColor">@color/Black_01</item>
+    </style>
+
+    <style name="H4" parent="Base.TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/ptd_medium</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textColor">@color/Black_01</item>
+    </style>
+
+    <style name="H5" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/ptd_medium</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textColor">@color/Black_01</item>
+    </style>
+
+    <style name="b1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/ptd_medium</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textColor">@color/Black_01</item>
+    </style>
+
+    <style name="B2" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/ptd_regular</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textColor">@color/Black_01</item>
+    </style>
+
+    <style name="B3" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/ptd_regular</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textColor">@color/Black_01</item>
+    </style>
+
+    <style name="L1" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/ptd_light</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textColor">@color/Black_01</item>
+    </style>
+
+    <style name="l2" parent="TextAppearance.M3.Sys.Typescale.BodySmall">
+        <item name="fontFamily">@font/ptd_light</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textColor">@color/Black_01</item>
+    </style>
+
+    <style name="l3" parent="TextAppearance.M3.Sys.Typescale.BodySmall">
+        <item name="fontFamily">@font/ptd_regular</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textColor">@color/Black_01</item>
+    </style>
+
+    <style name="Button1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/ptd_semi_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/Black_01</item>
+    </style>
+
+    <style name="caption1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/ptd_extra_bold</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textColor">@color/Black_01</item>
+    </style>
+
+    <style name="Caption2" parent="TextAppearance.M3.Sys.Typescale.BodySmall">
+        <item name="fontFamily">@font/ptd_semi_bold</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/Black_01</item>
+    </style>
+</resources>

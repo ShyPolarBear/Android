@@ -1,7 +1,8 @@
-package com.shypolarbear.presentation
+package com.shypolarbear.presentation.ui.main
 
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseActivity
 import com.shypolarbear.presentation.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint

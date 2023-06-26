@@ -24,4 +24,6 @@ object Versions {
     const val KOTLINX_COROUTINE = "1.7.1"
 
     const val TIMBER = "5.0.1"
+
+    const val POWER_MENU = "2.2.3"
 }

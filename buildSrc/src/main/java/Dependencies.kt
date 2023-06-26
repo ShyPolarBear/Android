@@ -34,3 +34,7 @@ object KotlinX {
 object Jakewharton {
     const val TIMBER = "com.jakewharton.timber:timber:${Versions.TIMBER}"
 }
+
+object PowerMenu {
+    const val POWER_MENU = "com.github.skydoves:powermenu:${Versions.POWER_MENU}"
+}
