@@ -4,18 +4,18 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_navigation_home"
-        android:title="홈" />
+        android:title="@string/bottom_navigation_home" />
     <item
         android:id="@+id/navigation_feed"
         android:icon="@drawable/ic_navigation_feed"
-        android:title="환경 피드" />
+        android:title="@string/bottom_navigation_feed" />
     <item
         android:id="@+id/navigation_ranking"
         android:icon="@drawable/ic_navigation_ranking"
-        android:title="랭킹" />
+        android:title="@string/bottom_navigation_ranking" />
 
     <item
         android:id="@+id/navigation_more"
         android:icon="@drawable/ic_navigation_more"
-        android:title="더보기" />
+        android:title="@string/bottom_navigation_more" />
 </menu>

@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">ShyPolarBear</string>
     <string name="feed_title">환경 피드</string>
+    <string name="bottom_navigation_home">홈</string>
+    <string name="bottom_navigation_feed">환경 피드</string>
+    <string name="bottom_navigation_ranking">랭킹</string>
+    <string name="bottom_navigation_more">더보기</string>
 </resources>
