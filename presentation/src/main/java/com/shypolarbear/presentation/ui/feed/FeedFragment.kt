@@ -15,7 +15,7 @@ class FeedFragment: BaseFragment<FragmentFeedBinding, FeedViewModel> (
     private val moreMenu by powerMenu<FeedMenuFactory>()
 
     override fun initView() {
-        moreMenu?.showAsDropDown(binding.feedToolbarSort)
+
         binding.feedToolbarSort.setOnClickListener {
             moreMenu?.showAsDropDown(it)
         }
