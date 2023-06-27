@@ -18,7 +18,8 @@ class FeedFragment: BaseFragment<FragmentFeedBinding, FeedViewModel> (
     }
 
     override val viewModel: FeedViewModel by viewModels()
-    private val feedSortItems: List<PowerMenuItem> = listOf(PowerMenuItem("최신"), PowerMenuItem("최근 인기"),PowerMenuItem("best"))
+    private val feedSortItems: List<PowerMenuItem> = listOf(PowerMenuItem("최신"), PowerMenuItem("최근 인기"), PowerMenuItem("best"))
+    private val feedPostPropertyItems: List<PowerMenuItem> = listOf(PowerMenuItem("수정"), PowerMenuItem("삭제"), PowerMenuItem("신고"), PowerMenuItem("차단"))
 
     override fun initView() {
 
@@ -28,6 +29,14 @@ class FeedFragment: BaseFragment<FragmentFeedBinding, FeedViewModel> (
                 viewLifecycleOwner,
                 feedSortItems
             ) .showAsDropDown(binding.feedToolbarSort, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
+        }
+
+        binding.feedPostProperty.setOnClickListener {
+            PowerMenuUtil.getPowerMenu(
+                requireContext(),
+                viewLifecycleOwner,
+                feedPostPropertyItems
+            ) .showAsDropDown(binding.feedPostProperty, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
         }
     }
 }

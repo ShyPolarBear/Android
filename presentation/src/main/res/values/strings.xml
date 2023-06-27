@@ -5,4 +5,6 @@
     <string name="bottom_navigation_feed">환경 피드</string>
     <string name="bottom_navigation_ranking">랭킹</string>
     <string name="bottom_navigation_more">더보기</string>
+    <string name="test_nickname">닉네임</string>
+    <string name="test_posting_time">2023년 5월 7일 오후 12시 13분</string>
 </resources>
