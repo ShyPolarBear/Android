@@ -12,6 +12,11 @@ import java.util.regex.Pattern
 class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
     R.layout.fragment_login
 ) {
+    companion object{
+        const val TERMS_URL = "https://policy.naver.com/policy/service.html"
+        const val PRIVACY_URL = "https://policy.naver.com/policy/privacy.html"
+    }
+
     override val viewModel: LoginViewModel by viewModels()
 
     private val linkify = Linkify()
@@ -20,8 +25,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
     override fun initView() {
         val terms = Pattern.compile(getString(R.string.terms))
         val privacyPolicy = Pattern.compile(getString(R.string.privacy_policy))
+
         binding.btnLogin.setOnClickListener {
-            Timber.tag(getString(R.string.tag_login)).d(getString(R.string.btn_clicked))
 
         }
 
@@ -29,14 +34,14 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
             addLinks(
                 binding.tvLoginTerms,
                 terms,
-                getString(R.string.terms_page),
+                TERMS_URL,
                 null,
                 transformFilter
             )
             addLinks(
                 binding.tvLoginTerms,
                 privacyPolicy,
-                getString(R.string.policy_page),
+                PRIVACY_URL,
                 null,
                 transformFilter
             )

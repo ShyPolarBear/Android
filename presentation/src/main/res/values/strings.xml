@@ -8,14 +8,12 @@
     <string name="login_image_bear">image_login_bear</string>
     <string name="login_btn_text">카카오톡으로 로그인</string>
     <string name="login_ic_kakaotalk">login_ic_kakaotalk</string>
-    <string name="login_text_terms">가입을 진행할 경우, 이용약관 및\n
-개인정보 취급 방침에 동의하는 것으로 간주합니다.</string>
+    <string name="login_text_terms">가입을 진행할 경우, 이용 약관 및\n
+개인 정보 취급 방침에 동의하는 것으로 간주합니다.</string>
     <string name="login_text_title">부끄북극</string>
     <string name="login_text_subtitle">북극곰에게 부끄러운 사람이 되지 말자!</string>
-    <string name="privacy_policy">개인정보 취급 방침</string>
-    <string name="terms">이용약관</string>
     <string name="btn_clicked">btn clicked</string>
-    <string name="terms_page">https://policy.naver.com/policy/service.html</string>
-    <string name="policy_page">https://policy.naver.com/policy/privacy.html</string>
     <string name="tag_login">LOGIN</string>
+    <string name="terms">이용 약관</string>
+    <string name="privacy_policy">개인 정보 취급 방침</string>
 </resources>
