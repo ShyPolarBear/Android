@@ -38,7 +38,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
                 getString(R.string.privacy_url),
                 null,
                 transformFilter
-            )정
+            )
         }
     }
 }
