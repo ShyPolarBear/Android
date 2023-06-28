@@ -6,7 +6,6 @@ import androidx.fragment.app.viewModels
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentLoginBinding
-import timber.log.Timber
 import java.util.regex.Pattern
 
 class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
@@ -29,17 +28,17 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
             addLinks(
                 binding.tvLoginTerms,
                 terms,
-                getString(R.string.TERMS_URL),
+                getString(R.string.terms_url),
                 null,
                 transformFilter
             )
             addLinks(
                 binding.tvLoginTerms,
                 privacyPolicy,
-                getString(R.string.PRIVACY_URL),
+                getString(R.string.privacy_url),
                 null,
                 transformFilter
-            )
+            )정
         }
     }
 }
