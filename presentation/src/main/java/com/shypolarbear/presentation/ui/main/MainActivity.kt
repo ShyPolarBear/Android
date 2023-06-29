@@ -1,5 +1,6 @@
 package com.shypolarbear.presentation.ui.main
 
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.shypolarbear.presentation.R
@@ -15,7 +16,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 
     override fun initView() {
         binding.apply {
-
+            // LoginFragment 테스트
+             bottomNavigationBar.visibility = View.INVISIBLE
         }
     }
 
