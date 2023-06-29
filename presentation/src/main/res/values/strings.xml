@@ -7,4 +7,17 @@
     <string name="bottom_navigation_more">더보기</string>
     <string name="test_nickname">닉네임</string>
     <string name="test_posting_time">2023년 5월 7일 오후 12시 13분</string>
+    <string name="login_image_bear">image_login_bear</string>
+    <string name="login_btn_text">카카오톡으로 로그인</string>
+    <string name="login_ic_kakaotalk">login_ic_kakaotalk</string>
+    <string name="login_text_terms">가입을 진행할 경우, 이용 약관 및\n
+개인 정보 취급 방침에 동의하는 것으로 간주합니다.</string>
+    <string name="login_text_title">부끄북극</string>
+    <string name="login_text_subtitle">북극곰에게 부끄러운 사람이 되지 말자!</string>
+    <string name="btn_clicked">btn clicked</string>
+    <string name="tag_login">LOGIN</string>
+    <string name="terms">이용 약관</string>
+    <string name="privacy_policy">개인 정보 취급 방침</string>
+    <string name="terms_url">https://policy.naver.com/policy/service.html</string>
+    <string name="privacy_url">https://policy.naver.com/policy/privacy.html</string>
 </resources>
