@@ -177,6 +177,30 @@
                     app:layout_constraintStart_toEndOf="@id/tv_feed_post_like_cnt"
                     app:layout_constraintTop_toTopOf="@id/btn_feed_post_like" />
 
+                <TextView
+                    android:id="@+id/tv_feed_post_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/H5"
+                    android:text="환경 피드 제목"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_feed_post_like"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="20dp" />
+
+                <TextView
+                    android:id="@+id/tv_feed_post_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/B3"
+                    android:text="환경 피드 내용 ... 환경 피드 내용 ... 환경 피드 내용 ...........환경 피드 내용 ... 환경 피드 내용 ... 환경 피드 내용 ..........환경 피드 내용 ... 환경 피드 내용 ... 환경 피드 내용"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_feed_post_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="8dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>

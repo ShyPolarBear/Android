@@ -25,34 +25,34 @@ class FeedFragment: BaseFragment<FragmentFeedBinding, FeedViewModel> (
 
     override fun initView() {
 
-        binding.feedToolbarSort.setOnClickListener {
+        binding.ivFeedToolbarSort.setOnClickListener {
             PowerMenuUtil.getPowerMenu(
                 requireContext(),
                 viewLifecycleOwner,
                 feedSortItems
-            ) .showAsDropDown(binding.feedToolbarSort, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
+            ) .showAsDropDown(binding.ivFeedToolbarSort, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
         }
 
-        binding.feedPostProperty.setOnClickListener {
+        binding.ivFeedPostProperty.setOnClickListener {
             PowerMenuUtil.getPowerMenu(
                 requireContext(),
                 viewLifecycleOwner,
                 feedPostPropertyItems
-            ) .showAsDropDown(binding.feedPostProperty, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
+            ) .showAsDropDown(binding.ivFeedPostProperty, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
         }
 
         setViewPager()
     }
 
     private fun setViewPager() {
-        with(binding.feedPostViewpagerImg) {
+        with(binding.viewpagerFeedPostImg) {
             adapter = FeedPostAdapter().apply {
                 viewModel.feedPostImgUrl.observe(this@FeedFragment) { imgs ->
                     submitList(imgs)
                 }
             }
 
-            TabLayoutMediator(binding.feedPostIndicator, this
+            TabLayoutMediator(binding.tablayoutFeedPostIndicator, this
             ) { tab, position ->
 
             }.attach()
