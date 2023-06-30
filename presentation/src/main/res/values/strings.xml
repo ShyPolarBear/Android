@@ -20,4 +20,6 @@
     <string name="privacy_policy">개인 정보 취급 방침</string>
     <string name="terms_url">https://policy.naver.com/policy/service.html</string>
     <string name="privacy_url">https://policy.naver.com/policy/privacy.html</string>
+    <string name="feed_post_like">좋아요 </string>
+    <string name="feed_post_cnt">개</string>
 </resources>
