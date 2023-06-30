@@ -1,9 +1,11 @@
 package com.shypolarbear.presentation.ui.feed
 
 import androidx.fragment.app.viewModels
+import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedBinding
+import com.shypolarbear.presentation.ui.feed.adapter.FeedPostAdapter
 import com.shypolarbear.presentation.util.PowerMenuUtil
 import com.skydoves.powermenu.PowerMenuItem
 import com.skydoves.powermenu.kotlin.powerMenu
@@ -37,6 +39,23 @@ class FeedFragment: BaseFragment<FragmentFeedBinding, FeedViewModel> (
                 viewLifecycleOwner,
                 feedPostPropertyItems
             ) .showAsDropDown(binding.feedPostProperty, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
+        }
+
+        setViewPager()
+    }
+
+    private fun setViewPager() {
+        with(binding.feedPostViewpagerImg) {
+            adapter = FeedPostAdapter().apply {
+                viewModel.feedPostImgUrl.observe(this@FeedFragment) { imgs ->
+                    submitList(imgs)
+                }
+            }
+
+            TabLayoutMediator(binding.feedPostIndicator, this
+            ) { tab, position ->
+
+            }.attach()
         }
     }
 }
