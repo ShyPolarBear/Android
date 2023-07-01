@@ -41,6 +41,14 @@ class FeedFragment: BaseFragment<FragmentFeedBinding, FeedViewModel> (
             ) .showAsDropDown(binding.ivFeedPostProperty, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
         }
 
+        binding.ivFeedPostReplyProperty.setOnClickListener {
+            PowerMenuUtil.getPowerMenu(
+                requireContext(),
+                viewLifecycleOwner,
+                feedPostPropertyItems
+            ) .showAsDropDown(binding.ivFeedPostReplyProperty, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
+        }
+
         setViewPager()
     }
 
