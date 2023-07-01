@@ -22,4 +22,11 @@
     <string name="privacy_url">https://policy.naver.com/policy/privacy.html</string>
     <string name="feed_post_like">좋아요 </string>
     <string name="feed_post_cnt">개</string>
+    <string name="test_feed_post_like_cnt">32</string>
+    <string name="test_feed_post_title">환경 피드 제목</string>
+    <string name="test_feed_post_content">환경 피드 내용 ... 환경 피드 내용 ... 환경 피드 내용 ...........환경 피드 내용 ... 환경 피드 내용 ... 환경 피드 내용 ..........환경 피드 내용 ... 환경 피드 내용 ... 환경 피드 내용</string>
+    <string name="test_feed_post_reply_content">베스트 댓글</string>
+    <string name="test_feed_post_reply_like_cnt">12</string>
+    <string name="test_feed_post_reply_cnt">22</string>
+    <string name="test_feed_post_reply_cnt_text"><![CDATA[개의 댓글 더보기 >]]></string>
 </resources>

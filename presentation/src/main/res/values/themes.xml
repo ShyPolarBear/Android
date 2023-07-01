@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.ShyPolarBear" parent="Theme.AppCompat.Light.NoActionBar" />
+    <style name="Theme.ShyPolarBear" parent="Theme.MaterialComponents.Light.NoActionBar" />
 
     <style name="Theme.SplashScreen.ShyPolarBear" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/white</item>
