@@ -5,8 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.FeedPost
+import com.shypolarbear.domain.model.feed.FeedPostImg
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
+import com.shypolarbear.presentation.ui.feed.FeedViewModel
 
 class FeedPostAdapter: ListAdapter<FeedPost, FeedPostAdapter.FeedPostViewHolder>(FeedPostDiffCallback()) {
 
@@ -26,6 +29,22 @@ class FeedPostAdapter: ListAdapter<FeedPost, FeedPostAdapter.FeedPostViewHolder>
         fun bind(post: FeedPost) {
             binding.feedPost = post
             binding.executePendingBindings()
+
+            with(binding.viewpagerFeedPostImg) {
+                adapter = FeedPostImgAdapter().apply {
+                    submitList(mutableListOf(
+                        FeedPostImg("1"),
+                        FeedPostImg("1"),
+                        FeedPostImg("1"),
+                        FeedPostImg("1")
+                    ))
+                }
+
+                TabLayoutMediator(binding.tablayoutFeedPostIndicator, this
+                ) { tab, position ->
+
+                }.attach()
+            }
         }
     }
 }

@@ -48,7 +48,6 @@ class FeedFragment: BaseFragment<FragmentFeedBinding, FeedViewModel> (
 //            ) .showAsDropDown(binding.ivFeedPostReplyProperty, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
 //        }
 
-//        setFeedPostImg()
         viewModel.loadFeedPost()
         setFeedPost()
     }
@@ -60,20 +59,4 @@ class FeedFragment: BaseFragment<FragmentFeedBinding, FeedViewModel> (
             feedPostAdapter.submitList(it)
         }
     }
-
-//    private fun setFeedPostImg() {
-//        with(binding.viewpagerFeedPostImg) {
-//            adapter = FeedPostAdapter().apply {
-//                viewModel.feedPostImgUrl.observe(this@FeedFragment) { imgs ->
-//                    submitList(imgs)
-//                }
-//            }
-//
-//            TabLayoutMediator(binding.tablayoutFeedPostIndicator, this
-//            ) { tab, position ->
-//
-//            }.attach()
-//        }
-//    }
-
 }
