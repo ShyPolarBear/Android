@@ -2,51 +2,24 @@ package com.shypolarbear.presentation.ui.feed.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.FeedPost
-import com.shypolarbear.domain.model.feed.FeedPostImg
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
-import com.shypolarbear.presentation.ui.feed.FeedViewModel
+import com.shypolarbear.presentation.ui.feed.viewholder.FeedPostViewHolder
 
-class FeedPostAdapter: ListAdapter<FeedPost, FeedPostAdapter.FeedPostViewHolder>(FeedPostDiffCallback()) {
+class FeedPostAdapter(private val viewLifeCycleOwner: LifecycleOwner): ListAdapter<FeedPost, FeedPostViewHolder>(FeedPostDiffCallback()) {
 
     private lateinit var binding : ItemFeedBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedPostViewHolder {
         binding = ItemFeedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return FeedPostViewHolder(binding)
+        return FeedPostViewHolder(binding, viewLifeCycleOwner)
     }
 
     override fun onBindViewHolder(holder: FeedPostViewHolder, position: Int) {
         holder.bind(getItem(position))
-    }
-
-    inner class FeedPostViewHolder(private val binding: ItemFeedBinding) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(post: FeedPost) {
-            binding.feedPost = post
-            binding.executePendingBindings()
-
-            with(binding.viewpagerFeedPostImg) {
-                adapter = FeedPostImgAdapter().apply {
-                    submitList(mutableListOf(
-                        // 테스트 데이터
-                        FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/9690c7b7-2bde-498c-a5be-886b6e5b5405"),
-                        FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/9690c7b7-2bde-498c-a5be-886b6e5b5405"),
-                        FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/9690c7b7-2bde-498c-a5be-886b6e5b5405"),
-                        FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/9690c7b7-2bde-498c-a5be-886b6e5b5405")
-                    ))
-                }
-
-                TabLayoutMediator(binding.tablayoutFeedPostIndicator, this
-                ) { tab, position ->
-
-                }.attach()
-            }
-        }
     }
 }
 

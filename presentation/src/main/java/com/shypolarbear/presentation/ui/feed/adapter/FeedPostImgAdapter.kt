@@ -4,32 +4,21 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.shypolarbear.domain.model.feed.FeedPostImg
 import com.shypolarbear.presentation.databinding.ItemFeedPostImgBinding
+import com.shypolarbear.presentation.ui.feed.viewholder.FeedPostImgViewHolder
 
-class FeedPostImgAdapter : ListAdapter<FeedPostImg, FeedPostImgAdapter.FeedPostViewHolder>(FeedPostImgDiffCallback()) {
+class FeedPostImgAdapter : ListAdapter<FeedPostImg, FeedPostImgViewHolder>(FeedPostImgDiffCallback()) {
 
     private lateinit var binding : ItemFeedPostImgBinding
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedPostViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedPostImgViewHolder {
         binding = ItemFeedPostImgBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return FeedPostViewHolder(binding)
+        return FeedPostImgViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: FeedPostViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FeedPostImgViewHolder, position: Int) {
         holder.bind(getItem(position))
-    }
-
-    inner class FeedPostViewHolder(private val binding: ItemFeedPostImgBinding) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(img: FeedPostImg) {
-            Glide.with(itemView)
-                .load(img.postImgUrl)
-                .into(binding.ivFeedPost)
-            binding.executePendingBindings()
-        }
     }
 }
 
