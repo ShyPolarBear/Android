@@ -61,5 +61,6 @@ dependencies {
     implementation(Jakewharton.TIMBER)
     implementation(AndroidX.SPLASH_SCREEN)
     implementation(PowerMenu.POWER_MENU)
+    implementation(Glide.GLIDE)
 
 }
