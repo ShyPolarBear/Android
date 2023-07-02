@@ -1,14 +1,13 @@
 package com.shypolarbear.presentation.ui.feed
 
 import androidx.fragment.app.viewModels
-import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedBinding
 import com.shypolarbear.presentation.ui.feed.adapter.FeedPostAdapter
+import com.shypolarbear.presentation.ui.feed.adapter.FeedPostImgAdapter
 import com.shypolarbear.presentation.util.PowerMenuUtil
 import com.skydoves.powermenu.PowerMenuItem
-import com.skydoves.powermenu.kotlin.powerMenu
 
 class FeedFragment: BaseFragment<FragmentFeedBinding, FeedViewModel> (
     R.layout.fragment_feed
@@ -33,37 +32,48 @@ class FeedFragment: BaseFragment<FragmentFeedBinding, FeedViewModel> (
             ) .showAsDropDown(binding.ivFeedToolbarSort, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
         }
 
-        binding.ivFeedPostProperty.setOnClickListener {
-            PowerMenuUtil.getPowerMenu(
-                requireContext(),
-                viewLifecycleOwner,
-                feedPostPropertyItems
-            ) .showAsDropDown(binding.ivFeedPostProperty, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
-        }
+//        binding.ivFeedPostProperty.setOnClickListener {
+//            PowerMenuUtil.getPowerMenu(
+//                requireContext(),
+//                viewLifecycleOwner,
+//                feedPostPropertyItems
+//            ) .showAsDropDown(binding.ivFeedPostProperty, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
+//        }
+//
+//        binding.ivFeedPostReplyProperty.setOnClickListener {
+//            PowerMenuUtil.getPowerMenu(
+//                requireContext(),
+//                viewLifecycleOwner,
+//                feedPostPropertyItems
+//            ) .showAsDropDown(binding.ivFeedPostReplyProperty, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
+//        }
 
-        binding.ivFeedPostReplyProperty.setOnClickListener {
-            PowerMenuUtil.getPowerMenu(
-                requireContext(),
-                viewLifecycleOwner,
-                feedPostPropertyItems
-            ) .showAsDropDown(binding.ivFeedPostReplyProperty, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
-        }
-
-        setViewPager()
+//        setFeedPostImg()
+        viewModel.loadFeedPost()
+        setFeedPost()
     }
 
-    private fun setViewPager() {
-        with(binding.viewpagerFeedPostImg) {
-            adapter = FeedPostAdapter().apply {
-                viewModel.feedPostImgUrl.observe(this@FeedFragment) { imgs ->
-                    submitList(imgs)
-                }
-            }
-
-            TabLayoutMediator(binding.tablayoutFeedPostIndicator, this
-            ) { tab, position ->
-
-            }.attach()
+    private fun setFeedPost() {
+        val feedPostAdapter = FeedPostAdapter()
+        binding.rvFeedPost.adapter = feedPostAdapter
+        viewModel.feedPost.observe(viewLifecycleOwner) {
+            feedPostAdapter.submitList(it)
         }
     }
+
+//    private fun setFeedPostImg() {
+//        with(binding.viewpagerFeedPostImg) {
+//            adapter = FeedPostAdapter().apply {
+//                viewModel.feedPostImgUrl.observe(this@FeedFragment) { imgs ->
+//                    submitList(imgs)
+//                }
+//            }
+//
+//            TabLayoutMediator(binding.tablayoutFeedPostIndicator, this
+//            ) { tab, position ->
+//
+//            }.attach()
+//        }
+//    }
+
 }

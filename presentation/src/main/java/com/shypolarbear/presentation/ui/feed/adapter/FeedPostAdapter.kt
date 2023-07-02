@@ -5,15 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.shypolarbear.domain.model.feed.FeedPostImg
-import com.shypolarbear.presentation.databinding.ItemFeedPostImgBinding
+import com.shypolarbear.domain.model.feed.FeedPost
+import com.shypolarbear.presentation.databinding.ItemFeedBinding
 
-class FeedPostAdapter : ListAdapter<FeedPostImg, FeedPostAdapter.FeedPostViewHolder>(FeedPostDiffCallback()) {
+class FeedPostAdapter: ListAdapter<FeedPost, FeedPostAdapter.FeedPostViewHolder>(FeedPostDiffCallback()) {
 
-    private lateinit var binding : ItemFeedPostImgBinding
+    private lateinit var binding : ItemFeedBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedPostViewHolder {
-        binding = ItemFeedPostImgBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        binding = ItemFeedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return FeedPostViewHolder(binding)
     }
 
@@ -21,22 +21,22 @@ class FeedPostAdapter : ListAdapter<FeedPostImg, FeedPostAdapter.FeedPostViewHol
         holder.bind(getItem(position))
     }
 
-    inner class FeedPostViewHolder(private val binding: ItemFeedPostImgBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class FeedPostViewHolder(private val binding: ItemFeedBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(img: FeedPostImg) {
-            binding.feedPostImg = img
+        fun bind(post: FeedPost) {
+            binding.feedPost = post
             binding.executePendingBindings()
         }
     }
 }
 
-class FeedPostDiffCallback : DiffUtil.ItemCallback<FeedPostImg>() {
+class FeedPostDiffCallback : DiffUtil.ItemCallback<FeedPost>() {
 
-    override fun areItemsTheSame(oldItem: FeedPostImg, newItem: FeedPostImg): Boolean {
-        return oldItem.postImgUrl == newItem.postImgUrl
+    override fun areItemsTheSame(oldItem: FeedPost, newItem: FeedPost): Boolean {
+        return oldItem.testContent == newItem.testContent
     }
 
-    override fun areContentsTheSame(oldItem: FeedPostImg, newItem: FeedPostImg): Boolean {
+    override fun areContentsTheSame(oldItem: FeedPost, newItem: FeedPost): Boolean {
         return oldItem == newItem
     }
 }
