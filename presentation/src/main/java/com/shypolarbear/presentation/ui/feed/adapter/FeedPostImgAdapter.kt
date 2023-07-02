@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.shypolarbear.domain.model.feed.FeedPostImg
 import com.shypolarbear.presentation.databinding.ItemFeedPostImgBinding
 
@@ -24,7 +25,9 @@ class FeedPostImgAdapter : ListAdapter<FeedPostImg, FeedPostImgAdapter.FeedPostV
     inner class FeedPostViewHolder(private val binding: ItemFeedPostImgBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(img: FeedPostImg) {
-            binding.feedPostImg = img
+            Glide.with(itemView)
+                .load(img.postImgUrl)
+                .into(binding.ivFeedPost)
             binding.executePendingBindings()
         }
     }

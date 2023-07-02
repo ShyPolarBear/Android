@@ -33,10 +33,11 @@ class FeedPostAdapter: ListAdapter<FeedPost, FeedPostAdapter.FeedPostViewHolder>
             with(binding.viewpagerFeedPostImg) {
                 adapter = FeedPostImgAdapter().apply {
                     submitList(mutableListOf(
-                        FeedPostImg("1"),
-                        FeedPostImg("1"),
-                        FeedPostImg("1"),
-                        FeedPostImg("1")
+                        // 테스트 데이터
+                        FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/9690c7b7-2bde-498c-a5be-886b6e5b5405"),
+                        FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/9690c7b7-2bde-498c-a5be-886b6e5b5405"),
+                        FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/9690c7b7-2bde-498c-a5be-886b6e5b5405"),
+                        FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/9690c7b7-2bde-498c-a5be-886b6e5b5405")
                     ))
                 }
 
