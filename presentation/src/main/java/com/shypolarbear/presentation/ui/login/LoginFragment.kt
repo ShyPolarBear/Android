@@ -1,11 +1,23 @@
 package com.shypolarbear.presentation.ui.login
 
+import android.os.Handler
+import android.os.Looper
 import android.text.util.Linkify
 import android.text.util.Linkify.addLinks
+import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentLoginBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import java.util.regex.Pattern
 
 class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
@@ -22,7 +34,28 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
 
         binding.btnLogin.setOnClickListener {
 
+            binding.btnClickedLogin.visibility = View.VISIBLE
+            binding.progressLogin.visibility = View.VISIBLE
+            binding.ivKakaotalk.visibility = View.INVISIBLE
+
+            lifecycleScope.launch {
+                var stateCodeLogIn = 404
+                val job = async{
+                    // 로그인 로직이 들어갈 곳
+                    delay(2000)
+                    //stateCodeLogIn = 200
+                }
+                job.await()
+                if(stateCodeLogIn == 404){
+
+                }
+                binding.btnClickedLogin.visibility = View.INVISIBLE
+                binding.progressLogin.visibility = View.INVISIBLE
+                binding.ivKakaotalk.visibility = View.VISIBLE
+            }
         }
+
+
 
         linkify.apply {
             addLinks(
