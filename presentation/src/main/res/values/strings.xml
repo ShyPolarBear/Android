@@ -24,7 +24,7 @@
     <string name="feed_post_cnt">개</string>
     <string name="test_feed_post_like_cnt">32</string>
     <string name="test_feed_post_title">환경 피드 제목</string>
-    <string name="test_feed_post_content">환경 피드 내용 ... 환경 피드 내용 ... 환경 피드 내용 ...........환경 피드 내용 ... 환경 피드 내용 ... 환경 피드 내용 ..........환경 피드 내용 ... 환경 피드 내용 ... 환경 피드 내용</string>
+    <string name="test_feed_post_content">환경 피드 내용 ... 환경 피드 내용 ... \n환경 피드 내용 ... 환경 피드 내용 ... \n환경 피드 내용 ... 환경 피드 내용 ... \n환경 피드 내용 ... 환경 피드 내용 ... \n</string>
     <string name="test_feed_post_best_reply_content">베스트 댓글</string>
     <string name="test_feed_post_reply_like_cnt">12</string>
     <string name="test_feed_post_reply_cnt">22</string>
