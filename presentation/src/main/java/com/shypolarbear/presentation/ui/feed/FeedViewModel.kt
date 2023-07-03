@@ -10,8 +10,8 @@ class FeedViewModel: BaseViewModel() {
     val feedPost: LiveData<List<FeedPost>> = _feedPost
 
     fun loadFeedPost() {
-        // 테스트 데이터
         _feedPost.value = mutableListOf(
+            // 테스트 데이터
             FeedPost("1"),
             FeedPost("1"),
             FeedPost("1"),

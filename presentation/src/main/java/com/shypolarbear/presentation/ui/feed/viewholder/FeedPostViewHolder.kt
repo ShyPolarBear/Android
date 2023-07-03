@@ -61,8 +61,8 @@ class FeedPostViewHolder(
         with(binding.viewpagerFeedPostImg) {
             adapter = FeedPostImgAdapter().apply {
                 submitList(
+                    // 테스트 데이터
                     mutableListOf(
-                        // 테스트 데이터
                         FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/9690c7b7-2bde-498c-a5be-886b6e5b5405"),
                         FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/9690c7b7-2bde-498c-a5be-886b6e5b5405"),
                         FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/9690c7b7-2bde-498c-a5be-886b6e5b5405"),
@@ -86,26 +86,18 @@ class FeedPostViewHolder(
         when (diff) {
             0 -> {
                 if (isLike) {
-                    // 좋아요 누른 경우
                     binding.btnFeedPostLike.background = on
                 } else {
-                    // 좋아요 취소한 경우
                     binding.btnFeedPostLike.background = off
                 }
             }
 
             1 -> {
                 if (isLike) {
-                    // 좋아요 누른 경우
                     binding.btnFeedPostReplyLike.background = on
                 } else {
-                    // 좋아요 취소한 경우
                     binding.btnFeedPostReplyLike.background = off
                 }
-            }
-
-            else -> {
-
             }
         }
     }
