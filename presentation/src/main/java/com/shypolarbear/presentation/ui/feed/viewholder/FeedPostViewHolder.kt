@@ -1,6 +1,5 @@
 package com.shypolarbear.presentation.ui.feed.viewholder
 
-import android.content.Context
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
@@ -30,8 +29,8 @@ class FeedPostViewHolder(
             PowerMenuItem(itemView.context.getString(R.string.feed_post_property_report)),
             PowerMenuItem(itemView.context.getString(R.string.feed_post_property_block))
         )
-    private var IS_FEED_LIKE = false
-    private var IS_FEED_REPLY_LIKE = false
+    private var isFeedPostLike = false
+    private var isFeedReplyLike = false
 
     init {
         binding.ivFeedPostProperty.setOnClickListener {
@@ -51,13 +50,13 @@ class FeedPostViewHolder(
         }
 
         binding.btnFeedPostLike.setOnClickListener {
-            IS_FEED_LIKE = !IS_FEED_LIKE
-            checkLike(IS_FEED_LIKE, binding, "post")
+            isFeedPostLike = !isFeedPostLike
+            checkLike(isFeedPostLike, binding, "post")
         }
 
         binding.btnFeedPostReplyLike.setOnClickListener {
-            IS_FEED_REPLY_LIKE = !IS_FEED_REPLY_LIKE
-            checkLike(IS_FEED_REPLY_LIKE, binding, "reply")
+            isFeedReplyLike = !isFeedReplyLike
+            checkLike(isFeedReplyLike, binding, "reply")
         }
     }
 
