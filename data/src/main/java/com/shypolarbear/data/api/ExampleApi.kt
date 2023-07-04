@@ -1,6 +1,6 @@
 package com.shypolarbear.data.api
 
-import com.shypolarbear.domain.model.ExampleModel
+import com.shypolarbear.domain.model.sample.ExampleModel
 import retrofit2.Response
 import retrofit2.http.GET
 

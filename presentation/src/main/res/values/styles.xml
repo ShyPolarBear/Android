@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--  ImageView Style  -->
+    <style name="Radius10" >
+        <item name="cornerSize">10dp</item>
+    </style>
+
     <!--    text style    -->
     <style name="H1" parent="TextAppearance.MaterialComponents.Headline3">
         <item name="fontFamily">@font/ptd_extra_bold</item>

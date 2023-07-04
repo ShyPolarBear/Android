@@ -2,7 +2,7 @@ package com.shypolarbear.data.repositoryimpl
 
 import com.shypolarbear.data.api.ExampleApi
 import com.shypolarbear.domain.model.HttpError
-import com.shypolarbear.domain.model.ExampleModel
+import com.shypolarbear.domain.model.sample.ExampleModel
 import com.shypolarbear.domain.repository.ExampleRepo
 import javax.inject.Inject
 
