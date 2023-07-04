@@ -38,3 +38,7 @@ object Jakewharton {
 object PowerMenu {
     const val POWER_MENU = "com.github.skydoves:powermenu:${Versions.POWER_MENU}"
 }
+
+object Glide {
+    const val GLIDE = "com.github.bumptech.glide:glide:${Versions.GLIDE}"
+}

@@ -12,7 +12,7 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment1"
-            android:name="com.shypolarbear.presentation.ui.login.LoginFragment"
+            android:name="com.shypolarbear.presentation.ui.feed.FeedFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_bar"
@@ -23,7 +23,7 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation_bar"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:background="@color/white"
             app:itemIconTint="@drawable/bottom_navigation_item_selector"
             app:itemTextColor="@drawable/bottom_navigation_item_selector"
