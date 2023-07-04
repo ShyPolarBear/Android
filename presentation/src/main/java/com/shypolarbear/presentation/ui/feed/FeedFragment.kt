@@ -18,8 +18,13 @@ class FeedFragment: BaseFragment<FragmentFeedBinding, FeedViewModel> (
     }
 
     override val viewModel: FeedViewModel by viewModels()
-    private val feedSortItems: List<PowerMenuItem> = listOf(PowerMenuItem("최신"), PowerMenuItem("최근 인기"), PowerMenuItem("best"))
-
+    private val feedSortItems: List<PowerMenuItem> by lazy {
+        listOf(
+            PowerMenuItem(requireContext().getString(R.string.feed_post_property_recent)),
+            PowerMenuItem(requireContext().getString(R.string.feed_post_property_recent_best)),
+            PowerMenuItem(requireContext().getString(R.string.feed_post_property_best))
+        )
+    }
 
     override fun initView() {
 

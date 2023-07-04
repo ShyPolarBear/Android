@@ -1,5 +1,6 @@
 package com.shypolarbear.presentation.ui.feed.viewholder
 
+import android.content.Context
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
@@ -20,11 +21,17 @@ class FeedPostViewHolder(
     companion object {
         private const val POWER_MENU_OFFSET_X = -290
         private const val POWER_MENU_OFFSET_Y = 0
-        private var IS_FEED_LIKE = false
-        private var IS_FEED_REPLY_LIKE = false
     }
 
-    private val feedPostPropertyItems: List<PowerMenuItem> = listOf(PowerMenuItem("수정"), PowerMenuItem("삭제"), PowerMenuItem("신고"), PowerMenuItem("차단"))
+    private val feedPostPropertyItems: List<PowerMenuItem> =
+        listOf(
+            PowerMenuItem(itemView.context.getString(R.string.feed_post_property_revise)),
+            PowerMenuItem(itemView.context.getString(R.string.feed_post_property_delete)),
+            PowerMenuItem(itemView.context.getString(R.string.feed_post_property_report)),
+            PowerMenuItem(itemView.context.getString(R.string.feed_post_property_block))
+        )
+    private var IS_FEED_LIKE = false
+    private var IS_FEED_REPLY_LIKE = false
 
     init {
         binding.ivFeedPostProperty.setOnClickListener {
@@ -45,12 +52,12 @@ class FeedPostViewHolder(
 
         binding.btnFeedPostLike.setOnClickListener {
             IS_FEED_LIKE = !IS_FEED_LIKE
-            checkLike(IS_FEED_LIKE, binding, 0)
+            checkLike(IS_FEED_LIKE, binding, "post")
         }
 
         binding.btnFeedPostReplyLike.setOnClickListener {
             IS_FEED_REPLY_LIKE = !IS_FEED_REPLY_LIKE
-            checkLike(IS_FEED_REPLY_LIKE, binding, 1)
+            checkLike(IS_FEED_REPLY_LIKE, binding, "reply")
         }
     }
 
@@ -64,9 +71,10 @@ class FeedPostViewHolder(
                     // 테스트 데이터
                     mutableListOf(
                         FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/9690c7b7-2bde-498c-a5be-886b6e5b5405"),
-                        FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/9690c7b7-2bde-498c-a5be-886b6e5b5405"),
-                        FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/9690c7b7-2bde-498c-a5be-886b6e5b5405"),
-                        FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/9690c7b7-2bde-498c-a5be-886b6e5b5405")
+                        FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/4eed9944-8689-442e-87d7-c4ac6a939103"),
+                        FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/083a3008-642b-42b8-9845-6696aa641e31"),
+                        FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/4c0f2ca6-defc-455c-b384-ba573f72a981"),
+                        FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/24b65d18-006e-41ee-8440-2a5f00706028")
                     )
                 )
             }
@@ -78,25 +86,25 @@ class FeedPostViewHolder(
         }
     }
 
-    private fun checkLike(isLike: Boolean, binding: ItemFeedBinding, diff: Int) {
+    private fun checkLike(isLike: Boolean, binding: ItemFeedBinding, diff: String) {
 
-        val on = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_btn_like_on)
-        val off = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_btn_like_off)
+        val likeBtnOn = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_btn_like_on)
+        val likeBtnOff = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_btn_like_off)
 
         when (diff) {
-            0 -> {
+            "post" -> {
                 if (isLike) {
-                    binding.btnFeedPostLike.background = on
+                    binding.btnFeedPostLike.background = likeBtnOn
                 } else {
-                    binding.btnFeedPostLike.background = off
+                    binding.btnFeedPostLike.background = likeBtnOff
                 }
             }
 
-            1 -> {
+            "reply" -> {
                 if (isLike) {
-                    binding.btnFeedPostReplyLike.background = on
+                    binding.btnFeedPostReplyLike.background = likeBtnOn
                 } else {
-                    binding.btnFeedPostReplyLike.background = off
+                    binding.btnFeedPostReplyLike.background = likeBtnOff
                 }
             }
         }

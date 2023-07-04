@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="feed_post"
             type="com.shypolarbear.domain.model.feed.FeedPost" />
@@ -135,8 +136,8 @@
             style="@style/B3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="20dp"
             android:maxLines="3"
             android:text="@string/test_feed_post_content"
@@ -149,10 +150,11 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="20dp"
-            app:strokeWidth="1dp"
             app:cardCornerRadius="10dp"
+            app:cardElevation="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_feed_post_content"
             app:strokeColor="@color/Gray_05"
-            app:layout_constraintTop_toBottomOf="@+id/tv_feed_post_content">
+            app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -256,17 +258,17 @@
             android:layout_marginBottom="16dp"
             android:text="@string/test_feed_post_reply_cnt_text"
             android:textColor="@color/Gray_05"
+            app:layout_constraintBottom_toTopOf="@id/view_feed_post_div"
             app:layout_constraintEnd_toEndOf="@id/cardview_feed_post_reply"
-            app:layout_constraintTop_toBottomOf="@id/cardview_feed_post_reply"
-            app:layout_constraintBottom_toTopOf="@id/view_feed_post_div"/>
-        
+            app:layout_constraintTop_toBottomOf="@id/cardview_feed_post_reply" />
+
         <View
             android:id="@+id/view_feed_post_div"
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/tv_feed_post_reply_cnt_text"
             android:background="#F2FAFF"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_feed_post_reply_cnt_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
