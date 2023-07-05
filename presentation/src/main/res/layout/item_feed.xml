@@ -116,7 +116,7 @@
             style="@style/l3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/feed_post_cnt"
+            android:text="@string/count"
             app:layout_constraintStart_toEndOf="@id/tv_feed_post_like_cnt"
             app:layout_constraintTop_toTopOf="@id/btn_feed_post_like" />
 
