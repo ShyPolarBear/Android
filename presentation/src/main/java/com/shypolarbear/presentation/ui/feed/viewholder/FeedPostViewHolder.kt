@@ -8,7 +8,7 @@ import com.shypolarbear.domain.model.feed.FeedPost
 import com.shypolarbear.domain.model.feed.FeedPostImg
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
-import com.shypolarbear.presentation.ui.feed.adapter.FeedPostImgAdapter
+import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.util.PowerMenuUtil
 import com.skydoves.powermenu.PowerMenuItem
 
@@ -65,7 +65,7 @@ class FeedPostViewHolder(
         binding.executePendingBindings()
 
         with(binding.viewpagerFeedPostImg) {
-            adapter = FeedPostImgAdapter().apply {
+            adapter = ImageViewPagerAdapter().apply {
                 submitList(
                     // 테스트 데이터
                     mutableListOf(
