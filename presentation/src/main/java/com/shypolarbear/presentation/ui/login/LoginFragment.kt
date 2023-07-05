@@ -33,7 +33,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
         val privacyPolicy = Pattern.compile(getString(R.string.privacy_policy))
 
         binding.btnLogin.setOnClickListener {
-
+            // 로그인 구현할 때 UIState도입예정
             binding.btnClickedLogin.visibility = View.VISIBLE
             binding.progressLogin.visibility = View.VISIBLE
             binding.ivKakaotalk.visibility = View.INVISIBLE
