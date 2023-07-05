@@ -90,7 +90,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewpager_feed_detail_img"
-                app:tabBackground="@drawable/selector_feed_post_indicator"
+                app:tabBackground="@drawable/selector_feed_image_indicator"
                 app:tabGravity="center"
                 app:tabIndicatorHeight="0dp" />
 
