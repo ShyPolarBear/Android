@@ -7,6 +7,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentSignupBinding
+import com.shypolarbear.presentation.ui.signup.pages.SignupMailFragment
+import com.shypolarbear.presentation.ui.signup.pages.SignupPhoneFragment
 import com.shypolarbear.presentation.ui.signup.pages.SignupNameFragment
 import com.shypolarbear.presentation.ui.signup.pages.SignupTermsFragment
 
@@ -19,8 +21,8 @@ class SignupFragment :
 
 //        childFragmentManager.beginTransaction().replace(R.id.signup_fragment, SignupTermsFragment()).commit()
         childFragmentManager.beginTransaction().replace(R.id.signup_fragment, SignupNameFragment()).commit()
-//        childFragmentManager.beginTransaction().replace(R.id.signup_fragment, SignupFragment()).commit()
-//        childFragmentManager.beginTransaction().replace(R.id.signup_fragment, SignupTermsFragment()).commit()
+//        childFragmentManager.beginTransaction().replace(R.id.signup_fragment, SignupMailFragment()).commit()
+//        childFragmentManager.beginTransaction().replace(R.id.signup_fragment, SignupPhoneFragment()).commit()
 
         binding.apply {
             signupBtnNext.setOnClickListener {
