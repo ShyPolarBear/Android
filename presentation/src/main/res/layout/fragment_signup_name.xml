@@ -30,7 +30,7 @@
             android:contentDescription="@string/profile_icon"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_height="120dp"/>
-        
+
         <ImageView
             android:layout_width="36dp"
             android:layout_height="36dp"
@@ -42,7 +42,7 @@
             app:layout_constraintBottom_toBottomOf="@id/iv_signup_name_profile"
             android:id="@+id/iv_signup_name_edit"/>
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="text"
@@ -58,7 +58,7 @@
             app:layout_constraintTop_toBottomOf="@id/iv_signup_name_profile"
              >
 
-        </com.google.android.material.textfield.TextInputEditText>
+        </EditText>
         <TextView
             android:layout_width="wrap_content"
             android:id="@+id/tv_signup_name_rule"
