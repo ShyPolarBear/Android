@@ -41,12 +41,12 @@ class FeedPostViewHolder(
             ) .showAsDropDown(binding.ivFeedPostProperty, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
         }
 
-        binding.ivFeedPostReplyProperty.setOnClickListener {
+        binding.ivFeedPostCommentProperty.setOnClickListener {
             PowerMenuUtil.getPowerMenu(
                 binding.root.context,
                 viewLifeCycleOwner,
                 feedPostPropertyItems
-            ) .showAsDropDown(binding.ivFeedPostReplyProperty, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
+            ) .showAsDropDown(binding.ivFeedPostCommentProperty, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
         }
 
         binding.btnFeedPostLike.setOnClickListener {
@@ -54,7 +54,7 @@ class FeedPostViewHolder(
             checkLike(isFeedPostLike, binding, "post")
         }
 
-        binding.btnFeedPostReplyLike.setOnClickListener {
+        binding.btnFeedPostCommentLike.setOnClickListener {
             isFeedReplyLike = !isFeedReplyLike
             checkLike(isFeedReplyLike, binding, "reply")
         }
@@ -101,9 +101,9 @@ class FeedPostViewHolder(
 
             "reply" -> {
                 if (isLike) {
-                    binding.btnFeedPostReplyLike.background = likeBtnOn
+                    binding.btnFeedPostCommentLike.background = likeBtnOn
                 } else {
-                    binding.btnFeedPostReplyLike.background = likeBtnOff
+                    binding.btnFeedPostCommentLike.background = likeBtnOff
                 }
             }
         }
