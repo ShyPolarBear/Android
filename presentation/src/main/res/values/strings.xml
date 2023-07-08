@@ -38,5 +38,7 @@
     <string name="feed_post_property_recent_best">최근 인기</string>
     <string name="feed_post_property_best">best</string>
     <string name="feed_reply">댓글</string>
+    <string name="feed_comment_delete_msg">삭제된 댓글입니다.</string>
+    <string name="feed_detail_comment_msg">\t\t\t\t\t\t\t\t\t\t\t\t\t댓글을 입력해주세요.</string>
 
 </resources>

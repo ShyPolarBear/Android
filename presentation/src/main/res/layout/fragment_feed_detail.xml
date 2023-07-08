@@ -199,11 +199,11 @@
                     android:background="@color/Gray_05"
                     app:layout_constraintTop_toBottomOf="@id/tv_feed_detail_reply_text" />
 
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/rv_feed_detail_reply"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/view_feed_detail_div"/>-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_feed_detail_reply"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/view_feed_detail_div"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -228,7 +228,7 @@
                     android:id="@+id/edt_feed_detail_reply"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="\t\t\t\t\t\t\t\t\t\t\t\t\t댓글을 입력해주세요."
+                    android:hint="@string/feed_detail_comment_msg"
                     android:textColorHint="@color/Gray_05"
                     style="@style/L1"
                     android:background="@color/White_01"
@@ -245,7 +245,6 @@
                     app:layout_constraintEnd_toEndOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         </com.google.android.material.card.MaterialCardView>
 
