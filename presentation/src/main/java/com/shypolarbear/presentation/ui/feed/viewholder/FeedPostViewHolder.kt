@@ -30,7 +30,7 @@ class FeedPostViewHolder(
             PowerMenuItem(itemView.context.getString(R.string.feed_post_property_block))
         )
     private var isFeedPostLike = false
-    private var isFeedReplyLike = false
+    private var isFeedCommentLike = false
 
     init {
         binding.ivFeedPostProperty.setOnClickListener {
@@ -55,8 +55,8 @@ class FeedPostViewHolder(
         }
 
         binding.btnFeedPostCommentLike.setOnClickListener {
-            isFeedReplyLike = !isFeedReplyLike
-            checkLike(isFeedReplyLike, binding, "reply")
+            isFeedCommentLike = !isFeedCommentLike
+            checkLike(isFeedCommentLike, binding, "reply")
         }
     }
 
