@@ -1,26 +1,19 @@
 package com.shypolarbear.presentation.ui.feed.feedDetail
 
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.FeedPostImg
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedDetailBinding
-import com.shypolarbear.presentation.databinding.ItemFeedBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
-import com.shypolarbear.presentation.ui.feed.FeedFragment
-import com.shypolarbear.presentation.ui.feed.adapter.FeedPostAdapter
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedCommentAdapter
-import com.shypolarbear.presentation.util.PowerMenuUtil
+import com.shypolarbear.presentation.util.FunctionUtil
 import com.skydoves.powermenu.PowerMenuItem
-import kotlinx.coroutines.NonDisposableHandle.parent
-import timber.log.Timber
 
 class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailViewModel>(
     R.layout.fragment_feed_detail
 ) {
-
 
     override val viewModel: FeedDetailViewModel by viewModels()
 
@@ -35,6 +28,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     }
 
     override fun initView() {
+        val functionUtil = FunctionUtil(binding.root.context, postPropertyItems, viewLifecycleOwner )
 
         with(binding.viewpagerFeedDetailImg) {
             adapter = ImageViewPagerAdapter().apply {
@@ -57,19 +51,12 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         }
 
         binding.ivFeedDetailProperty.setOnClickListener {
-            PowerMenuUtil.getPowerMenu(
-                requireContext(),
-                viewLifecycleOwner,
-                postPropertyItems
-            ) .showAsDropDown(binding.ivFeedDetailProperty,
-                FeedFragment.POWER_MENU_OFFSET_X,
-                FeedFragment.POWER_MENU_OFFSET_Y
-            )
+            functionUtil.setMenu(binding.ivFeedDetailProperty)
         }
 
         binding.btnFeedDetailLike.setOnClickListener {
             isFeedLike = !isFeedLike
-            checkLike(isFeedLike, binding)
+            functionUtil.checkLike(isFeedLike, binding.btnFeedDetailLike)
         }
 
         viewModel.loadFeedComment()
@@ -81,18 +68,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         binding.rvFeedDetailReply.adapter = feedCommentAdapter
         viewModel.feedComment.observe(viewLifecycleOwner) {
             feedCommentAdapter.submitList(it)
-        }
-    }
-
-    private fun checkLike(isLike: Boolean, binding: FragmentFeedDetailBinding) {
-
-        val likeBtnOn = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_btn_like_on)
-        val likeBtnOff = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_btn_like_off)
-
-        if (isLike) {
-            binding.btnFeedDetailLike.background = likeBtnOn
-        } else {
-            binding.btnFeedDetailLike.background = likeBtnOff
         }
     }
 }

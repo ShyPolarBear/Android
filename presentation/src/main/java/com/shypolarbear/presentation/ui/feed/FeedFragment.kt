@@ -5,7 +5,7 @@ import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedBinding
 import com.shypolarbear.presentation.ui.feed.adapter.FeedPostAdapter
-import com.shypolarbear.presentation.util.PowerMenuUtil
+import com.shypolarbear.presentation.util.FunctionUtil
 import com.skydoves.powermenu.PowerMenuItem
 
 class FeedFragment: BaseFragment<FragmentFeedBinding, FeedViewModel> (
@@ -27,13 +27,10 @@ class FeedFragment: BaseFragment<FragmentFeedBinding, FeedViewModel> (
     }
 
     override fun initView() {
+        val functionUtil = FunctionUtil(binding.root.context, feedSortItems, viewLifecycleOwner )
 
         binding.ivFeedToolbarSort.setOnClickListener {
-            PowerMenuUtil.getPowerMenu(
-                requireContext(),
-                viewLifecycleOwner,
-                feedSortItems
-            ) .showAsDropDown(binding.ivFeedToolbarSort, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
+            functionUtil.setMenu(binding.ivFeedToolbarSort)
         }
 
         viewModel.loadFeedPost()
