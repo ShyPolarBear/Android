@@ -6,7 +6,7 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.shypolarbear.presentation.R
-import com.shypolarbear.presentation.ui.feed.FeedFragment
+import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
 import com.skydoves.powermenu.PowerMenuItem
 
 class FunctionUtil(
@@ -35,8 +35,8 @@ class FunctionUtil(
             menuList
         ) .showAsDropDown(
             view,
-            FeedFragment.POWER_MENU_OFFSET_X,
-            FeedFragment.POWER_MENU_OFFSET_Y
+            FeedTotalFragment.POWER_MENU_OFFSET_X,
+            FeedTotalFragment.POWER_MENU_OFFSET_Y
         )
     }
 }

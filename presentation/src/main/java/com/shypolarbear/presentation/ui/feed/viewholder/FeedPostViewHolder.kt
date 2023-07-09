@@ -1,5 +1,6 @@
 package com.shypolarbear.presentation.ui.feed.viewholder
 
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
@@ -13,7 +14,8 @@ import com.skydoves.powermenu.PowerMenuItem
 
 class FeedPostViewHolder(
     private val binding: ItemFeedBinding,
-    private val viewLifeCycleOwner: LifecycleOwner
+    private val viewLifeCycleOwner: LifecycleOwner,
+    private val fragmentManager: FragmentManager
     ) : RecyclerView.ViewHolder(binding.root) {
 
     private val feedPostPropertyItems: List<PowerMenuItem> =
@@ -45,6 +47,14 @@ class FeedPostViewHolder(
         binding.btnFeedPostCommentLike.setOnClickListener {
             isFeedCommentLike = !isFeedCommentLike
             functionUtil.checkLike(isFeedCommentLike, binding.btnFeedPostCommentLike)
+        }
+
+        binding.layoutMoveToDetailArea.setOnClickListener {
+//            fragmentManager.beginTransaction()
+//                .replace(R.id.layout_feed, FeedDetailFragment())
+//                .addToBackStack(null)
+//                .commit()
+
         }
     }
 
