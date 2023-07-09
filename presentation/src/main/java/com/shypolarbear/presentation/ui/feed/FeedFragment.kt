@@ -13,8 +13,8 @@ class FeedFragment: BaseFragment<FragmentFeedBinding, FeedViewModel> (
 ){
 
     companion object {
-        private const val POWER_MENU_OFFSET_X = -290
-        private const val POWER_MENU_OFFSET_Y = 0
+        const val POWER_MENU_OFFSET_X = -290
+        const val POWER_MENU_OFFSET_Y = 0
     }
 
     override val viewModel: FeedViewModel by viewModels()

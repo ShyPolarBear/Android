@@ -9,17 +9,30 @@ import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedDetailBinding
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
+import com.shypolarbear.presentation.ui.feed.FeedFragment
 import com.shypolarbear.presentation.ui.feed.adapter.FeedPostAdapter
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedCommentAdapter
+import com.shypolarbear.presentation.util.PowerMenuUtil
+import com.skydoves.powermenu.PowerMenuItem
 import kotlinx.coroutines.NonDisposableHandle.parent
 import timber.log.Timber
 
 class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailViewModel>(
     R.layout.fragment_feed_detail
 ) {
-    private var isFeedLike = false
+
 
     override val viewModel: FeedDetailViewModel by viewModels()
+
+    private var isFeedLike = false
+    private val postPropertyItems: List<PowerMenuItem> by lazy {
+        listOf(
+            PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
+            PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete)),
+            PowerMenuItem(requireContext().getString(R.string.feed_post_property_report)),
+            PowerMenuItem(requireContext().getString(R.string.feed_post_property_block))
+        )
+    }
 
     override fun initView() {
 
@@ -41,6 +54,17 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             ) { tab, position ->
 
             }.attach()
+        }
+
+        binding.ivFeedDetailProperty.setOnClickListener {
+            PowerMenuUtil.getPowerMenu(
+                requireContext(),
+                viewLifecycleOwner,
+                postPropertyItems
+            ) .showAsDropDown(binding.ivFeedDetailProperty,
+                FeedFragment.POWER_MENU_OFFSET_X,
+                FeedFragment.POWER_MENU_OFFSET_Y
+            )
         }
 
         binding.btnFeedDetailLike.setOnClickListener {

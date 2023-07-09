@@ -9,6 +9,8 @@ import com.shypolarbear.domain.model.feed.FeedPostImg
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
+import com.shypolarbear.presentation.ui.feed.FeedFragment.Companion.POWER_MENU_OFFSET_X
+import com.shypolarbear.presentation.ui.feed.FeedFragment.Companion.POWER_MENU_OFFSET_Y
 import com.shypolarbear.presentation.util.PowerMenuUtil
 import com.skydoves.powermenu.PowerMenuItem
 
@@ -16,11 +18,6 @@ class FeedPostViewHolder(
     private val binding: ItemFeedBinding,
     private val viewLifeCycleOwner: LifecycleOwner
     ) : RecyclerView.ViewHolder(binding.root) {
-
-    companion object {
-        private const val POWER_MENU_OFFSET_X = -290
-        private const val POWER_MENU_OFFSET_Y = 0
-    }
 
     private val feedPostPropertyItems: List<PowerMenuItem> =
         listOf(
