@@ -12,6 +12,7 @@ import com.shypolarbear.presentation.databinding.FragmentSignupNameBinding
 import com.shypolarbear.presentation.ui.signup.SignupViewModel
 import com.shypolarbear.presentation.ui.signup.custom.CustomFunctions.hideKeyboard
 import com.shypolarbear.presentation.ui.signup.custom.CustomFunctions.setTextColor
+import com.shypolarbear.presentation.ui.signup.custom.CustomFunctions.setTextColorById
 
 class SignupNameFragment :
     BaseFragment<FragmentSignupNameBinding, SignupViewModel>(R.layout.fragment_signup_name) {
@@ -23,7 +24,7 @@ class SignupNameFragment :
         binding.apply {
             layoutSignupName.setOnTouchListener { v, _ ->
                 hideKeyboard()
-                setTextColor(requireContext(),tvSignupNameRule, R.color.Gray_05)
+                tvSignupNameRule.setTextColorById(requireContext(), R.color.Gray_05)
                 v.clearFocus()
                 false
             }
@@ -33,7 +34,7 @@ class SignupNameFragment :
 
             etSignupNickname.setOnFocusChangeListener { v, hasFocus ->
                 if (hasFocus) {
-                    setTextColor(requireContext(),tvSignupNameRule, R.color.Blue_02)
+                    tvSignupNameRule.setTextColorById(requireContext(), R.color.Blue_02)
                 }
             }
 
@@ -48,20 +49,23 @@ class SignupNameFragment :
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    setTextColor(requireContext(),tvSignupNameRule, R.color.Blue_02)
+                    tvSignupNameRule.setTextColorById(requireContext(), R.color.Blue_02)
                 }
 
                 override fun afterTextChanged(s: Editable?) {
-                    if (s!!.length !in 8 downTo 2) {
-                        tvSignupNameRule.text = getString(R.string.singup_error_text)
-                        setTextColor(requireContext(),tvSignupNameRule, R.color.Error_01)
-                    } else {
-                        tvSignupNameRule.text = getString(R.string.signup_confirm_text)
-                        setTextColor(requireContext(), tvSignupNameRule, R.color.Success_01)
-                    }
-                    if (s.isEmpty()) {
-                        tvSignupNameRule.text = getString(R.string.signup_name_rule)
-                        setTextColor(requireContext(), tvSignupNameRule, R.color.Blue_02)
+                    when {
+                        s!!.length !in 2..8 -> {
+                            tvSignupNameRule.text = getString(R.string.singup_error_text)
+                            tvSignupNameRule.setTextColorById(requireContext(), R.color.Error_01)
+                        }
+                        s.isEmpty() -> {
+                            tvSignupNameRule.text = getString(R.string.signup_name_rule)
+                            tvSignupNameRule.setTextColorById(requireContext(), R.color.Blue_02)
+                        }
+                        else -> {
+                            tvSignupNameRule.text = getString(R.string.signup_confirm_text)
+                            tvSignupNameRule.setTextColorById(requireContext(), R.color.Success_01)
+                        }
                     }
                 }
             })

@@ -7,13 +7,15 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 
 object CustomFunctions {
-    fun setTextColor(context: Context, v: TextView, color: Int){
-        v.setTextColor(
+    fun TextView.setTextColorById(context: Context, colorId: Int) {
+        this.setTextColor(
             ContextCompat.getColor(
-            context,
-            color
-        ))
+                context,
+                colorId
+            )
+        )
     }
+
     fun Fragment.hideKeyboard() {
         if (activity != null && requireActivity().currentFocus != null) {
             val inputManager =
