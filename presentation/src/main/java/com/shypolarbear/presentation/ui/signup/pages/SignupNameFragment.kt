@@ -1,19 +1,15 @@
 package com.shypolarbear.presentation.ui.signup.pages
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
-import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentSignupNameBinding
 import com.shypolarbear.presentation.ui.signup.SignupViewModel
-import com.shypolarbear.presentation.ui.signup.custom.CustomFunctions
-import com.shypolarbear.presentation.ui.signup.custom.CustomFunctions.hideKeyboard
-import com.shypolarbear.presentation.ui.signup.custom.CustomFunctions.setTextColorById
+import com.shypolarbear.presentation.ui.signup.custom.hideKeyboard
+import com.shypolarbear.presentation.ui.signup.custom.setTextColorById
 
 class SignupNameFragment :
     BaseFragment<FragmentSignupNameBinding, SignupViewModel>(R.layout.fragment_signup_name) {
