@@ -6,12 +6,13 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentSignupNameBinding
 import com.shypolarbear.presentation.ui.signup.SignupViewModel
+import com.shypolarbear.presentation.ui.signup.custom.CustomFunctions
 import com.shypolarbear.presentation.ui.signup.custom.CustomFunctions.hideKeyboard
-import com.shypolarbear.presentation.ui.signup.custom.CustomFunctions.setTextColor
 import com.shypolarbear.presentation.ui.signup.custom.CustomFunctions.setTextColorById
 
 class SignupNameFragment :
@@ -54,11 +55,11 @@ class SignupNameFragment :
 
                 override fun afterTextChanged(s: Editable?) {
                     when {
-                        s!!.length !in 2..8 -> {
+                        s != null && s.length !in 2..8 -> {
                             tvSignupNameRule.text = getString(R.string.singup_error_text)
                             tvSignupNameRule.setTextColorById(requireContext(), R.color.Error_01)
                         }
-                        s.isEmpty() -> {
+                        s.isNullOrEmpty() -> {
                             tvSignupNameRule.text = getString(R.string.signup_name_rule)
                             tvSignupNameRule.setTextColorById(requireContext(), R.color.Blue_02)
                         }
