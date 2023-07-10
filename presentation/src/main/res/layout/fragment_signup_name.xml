@@ -22,7 +22,7 @@
 
         <ImageView
             android:layout_width="120dp"
-            android:src="@drawable/ic_signup_name_profile"
+            android:src="@drawable/ic_user_base_profile"
             app:layout_constraintTop_toBottomOf="@+id/tv_signup_name_title"
             android:id="@+id/iv_signup_name_profile"
             app:layout_constraintEnd_toEndOf="parent"
