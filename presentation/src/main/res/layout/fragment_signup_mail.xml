@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_signup_mail_title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/H3"
+            android:text="@string/tv_signup_mail_title"/>
+
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/selector_signup_nickname"
+            android:layout_marginTop="65dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="12dp"
+            style="@style/b1"
+            android:id="@+id/et_signup_mail"
+            android:textColorHint="@color/Gray_05"
+            android:hint="@string/signup_mail_hint"
+            app:layout_constraintTop_toBottomOf="@id/tv_signup_mail_title"
+            >
+
+        </EditText>
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_signup_mail_rule"
+            android:textColor="@color/selector_signup_name_text_color"
+            style="@style/l2"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@id/et_signup_mail"
+            app:layout_constraintTop_toBottomOf="@+id/et_signup_mail"
+            tools:text="이메일 안내 힌트 들어갈 곳"
+            android:layout_height="wrap_content"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

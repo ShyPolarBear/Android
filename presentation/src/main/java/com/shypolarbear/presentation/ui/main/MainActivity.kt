@@ -17,7 +17,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     override fun initView() {
         binding.apply {
             // LoginFragment 테스트
-//             bottomNavigationBar.visibility = View.INVISIBLE
+             bottomNavigationBar.visibility = View.INVISIBLE
+
         }
     }
 

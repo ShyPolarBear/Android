@@ -34,8 +34,7 @@
             android:text="@string/login_text_subtitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_login_title"
-            />
+            app:layout_constraintTop_toBottomOf="@id/tv_login_title" />
 
         <ImageView
             android:id="@+id/iv_login_bear"
@@ -61,9 +60,9 @@
             android:id="@+id/btn_login"
             android:layout_width="0dp"
             android:layout_height="60dp"
-            android:clickable="true"
             android:layout_marginHorizontal="20dp"
             android:background="@drawable/ic_btn_login"
+            android:clickable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/view_bottom_fill" />
@@ -89,16 +88,39 @@
             app:layout_constraintStart_toEndOf="@+id/iv_kakaotalk"
             app:layout_constraintTop_toTopOf="@+id/btn_login" />
 
+        <View
+            android:id="@+id/btn_clicked_login"
+            android:layout_width="0dp"
+            android:visibility="invisible"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="@drawable/ic_btn_login_clicked"
+            android:clickable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view_bottom_fill" />
+
+        <ProgressBar
+            android:id="@+id/progress_login"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:visibility="invisible"
+            android:indeterminateTint="@color/Gray_03"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_kakaotalk"
+            app:layout_constraintEnd_toEndOf="@+id/iv_kakaotalk"
+            app:layout_constraintStart_toStartOf="@+id/iv_kakaotalk"
+            app:layout_constraintTop_toTopOf="@+id/iv_kakaotalk" />
+
         <TextView
+            android:id="@+id/tv_login_terms"
             style="@style/l4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:id="@+id/tv_login_terms"
             android:layout_marginBottom="14dp"
             android:text="@string/login_text_terms"
-            android:textColorLink="@color/White_01"
             android:textAlignment="center"
+            android:textColorLink="@color/White_01"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
