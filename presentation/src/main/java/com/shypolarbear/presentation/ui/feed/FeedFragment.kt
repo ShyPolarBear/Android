@@ -13,6 +13,11 @@ class FeedFragment: BaseFragment<FragmentFeedBinding, FeedViewModel>(
     override val viewModel: FeedViewModel by viewModels()
 
     override fun initView() {
+//        childFragmentManager.beginTransaction()
+//            .replace(R.id.feed, FeedDetailFragment())
+//            .addToBackStack(null)
+//            .commit()
+
         childFragmentManager.beginTransaction()
             .replace(R.id.feed, FeedDetailFragment())
             .addToBackStack(null)

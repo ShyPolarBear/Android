@@ -35,6 +35,7 @@
     <string name="feed_post_property_report">신고</string>
     <string name="feed_post_property_block">차단</string>
     <string name="feed_post_property_recent">최신</string>
+    <string name="feed_comment_reply">대댓글</string>
     <string name="feed_post_property_recent_best">최근 인기</string>
     <string name="feed_post_property_best">best</string>
     <string name="feed_reply">댓글</string>

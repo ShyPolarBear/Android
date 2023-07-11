@@ -38,7 +38,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
     }
 
     private fun setFeedPost() {
-        val feedPostAdapter = FeedPostAdapter(viewLifecycleOwner, childFragmentManager)
+        val feedPostAdapter = FeedPostAdapter(viewLifecycleOwner)
         binding.rvFeedPost.adapter = feedPostAdapter
         viewModel.feedPost.observe(viewLifecycleOwner) {
             feedPostAdapter.submitList(it)

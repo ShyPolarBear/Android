@@ -11,15 +11,14 @@ import com.shypolarbear.presentation.databinding.ItemFeedBinding
 import com.shypolarbear.presentation.ui.feed.viewholder.FeedPostViewHolder
 
 class FeedPostAdapter(
-    private val viewLifeCycleOwner: LifecycleOwner,
-    private val fragmentManager: FragmentManager
+    private val viewLifeCycleOwner: LifecycleOwner
     ): ListAdapter<FeedPost, FeedPostViewHolder>(FeedPostDiffCallback()) {
 
     private lateinit var binding : ItemFeedBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedPostViewHolder {
         binding = ItemFeedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return FeedPostViewHolder(binding, viewLifeCycleOwner, fragmentManager)
+        return FeedPostViewHolder(binding, viewLifeCycleOwner)
     }
 
     override fun onBindViewHolder(holder: FeedPostViewHolder, position: Int) {

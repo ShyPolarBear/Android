@@ -64,7 +64,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     }
 
     private fun setFeedComment() {
-        val feedCommentAdapter = FeedCommentAdapter()
+        val feedCommentAdapter = FeedCommentAdapter(viewLifecycleOwner)
         binding.rvFeedDetailReply.adapter = feedCommentAdapter
         viewModel.feedComment.observe(viewLifecycleOwner) {
             feedCommentAdapter.submitList(it)

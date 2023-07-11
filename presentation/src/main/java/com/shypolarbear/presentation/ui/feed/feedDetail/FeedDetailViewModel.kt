@@ -13,14 +13,14 @@ class FeedDetailViewModel: BaseViewModel() {
     fun loadFeedComment() {
         _feedComment.value = mutableListOf(
             // 테스트 데이터
-            FeedComment("1", 0),
-            FeedComment("1", 0),
-            FeedComment("1", 2),
-            FeedComment("1", 3),
-            FeedComment("1", 1),
-            FeedComment("1", 0),
-            FeedComment("1", 2),
-            FeedComment("1", 2),
+            FeedComment("1", 0, "my"),
+            FeedComment("1", 0, "other"),
+            FeedComment("1", 2, "my"),
+            FeedComment("1", 3, "other"),
+            FeedComment("1", 1, "my"),
+            FeedComment("1", 0, "other"),
+            FeedComment("1", 2, "my"),
+            FeedComment("1", 2, "my"),
         )
     }
 }

@@ -2,6 +2,7 @@ package com.shypolarbear.presentation.ui.feed.feedDetail.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -17,25 +18,25 @@ import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedReplyDele
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedReplyNormalViewHolder
 import timber.log.Timber
 
-class FeedCommentAdapter: ListAdapter<FeedComment, RecyclerView.ViewHolder>(FeedCommentDiffCallback()) {
+class FeedCommentAdapter(
+    private val viewLifeCycleOwner: LifecycleOwner
+): ListAdapter<FeedComment, RecyclerView.ViewHolder>(FeedCommentDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         Timber.d("viewType: $viewType")
 
         when(viewType) {
             FeedCommentViewType.COMMENT_NORMAL -> {
-                Timber.d("일반 댓글")
                 return FeedCommentNormalViewHolder(
                     ItemFeedCommentNormalBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
                         false
-                    )
+                    ), viewLifeCycleOwner
                 )
             }
 
             FeedCommentViewType.COMMENT_DELETE -> {
-                Timber.d("삭제된 댓글")
                 return FeedCommentDeleteViewHolder(
                     ItemFeedCommentDeleteBinding.inflate(
                         LayoutInflater.from(parent.context),
@@ -46,18 +47,16 @@ class FeedCommentAdapter: ListAdapter<FeedComment, RecyclerView.ViewHolder>(Feed
             }
 
             FeedCommentViewType.REPLY_NORMAL -> {
-                Timber.d("일반 대댓글")
                 return FeedReplyNormalViewHolder(
                     ItemFeedReplyNormalBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
                         false
-                    )
+                    ), viewLifeCycleOwner
                 )
             }
 
             FeedCommentViewType.REPLY_DELETE -> {
-                Timber.d("삭제된 대댓글")
                 return FeedReplyDeleteViewHolder(
                     ItemFeedReplyDeleteBinding.inflate(
                         LayoutInflater.from(parent.context),

@@ -9,13 +9,13 @@ import com.shypolarbear.domain.model.feed.FeedPostImg
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
+import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailFragment
 import com.shypolarbear.presentation.util.FunctionUtil
 import com.skydoves.powermenu.PowerMenuItem
 
 class FeedPostViewHolder(
     private val binding: ItemFeedBinding,
     private val viewLifeCycleOwner: LifecycleOwner,
-    private val fragmentManager: FragmentManager
     ) : RecyclerView.ViewHolder(binding.root) {
 
     private val feedPostPropertyItems: List<PowerMenuItem> =
@@ -50,10 +50,6 @@ class FeedPostViewHolder(
         }
 
         binding.layoutMoveToDetailArea.setOnClickListener {
-//            fragmentManager.beginTransaction()
-//                .replace(R.id.layout_feed, FeedDetailFragment())
-//                .addToBackStack(null)
-//                .commit()
 
         }
     }
