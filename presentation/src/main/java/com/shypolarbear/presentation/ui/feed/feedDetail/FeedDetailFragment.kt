@@ -8,7 +8,8 @@ import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedDetailBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedCommentAdapter
-import com.shypolarbear.presentation.util.FunctionUtil
+import com.shypolarbear.presentation.util.checkLike
+import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 
 class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailViewModel>(
@@ -28,7 +29,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     }
 
     override fun initView() {
-        val functionUtil = FunctionUtil(binding.root.context, postPropertyItems, viewLifecycleOwner )
 
         with(binding.viewpagerFeedDetailImg) {
             adapter = ImageViewPagerAdapter().apply {
@@ -51,12 +51,16 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         }
 
         binding.ivFeedDetailProperty.setOnClickListener {
-            functionUtil.setMenu(binding.ivFeedDetailProperty)
+            binding.ivFeedDetailProperty.setMenu(
+                binding.ivFeedDetailProperty,
+                postPropertyItems,
+                viewLifecycleOwner
+            )
         }
 
         binding.btnFeedDetailLike.setOnClickListener {
             isFeedLike = !isFeedLike
-            functionUtil.checkLike(isFeedLike, binding.btnFeedDetailLike)
+            binding.btnFeedDetailLike.checkLike(isFeedLike, binding.btnFeedDetailLike)
         }
 
         viewModel.loadFeedComment()

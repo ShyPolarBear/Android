@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedReplyNormalBinding
-import com.shypolarbear.presentation.util.FunctionUtil
+import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 
 class FeedReplyNormalViewHolder (
@@ -29,19 +29,25 @@ class FeedReplyNormalViewHolder (
 
     fun bind(comment: FeedComment) {
         // Todo(일반 대댓글)
-        val functionUtil1 = FunctionUtil(binding.root.context, myCommentPropertyItems, viewLifeCycleOwner )
-        val functionUtil2 = FunctionUtil(binding.root.context, otherCommentPropertyItems, viewLifeCycleOwner )
 
         when(comment.owner) {
             "my" -> {
                 binding.ivFeedReplyNormalProperty.setOnClickListener {
-                    functionUtil1.setMenu(binding.ivFeedReplyNormalProperty)
+                    binding.ivFeedReplyNormalProperty.setMenu(
+                        binding.ivFeedReplyNormalProperty,
+                        myCommentPropertyItems,
+                        viewLifeCycleOwner
+                    )
                 }
             }
 
             "other" -> {
                 binding.ivFeedReplyNormalProperty.setOnClickListener {
-                    functionUtil2.setMenu(binding.ivFeedReplyNormalProperty)
+                    binding.ivFeedReplyNormalProperty.setMenu(
+                        binding.ivFeedReplyNormalProperty,
+                        otherCommentPropertyItems,
+                        viewLifeCycleOwner
+                    )
                 }
             }
         }

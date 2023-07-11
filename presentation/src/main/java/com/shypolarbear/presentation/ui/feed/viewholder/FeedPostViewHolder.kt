@@ -1,6 +1,5 @@
 package com.shypolarbear.presentation.ui.feed.viewholder
 
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
@@ -9,8 +8,8 @@ import com.shypolarbear.domain.model.feed.FeedPostImg
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
-import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailFragment
-import com.shypolarbear.presentation.util.FunctionUtil
+import com.shypolarbear.presentation.util.checkLike
+import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 
 class FeedPostViewHolder(
@@ -29,24 +28,31 @@ class FeedPostViewHolder(
     private var isFeedCommentLike = false
 
     init {
-        val functionUtil = FunctionUtil(binding.root.context, feedPostPropertyItems, viewLifeCycleOwner )
 
         binding.ivFeedPostProperty.setOnClickListener {
-            functionUtil.setMenu(binding.ivFeedPostProperty)
+            binding.ivFeedPostProperty.setMenu(
+                binding.ivFeedPostProperty,
+                feedPostPropertyItems,
+                viewLifeCycleOwner
+            )
         }
 
         binding.ivFeedPostCommentProperty.setOnClickListener {
-            functionUtil.setMenu(binding.ivFeedPostCommentProperty)
+            binding.ivFeedPostCommentProperty.setMenu(
+                binding.ivFeedPostCommentProperty,
+                feedPostPropertyItems,
+                viewLifeCycleOwner
+            )
         }
 
         binding.btnFeedPostLike.setOnClickListener {
             isFeedPostLike = !isFeedPostLike
-            functionUtil.checkLike(isFeedPostLike, binding.btnFeedPostLike)
+            binding.btnFeedPostLike.checkLike(isFeedPostLike, binding.btnFeedPostLike)
         }
 
         binding.btnFeedPostCommentLike.setOnClickListener {
             isFeedCommentLike = !isFeedCommentLike
-            functionUtil.checkLike(isFeedCommentLike, binding.btnFeedPostCommentLike)
+            binding.btnFeedPostLike.checkLike(isFeedCommentLike, binding.btnFeedPostCommentLike)
         }
 
         binding.layoutMoveToDetailArea.setOnClickListener {
