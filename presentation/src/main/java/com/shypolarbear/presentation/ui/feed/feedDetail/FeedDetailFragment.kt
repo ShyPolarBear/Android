@@ -1,5 +1,6 @@
 package com.shypolarbear.presentation.ui.feed.feedDetail
 
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
@@ -12,6 +13,7 @@ import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedCommentAdapt
 import com.shypolarbear.presentation.util.checkLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
+import timber.log.Timber
 
 class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailViewModel>(
     R.layout.fragment_feed_detail
@@ -66,6 +68,22 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
 
         binding.btnFeedDetailBack.setOnClickListener {
             findNavController().navigate(R.id.action_feedDetailFragment_to_feedTotalFragment)
+        }
+
+        binding.edtFeedDetailReply.setOnFocusChangeListener { _, isFocus ->
+
+            when (isFocus) {
+                true -> binding.cardviewFeedCommentWritingMsg.isVisible = true
+                else -> binding.cardviewFeedCommentWritingMsg.isVisible = false
+            }
+        }
+
+        binding.layoutFeedDetail.setOnClickListener {
+            binding.edtFeedDetailReply.clearFocus()
+        }
+
+        binding.btnFeedCommentWritingClose.setOnClickListener {
+            binding.cardviewFeedCommentWritingMsg.isVisible = false
         }
 
         viewModel.loadFeedComment()

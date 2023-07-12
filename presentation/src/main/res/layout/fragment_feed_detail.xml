@@ -18,6 +18,7 @@
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_feed_detail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -216,6 +217,7 @@
             android:layout_width="match_parent"
             android:layout_height="24dp"
             android:layout_marginBottom="8dp"
+            android:visibility="gone"
             app:cardBackgroundColor="@color/Gray_06"
             app:layout_constraintBottom_toTopOf="@id/cardview_feed_reply">
 
@@ -235,6 +237,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_feed_comment_writing_close"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:layout_marginTop="4dp"
