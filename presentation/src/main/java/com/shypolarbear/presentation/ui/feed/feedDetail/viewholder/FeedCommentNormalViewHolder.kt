@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedCommentNormalBinding
+import com.shypolarbear.presentation.util.checkLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 
@@ -26,6 +27,15 @@ class FeedCommentNormalViewHolder (
             PowerMenuItem(itemView.context.getString(R.string.feed_post_property_block)),
             PowerMenuItem(itemView.context.getString(R.string.feed_comment_reply))
         )
+
+    private var isCommentLike = false
+
+    init {
+        binding.btnFeedCommentNormalLike.setOnClickListener {
+            isCommentLike = !isCommentLike
+            binding.btnFeedCommentNormalLike.checkLike(isCommentLike, binding.btnFeedCommentNormalLike)
+        }
+    }
 
     fun bind(comment: FeedComment) {
         // Todo(일반 댓글)
