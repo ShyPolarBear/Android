@@ -2,15 +2,19 @@ package com.shypolarbear.presentation.ui.login
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
+import com.shypolarbear.domain.model.feed.FeedPost
+import com.shypolarbear.domain.model.login.LoginToken
 import com.shypolarbear.presentation.base.BaseViewModel
 import timber.log.Timber
 
 class LoginViewModel: BaseViewModel() {
+    lateinit var loginToken: LoginToken
 
     fun kakaoLogin(context: Context){
 
@@ -38,6 +42,7 @@ class LoginViewModel: BaseViewModel() {
                     UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
                 } else if (token != null) {
                     Timber.tag("KAKAO").i("카카오톡으로 로그인 성공 %s", token.accessToken)
+                    loginToken = LoginToken(token.accessToken, token.refreshToken, token.accessTokenExpiresAt, token.refreshTokenExpiresAt)
                 }
             }
         } else {
