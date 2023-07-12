@@ -28,4 +28,6 @@ object Versions {
     const val POWER_MENU = "2.2.3"
 
     const val GLIDE = "4.15.1"
+
+    const val KAKAO = "2.14.0"
 }

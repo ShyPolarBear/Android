@@ -1,10 +1,12 @@
 object AndroidX {
     const val APP_COMPAT = "androidx.appcompat:appcompat:${Versions.APP_COMPAT}"
     const val CORE_KTX = "androidx.core:core-ktx:${Versions.CORE_KTX}"
-    const val LIFECYCLE_RUNTIME = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.LIFECYCLE_RUNTIME}"
+    const val LIFECYCLE_RUNTIME =
+        "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.LIFECYCLE_RUNTIME}"
 
     const val FRAGMENT_KTX = "androidx.fragment:fragment-ktx:${Versions.FRAGMENT_KTX}"
-    const val LIFECYCLE_VIEWMODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE_VIEWMODEL_KTX}"
+    const val LIFECYCLE_VIEWMODEL_KTX =
+        "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE_VIEWMODEL_KTX}"
 
     const val SPLASH_SCREEN = "androidx.core:core-splashscreen:${Versions.SPLASHSCREEN}"
 
@@ -21,14 +23,16 @@ object Google {
 
 object SquareUp {
     const val RETROFIT2 = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT2}"
-    const val RETROFIT2_CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT2}"
+    const val RETROFIT2_CONVERTER_GSON =
+        "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT2}"
     const val OKHTTP3_BOM = "com.squareup.okhttp3:okhttp-bom:${Versions.OKHTTP3_BOM}"
     const val OKHTTP3 = "com.squareup.okhttp3:okhttp"
     const val OKHTTP3_LOGGING = "com.squareup.okhttp3:logging-interceptor"
 }
 
 object KotlinX {
-    const val KOTLINX_COROUTINE = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.KOTLINX_COROUTINE}"
+    const val KOTLINX_COROUTINE =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.KOTLINX_COROUTINE}"
 }
 
 object Jakewharton {
@@ -41,4 +45,8 @@ object PowerMenu {
 
 object Glide {
     const val GLIDE = "com.github.bumptech.glide:glide:${Versions.GLIDE}"
+}
+
+object Kakao {
+    const val KAKAO = "com.kakao.sdk:v2-all:${Versions.KAKAO}"
 }

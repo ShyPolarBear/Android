@@ -1,23 +1,18 @@
 package com.shypolarbear.presentation.ui.login
 
-import android.os.Handler
-import android.os.Looper
 import android.text.util.Linkify
 import android.text.util.Linkify.addLinks
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.kakao.sdk.common.util.Utility
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentLoginBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeout
+import timber.log.Timber
 import java.util.regex.Pattern
 
 class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
@@ -27,10 +22,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
 
     private val linkify = Linkify()
     private val transformFilter = Linkify.TransformFilter { match, url -> "" }
-
     override fun initView() {
         val terms = Pattern.compile(getString(R.string.terms))
         val privacyPolicy = Pattern.compile(getString(R.string.privacy_policy))
+        val keyHash = Utility.getKeyHash(requireContext())
+        Timber.d("HASH_KEY: $keyHash")
 
         binding.btnLogin.setOnClickListener {
             // 로그인 구현할 때 UIState도입예정

@@ -71,5 +71,6 @@ dependencies {
     implementation(SquareUp.OKHTTP3_BOM)
 
     implementation(Jakewharton.TIMBER)
+    implementation(Kakao.KAKAO)
 }
 

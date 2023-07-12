@@ -62,5 +62,6 @@ dependencies {
     implementation(AndroidX.SPLASH_SCREEN)
     implementation(PowerMenu.POWER_MENU)
     implementation(Glide.GLIDE)
+    implementation(Kakao.KAKAO)
 
 }
