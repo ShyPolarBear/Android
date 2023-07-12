@@ -23,10 +23,9 @@ class FeedCommentAdapter(
 ): ListAdapter<FeedComment, RecyclerView.ViewHolder>(FeedCommentDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        Timber.d("viewType: $viewType")
 
         when(viewType) {
-            FeedCommentViewType.COMMENT_NORMAL -> {
+            FeedCommentViewType.COMMENT_NORMAL.commentType -> {
                 return FeedCommentNormalViewHolder(
                     ItemFeedCommentNormalBinding.inflate(
                         LayoutInflater.from(parent.context),
@@ -36,7 +35,7 @@ class FeedCommentAdapter(
                 )
             }
 
-            FeedCommentViewType.COMMENT_DELETE -> {
+            FeedCommentViewType.COMMENT_DELETE.commentType -> {
                 return FeedCommentDeleteViewHolder(
                     ItemFeedCommentDeleteBinding.inflate(
                         LayoutInflater.from(parent.context),
@@ -46,7 +45,7 @@ class FeedCommentAdapter(
                 )
             }
 
-            FeedCommentViewType.REPLY_NORMAL -> {
+            FeedCommentViewType.REPLY_NORMAL.commentType -> {
                 return FeedReplyNormalViewHolder(
                     ItemFeedReplyNormalBinding.inflate(
                         LayoutInflater.from(parent.context),
@@ -56,7 +55,7 @@ class FeedCommentAdapter(
                 )
             }
 
-            FeedCommentViewType.REPLY_DELETE -> {
+            FeedCommentViewType.REPLY_DELETE.commentType -> {
                 return FeedReplyDeleteViewHolder(
                     ItemFeedReplyDeleteBinding.inflate(
                         LayoutInflater.from(parent.context),
@@ -75,19 +74,19 @@ class FeedCommentAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         when(getItem(position).viewType) {
-            FeedCommentViewType.COMMENT_NORMAL -> {
+            FeedCommentViewType.COMMENT_NORMAL.commentType -> {
                 (holder as FeedCommentNormalViewHolder).bind(getItem(position))
             }
 
-            FeedCommentViewType.COMMENT_DELETE -> {
+            FeedCommentViewType.COMMENT_DELETE.commentType -> {
                 (holder as FeedCommentDeleteViewHolder).bind(getItem(position))
             }
 
-            FeedCommentViewType.REPLY_NORMAL -> {
+            FeedCommentViewType.REPLY_NORMAL.commentType -> {
                 (holder as FeedReplyNormalViewHolder).bind(getItem(position))
             }
 
-            FeedCommentViewType.REPLY_DELETE -> {
+            FeedCommentViewType.REPLY_DELETE.commentType -> {
                 (holder as FeedReplyDeleteViewHolder).bind(getItem(position))
             }
         }

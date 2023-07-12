@@ -1,8 +1,8 @@
 package com.shypolarbear.presentation.ui.feed.feedDetail
 
-object FeedCommentViewType {
-    const val COMMENT_NORMAL = 0
-    const val COMMENT_DELETE = 1
-    const val REPLY_NORMAL = 2
-    const val REPLY_DELETE = 3
+enum class FeedCommentViewType(val commentType: Int) {
+    COMMENT_NORMAL(0),
+    COMMENT_DELETE(1),
+    REPLY_NORMAL(2),
+    REPLY_DELETE(3)
 }
