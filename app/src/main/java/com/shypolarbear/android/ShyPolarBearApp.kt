@@ -10,10 +10,11 @@ class ShyPolarBearApp: Application() {
 
     override fun onCreate() {
         super.onCreate()
+        initKakaoLogin()
         setupTimber()
     }
     private fun initKakaoLogin(){
-        KakaoSdk.init(this, "358c8f5c265462709f95a2177bef2fd6")
+        KakaoSdk.init(this, getString(com.shypolarbear.presentation.R.string.kakao_native_app_key))
     }
     private fun setupTimber() {
         Timber.plant(Timber.DebugTree())
