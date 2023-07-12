@@ -1,6 +1,10 @@
 package com.shypolarbear.presentation.ui.feed.viewholder
 
+import android.app.Activity
+import android.view.View
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.Navigation
+import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.FeedPost
@@ -56,7 +60,9 @@ class FeedPostViewHolder(
         }
 
         binding.layoutMoveToDetailArea.setOnClickListener {
-
+            val context = itemView.context
+            findNavController(context as Activity, R.id.nav_host)
+                .navigate(R.id.action_feedTotalFragment_to_feedDetailFragment)
         }
     }
 

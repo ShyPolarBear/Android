@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/feedFragment">
+
+    <fragment
+        android:id="@+id/feedFragment"
+        android:name="com.shypolarbear.presentation.ui.feed.FeedFragment"
+        android:label="FeedFragment"
+        tools:layout="@layout/fragment_feed">
+        <action
+            android:id="@+id/action_feedFragment_to_feedTotalFragment"
+            app:destination="@id/feedTotalFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedTotalFragment"
+        android:name="com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment"
+        android:label="FeedTotalFragment"
+        tools:layout="@layout/fragment_feed_total" >
+        <action
+            android:id="@+id/action_feedTotalFragment_to_feedDetailFragment"
+            app:destination="@id/feedDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedDetailFragment"
+        android:name="com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailFragment"
+        android:label="FeedDetailFragment"
+        tools:layout="@layout/fragment_feed_detail">
+        <action
+            android:id="@+id/action_feedDetailFragment_to_feedFragment"
+            app:destination="@id/feedFragment" />
+    </fragment>
+</navigation>
