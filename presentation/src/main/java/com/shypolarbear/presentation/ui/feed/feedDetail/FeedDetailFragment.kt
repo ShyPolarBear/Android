@@ -1,6 +1,7 @@
 package com.shypolarbear.presentation.ui.feed.feedDetail
 
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.FeedPostImg
 import com.shypolarbear.presentation.R
@@ -61,6 +62,10 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         binding.btnFeedDetailLike.setOnClickListener {
             isFeedLike = !isFeedLike
             binding.btnFeedDetailLike.checkLike(isFeedLike, binding.btnFeedDetailLike)
+        }
+
+        binding.btnFeedDetailBack.setOnClickListener {
+            findNavController().navigate(R.id.action_feedDetailFragment_to_feedTotalFragment)
         }
 
         viewModel.loadFeedComment()

@@ -29,7 +29,7 @@
         android:label="FeedDetailFragment"
         tools:layout="@layout/fragment_feed_detail">
         <action
-            android:id="@+id/action_feedDetailFragment_to_feedFragment"
-            app:destination="@id/feedFragment" />
+            android:id="@+id/action_feedDetailFragment_to_feedTotalFragment"
+            app:destination="@id/feedTotalFragment" />
     </fragment>
 </navigation>
