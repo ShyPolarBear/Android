@@ -16,6 +16,7 @@ android {
         targetSdk = Configuration.TARGET_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders["NATIVE_APP_KEY"] = "@string/kakao_native_app_key"
 //        consumerProguardFiles "consumer-rules.pro"
     }
 

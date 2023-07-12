@@ -26,7 +26,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
         val terms = Pattern.compile(getString(R.string.terms))
         val privacyPolicy = Pattern.compile(getString(R.string.privacy_policy))
         val keyHash = Utility.getKeyHash(requireContext())
-        Timber.d("HASH_KEY: $keyHash")
 
         binding.btnLogin.setOnClickListener {
             // 로그인 구현할 때 UIState도입예정
@@ -38,7 +37,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
                 var stateCodeLogIn = 404
                 val job = async{
                     // 로그인 로직이 들어갈 곳
-                    delay(2000)
+                    viewModel.kakaoLogin(requireContext())
                     //stateCodeLogIn = 200
                 }
                 job.await()
