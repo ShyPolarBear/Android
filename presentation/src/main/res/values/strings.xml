@@ -61,5 +61,10 @@
     <string name="signup_mail_hint">example@naver.com</string>
     <string name="signup_mail_hint_error">example@naver.com 형식으로 입력해주세요.</string>
     <string name="signup_mail_hint_confirm">사용가능한 이메일 주소입니다.</string>
-
+    <string name="kakao_ac_login_fail">카카오계정으로 로그인 실패</string>
+    <string name="kakao_ac_login_success">카카오계정으로 로그인 성공</string>
+    <string name="kakao_success">카카오톡 login/out 성공</string>
+    <string name="kakao_fail">카카오톡 login/out 실패</string>
+    <string name="kakao_unlink_success">카카오톡 회원탈퇴 성공</string>
+    <string name="kakao_unlink_fail">카카오톡 회원탈퇴 실패</string>
 </resources>

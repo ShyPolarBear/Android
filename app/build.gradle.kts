@@ -4,6 +4,9 @@ plugins {
 
     // Hilt
     id("dagger.hilt.android.plugin")
+    // secrets gradle
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+
 
     kotlin("android")
     kotlin("kapt")
@@ -71,5 +74,6 @@ dependencies {
     implementation(SquareUp.OKHTTP3_BOM)
 
     implementation(Jakewharton.TIMBER)
+    implementation(Kakao.KAKAO)
 }
 

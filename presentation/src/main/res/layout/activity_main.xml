@@ -12,7 +12,7 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment1"
-            android:name="com.shypolarbear.presentation.ui.signup.SignupFragment"
+            android:name="com.shypolarbear.presentation.ui.login.LoginFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_bar"

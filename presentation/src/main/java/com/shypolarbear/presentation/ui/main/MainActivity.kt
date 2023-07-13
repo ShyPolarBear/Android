@@ -13,12 +13,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     R.layout.activity_main
 ) {
     override val viewModel: MainViewModel by viewModels()
-
     override fun initView() {
         binding.apply {
             // LoginFragment 테스트
              bottomNavigationBar.visibility = View.INVISIBLE
-
         }
     }
 

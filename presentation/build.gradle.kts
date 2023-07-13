@@ -14,7 +14,6 @@ android {
     defaultConfig {
         minSdk = Configuration.MIN_SDK
         targetSdk = Configuration.TARGET_SDK
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 //        consumerProguardFiles "consumer-rules.pro"
     }
@@ -62,5 +61,6 @@ dependencies {
     implementation(AndroidX.SPLASH_SCREEN)
     implementation(PowerMenu.POWER_MENU)
     implementation(Glide.GLIDE)
+    implementation(Kakao.KAKAO)
 
 }
