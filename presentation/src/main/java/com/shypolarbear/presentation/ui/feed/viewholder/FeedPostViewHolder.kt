@@ -1,9 +1,7 @@
 package com.shypolarbear.presentation.ui.feed.viewholder
 
 import android.app.Activity
-import android.view.View
 import androidx.lifecycle.LifecycleOwner
-import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator

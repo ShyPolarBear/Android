@@ -13,7 +13,6 @@ import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedCommentAdapt
 import com.shypolarbear.presentation.util.checkLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
-import timber.log.Timber
 
 class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailViewModel>(
     R.layout.fragment_feed_detail

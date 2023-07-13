@@ -16,7 +16,6 @@ import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentDe
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentNormalViewHolder
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedReplyDeleteViewHolder
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedReplyNormalViewHolder
-import timber.log.Timber
 
 class FeedCommentAdapter(
     private val viewLifeCycleOwner: LifecycleOwner
