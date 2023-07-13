@@ -1,8 +1,6 @@
 package com.shypolarbear.domain.model.login
 
-import java.util.Date
-
-data class LoginToken(
+data class LoginRequest(
     val accessToken: String,
     val socialType: String = "KAKAO"
 )
