@@ -1,26 +1,23 @@
 package com.shypolarbear.presentation.ui.feed.viewholder
 
-import androidx.core.content.ContextCompat
+import android.app.Activity
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.FeedPost
 import com.shypolarbear.domain.model.feed.FeedPostImg
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
-import com.shypolarbear.presentation.ui.feed.adapter.FeedPostImgAdapter
-import com.shypolarbear.presentation.util.PowerMenuUtil
+import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
+import com.shypolarbear.presentation.util.checkLike
+import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 
 class FeedPostViewHolder(
     private val binding: ItemFeedBinding,
-    private val viewLifeCycleOwner: LifecycleOwner
+    private val viewLifeCycleOwner: LifecycleOwner,
     ) : RecyclerView.ViewHolder(binding.root) {
-
-    companion object {
-        private const val POWER_MENU_OFFSET_X = -290
-        private const val POWER_MENU_OFFSET_Y = 0
-    }
 
     private val feedPostPropertyItems: List<PowerMenuItem> =
         listOf(
@@ -30,33 +27,40 @@ class FeedPostViewHolder(
             PowerMenuItem(itemView.context.getString(R.string.feed_post_property_block))
         )
     private var isFeedPostLike = false
-    private var isFeedReplyLike = false
+    private var isFeedCommentLike = false
 
     init {
+
         binding.ivFeedPostProperty.setOnClickListener {
-            PowerMenuUtil.getPowerMenu(
-                binding.root.context,
-                viewLifeCycleOwner,
-                feedPostPropertyItems
-            ) .showAsDropDown(binding.ivFeedPostProperty, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
+            binding.ivFeedPostProperty.setMenu(
+                binding.ivFeedPostProperty,
+                feedPostPropertyItems,
+                viewLifeCycleOwner
+            )
         }
 
-        binding.ivFeedPostReplyProperty.setOnClickListener {
-            PowerMenuUtil.getPowerMenu(
-                binding.root.context,
-                viewLifeCycleOwner,
-                feedPostPropertyItems
-            ) .showAsDropDown(binding.ivFeedPostReplyProperty, POWER_MENU_OFFSET_X, POWER_MENU_OFFSET_Y)
+        binding.ivFeedPostCommentProperty.setOnClickListener {
+            binding.ivFeedPostCommentProperty.setMenu(
+                binding.ivFeedPostCommentProperty,
+                feedPostPropertyItems,
+                viewLifeCycleOwner
+            )
         }
 
         binding.btnFeedPostLike.setOnClickListener {
             isFeedPostLike = !isFeedPostLike
-            checkLike(isFeedPostLike, binding, "post")
+            binding.btnFeedPostLike.checkLike(isFeedPostLike, binding.btnFeedPostLike)
         }
 
-        binding.btnFeedPostReplyLike.setOnClickListener {
-            isFeedReplyLike = !isFeedReplyLike
-            checkLike(isFeedReplyLike, binding, "reply")
+        binding.btnFeedPostCommentLike.setOnClickListener {
+            isFeedCommentLike = !isFeedCommentLike
+            binding.btnFeedPostLike.checkLike(isFeedCommentLike, binding.btnFeedPostCommentLike)
+        }
+
+        binding.layoutMoveToDetailArea.setOnClickListener {
+            val context = itemView.context
+            findNavController(context as Activity, R.id.nav_host)
+                .navigate(R.id.action_feedTotalFragment_to_feedDetailFragment)
         }
     }
 
@@ -65,7 +69,7 @@ class FeedPostViewHolder(
         binding.executePendingBindings()
 
         with(binding.viewpagerFeedPostImg) {
-            adapter = FeedPostImgAdapter().apply {
+            adapter = ImageViewPagerAdapter().apply {
                 submitList(
                     // 테스트 데이터
                     mutableListOf(
@@ -82,30 +86,6 @@ class FeedPostViewHolder(
             ) { tab, position ->
 
             }.attach()
-        }
-    }
-
-    private fun checkLike(isLike: Boolean, binding: ItemFeedBinding, diff: String) {
-
-        val likeBtnOn = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_btn_like_on)
-        val likeBtnOff = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_btn_like_off)
-
-        when (diff) {
-            "post" -> {
-                if (isLike) {
-                    binding.btnFeedPostLike.background = likeBtnOn
-                } else {
-                    binding.btnFeedPostLike.background = likeBtnOff
-                }
-            }
-
-            "reply" -> {
-                if (isLike) {
-                    binding.btnFeedPostReplyLike.background = likeBtnOn
-                } else {
-                    binding.btnFeedPostReplyLike.background = likeBtnOff
-                }
-            }
         }
     }
 }

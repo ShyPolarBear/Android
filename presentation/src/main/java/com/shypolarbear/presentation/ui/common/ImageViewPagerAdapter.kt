@@ -1,4 +1,4 @@
-package com.shypolarbear.presentation.ui.feed.adapter
+package com.shypolarbear.presentation.ui.common
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,18 +6,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.shypolarbear.domain.model.feed.FeedPostImg
 import com.shypolarbear.presentation.databinding.ItemFeedPostImgBinding
-import com.shypolarbear.presentation.ui.feed.viewholder.FeedPostImgViewHolder
 
-class FeedPostImgAdapter : ListAdapter<FeedPostImg, FeedPostImgViewHolder>(FeedPostImgDiffCallback()) {
+class ImageViewPagerAdapter : ListAdapter<FeedPostImg, ImageViewPagerViewHolder>(FeedPostImgDiffCallback()) {
 
     private lateinit var binding : ItemFeedPostImgBinding
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedPostImgViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewPagerViewHolder {
         binding = ItemFeedPostImgBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return FeedPostImgViewHolder(binding)
+        return ImageViewPagerViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: FeedPostImgViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ImageViewPagerViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 }
