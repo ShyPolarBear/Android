@@ -19,7 +19,7 @@ class FeedDetailViewModel: BaseViewModel() {
             FeedComment("1", 3, "other"),
             FeedComment("1", 1, "my"),
             FeedComment("1", 0, "other"),
-            FeedComment("1", 2, "my"),
+            FeedComment("1", 2, "other"),
             FeedComment("1", 2, "my"),
         )
     }

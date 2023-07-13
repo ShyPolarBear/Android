@@ -14,14 +14,14 @@ class FeedReplyNormalViewHolder (
     private val viewLifeCycleOwner: LifecycleOwner
     ) : RecyclerView.ViewHolder(binding.root) {
 
-    private val myCommentPropertyItems: List<PowerMenuItem> =
+    private val myReplyPropertyItems: List<PowerMenuItem> =
         listOf(
             PowerMenuItem(itemView.context.getString(R.string.feed_post_property_revise)),
             PowerMenuItem(itemView.context.getString(R.string.feed_post_property_delete)),
             PowerMenuItem(itemView.context.getString(R.string.feed_comment_reply))
         )
 
-    private val otherCommentPropertyItems: List<PowerMenuItem> =
+    private val otherReplyPropertyItems: List<PowerMenuItem> =
         listOf(
             PowerMenuItem(itemView.context.getString(R.string.feed_post_property_report)),
             PowerMenuItem(itemView.context.getString(R.string.feed_post_property_block)),
@@ -45,7 +45,7 @@ class FeedReplyNormalViewHolder (
                 binding.ivFeedReplyNormalProperty.setOnClickListener {
                     binding.ivFeedReplyNormalProperty.setMenu(
                         binding.ivFeedReplyNormalProperty,
-                        myCommentPropertyItems,
+                        myReplyPropertyItems,
                         viewLifeCycleOwner
                     )
                 }
@@ -55,7 +55,7 @@ class FeedReplyNormalViewHolder (
                 binding.ivFeedReplyNormalProperty.setOnClickListener {
                     binding.ivFeedReplyNormalProperty.setMenu(
                         binding.ivFeedReplyNormalProperty,
-                        otherCommentPropertyItems,
+                        otherReplyPropertyItems,
                         viewLifeCycleOwner
                     )
                 }
