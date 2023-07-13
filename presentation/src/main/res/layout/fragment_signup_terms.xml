@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/signup_title"
+            style="@style/H3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/signup_terms_title"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/signup_op1"
+            style="@style/H4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="46dp"
+            android:text="@string/signup_terms_op1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signup_title" />
+
+        <CheckBox
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/selector_signup_check_btn"
+            android:button="@null"
+            app:layout_constraintBottom_toBottomOf="@id/signup_op1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/signup_op1" />
+
+        <View
+            android:id="@+id/view_black_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="19dp"
+            android:background="@color/Black_01"
+            app:layout_constraintTop_toBottomOf="@id/signup_op1" />
+
+        <TextView
+            android:id="@+id/signup_op2"
+            style="@style/H5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:text="@string/privacy_policy"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_black_line" />
+
+        <CheckBox
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/selector_signup_check_btn"
+            android:button="@null"
+            app:layout_constraintBottom_toBottomOf="@id/signup_op2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/signup_op2" />
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="10dp"
+            android:id="@+id/signup_privacy_btn"
+            android:contentDescription="@string/fliped_back_btn"
+            android:scaleX="-1"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="@id/signup_op2"
+            app:layout_constraintStart_toEndOf="@+id/signup_op2"
+            app:layout_constraintTop_toTopOf="@id/signup_op2" />
+
+        <TextView
+            android:id="@+id/signup_op3"
+            style="@style/H5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/terms"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signup_op2" />
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="10dp"
+            android:id="@+id/signup_terms_btn"
+            android:contentDescription="@string/fliped_back_btn"
+            android:scaleX="-1"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="@id/signup_op3"
+            app:layout_constraintStart_toEndOf="@+id/signup_op3"
+            app:layout_constraintTop_toTopOf="@id/signup_op3" />
+
+        <CheckBox
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/selector_signup_check_btn"
+            android:button="@null"
+            app:layout_constraintBottom_toBottomOf="@id/signup_op3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/signup_op3" />
+
+        <TextView
+            android:id="@+id/signup_op4"
+            style="@style/H5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/signup_terms_op2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signup_op3" />
+
+        <CheckBox
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/selector_signup_check_btn"
+            android:button="@null"
+            app:layout_constraintBottom_toBottomOf="@id/signup_op4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/signup_op4" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -38,6 +38,31 @@
     <string name="feed_comment_reply">대댓글</string>
     <string name="feed_post_property_recent_best">최근 인기</string>
     <string name="feed_post_property_best">best</string>
+    <string name="signup_page_indicator">1/4</string>
+    <string name="signup_btn_back">뒤로가기 버튼</string>
+    <string name="signup_terms_title">가입을 위한\n약관 동의가 필요해요!</string>
+    <string name="signup_next">다음</string>
+    <string name="signup_terms_op1">전체 동의</string>
+    <string name="signup_terms_op2">만 14세 이상입니다</string>
+    <string name="fliped_back_btn">fliped back btn</string>
+    <string name="signup_name_title">프로필과 닉네임을\n설정해주세요</string>
+    <string name="profile_icon">프로필 아이콘</string>
+    <string name="hint_signup_nickname">닉네임을 입력해주세요.</string>
+    <string name="signup_name_rule">최소 2글자, 최대 8글자로 입력 가능해요.</string>
+    <string name="tv_signup_phone_title">휴대폰 번호를\n입력해주세요</string>
+    <string name="singup_error_text">닉네임은 최소 2글자 이상, 최대 8글자 이하로 작성해주세요.</string>
+    <string name="signup_check_text">사용가능한 닉네임인지 확인하고 있어요.</string>
+    <string name="signup_confirm_text">사용가능한 닉네임입니다!</string>
+    <string name="signup_phone_hint">000–0000-0000</string>
+    <string name="signup_phone_hint_detail">-은 자동으로 넣어드려요.</string>
+    <string name="signup_phone_hint_error">올바른 번호를 입력해주세요.</string>
+    <string name="signup_phone_hint_confirm">사용가능한 휴대폰 번호입니다.</string>
+
+    <string name="tv_signup_mail_title">이메일을\n입력해주세요.</string>
+    <string name="signup_mail_hint">example@naver.com</string>
+    <string name="signup_mail_hint_error">example@naver.com 형식으로 입력해주세요.</string>
+    <string name="signup_mail_hint_confirm">사용가능한 이메일 주소입니다.</string>
+
     <string name="feed_reply">댓글</string>
     <string name="feed_comment_delete_msg">삭제된 댓글입니다.</string>
     <string name="feed_detail_comment_msg">\t\t\t\t\t\t\t\t\t\t\t\t\t댓글을 입력해주세요.</string>
