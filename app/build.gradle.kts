@@ -4,6 +4,9 @@ plugins {
 
     // Hilt
     id("dagger.hilt.android.plugin")
+    // secrets gradle
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+
 
     kotlin("android")
     kotlin("kapt")

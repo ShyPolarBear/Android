@@ -50,3 +50,7 @@ object Glide {
 object Kakao {
     const val KAKAO = "com.kakao.sdk:v2-all:${Versions.KAKAO}"
 }
+object SecretsGradle{
+    const val SecretsGradle = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:${Versions.SECRETS_GRADLE}"
+
+}

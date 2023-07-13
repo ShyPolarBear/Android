@@ -14,7 +14,6 @@ android {
     defaultConfig {
         minSdk = Configuration.MIN_SDK
         targetSdk = Configuration.TARGET_SDK
-        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = "KAKAO_NATIVE_APP_KEY"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 //        consumerProguardFiles "consumer-rules.pro"
     }
@@ -63,4 +62,5 @@ dependencies {
     implementation(PowerMenu.POWER_MENU)
     implementation(Glide.GLIDE)
     implementation(Kakao.KAKAO)
+
 }
