@@ -70,11 +70,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         }
 
         binding.edtFeedDetailReply.setOnFocusChangeListener { _, isFocus ->
-
-            when (isFocus) {
-                true -> binding.cardviewFeedCommentWritingMsg.isVisible = true
-                else -> binding.cardviewFeedCommentWritingMsg.isVisible = false
-            }
+            binding.cardviewFeedCommentWritingMsg.isVisible = isFocus
         }
 
         binding.layoutFeedDetail.setOnClickListener {
