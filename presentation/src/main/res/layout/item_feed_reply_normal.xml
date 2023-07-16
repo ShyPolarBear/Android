@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+
+        <ImageView
+            android:id="@+id/iv_feed_reply_normal"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="27dp"
+            android:src="@drawable/ic_feed_reply"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_feed_reply_normal"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="20dp"
+            app:cardBackgroundColor="@color/Blue_06"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_feed_reply_normal"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_feed_reply_normal_profile"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_user_base_profile"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_feed_reply_normal_nickname"
+                    style="@style/l3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="14dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/test_nickname"
+                    app:layout_constraintStart_toEndOf="@id/iv_feed_reply_normal_profile"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_feed_reply_normal_time"
+                    style="@style/l4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="14dp"
+                    android:layout_marginStart="9dp"
+                    android:text="@string/test_posting_time"
+                    android:textColor="@color/Gray_05"
+                    app:layout_constraintStart_toEndOf="@id/iv_feed_reply_normal_profile"
+                    app:layout_constraintTop_toBottomOf="@id/tv_feed_reply_normal_nickname" />
+
+                <TextView
+                    android:id="@+id/tv_feed_reply_normal_content"
+                    style="@style/l2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="14dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/test_feed_post_best_reply_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/iv_feed_reply_normal_profile"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_feed_reply_normal_time" />
+
+                <ImageView
+                    android:id="@+id/iv_feed_reply_normal_property"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_menu_option"
+                    android:tint="@color/Gray_05"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="UseAppTint" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_feed_reply_normal_like"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/ic_btn_like_off"
+                    app:layout_constraintEnd_toEndOf="@id/iv_feed_reply_normal_property"
+                    app:layout_constraintTop_toBottomOf="@id/iv_feed_reply_normal_property" />
+
+                <TextView
+                    android:id="@+id/tv_feed_reply_normal_like_cnt"
+                    style="@style/l4"
+                    android:layout_width="12dp"
+                    android:layout_height="14dp"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/test_feed_post_reply_like_cnt"
+                    android:textColor="@color/Blue_01"
+                    app:layout_constraintEnd_toEndOf="@id/btn_feed_reply_normal_like"
+                    app:layout_constraintTop_toBottomOf="@id/btn_feed_reply_normal_like" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

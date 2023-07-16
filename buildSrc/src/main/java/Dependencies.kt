@@ -11,6 +11,9 @@ object AndroidX {
     const val JUNIT = "junit:junit:${Versions.JUNIT}"
     const val EXT_JUNIT = "androidx.test.ext:junit:${Versions.EXT_JUNIT}"
     const val ESPRESSO_CORE = "androidx.test.espresso:espresso-core:${Versions.ESPRESSO_CORE}"
+
+    const val NAVIGATION_FRAGMENT_KTX = "androidx.navigation:navigation-fragment-ktx:${Versions.NAVIGATION}"
+    const val NAVIGATION_UI_KTX = "androidx.navigation:navigation-ui-ktx:${Versions.NAVIGATION}"
 }
 
 object Google {
