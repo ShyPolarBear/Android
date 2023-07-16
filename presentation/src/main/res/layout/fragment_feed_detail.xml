@@ -191,22 +191,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_feed_detail_content" />
 
-                <View
-                    android:id="@+id/view_feed_detail_div"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="20dp"
-                    android:background="@color/Gray_05"
-                    app:layout_constraintTop_toBottomOf="@id/tv_feed_detail_reply_text" />
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_feed_detail_reply"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@id/view_feed_detail_div" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_feed_detail_reply_text" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
