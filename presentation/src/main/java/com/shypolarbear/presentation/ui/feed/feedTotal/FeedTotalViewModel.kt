@@ -12,10 +12,10 @@ class FeedTotalViewModel: BaseViewModel() {
     fun loadFeedPost() {
         _feedPost.value = mutableListOf(
             // 테스트 데이터
-            FeedPost("1"),
-            FeedPost("1"),
-            FeedPost("1"),
-            FeedPost("1")
+            FeedPost("1", "my", "other"),
+            FeedPost("1", "other", "other"),
+            FeedPost("1", "my", "other"),
+            FeedPost("1", "other", "my")
         )
     }
 }

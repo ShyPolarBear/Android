@@ -13,9 +13,6 @@
         <action
             android:id="@+id/action_feedFragment_to_feedTotalFragment"
             app:destination="@id/feedTotalFragment" />
-        <action
-            android:id="@+id/action_feedFragment_to_feedDetailFragment"
-            app:destination="@id/feedDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/feedTotalFragment"

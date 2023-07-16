@@ -1,6 +1,8 @@
 package com.shypolarbear.presentation.ui.feed.viewholder
 
 import android.app.Activity
+import android.widget.Button
+import android.widget.ImageView
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -10,63 +12,47 @@ import com.shypolarbear.domain.model.feed.FeedPostImg
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
-import com.shypolarbear.presentation.util.checkLike
-import com.shypolarbear.presentation.util.setMenu
-import com.skydoves.powermenu.PowerMenuItem
 
 class FeedPostViewHolder(
     private val binding: ItemFeedBinding,
-    private val viewLifeCycleOwner: LifecycleOwner,
+    private val onMyPostPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onOtherPostPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onMyBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onOtherBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onBtnLikeClick: (view: Button) -> Unit = { _ -> },
+    private val onMoveToDetailClick: () -> Unit = { }
     ) : RecyclerView.ViewHolder(binding.root) {
 
-    private val feedPostPropertyItems: List<PowerMenuItem> =
-        listOf(
-            PowerMenuItem(itemView.context.getString(R.string.feed_post_property_revise)),
-            PowerMenuItem(itemView.context.getString(R.string.feed_post_property_delete)),
-            PowerMenuItem(itemView.context.getString(R.string.feed_post_property_report)),
-            PowerMenuItem(itemView.context.getString(R.string.feed_post_property_block))
-        )
-    private var isFeedPostLike = false
-    private var isFeedCommentLike = false
-
     init {
-
-        binding.ivFeedPostProperty.setOnClickListener {
-            binding.ivFeedPostProperty.setMenu(
-                binding.ivFeedPostProperty,
-                feedPostPropertyItems,
-                viewLifeCycleOwner
-            )
-        }
-
-        binding.ivFeedPostCommentProperty.setOnClickListener {
-            binding.ivFeedPostCommentProperty.setMenu(
-                binding.ivFeedPostCommentProperty,
-                feedPostPropertyItems,
-                viewLifeCycleOwner
-            )
-        }
-
         binding.btnFeedPostLike.setOnClickListener {
-            isFeedPostLike = !isFeedPostLike
-            binding.btnFeedPostLike.checkLike(isFeedPostLike, binding.btnFeedPostLike)
+            onBtnLikeClick(binding.btnFeedPostLike)
         }
 
         binding.btnFeedPostCommentLike.setOnClickListener {
-            isFeedCommentLike = !isFeedCommentLike
-            binding.btnFeedPostLike.checkLike(isFeedCommentLike, binding.btnFeedPostCommentLike)
+            onBtnLikeClick(binding.btnFeedPostCommentLike)
         }
 
         binding.layoutMoveToDetailArea.setOnClickListener {
-            val context = itemView.context
-            findNavController(context as Activity, R.id.nav_host)
-                .navigate(R.id.action_feedTotalFragment_to_feedDetailFragment)
+            onMoveToDetailClick()
         }
     }
 
     fun bind(post: FeedPost) {
         binding.feedPost = post
-        binding.executePendingBindings()
+
+        binding.ivFeedPostProperty.setOnClickListener {
+            when(post.postOwner) {
+                "my" -> onMyPostPropertyClick(binding.ivFeedPostProperty)
+                "other" -> onOtherPostPropertyClick(binding.ivFeedPostProperty)
+            }
+        }
+
+        binding.ivFeedPostCommentProperty.setOnClickListener {
+            when(post.bestCommentOwner) {
+                "my" -> onMyBestCommentPropertyClick(binding.ivFeedPostCommentProperty)
+                "other" -> onOtherBestCommentPropertyClick(binding.ivFeedPostCommentProperty)
+            }
+        }
 
         with(binding.viewpagerFeedPostImg) {
             adapter = ImageViewPagerAdapter().apply {
@@ -86,6 +72,8 @@ class FeedPostViewHolder(
             ) { tab, position ->
 
             }.attach()
+
+            binding.executePendingBindings()
         }
     }
 }
