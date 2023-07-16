@@ -1,7 +1,10 @@
 package com.shypolarbear.presentation.ui.feed.feedDetail.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -18,7 +21,11 @@ import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedReplyDele
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedReplyNormalViewHolder
 
 class FeedCommentAdapter(
-    private val viewLifeCycleOwner: LifecycleOwner
+    private val onMyCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onOtherCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onMyReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onBtnLikeClick: (view: Button) -> Unit = { _ -> }
 ): ListAdapter<FeedComment, RecyclerView.ViewHolder>(FeedCommentDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -30,7 +37,10 @@ class FeedCommentAdapter(
                         LayoutInflater.from(parent.context),
                         parent,
                         false
-                    ), viewLifeCycleOwner
+                    ),
+                    onMyCommentPropertyClick = onMyCommentPropertyClick,
+                    onOtherCommentPropertyClick = onOtherCommentPropertyClick,
+                    onBtnLikeClick = onBtnLikeClick
                 )
             }
 
@@ -50,7 +60,10 @@ class FeedCommentAdapter(
                         LayoutInflater.from(parent.context),
                         parent,
                         false
-                    ), viewLifeCycleOwner
+                    ),
+                    onMyReplyPropertyClick = onMyReplyPropertyClick,
+                    onOtherReplyPropertyClick = onOtherReplyPropertyClick,
+                    onBtnLikeClick = onBtnLikeClick
                 )
             }
 

@@ -1,39 +1,21 @@
 package com.shypolarbear.presentation.ui.feed.feedDetail.viewholder
 
-import androidx.lifecycle.LifecycleOwner
+import android.widget.Button
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
-import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedReplyNormalBinding
-import com.shypolarbear.presentation.util.checkLike
-import com.shypolarbear.presentation.util.setMenu
-import com.skydoves.powermenu.PowerMenuItem
 
 class FeedReplyNormalViewHolder (
     private val binding: ItemFeedReplyNormalBinding,
-    private val viewLifeCycleOwner: LifecycleOwner
+    private val onMyReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onBtnLikeClick: (view: Button) -> Unit = { _ -> }
     ) : RecyclerView.ViewHolder(binding.root) {
-
-    private val myReplyPropertyItems: List<PowerMenuItem> =
-        listOf(
-            PowerMenuItem(itemView.context.getString(R.string.feed_post_property_revise)),
-            PowerMenuItem(itemView.context.getString(R.string.feed_post_property_delete)),
-            PowerMenuItem(itemView.context.getString(R.string.feed_comment_reply))
-        )
-
-    private val otherReplyPropertyItems: List<PowerMenuItem> =
-        listOf(
-            PowerMenuItem(itemView.context.getString(R.string.feed_post_property_report)),
-            PowerMenuItem(itemView.context.getString(R.string.feed_post_property_block)),
-            PowerMenuItem(itemView.context.getString(R.string.feed_comment_reply))
-        )
-
-    private var isReplyLike = false
 
     init {
         binding.btnFeedReplyNormalLike.setOnClickListener {
-            isReplyLike = !isReplyLike
-            binding.btnFeedReplyNormalLike.checkLike(isReplyLike, binding.btnFeedReplyNormalLike)
+            onBtnLikeClick(binding.btnFeedReplyNormalLike)
         }
     }
 
@@ -43,21 +25,13 @@ class FeedReplyNormalViewHolder (
         when(comment.owner) {
             "my" -> {
                 binding.ivFeedReplyNormalProperty.setOnClickListener {
-                    binding.ivFeedReplyNormalProperty.setMenu(
-                        binding.ivFeedReplyNormalProperty,
-                        myReplyPropertyItems,
-                        viewLifeCycleOwner
-                    )
+                    onMyReplyPropertyClick(binding.ivFeedReplyNormalProperty)
                 }
             }
 
             "other" -> {
                 binding.ivFeedReplyNormalProperty.setOnClickListener {
-                    binding.ivFeedReplyNormalProperty.setMenu(
-                        binding.ivFeedReplyNormalProperty,
-                        otherReplyPropertyItems,
-                        viewLifeCycleOwner
-                    )
+                    onOtherReplyPropertyClick(binding.ivFeedReplyNormalProperty)
                 }
             }
         }

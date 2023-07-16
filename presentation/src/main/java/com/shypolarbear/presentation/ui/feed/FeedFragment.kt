@@ -13,7 +13,8 @@ class FeedFragment: BaseFragment<FragmentFeedBinding, FeedViewModel>(
     override val viewModel: FeedViewModel by viewModels()
 
     override fun initView() {
-        findNavController().navigate(R.id.action_feedFragment_to_feedTotalFragment)
+//        findNavController().navigate(R.id.action_feedFragment_to_feedTotalFragment)
+        findNavController().navigate(R.id.action_feedFragment_to_feedDetailFragment)
     }
 
 }

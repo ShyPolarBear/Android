@@ -1,5 +1,7 @@
 package com.shypolarbear.presentation.ui.feed.feedDetail
 
+import android.widget.Button
+import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -21,6 +23,26 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     override val viewModel: FeedDetailViewModel by viewModels()
 
     private var isFeedLike = false
+    private var isLike = false
+    private val feedCommentAdapter: FeedCommentAdapter by lazy {
+        FeedCommentAdapter(
+            onMyCommentPropertyClick = { view: ImageView ->
+                showMyCommentPropertyMenu(view)
+            },
+            onOtherCommentPropertyClick = { view: ImageView ->
+                showOtherCommentPropertyMenu(view)
+            },
+            onMyReplyPropertyClick = { view: ImageView ->
+                showMyReplyPropertyMenu(view)
+            },
+            onOtherReplyPropertyClick = { view: ImageView ->
+                showOtherReplyPropertyMenu(view)
+            },
+            onBtnLikeClick = { btn: Button ->
+                changeLikeBtn(btn)
+            }
+        )
+    }
     private val postPropertyItems: List<PowerMenuItem> by lazy {
         listOf(
             PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
@@ -86,10 +108,74 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     }
 
     private fun setFeedComment() {
-        val feedCommentAdapter = FeedCommentAdapter(viewLifecycleOwner)
         binding.rvFeedDetailReply.adapter = feedCommentAdapter
         viewModel.feedComment.observe(viewLifecycleOwner) {
             feedCommentAdapter.submitList(it)
         }
+    }
+
+    private fun showMyCommentPropertyMenu(view: ImageView) {
+        val myCommentPropertyItems: List<PowerMenuItem> =
+            listOf(
+                PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
+                PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete)),
+                PowerMenuItem(requireContext().getString(R.string.feed_comment_reply))
+            )
+
+        view.setMenu(
+            view,
+            myCommentPropertyItems,
+            viewLifecycleOwner
+        )
+    }
+
+    private fun showOtherCommentPropertyMenu(view: ImageView) {
+        val otherCommentPropertyItems: List<PowerMenuItem> =
+            listOf(
+                PowerMenuItem(requireContext().getString(R.string.feed_post_property_report)),
+                PowerMenuItem(requireContext().getString(R.string.feed_post_property_block)),
+                PowerMenuItem(requireContext().getString(R.string.feed_comment_reply))
+            )
+
+        view.setMenu(
+            view,
+            otherCommentPropertyItems,
+            viewLifecycleOwner
+        )
+    }
+
+    private fun showMyReplyPropertyMenu(view: ImageView) {
+        val myReplyPropertyItems: List<PowerMenuItem> =
+            listOf(
+                PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
+                PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete)),
+                PowerMenuItem(requireContext().getString(R.string.feed_comment_reply))
+            )
+
+        view.setMenu(
+            view,
+            myReplyPropertyItems,
+            viewLifecycleOwner
+        )
+    }
+
+    private fun showOtherReplyPropertyMenu(view: ImageView) {
+        val otherReplyPropertyItems: List<PowerMenuItem> =
+            listOf(
+                PowerMenuItem(requireContext().getString(R.string.feed_post_property_report)),
+                PowerMenuItem(requireContext().getString(R.string.feed_post_property_block)),
+                PowerMenuItem(requireContext().getString(R.string.feed_comment_reply))
+            )
+
+        view.setMenu(
+            view,
+            otherReplyPropertyItems,
+            viewLifecycleOwner
+        )
+    }
+
+    private fun changeLikeBtn(button: Button) {
+        isLike = !isLike
+        button.checkLike(isLike, button)
     }
 }
