@@ -1,0 +1,21 @@
+package com.shypolarbear.presentation.ui.feed.feedTotal
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.shypolarbear.domain.model.feed.FeedPost
+import com.shypolarbear.presentation.base.BaseViewModel
+
+class FeedTotalViewModel: BaseViewModel() {
+    private val _feedPost = MutableLiveData<List<FeedPost>>()
+    val feedPost: LiveData<List<FeedPost>> = _feedPost
+
+    fun loadFeedPost() {
+        _feedPost.value = mutableListOf(
+            // 테스트 데이터
+            FeedPost("1", "my", "other"),
+            FeedPost("1", "other", "other"),
+            FeedPost("1", "my", "other"),
+            FeedPost("1", "other", "my")
+        )
+    }
+}
