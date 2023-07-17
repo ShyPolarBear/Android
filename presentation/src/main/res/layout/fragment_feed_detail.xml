@@ -34,8 +34,8 @@
 
                 <ImageView
                     android:id="@+id/iv_feed_detail_user_profile"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_marginTop="16dp"
                     android:src="@drawable/ic_user_base_profile"
                     app:layout_constraintStart_toStartOf="@id/btn_feed_detail_back"
@@ -43,20 +43,19 @@
 
                 <TextView
                     android:id="@+id/tv_feed_detail_user_nickname"
-                    style="@style/H5"
+                    style="@style/H4"
                     android:layout_width="wrap_content"
-                    android:layout_height="24dp"
+                    android:layout_height="28dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="50dp"
                     android:text="@string/test_nickname"
                     app:layout_constraintStart_toEndOf="@id/iv_feed_detail_user_profile"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="@+id/iv_feed_detail_user_profile" />
 
                 <TextView
                     android:id="@+id/tv_feed_detail_posting_time"
-                    style="@style/l2"
+                    style="@style/L1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="18dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="2dp"
                     android:text="@string/test_posting_time"
@@ -81,7 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="240dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -101,68 +100,69 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_feed_detail_like"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginStart="22dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="12dp"
                     android:background="@drawable/ic_btn_like_off"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/viewpager_feed_detail_img" />
+                    app:layout_constraintTop_toBottomOf="@id/tablayout_feed_detail_indicator" />
 
                 <TextView
                     android:id="@+id/tv_feed_detail_like"
-                    style="@style/l3"
+                    style="@style/B2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dp"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
                     android:text="@string/feed_post_like"
                     app:layout_constraintStart_toEndOf="@id/btn_feed_detail_like"
                     app:layout_constraintTop_toTopOf="@id/btn_feed_detail_like" />
 
                 <TextView
                     android:id="@+id/tv_feed_detail_like_cnt"
-                    style="@style/l3"
+                    style="@style/B2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dp"
                     android:layout_marginStart="3dp"
                     android:text="@string/test_feed_post_like_cnt"
                     app:layout_constraintStart_toEndOf="@id/tv_feed_detail_like"
                     app:layout_constraintTop_toTopOf="@id/tv_feed_detail_like" />
 
                 <TextView
-                    style="@style/l3"
+                    style="@style/B2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dp"
                     android:text="@string/count"
                     app:layout_constraintStart_toEndOf="@id/tv_feed_detail_like_cnt"
                     app:layout_constraintTop_toTopOf="@id/tv_feed_detail_like_cnt" />
 
                 <TextView
                     android:id="@+id/tv_feed_detail_title"
-                    style="@style/H5"
+                    style="@style/H4"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="28dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="16dp"
                     android:text="@string/test_feed_post_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/btn_feed_detail_like" />
 
                 <TextView
                     android:id="@+id/tv_feed_detail_content"
-                    style="@style/B3"
+                    style="@style/B2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="6dp"
                     android:layout_marginEnd="20dp"
                     android:text="@string/test_feed_post_content"
                     app:layout_constraintTop_toBottomOf="@+id/tv_feed_detail_title" />
 
                 <TextView
-                    style="@style/l2"
+                    style="@style/L1"
                     android:layout_width="wrap_content"
-                    android:layout_height="14sp"
+                    android:layout_height="18dp"
                     android:layout_marginEnd="3dp"
                     android:text="@string/feed_reply"
                     android:textColor="@color/Gray_01"
@@ -171,9 +171,9 @@
 
                 <TextView
                     android:id="@+id/tv_feed_detail_reply_cnt"
-                    style="@style/l2"
+                    style="@style/L1"
                     android:layout_width="wrap_content"
-                    android:layout_height="14sp"
+                    android:layout_height="18dp"
                     android:text="@string/test_feed_post_reply_cnt"
                     android:textColor="@color/Gray_01"
                     app:layout_constraintEnd_toStartOf="@id/tv_feed_detail_reply_text"
@@ -181,32 +181,23 @@
 
                 <TextView
                     android:id="@+id/tv_feed_detail_reply_text"
-                    style="@style/l2"
+                    style="@style/L1"
                     android:layout_width="wrap_content"
-                    android:layout_height="14sp"
-                    android:layout_marginTop="8dp"
+                    android:layout_height="18dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginEnd="20dp"
                     android:text="@string/count"
                     android:textColor="@color/Gray_01"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_feed_detail_content" />
 
-                <View
-                    android:id="@+id/view_feed_detail_div"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="20dp"
-                    android:background="@color/Gray_05"
-                    app:layout_constraintTop_toBottomOf="@id/tv_feed_detail_reply_text" />
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_feed_detail_reply"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@id/view_feed_detail_div" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_feed_detail_reply_text" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -268,20 +259,20 @@
 
                 <EditText
                     android:id="@+id/edt_feed_detail_reply"
-                    style="@style/L1"
+                    style="@style/B2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="26dp"
-                    android:layout_marginEnd="26dp"
+                    android:layout_marginEnd="35dp"
                     android:background="@color/White_01"
                     android:hint="@string/feed_detail_comment_msg"
                     android:textColorHint="@color/Gray_05" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginTop="17dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
                     android:background="@drawable/ic_btn_reply_write"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
