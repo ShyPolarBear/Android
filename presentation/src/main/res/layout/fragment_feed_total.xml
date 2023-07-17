@@ -84,11 +84,11 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_feed_post_write"
-                style="@style/Caption2"
-                android:layout_width="100dp"
-                android:layout_height="30dp"
+                style="@style/caption1"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center|bottom"
-                android:layout_marginBottom="72dp"
+                android:layout_marginBottom="76dp"
                 android:background="@drawable/background_feed_write"
                 android:text="@string/feed_post_write"
                 android:textColor="@color/White_01" />
