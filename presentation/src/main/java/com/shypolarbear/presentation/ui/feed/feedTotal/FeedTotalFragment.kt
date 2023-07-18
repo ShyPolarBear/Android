@@ -11,7 +11,9 @@ import com.shypolarbear.presentation.ui.feed.adapter.FeedPostAdapter
 import com.shypolarbear.presentation.util.checkLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewModel> (
     R.layout.fragment_feed_total
 ){
@@ -41,6 +43,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
             )
         }
 
+        viewModel.loadFeedTotalData()
         viewModel.loadFeedPost()
         setFeedPost()
     }
