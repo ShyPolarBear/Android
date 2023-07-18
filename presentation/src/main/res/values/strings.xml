@@ -20,8 +20,9 @@
     <string name="privacy_policy">개인 정보 취급 방침</string>
     <string name="terms_url">https://policy.naver.com/policy/service.html</string>
     <string name="privacy_url">https://policy.naver.com/policy/privacy.html</string>
+
     <string name="feed_post_like">좋아요 </string>
-    <string name="feed_post_cnt">개</string>
+    <string name="count">개</string>
     <string name="test_feed_post_like_cnt">32</string>
     <string name="test_feed_post_title">환경 피드 제목</string>
     <string name="test_feed_post_content">환경 피드 내용 ... 환경 피드 내용 ... \n환경 피드 내용 ... 환경 피드 내용 ... \n환경 피드 내용 ... 환경 피드 내용 ... \n환경 피드 내용 ... 환경 피드 내용 ... \n</string>
@@ -35,6 +36,7 @@
     <string name="feed_post_property_report">신고</string>
     <string name="feed_post_property_block">차단</string>
     <string name="feed_post_property_recent">최신</string>
+    <string name="feed_comment_reply">대댓글</string>
     <string name="feed_post_property_recent_best">최근 인기</string>
     <string name="feed_post_property_best">best</string>
     <string name="signup_page_indicator">1/4</string>
@@ -64,10 +66,4 @@
     <string name="feed_reply">댓글</string>
     <string name="feed_comment_delete_msg">삭제된 댓글입니다.</string>
     <string name="feed_detail_comment_msg">\t\t\t\t\t\t\t\t\t\t\t\t\t댓글을 입력해주세요.</string>
-    <string name="kakao_ac_login_fail">카카오계정으로 로그인 실패</string>
-    <string name="kakao_ac_login_success">카카오계정으로 로그인 성공</string>
-    <string name="kakao_success">카카오톡 login/out 성공</string>
-    <string name="kakao_fail">카카오톡 login/out 실패</string>
-    <string name="kakao_unlink_success">카카오톡 회원탈퇴 성공</string>
-    <string name="kakao_unlink_fail">카카오톡 회원탈퇴 실패</string>
 </resources>
