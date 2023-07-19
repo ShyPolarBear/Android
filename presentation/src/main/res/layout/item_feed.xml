@@ -212,7 +212,7 @@
                         tools:ignore="UseAppTint" />
 
                     <TextView
-                        android:id="@+id/iv_feed_post_best_comment_content"
+                        android:id="@+id/tv_feed_post_best_comment_content"
                         style="@style/B2"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
@@ -224,7 +224,7 @@
                         app:layout_constraintTop_toBottomOf="@id/tv_feed_post_comment_commenting_time" />
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btn_feed_post_comment_like"
+                        android:id="@+id/btn_feed_post_best_comment_like"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginTop="2dp"
@@ -233,15 +233,15 @@
                         app:layout_constraintTop_toBottomOf="@id/iv_feed_post_comment_property" />
 
                     <TextView
-                        android:id="@+id/tv_feed_post_comment_like_cnt"
+                        android:id="@+id/tv_feed_post_best_comment_like_cnt"
                         style="@style/L1"
                         android:layout_width="18dp"
                         android:layout_height="15dp"
                         android:layout_marginEnd="1dp"
                         android:text="@string/test_feed_post_reply_like_cnt"
                         android:textColor="@color/Blue_01"
-                        app:layout_constraintEnd_toEndOf="@id/btn_feed_post_comment_like"
-                        app:layout_constraintTop_toBottomOf="@id/btn_feed_post_comment_like" />
+                        app:layout_constraintEnd_toEndOf="@id/btn_feed_post_best_comment_like"
+                        app:layout_constraintTop_toBottomOf="@id/btn_feed_post_best_comment_like" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -2,16 +2,19 @@ package com.shypolarbear.presentation.ui.feed.feedTotal
 
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedTotalBinding
 import com.shypolarbear.presentation.ui.feed.adapter.FeedPostAdapter
-import com.shypolarbear.presentation.util.checkLike
+import com.shypolarbear.presentation.util.showLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewModel> (
@@ -25,6 +28,26 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
 
     override val viewModel: FeedTotalViewModel by viewModels()
     private var isLike = false
+    private val feedPostAdapter = FeedPostAdapter(
+        onMyPostPropertyClick = { view: ImageView ->
+            showMyPostPropertyMenu(view)
+        },
+        onOtherPostPropertyClick = { view: ImageView ->
+            showOtherPostPropertyMenu(view)
+        },
+        onMyBestCommentPropertyClick = { view: ImageView ->
+            showMyBestCommentPropertyMenu(view)
+        },
+        onOtherBestCommentPropertyClick = { view: ImageView ->
+            showOtherBestCommentPropertyMenu(view)
+        },
+        onBtnLikeClick = { btn: Button, isLiked: Boolean ->
+            changeLikeBtn(btn, isLiked)
+        },
+        onMoveToDetailClick = {
+            showFeedPostDetail()
+        }
+    )
     private val feedSortItems: List<PowerMenuItem> by lazy {
         listOf(
             PowerMenuItem(requireContext().getString(R.string.feed_post_property_recent)),
@@ -35,43 +58,31 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
 
     override fun initView() {
 
-        binding.ivFeedToolbarSort.setOnClickListener {
-            binding.ivFeedToolbarSort.setMenu(
-                binding.ivFeedToolbarSort,
-                feedSortItems,
-                viewLifecycleOwner
-            )
-        }
+        binding.apply {
+            viewModel.loadFeedTotalData()
+            viewModel.loadFeedPost()
 
-        viewModel.loadFeedTotalData()
-        viewModel.loadFeedPost()
-        setFeedPost()
+            ivFeedToolbarSort.setOnClickListener {
+                ivFeedToolbarSort.setMenu(
+                    ivFeedToolbarSort,
+                    feedSortItems,
+                    viewLifecycleOwner
+                )
+            }
+            setFeedPost()
+        }
     }
 
     private fun setFeedPost() {
-        val feedPostAdapter = FeedPostAdapter(
-            onMyPostPropertyClick = { view: ImageView ->
-                showMyPostPropertyMenu(view)
-            },
-            onOtherPostPropertyClick = { view: ImageView ->
-                showOtherPostPropertyMenu(view)
-            },
-            onMyBestCommentPropertyClick = { view: ImageView ->
-                showMyBestCommentPropertyMenu(view)
-            },
-            onOtherBestCommentPropertyClick = { view: ImageView ->
-                showOtherBestCommentPropertyMenu(view)
-            },
-            onBtnLikeClick = { btn: Button ->
-                changeLikeBtn(btn)
-            },
-            onMoveToDetailClick = {
-                showFeedPostDetail()
-            }
-        )
         binding.rvFeedPost.adapter = feedPostAdapter
-        viewModel.feedPost.observe(viewLifecycleOwner) {
-            feedPostAdapter.submitList(it)
+//        viewModel.feedPost.observe(viewLifecycleOwner) {
+//            feedPostAdapter.submitList(it)
+//        }
+
+        lifecycleScope.launch {
+            viewModel.feed.observe(viewLifecycleOwner) {
+                feedPostAdapter.submitList(it)
+            }
         }
     }
 
@@ -131,9 +142,10 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         )
     }
 
-    private fun changeLikeBtn(button: Button) {
+    private fun changeLikeBtn(button: Button, isLiked: Boolean) {
+        var isLike = isLiked
         isLike = !isLike
-        button.checkLike(isLike, button)
+        button.showLike(isLike, button)
     }
 
     private fun showFeedPostDetail() {

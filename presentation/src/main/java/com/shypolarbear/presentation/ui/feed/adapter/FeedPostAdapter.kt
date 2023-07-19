@@ -7,7 +7,9 @@ import android.widget.ImageView
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.domain.model.feed.FeedPost
+import com.shypolarbear.domain.model.feed.FeedTotal
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
 import com.shypolarbear.presentation.ui.feed.viewholder.FeedPostViewHolder
 
@@ -16,9 +18,9 @@ class FeedPostAdapter(
     private val onOtherPostPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onMyBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onOtherBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
-    private val onBtnLikeClick: (view: Button) -> Unit = { _ -> },
+    private val onBtnLikeClick: (view: Button, isLiked: Boolean) -> Unit = { _, _ -> },
     private val onMoveToDetailClick: () -> Unit = { }
-    ): ListAdapter<FeedPost, FeedPostViewHolder>(FeedPostDiffCallback()) {
+    ): ListAdapter<Feed, FeedPostViewHolder>(FeedPostDiffCallback()) {
 
     private lateinit var binding : ItemFeedBinding
 
@@ -40,13 +42,13 @@ class FeedPostAdapter(
     }
 }
 
-class FeedPostDiffCallback : DiffUtil.ItemCallback<FeedPost>() {
+class FeedPostDiffCallback : DiffUtil.ItemCallback<Feed>() {
 
-    override fun areItemsTheSame(oldItem: FeedPost, newItem: FeedPost): Boolean {
-        return oldItem.testContent == newItem.testContent
+    override fun areItemsTheSame(oldItem: Feed, newItem: Feed): Boolean {
+        return oldItem.feedId == newItem.feedId
     }
 
-    override fun areContentsTheSame(oldItem: FeedPost, newItem: FeedPost): Boolean {
+    override fun areContentsTheSame(oldItem: Feed, newItem: Feed): Boolean {
         return oldItem == newItem
     }
 }

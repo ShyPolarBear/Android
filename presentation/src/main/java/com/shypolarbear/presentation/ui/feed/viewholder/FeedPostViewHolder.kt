@@ -7,11 +7,15 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
+import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.domain.model.feed.FeedPost
 import com.shypolarbear.domain.model.feed.FeedPostImg
+import com.shypolarbear.domain.model.feed.FeedTotal
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
+import com.shypolarbear.presentation.util.showLike
+import timber.log.Timber
 
 class FeedPostViewHolder(
     private val binding: ItemFeedBinding,
@@ -19,40 +23,59 @@ class FeedPostViewHolder(
     private val onOtherPostPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onMyBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onOtherBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
-    private val onBtnLikeClick: (view: Button) -> Unit = { _ -> },
+    private val onBtnLikeClick: (view: Button, isLiked: Boolean) -> Unit = { _, _ -> },
     private val onMoveToDetailClick: () -> Unit = { }
     ) : RecyclerView.ViewHolder(binding.root) {
 
     init {
-        binding.btnFeedPostLike.setOnClickListener {
-            onBtnLikeClick(binding.btnFeedPostLike)
-        }
-
-        binding.btnFeedPostCommentLike.setOnClickListener {
-            onBtnLikeClick(binding.btnFeedPostCommentLike)
-        }
-
         binding.layoutMoveToDetailArea.setOnClickListener {
             onMoveToDetailClick()
         }
     }
 
-    fun bind(post: FeedPost) {
-        binding.feedPost = post
+    fun bind(post: Feed) {
+//        binding.feedPost = post
+        var isPostLike = post.isLike
+        var isCommentLike = post.bestComment.isLike
 
+        // 게시물 작성자 확인
         binding.ivFeedPostProperty.setOnClickListener {
-            when(post.postOwner) {
-                "my" -> onMyPostPropertyClick(binding.ivFeedPostProperty)
-                "other" -> onOtherPostPropertyClick(binding.ivFeedPostProperty)
+            when(post.isAuthor) {
+                true -> onMyPostPropertyClick(binding.ivFeedPostProperty)
+                false -> onOtherPostPropertyClick(binding.ivFeedPostProperty)
             }
         }
 
+        // 베스트 댓글 작성자 확인
         binding.ivFeedPostCommentProperty.setOnClickListener {
-            when(post.bestCommentOwner) {
-                "my" -> onMyBestCommentPropertyClick(binding.ivFeedPostCommentProperty)
-                "other" -> onOtherBestCommentPropertyClick(binding.ivFeedPostCommentProperty)
+            when(post.bestComment.isAuthor) {
+                true -> onMyBestCommentPropertyClick(binding.ivFeedPostCommentProperty)
+                false -> onOtherBestCommentPropertyClick(binding.ivFeedPostCommentProperty)
             }
         }
+
+        binding.btnFeedPostLike.showLike(post.isLike, binding.btnFeedPostLike)
+        binding.btnFeedPostBestCommentLike.showLike(post.bestComment.isLike, binding.btnFeedPostBestCommentLike)
+
+        binding.btnFeedPostLike.setOnClickListener {
+            onBtnLikeClick(binding.btnFeedPostLike, isPostLike)
+        }
+
+        binding.btnFeedPostBestCommentLike.setOnClickListener {
+            onBtnLikeClick(binding.btnFeedPostBestCommentLike, isCommentLike)
+        }
+
+        binding.tvFeedPostLikeCnt.text = post.likeCount
+        binding.tvFeedPostBestCommentLikeCnt.text = post.bestComment.likeCount.toString()
+
+        binding.tvFeedPostUserNickname.text = post.author
+        binding.tvFeedPostPostingTime.text = post.createdDate
+        binding.tvFeedPostTitle.text = post.title
+        binding.tvFeedPostContent.text = post.content
+        binding.tvFeedPostCommentCnt.text = post.commentCount.toString()
+
+        binding.tvFeedPostCommentUserNickname.text = post.bestComment.author
+        binding.tvFeedPostBestCommentContent.text = post.bestComment.content
 
         with(binding.viewpagerFeedPostImg) {
             adapter = ImageViewPagerAdapter().apply {
@@ -72,8 +95,8 @@ class FeedPostViewHolder(
             ) { tab, position ->
 
             }.attach()
-
-            binding.executePendingBindings()
         }
+
+        binding.executePendingBindings()
     }
 }

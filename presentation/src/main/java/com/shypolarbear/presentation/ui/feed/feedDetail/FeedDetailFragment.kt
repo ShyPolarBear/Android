@@ -12,7 +12,7 @@ import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedDetailBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedCommentAdapter
-import com.shypolarbear.presentation.util.checkLike
+import com.shypolarbear.presentation.util.showLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 
@@ -84,7 +84,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
 
         binding.btnFeedDetailLike.setOnClickListener {
             isFeedLike = !isFeedLike
-            binding.btnFeedDetailLike.checkLike(isFeedLike, binding.btnFeedDetailLike)
+            binding.btnFeedDetailLike.showLike(isFeedLike, binding.btnFeedDetailLike)
         }
 
         binding.btnFeedDetailBack.setOnClickListener {
@@ -176,6 +176,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
 
     private fun changeLikeBtn(button: Button) {
         isLike = !isLike
-        button.checkLike(isLike, button)
+        button.showLike(isLike, button)
     }
 }
