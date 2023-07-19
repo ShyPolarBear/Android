@@ -41,8 +41,8 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         onOtherBestCommentPropertyClick = { view: ImageView ->
             showOtherBestCommentPropertyMenu(view)
         },
-        onBtnLikeClick = { btn: Button, isLiked: Boolean ->
-            changeLikeBtn(btn, isLiked)
+        onBtnLikeClick = { btn: Button, isLiked: Boolean, likeCnt: Int, textView: TextView ->
+            changeLikeBtn(btn, isLiked, likeCnt, textView)
         },
         onMoveToDetailClick = {
             showFeedPostDetail()
@@ -142,10 +142,21 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         )
     }
 
-    private fun changeLikeBtn(button: Button, isLiked: Boolean) {
+    private fun changeLikeBtn(button: Button, isLiked: Boolean, likeCnt: Int, likeCntText: TextView): Int {
         var isLike = isLiked
         isLike = !isLike
         button.showLike(isLike, button)
+
+        if (isLike) {
+            likeCntText.text = (likeCnt + 1).toString()
+            return likeCnt + 1
+        }
+        else {
+            likeCntText.text = (likeCnt - 1).toString()
+            return likeCnt - 1
+        }
+
+        return likeCnt
     }
 
     private fun showFeedPostDetail() {

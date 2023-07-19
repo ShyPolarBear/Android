@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -18,7 +19,7 @@ class FeedPostAdapter(
     private val onOtherPostPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onMyBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onOtherBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
-    private val onBtnLikeClick: (view: Button, isLiked: Boolean) -> Unit = { _, _ -> },
+    private val onBtnLikeClick: (view: Button, isLiked: Boolean, likeCnt: Int, textView: TextView) -> Int = { _, _, _, _ -> 0},
     private val onMoveToDetailClick: () -> Unit = { }
     ): ListAdapter<Feed, FeedPostViewHolder>(FeedPostDiffCallback()) {
 

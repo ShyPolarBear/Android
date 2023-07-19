@@ -3,6 +3,7 @@ package com.shypolarbear.presentation.ui.feed.viewholder
 import android.app.Activity
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +24,7 @@ class FeedPostViewHolder(
     private val onOtherPostPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onMyBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onOtherBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
-    private val onBtnLikeClick: (view: Button, isLiked: Boolean) -> Unit = { _, _ -> },
+    private val onBtnLikeClick: (view: Button, isLiked: Boolean, likeCnt: Int, textView: TextView) -> Int = { _, _, _, _ -> 0},
     private val onMoveToDetailClick: () -> Unit = { }
     ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -37,6 +38,8 @@ class FeedPostViewHolder(
 //        binding.feedPost = post
         var isPostLike = post.isLike
         var isCommentLike = post.bestComment.isLike
+        var isPostLikeCnt: Int = post.likeCount.toInt()
+        var isCommentLikeCnt = post.bestComment.likeCount
 
         // 게시물 작성자 확인
         binding.ivFeedPostProperty.setOnClickListener {
@@ -58,11 +61,25 @@ class FeedPostViewHolder(
         binding.btnFeedPostBestCommentLike.showLike(post.bestComment.isLike, binding.btnFeedPostBestCommentLike)
 
         binding.btnFeedPostLike.setOnClickListener {
-            onBtnLikeClick(binding.btnFeedPostLike, isPostLike)
+            isPostLikeCnt = onBtnLikeClick(
+                binding.btnFeedPostLike,
+                isPostLike,
+                isPostLikeCnt,
+                binding.tvFeedPostLikeCnt
+            )
+            isPostLike = !isPostLike
+            Timber.d("게시물 좋아요 상태: $isPostLike, 게시물 좋아요 개수: $isPostLikeCnt")
         }
 
         binding.btnFeedPostBestCommentLike.setOnClickListener {
-            onBtnLikeClick(binding.btnFeedPostBestCommentLike, isCommentLike)
+            isCommentLikeCnt = onBtnLikeClick(
+                binding.btnFeedPostBestCommentLike,
+                isCommentLike,
+                isCommentLikeCnt,
+                binding.tvFeedPostBestCommentLikeCnt
+            )
+            isCommentLike = !isCommentLike
+            Timber.d("베스트 댓글 좋아요 상태: $isCommentLike, 댓글 좋아요 개수: $isCommentLikeCnt")
         }
 
         binding.tvFeedPostLikeCnt.text = post.likeCount
