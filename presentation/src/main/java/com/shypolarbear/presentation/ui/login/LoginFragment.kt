@@ -50,10 +50,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
             binding.ivKakaotalk.visibility = View.INVISIBLE
             setKakaoCallBack()
             lifecycleScope.launch {
-                val job = async {
-                    stateCodeLogIn = kakaoLogin(requireContext())
-                }
-                job.await()
+                stateCodeLogIn = kakaoLogin(requireContext())
+
                 when (stateCodeLogIn) {
                     LOGIN_FAIL -> {
 
