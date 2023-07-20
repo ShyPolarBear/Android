@@ -47,8 +47,6 @@ class FeedTotalViewModel @Inject constructor (
 
                 }
 
-            Timber.d(testData.toString())
-
         }
     }
 }

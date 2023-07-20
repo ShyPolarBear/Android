@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.shypolarbear.domain.model.feed.FeedPostImg
 import com.shypolarbear.presentation.databinding.ItemFeedPostImgBinding
 
-class ImageViewPagerAdapter : ListAdapter<FeedPostImg, ImageViewPagerViewHolder>(FeedPostImgDiffCallback()) {
+class ImageViewPagerAdapter : ListAdapter<String, ImageViewPagerViewHolder>(FeedPostImgDiffCallback()) {
 
     private lateinit var binding : ItemFeedPostImgBinding
 
@@ -21,13 +21,13 @@ class ImageViewPagerAdapter : ListAdapter<FeedPostImg, ImageViewPagerViewHolder>
     }
 }
 
-class FeedPostImgDiffCallback : DiffUtil.ItemCallback<FeedPostImg>() {
+class FeedPostImgDiffCallback : DiffUtil.ItemCallback<String>() {
 
-    override fun areItemsTheSame(oldItem: FeedPostImg, newItem: FeedPostImg): Boolean {
-        return oldItem.postImgUrl == newItem.postImgUrl
+    override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
+        return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: FeedPostImg, newItem: FeedPostImg): Boolean {
+    override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
         return oldItem == newItem
     }
 }

@@ -7,9 +7,9 @@ import com.shypolarbear.presentation.databinding.ItemFeedPostImgBinding
 
 class ImageViewPagerViewHolder(private val binding: ItemFeedPostImgBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(img: FeedPostImg) {
+    fun bind(img: String) {
         Glide.with(itemView)
-            .load(img.postImgUrl)
+            .load(img)
             .into(binding.ivFeedPost)
         binding.executePendingBindings()
     }
