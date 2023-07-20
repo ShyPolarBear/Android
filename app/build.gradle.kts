@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
     id("com.android.application")
@@ -7,6 +8,10 @@ plugins {
 
     kotlin("android")
     kotlin("kapt")
+}
+
+fun getApiKey(propertyKey: String): String {
+    return gradleLocalProperties(rootDir).getProperty(propertyKey)
 }
 
 android {
@@ -19,6 +24,9 @@ android {
         targetSdk = Configuration.TARGET_SDK
         versionCode = Configuration.VERSION_CODE
         versionName = Configuration.VERSION_NAME
+
+        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", "\"${getApiKey("KAKAO_NATIVE_APP_KEY")}\"")
+        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = getApiKey("KAKAO_NATIVE_APP_KEY")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -35,6 +43,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -71,5 +80,5 @@ dependencies {
     implementation(SquareUp.OKHTTP3_BOM)
 
     implementation(Jakewharton.TIMBER)
+    implementation(Kakao.KAKAO)
 }
-

@@ -60,4 +60,5 @@ dependencies {
     implementation(KotlinX.KOTLINX_COROUTINE)
 
     implementation(Jakewharton.TIMBER)
+    implementation(Kakao.KAKAO)
 }
