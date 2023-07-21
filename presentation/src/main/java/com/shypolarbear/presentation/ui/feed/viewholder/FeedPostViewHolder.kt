@@ -1,18 +1,11 @@
 package com.shypolarbear.presentation.ui.feed.viewholder
 
-import android.app.Activity
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.LifecycleOwner
-import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.Feed
-import com.shypolarbear.domain.model.feed.FeedPost
-import com.shypolarbear.domain.model.feed.FeedPostImg
-import com.shypolarbear.domain.model.feed.FeedTotal
-import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.util.showLike
@@ -35,7 +28,6 @@ class FeedPostViewHolder(
     }
 
     fun bind(post: Feed) {
-//        binding.feedPost = post
         var isPostLike = post.isLike
         var isCommentLike = post.bestComment.isLike
         var isPostLikeCnt: Int = post.likeCount.toInt()
@@ -68,7 +60,6 @@ class FeedPostViewHolder(
                 binding.tvFeedPostLikeCnt
             )
             isPostLike = !isPostLike
-            Timber.d("게시물 좋아요 상태: $isPostLike, 게시물 좋아요 개수: $isPostLikeCnt")
         }
 
         binding.btnFeedPostBestCommentLike.setOnClickListener {
@@ -79,7 +70,6 @@ class FeedPostViewHolder(
                 binding.tvFeedPostBestCommentLikeCnt
             )
             isCommentLike = !isCommentLike
-            Timber.d("베스트 댓글 좋아요 상태: $isCommentLike, 댓글 좋아요 개수: $isCommentLikeCnt")
         }
 
         binding.tvFeedPostLikeCnt.text = post.likeCount

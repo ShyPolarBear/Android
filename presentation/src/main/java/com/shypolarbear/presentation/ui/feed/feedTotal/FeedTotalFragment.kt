@@ -60,7 +60,6 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
 
         binding.apply {
             viewModel.loadFeedTotalData()
-            viewModel.loadFeedPost()
 
             ivFeedToolbarSort.setOnClickListener {
                 ivFeedToolbarSort.setMenu(
@@ -75,10 +74,6 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
 
     private fun setFeedPost() {
         binding.rvFeedPost.adapter = feedPostAdapter
-//        viewModel.feedPost.observe(viewLifecycleOwner) {
-//            feedPostAdapter.submitList(it)
-//        }
-
         lifecycleScope.launch {
             viewModel.feed.observe(viewLifecycleOwner) {
                 feedPostAdapter.submitList(it)

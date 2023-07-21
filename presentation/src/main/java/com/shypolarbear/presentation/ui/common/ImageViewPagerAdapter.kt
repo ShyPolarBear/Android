@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.shypolarbear.domain.model.feed.FeedPostImg
 import com.shypolarbear.presentation.databinding.ItemFeedPostImgBinding
 
 class ImageViewPagerAdapter : ListAdapter<String, ImageViewPagerViewHolder>(FeedPostImgDiffCallback()) {
