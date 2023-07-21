@@ -8,8 +8,8 @@ import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentSignupNameBinding
 import com.shypolarbear.presentation.ui.signup.SignupViewModel
-import com.shypolarbear.presentation.ui.signup.custom.hideKeyboard
-import com.shypolarbear.presentation.ui.signup.custom.setTextColorById
+import com.shypolarbear.presentation.util.hideKeyboard
+import com.shypolarbear.presentation.util.setTextColorById
 
 class SignupNameFragment :
     BaseFragment<FragmentSignupNameBinding, SignupViewModel>(R.layout.fragment_signup_name) {
