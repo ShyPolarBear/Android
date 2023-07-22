@@ -1,16 +1,16 @@
 package com.shypolarbear.domain.model.feed
 
 data class Feed(
+    val feedId: Int,
+    val title: String,
+    val content: String,
+    val likeCount: Int,
+    val feedImage: List<String>,
     val author: String,
     val authorProfileImage: String,
-    val comment: Comment,
-    val commentCount: Int,
-    val content: String,
     val createdDate: String,
-    val feedId: Int,
-    val feedImage: List<String>,
-    val isAuthor: Boolean,
     val isLike: Boolean,
-    val likeCount: String,
-    val title: String
+    val isAuthor: Boolean,
+    val commentCount: Int,
+    val comment: Comment,
 )

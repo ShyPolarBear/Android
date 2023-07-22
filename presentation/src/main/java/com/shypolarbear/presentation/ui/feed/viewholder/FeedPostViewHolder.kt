@@ -79,7 +79,7 @@ class FeedPostViewHolder(
             isCommentLike = !isCommentLike
         }
 
-        binding.tvFeedPostLikeCnt.text = post.likeCount
+        binding.tvFeedPostLikeCnt.text = post.likeCount.toString()
         binding.tvFeedPostBestCommentLikeCnt.text = post.comment.likeCount.toString()
 
         binding.tvFeedPostUserNickname.text = post.author
