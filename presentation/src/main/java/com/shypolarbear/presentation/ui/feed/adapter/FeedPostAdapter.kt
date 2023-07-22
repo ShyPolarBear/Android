@@ -9,7 +9,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.shypolarbear.domain.model.feed.Feed
-import com.shypolarbear.domain.model.feed.FeedPost
 import com.shypolarbear.domain.model.feed.FeedTotal
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
 import com.shypolarbear.presentation.ui.feed.viewholder.FeedPostViewHolder

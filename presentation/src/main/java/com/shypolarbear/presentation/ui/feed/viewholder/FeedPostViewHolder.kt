@@ -3,6 +3,7 @@ package com.shypolarbear.presentation.ui.feed.viewholder
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.Feed
@@ -29,9 +30,15 @@ class FeedPostViewHolder(
 
     fun bind(post: Feed) {
         var isPostLike = post.isLike
-        var isCommentLike = post.bestComment.isLike
+        var isCommentLike = post.comment.isLike
         var isPostLikeCnt: Int = post.likeCount.toInt()
-        var isCommentLikeCnt = post.bestComment.likeCount
+        var isCommentLikeCnt = post.comment.likeCount
+
+        Timber.d(post.comment.toString())
+
+        if (post.commentCount == 0) {
+            binding.layoutFeedComment.isVisible = false
+        }
 
         // 게시물 작성자 확인
         binding.ivFeedPostProperty.setOnClickListener {
@@ -43,14 +50,14 @@ class FeedPostViewHolder(
 
         // 베스트 댓글 작성자 확인
         binding.ivFeedPostCommentProperty.setOnClickListener {
-            when(post.bestComment.isAuthor) {
+            when(post.comment.isAuthor) {
                 true -> onMyBestCommentPropertyClick(binding.ivFeedPostCommentProperty)
                 false -> onOtherBestCommentPropertyClick(binding.ivFeedPostCommentProperty)
             }
         }
 
         binding.btnFeedPostLike.showLike(post.isLike, binding.btnFeedPostLike)
-        binding.btnFeedPostBestCommentLike.showLike(post.bestComment.isLike, binding.btnFeedPostBestCommentLike)
+        binding.btnFeedPostBestCommentLike.showLike(post.comment.isLike, binding.btnFeedPostBestCommentLike)
 
         binding.btnFeedPostLike.setOnClickListener {
             isPostLikeCnt = onBtnLikeClick(
@@ -73,7 +80,7 @@ class FeedPostViewHolder(
         }
 
         binding.tvFeedPostLikeCnt.text = post.likeCount
-        binding.tvFeedPostBestCommentLikeCnt.text = post.bestComment.likeCount.toString()
+        binding.tvFeedPostBestCommentLikeCnt.text = post.comment.likeCount.toString()
 
         binding.tvFeedPostUserNickname.text = post.author
         binding.tvFeedPostPostingTime.text = post.createdDate
@@ -81,8 +88,8 @@ class FeedPostViewHolder(
         binding.tvFeedPostContent.text = post.content
         binding.tvFeedPostCommentCnt.text = post.commentCount.toString()
 
-        binding.tvFeedPostCommentUserNickname.text = post.bestComment.author
-        binding.tvFeedPostBestCommentContent.text = post.bestComment.content
+        binding.tvFeedPostCommentUserNickname.text = post.comment.author
+        binding.tvFeedPostBestCommentContent.text = post.comment.content
 
         with(binding.viewpagerFeedPostImg) {
             adapter = ImageViewPagerAdapter().apply {

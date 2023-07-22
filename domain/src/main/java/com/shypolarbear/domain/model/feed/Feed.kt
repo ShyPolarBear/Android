@@ -3,7 +3,7 @@ package com.shypolarbear.domain.model.feed
 data class Feed(
     val author: String,
     val authorProfileImage: String,
-    val bestComment: BestComment,
+    val comment: Comment,
     val commentCount: Int,
     val content: String,
     val createdDate: String,
