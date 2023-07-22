@@ -25,8 +25,8 @@ class FeedPostViewHolder(
     fun bind(post: Feed) {
         var isPostLike = post.isLike
         var isCommentLike = post.comment.isLike
-        var isPostLikeCnt: Int = post.likeCount
-        var isCommentLikeCnt = post.comment.likeCount
+        var postLikeCnt: Int = post.likeCount
+        var commentLikeCnt = post.comment.likeCount
 
         Timber.d(post.comment.toString())
 
@@ -58,20 +58,20 @@ class FeedPostViewHolder(
         binding.btnFeedPostBestCommentLike.showLike(post.comment.isLike, binding.btnFeedPostBestCommentLike)
 
         binding.btnFeedPostLike.setOnClickListener {
-            isPostLikeCnt = onBtnLikeClick(
+            postLikeCnt = onBtnLikeClick(
                 binding.btnFeedPostLike,
                 isPostLike,
-                isPostLikeCnt,
+                postLikeCnt,
                 binding.tvFeedPostLikeCnt
             )
             isPostLike = !isPostLike
         }
 
         binding.btnFeedPostBestCommentLike.setOnClickListener {
-            isCommentLikeCnt = onBtnLikeClick(
+            commentLikeCnt = onBtnLikeClick(
                 binding.btnFeedPostBestCommentLike,
                 isCommentLike,
-                isCommentLikeCnt,
+                commentLikeCnt,
                 binding.tvFeedPostBestCommentLikeCnt
             )
             isCommentLike = !isCommentLike
