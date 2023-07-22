@@ -3,6 +3,7 @@ package com.shypolarbear.presentation.ui.feed.feedTotal
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -15,6 +16,7 @@ import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewModel> (
@@ -24,6 +26,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
     companion object {
         const val POWER_MENU_OFFSET_X = -290
         const val POWER_MENU_OFFSET_Y = 0
+        const val FEED_ID = "feed_id"
     }
 
     override val viewModel: FeedTotalViewModel by viewModels()
@@ -44,9 +47,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         onBtnLikeClick = { btn: Button, isLiked: Boolean, likeCnt: Int, textView: TextView ->
             changeLikeBtn(btn, isLiked, likeCnt, textView)
         },
-        onMoveToDetailClick = {
-            showFeedPostDetail()
-        }
+        onMoveToDetailClick = { feedId: Int -> showFeedPostDetail(feedId) }
     )
     private val feedSortItems: List<PowerMenuItem> by lazy {
         listOf(
@@ -150,11 +151,12 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
             likeCntText.text = (likeCnt - 1).toString()
             return likeCnt - 1
         }
-
-        return likeCnt
     }
 
-    private fun showFeedPostDetail() {
-        findNavController().navigate(R.id.action_feedTotalFragment_to_feedDetailFragment)
+    private fun showFeedPostDetail(feedId: Int) {
+        Timber.d(feedId.toString())
+        findNavController().navigate(R.id.action_feedTotalFragment_to_feedDetailFragment, bundleOf(
+            FEED_ID to feedId.toString()
+        ))
     }
 }

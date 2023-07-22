@@ -19,7 +19,7 @@ class FeedPostAdapter(
     private val onMyBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onOtherBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onBtnLikeClick: (view: Button, isLiked: Boolean, likeCnt: Int, textView: TextView) -> Int = { _, _, _, _ -> 0},
-    private val onMoveToDetailClick: () -> Unit = { }
+    private val onMoveToDetailClick: (feedId: Int) -> Unit = { }
     ): ListAdapter<Feed, FeedPostViewHolder>(FeedPostDiffCallback()) {
 
     private lateinit var binding : ItemFeedBinding

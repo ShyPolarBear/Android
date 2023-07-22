@@ -2,6 +2,7 @@ package com.shypolarbear.presentation.ui.feed.feedDetail.viewholder
 
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
 import com.shypolarbear.presentation.databinding.ItemFeedCommentNormalBinding
@@ -10,12 +11,16 @@ class FeedCommentNormalViewHolder (
     private val binding: ItemFeedCommentNormalBinding,
     private val onMyCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onOtherCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
-    private val onBtnLikeClick: (view: Button) -> Unit = { _ -> }
+    private val onBtnLikeClick: (view: Button, isLiked: Boolean, likeCnt: Int, textView: TextView) -> Int = { _, _, _, _ -> 0},
     ) : RecyclerView.ViewHolder(binding.root) {
 
     init {
         binding.btnFeedCommentNormalLike.setOnClickListener {
-            onBtnLikeClick(binding.btnFeedCommentNormalLike)
+            onBtnLikeClick(
+                binding.btnFeedCommentNormalLike,
+                true,
+                10,
+                binding.tvFeedCommentNormalLikeCnt)
         }
     }
 

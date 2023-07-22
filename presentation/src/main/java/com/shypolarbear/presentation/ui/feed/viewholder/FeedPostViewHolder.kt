@@ -19,25 +19,23 @@ class FeedPostViewHolder(
     private val onMyBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onOtherBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onBtnLikeClick: (view: Button, isLiked: Boolean, likeCnt: Int, textView: TextView) -> Int = { _, _, _, _ -> 0},
-    private val onMoveToDetailClick: () -> Unit = { }
+    private val onMoveToDetailClick: (feedId: Int) -> Unit = { }
     ) : RecyclerView.ViewHolder(binding.root) {
-
-    init {
-        binding.layoutMoveToDetailArea.setOnClickListener {
-            onMoveToDetailClick()
-        }
-    }
 
     fun bind(post: Feed) {
         var isPostLike = post.isLike
         var isCommentLike = post.comment.isLike
-        var isPostLikeCnt: Int = post.likeCount.toInt()
+        var isPostLikeCnt: Int = post.likeCount
         var isCommentLikeCnt = post.comment.likeCount
 
         Timber.d(post.comment.toString())
 
         if (post.commentCount == 0) {
             binding.layoutFeedComment.isVisible = false
+        }
+
+        binding.layoutMoveToDetailArea.setOnClickListener {
+            onMoveToDetailClick(post.feedId)
         }
 
         // 게시물 작성자 확인

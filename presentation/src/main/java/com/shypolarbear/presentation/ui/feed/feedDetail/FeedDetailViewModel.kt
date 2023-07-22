@@ -23,9 +23,9 @@ class FeedDetailViewModel @Inject constructor(
     private val _feedComment = MutableLiveData<List<FeedComment>>()
     val feedComment: LiveData<List<FeedComment>> = _feedComment
 
-    fun loadFeedDetail() {
+    fun loadFeedDetail(feedId: Int) {
         viewModelScope.launch {
-            val feedDetailTestData = feedUseCase.loadFeedDetailData(1)
+            val feedDetailTestData = feedUseCase.loadFeedDetailData(feedId)
 
             feedDetailTestData
                 .onSuccess {

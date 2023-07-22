@@ -2,19 +2,23 @@ package com.shypolarbear.presentation.ui.feed.feedDetail
 
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
+import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedDetailBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedCommentAdapter
+import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment.Companion.FEED_ID
 import com.shypolarbear.presentation.util.showLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailViewModel>(
@@ -22,7 +26,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
 ) {
 
     override val viewModel: FeedDetailViewModel by viewModels()
-
     private var isFeedLike = false
     private var isLike = false
     private val feedCommentAdapter: FeedCommentAdapter by lazy {
@@ -39,8 +42,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             onOtherReplyPropertyClick = { view: ImageView ->
                 showOtherReplyPropertyMenu(view)
             },
-            onBtnLikeClick = { btn: Button ->
-                changeLikeBtn(btn)
+            onBtnLikeClick = { btn: Button, isLiked: Boolean, likeCnt: Int, textView: TextView ->
+                changeLikeBtn(btn, isLiked, likeCnt, textView)
             }
         )
     }
@@ -83,11 +86,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             )
         }
 
-        binding.btnFeedDetailLike.setOnClickListener {
-            isFeedLike = !isFeedLike
-            binding.btnFeedDetailLike.showLike(isFeedLike, binding.btnFeedDetailLike)
-        }
-
         binding.btnFeedDetailBack.setOnClickListener {
             findNavController().navigate(R.id.action_feedDetailFragment_to_feedTotalFragment)
         }
@@ -104,9 +102,50 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             binding.cardviewFeedCommentWritingMsg.isVisible = false
         }
 
-        viewModel.loadFeedDetail()
+        viewModel.loadFeedDetail(requireArguments().getString(FEED_ID)!!.toInt())
         viewModel.loadFeedComment()
+
+        viewModel.feed.observe(viewLifecycleOwner) {feed ->
+            setFeedPost(feed)
+        }
         setFeedComment()
+    }
+
+    private fun setFeedPost(feedDetail: Feed) {
+        var isPostLike = feedDetail.isLike
+        var PostLikeCnt: Int = feedDetail.likeCount
+
+        binding.tvFeedDetailUserNickname.text = feedDetail.author
+        binding.tvFeedDetailPostingTime.text = feedDetail.createdDate
+        binding.tvFeedDetailLikeCnt.text = feedDetail.likeCount.toString()
+        binding.tvFeedDetailTitle.text = feedDetail.title
+        binding.tvFeedDetailContent.text = feedDetail.content
+        binding.tvFeedDetailReplyCnt.text = feedDetail.commentCount.toString()
+
+        binding.btnFeedDetailLike.showLike(feedDetail.isLike, binding.btnFeedDetailLike)
+        binding.btnFeedDetailLike.setOnClickListener {
+            PostLikeCnt = changeLikeBtn(
+                binding.btnFeedDetailLike,
+                isPostLike,
+                PostLikeCnt,
+                binding.tvFeedDetailLikeCnt
+            )
+            isPostLike = !isPostLike
+        }
+
+        with(binding.viewpagerFeedDetailImg) {
+            adapter = ImageViewPagerAdapter().apply {
+                submitList(
+                    // 테스트 데이터
+                    feedDetail.feedImage
+                )
+            }
+
+            TabLayoutMediator(binding.tablayoutFeedDetailIndicator, this
+            ) { tab, position ->
+
+            }.attach()
+        }
     }
 
     private fun setFeedComment() {
@@ -176,8 +215,18 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         )
     }
 
-    private fun changeLikeBtn(button: Button) {
+    private fun changeLikeBtn(button: Button, isLiked: Boolean, likeCnt: Int, likeCntText: TextView): Int {
+        var isLike = isLiked
         isLike = !isLike
         button.showLike(isLike, button)
+
+        if (isLike) {
+            likeCntText.text = (likeCnt + 1).toString()
+            return likeCnt + 1
+        }
+        else {
+            likeCntText.text = (likeCnt - 1).toString()
+            return likeCnt - 1
+        }
     }
 }
