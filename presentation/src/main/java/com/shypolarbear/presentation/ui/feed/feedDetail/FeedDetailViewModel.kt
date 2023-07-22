@@ -2,13 +2,41 @@ package com.shypolarbear.presentation.ui.feed.feedDetail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
+import com.shypolarbear.domain.usecase.feed.FeedUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import timber.log.Timber
+import javax.inject.Inject
 
-class FeedDetailViewModel: BaseViewModel() {
+@HiltViewModel
+class FeedDetailViewModel @Inject constructor(
+    private val feedUseCase: FeedUseCase
+): BaseViewModel() {
+
+    private val _feed = MutableLiveData<Feed>()
+    val feed: LiveData<Feed> = _feed
 
     private val _feedComment = MutableLiveData<List<FeedComment>>()
     val feedComment: LiveData<List<FeedComment>> = _feedComment
+
+    fun loadFeedDetail() {
+        viewModelScope.launch {
+            val feedDetailTestData = feedUseCase.loadFeedDetailData(1)
+
+            feedDetailTestData
+                .onSuccess {
+                    _feed.value = it.data
+                    Timber.d(it.toString())
+                }
+                .onFailure {
+
+                }
+        }
+    }
 
     fun loadFeedComment() {
         _feedComment.value = mutableListOf(

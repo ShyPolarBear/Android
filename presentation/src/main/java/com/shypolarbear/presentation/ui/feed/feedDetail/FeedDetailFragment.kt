@@ -14,7 +14,9 @@ import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedCommentAdapt
 import com.shypolarbear.presentation.util.showLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailViewModel>(
     R.layout.fragment_feed_detail
 ) {
@@ -102,6 +104,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             binding.cardviewFeedCommentWritingMsg.isVisible = false
         }
 
+        viewModel.loadFeedDetail()
         viewModel.loadFeedComment()
         setFeedComment()
     }
