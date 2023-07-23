@@ -18,7 +18,6 @@ import com.shypolarbear.presentation.util.showLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailViewModel>(
@@ -47,44 +46,24 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             }
         )
     }
-    private val postPropertyItems: List<PowerMenuItem> by lazy {
-        listOf(
-            PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
-            PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete)),
-            PowerMenuItem(requireContext().getString(R.string.feed_post_property_report)),
-            PowerMenuItem(requireContext().getString(R.string.feed_post_property_block))
-        )
-    }
+//    private val postPropertyItems: List<PowerMenuItem> by lazy {
+//        listOf(
+//            PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
+//            PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete)),
+//            PowerMenuItem(requireContext().getString(R.string.feed_post_property_report)),
+//            PowerMenuItem(requireContext().getString(R.string.feed_post_property_block))
+//        )
+//    }
 
     override fun initView() {
 
-        with(binding.viewpagerFeedDetailImg) {
-            adapter = ImageViewPagerAdapter().apply {
-                submitList(
-                    // 테스트 데이터
-                    mutableListOf(
-//                        FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/9690c7b7-2bde-498c-a5be-886b6e5b5405"),
-//                        FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/4eed9944-8689-442e-87d7-c4ac6a939103"),
-//                        FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/083a3008-642b-42b8-9845-6696aa641e31"),
-//                        FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/4c0f2ca6-defc-455c-b384-ba573f72a981"),
-//                        FeedPostImg("https://github.com/ShyPolarBear/Android/assets/107917980/24b65d18-006e-41ee-8440-2a5f00706028")
-                    )
-                )
-            }
-
-            TabLayoutMediator(binding.tablayoutFeedDetailIndicator, this
-            ) { tab, position ->
-
-            }.attach()
-        }
-
-        binding.ivFeedDetailProperty.setOnClickListener {
-            binding.ivFeedDetailProperty.setMenu(
-                binding.ivFeedDetailProperty,
-                postPropertyItems,
-                viewLifecycleOwner
-            )
-        }
+//        binding.ivFeedDetailProperty.setOnClickListener {
+//            binding.ivFeedDetailProperty.setMenu(
+//                binding.ivFeedDetailProperty,
+//                postPropertyItems,
+//                viewLifecycleOwner
+//            )
+//        }
 
         binding.btnFeedDetailBack.setOnClickListener {
             findNavController().navigate(R.id.action_feedDetailFragment_to_feedTotalFragment)
@@ -113,7 +92,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
 
     private fun setFeedPost(feedDetail: Feed) {
         var isPostLike = feedDetail.isLike
-        var PostLikeCnt: Int = feedDetail.likeCount
+        var postLikeCnt: Int = feedDetail.likeCount
 
         binding.tvFeedDetailUserNickname.text = feedDetail.author
         binding.tvFeedDetailPostingTime.text = feedDetail.createdDate
@@ -124,10 +103,10 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
 
         binding.btnFeedDetailLike.showLike(feedDetail.isLike, binding.btnFeedDetailLike)
         binding.btnFeedDetailLike.setOnClickListener {
-            PostLikeCnt = changeLikeBtn(
+            postLikeCnt = changeLikeBtn(
                 binding.btnFeedDetailLike,
                 isPostLike,
-                PostLikeCnt,
+                postLikeCnt,
                 binding.tvFeedDetailLikeCnt
             )
             isPostLike = !isPostLike
@@ -145,6 +124,36 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             ) { tab, position ->
 
             }.attach()
+        }
+
+
+        binding.ivFeedDetailProperty.setOnClickListener {
+            when (feedDetail.isAuthor) {
+                true -> {
+                    val postPropertyItems: List<PowerMenuItem> =
+                        listOf(
+                            PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
+                            PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete))
+                        )
+                    binding.ivFeedDetailProperty.setMenu(
+                        binding.ivFeedDetailProperty,
+                        postPropertyItems,
+                        viewLifecycleOwner
+                    )
+                }
+                false -> {
+                    val postPropertyItems: List<PowerMenuItem> =
+                        listOf(
+                            PowerMenuItem(requireContext().getString(R.string.feed_post_property_report)),
+                            PowerMenuItem(requireContext().getString(R.string.feed_post_property_block))
+                        )
+                    binding.ivFeedDetailProperty.setMenu(
+                        binding.ivFeedDetailProperty,
+                        postPropertyItems,
+                        viewLifecycleOwner
+                    )
+                }
+            }
         }
     }
 
