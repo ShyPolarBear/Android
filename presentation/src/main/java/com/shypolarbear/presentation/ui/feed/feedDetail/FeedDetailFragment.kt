@@ -25,8 +25,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
 ) {
 
     override val viewModel: FeedDetailViewModel by viewModels()
-    private var isFeedLike = false
-    private var isLike = false
     private val feedCommentAdapter: FeedCommentAdapter by lazy {
         FeedCommentAdapter(
             onMyCommentPropertyClick = { view: ImageView ->
