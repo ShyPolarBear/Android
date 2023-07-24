@@ -66,6 +66,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         }
 
         viewModel.loadFeedDetail(requireArguments().getString(FEED_ID)!!.toInt())
+        viewModel.loadFeedCommentMock(requireArguments().getString(FEED_ID)!!.toInt())
         viewModel.loadFeedComment()
 
         viewModel.feed.observe(viewLifecycleOwner) {feed ->
