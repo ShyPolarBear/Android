@@ -4,9 +4,6 @@
 
     <data>
 
-        <variable
-            name="feed_post_img"
-            type="com.shypolarbear.domain.model.feed.FeedPostImg" />
     </data>
 
     <com.google.android.material.imageview.ShapeableImageView

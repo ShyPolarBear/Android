@@ -46,24 +46,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             }
         )
     }
-//    private val postPropertyItems: List<PowerMenuItem> by lazy {
-//        listOf(
-//            PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
-//            PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete)),
-//            PowerMenuItem(requireContext().getString(R.string.feed_post_property_report)),
-//            PowerMenuItem(requireContext().getString(R.string.feed_post_property_block))
-//        )
-//    }
 
     override fun initView() {
-
-//        binding.ivFeedDetailProperty.setOnClickListener {
-//            binding.ivFeedDetailProperty.setMenu(
-//                binding.ivFeedDetailProperty,
-//                postPropertyItems,
-//                viewLifecycleOwner
-//            )
-//        }
 
         binding.btnFeedDetailBack.setOnClickListener {
             findNavController().navigate(R.id.action_feedDetailFragment_to_feedTotalFragment)
