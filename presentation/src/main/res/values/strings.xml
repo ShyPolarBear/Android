@@ -39,7 +39,7 @@
     <string name="feed_comment_reply">대댓글</string>
     <string name="feed_post_property_recent_best">최근 인기</string>
     <string name="feed_post_property_best">best</string>
-    <string name="signup_page_indicator">1/4</string>
+    <string name="signup_page_indicator">%1$d/4</string>
     <string name="signup_btn_back">뒤로가기 버튼</string>
     <string name="signup_terms_title">가입을 위한\n약관 동의가 필요해요!</string>
     <string name="signup_next">다음</string>
