@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
@@ -23,6 +24,10 @@ class SignupFragment :
 
     override fun initView() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+
+        viewModel.getTermData().observe(viewLifecycleOwner, Observer { newData ->
+            // 데이터 받아오는 곳
+        })
 
         val pageList = listOf(
             SignupTermsFragment(),

@@ -15,6 +15,11 @@ class SignupTermsFragment: BaseFragment<FragmentSignupTermsBinding, SignupViewMo
     override val viewModel: SignupViewModel by viewModels({ requireParentFragment() })
 
     override fun initView() {
-
+        binding.apply {
+            
+        }
+    }
+    private fun sendDataToParent(data: String) {
+        viewModel.setTermData(data)
     }
 }
