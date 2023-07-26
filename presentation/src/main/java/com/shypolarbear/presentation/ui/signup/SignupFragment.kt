@@ -24,7 +24,9 @@ class SignupFragment :
 
     override fun initView() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
-        val isComplete = arrayListOf(false, true, true, true)
+        val isComplete = arrayListOf(false, false, true, true)
+        var name: String?
+        var logText = ""
 
         val pageList = listOf(
             SignupTermsFragment(),
@@ -43,9 +45,31 @@ class SignupFragment :
                 signupBtnNext.isActivated = resTerms
                 isComplete[0] = resTerms
             }
+
+            viewModel.getNameData().observe(viewLifecycleOwner) { resName ->
+                val goNextState: Boolean = resName.length in 2..8
+                name = resName
+                signupTvNext.isActivated = goNextState
+                signupBtnNext.isActivated = goNextState
+                isComplete[1] = goNextState
+            }
+
+            viewModel.getPhoneData().observe(viewLifecycleOwner) { resPhone ->
+                val goNextState: Boolean = resPhone.isNotEmpty()
+                signupTvNext.isActivated = goNextState
+                signupBtnNext.isActivated = goNextState
+                isComplete[2] = goNextState
+            }
+
+            viewModel.getMailData().observe(viewLifecycleOwner) { resMail ->
+                val goNextState: Boolean = resMail.isNotEmpty()
+                signupTvNext.isActivated = goNextState
+                signupBtnNext.isActivated = goNextState
+                isComplete[3] = goNextState
+            }
             signupIndicator.setOnClickListener {
                 // viewmodel 공유값 확인용
-//                Timber.tag("Signup").d(termsNext)
+                Timber.tag("Signup").d(logText)
             }
 
             signupIndicator.text = getString(R.string.signup_page_indicator, idx)
@@ -63,6 +87,8 @@ class SignupFragment :
                 }
                 when (currentItem) {
                     0 -> if (isComplete[0]) {
+                        signupTvNext.isActivated = isComplete[1]
+                        signupBtnNext.isActivated = isComplete[1]
                         goToNextPage(currentItem)
                     }
 
@@ -92,6 +118,28 @@ class SignupFragment :
                     signupIndicator.text = getString(R.string.signup_page_indicator, idx)
                     signupViewpager.setCurrentItem(currentItem - 1, true)
                     Timber.d("SIGN - $currentItem")
+                }
+
+                when (currentItem) {
+                    0 -> if (isComplete[currentItem]) {
+                        signupTvNext.isActivated = isComplete[currentItem]
+                        signupBtnNext.isActivated = isComplete[currentItem]
+                    }
+
+                    1 -> if (isComplete[0]) {
+                        signupTvNext.isActivated = isComplete[0]
+                        signupBtnNext.isActivated = isComplete[0]
+                    }
+
+                    2 -> if (isComplete[1]) {
+                        signupTvNext.isActivated = isComplete[1]
+                        signupBtnNext.isActivated = isComplete[1]
+                    }
+
+                    3 -> if (isComplete[2]) {
+                        signupTvNext.isActivated = isComplete[2]
+                        signupBtnNext.isActivated = isComplete[2]
+                    }
                 }
             }
         }

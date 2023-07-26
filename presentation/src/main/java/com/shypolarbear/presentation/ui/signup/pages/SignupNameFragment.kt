@@ -54,19 +54,28 @@ class SignupNameFragment :
                         s != null && s.length !in 2..8 -> {
                             tvSignupNameRule.text = getString(R.string.singup_error_text)
                             tvSignupNameRule.setTextColorById(requireContext(), R.color.Error_01)
+                            sendData(s.toString())
                         }
+
                         s.isNullOrEmpty() -> {
                             tvSignupNameRule.text = getString(R.string.signup_name_rule)
                             tvSignupNameRule.setTextColorById(requireContext(), R.color.Blue_02)
+                            sendData(s.toString())
                         }
+
                         else -> {
                             tvSignupNameRule.text = getString(R.string.signup_confirm_text)
                             tvSignupNameRule.setTextColorById(requireContext(), R.color.Success_01)
+                            sendData(s.toString())
                         }
                     }
                 }
             })
         }
+    }
+
+    private fun sendData(data: String) {
+        viewModel.setNameData(data)
     }
 
 }
