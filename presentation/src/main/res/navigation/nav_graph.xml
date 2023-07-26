@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/feedFragment">
+    app:startDestination="@id/signupFragment">
 
     <fragment
         android:id="@+id/feedFragment"
@@ -32,4 +32,8 @@
             android:id="@+id/action_feedDetailFragment_to_feedTotalFragment"
             app:destination="@id/feedTotalFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.shypolarbear.presentation.ui.signup.SignupFragment"
+        android:label="SignupFragment" />
 </navigation>
