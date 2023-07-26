@@ -1,11 +1,7 @@
 package com.shypolarbear.presentation.ui.signup
 
-import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.viewpager2.widget.ViewPager2
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentSignupBinding
@@ -25,9 +21,11 @@ class SignupFragment :
     override fun initView() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
 
-        viewModel.getTermData().observe(viewLifecycleOwner, Observer { newData ->
-            // 데이터 받아오는 곳
-        })
+        // test중 #4
+        var termsNext = "false"
+        viewModel.getTermData().observe(viewLifecycleOwner) { newData ->
+            termsNext = newData
+        }
 
         val pageList = listOf(
             SignupTermsFragment(),
@@ -36,7 +34,14 @@ class SignupFragment :
             SignupMailFragment()
         )
         pagerAdapter = SignupAdapter(requireActivity(), pageList)
+
         binding.apply {
+
+            signupIndicator.setOnClickListener {
+                // viewmodel 공유값 확인용
+                Timber.tag("Signup").d(termsNext)
+            }
+
             signupIndicator.text = getString(R.string.signup_page_indicator, idx)
             signupViewpager.apply {
                 adapter = pagerAdapter
@@ -44,9 +49,6 @@ class SignupFragment :
             }
 
             signupBtnNext.setOnClickListener {
-                //조건을 갖추면 활성화 되도록
-                binding.signupBtnNext.isActivated = true
-                binding.signupTvNext.isActivated = true
                 if (signupTvNext.text.equals("가입 완료")) {
                     // 메인페이지로 넘어가도록
                 } else {
