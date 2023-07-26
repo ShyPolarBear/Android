@@ -8,7 +8,7 @@ import com.shypolarbear.presentation.ui.signup.SignupViewModel
 
 class SignupTermsFragment: BaseFragment<FragmentSignupTermsBinding, SignupViewModel>(R.layout.fragment_signup_terms) {
 
-    override val viewModel: SignupViewModel by viewModels()
+    override val viewModel: SignupViewModel by viewModels({ requireParentFragment() })
 
     override fun initView() {
         binding.apply {

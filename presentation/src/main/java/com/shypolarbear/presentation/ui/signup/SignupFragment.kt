@@ -19,7 +19,7 @@ class SignupFragment :
     private var idx = 1
 
     override fun initView() {
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+        // activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
 
         // test중 #4
         var termsNext = "false"
@@ -33,7 +33,7 @@ class SignupFragment :
             SignupPhoneFragment(),
             SignupMailFragment()
         )
-        pagerAdapter = SignupAdapter(requireActivity(), pageList)
+        pagerAdapter = SignupAdapter(this, pageList)
 
         binding.apply {
 
