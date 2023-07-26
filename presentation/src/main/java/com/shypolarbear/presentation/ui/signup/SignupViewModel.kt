@@ -3,18 +3,19 @@ package com.shypolarbear.presentation.ui.signup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shypolarbear.presentation.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 
 class SignupViewModel:BaseViewModel(){
-    private val termData = MutableLiveData<String>()
+    private val termData = MutableLiveData<Boolean>()
     private val nameData = MutableLiveData<String>()
     private val phoneData = MutableLiveData<String>()
     private val mailData = MutableLiveData<String>()
 
-    fun getTermData(): LiveData<String> {
+    fun getTermData(): LiveData<Boolean> {
         return termData
     }
 
-    fun setTermData(newData: String) {
+    fun setTermData(newData: Boolean) {
         termData.value = newData
     }
     fun getNameData(): LiveData<String> {

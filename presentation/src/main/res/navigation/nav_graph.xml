@@ -35,5 +35,46 @@
     <fragment
         android:id="@+id/signupFragment"
         android:name="com.shypolarbear.presentation.ui.signup.SignupFragment"
-        android:label="SignupFragment" />
+        android:label="SignupFragment" >
+        <action
+            android:id="@+id/action_signupFragment_to_signupPhoneFragment"
+            app:destination="@id/signupPhoneFragment" />
+        <action
+            android:id="@+id/action_signupFragment_to_signupNameFragment"
+            app:destination="@id/signupNameFragment" />
+        <action
+            android:id="@+id/action_signupFragment_to_signupTermsFragment"
+            app:destination="@id/signupTermsFragment" />
+        <action
+            android:id="@+id/action_signupFragment_to_signupMailFragment"
+            app:destination="@id/signupMailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupPhoneFragment"
+        android:name="com.shypolarbear.presentation.ui.signup.pages.SignupPhoneFragment"
+        android:label="SignupPhoneFragment" >
+        <action
+            android:id="@+id/action_signupPhoneFragment_to_signupMailFragment"
+            app:destination="@id/signupMailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupMailFragment"
+        android:name="com.shypolarbear.presentation.ui.signup.pages.SignupMailFragment"
+        android:label="SignupMailFragment" />
+    <fragment
+        android:id="@+id/signupTermsFragment"
+        android:name="com.shypolarbear.presentation.ui.signup.pages.SignupTermsFragment"
+        android:label="SignupTermsFragment" >
+        <action
+            android:id="@+id/action_signupTermsFragment_to_signupNameFragment"
+            app:destination="@id/signupNameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupNameFragment"
+        android:name="com.shypolarbear.presentation.ui.signup.pages.SignupNameFragment"
+        android:label="SignupNameFragment" >
+        <action
+            android:id="@+id/action_signupNameFragment_to_signupPhoneFragment"
+            app:destination="@id/signupPhoneFragment" />
+    </fragment>
 </navigation>

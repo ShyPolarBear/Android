@@ -19,16 +19,41 @@ class SignupTermsFragment: BaseFragment<FragmentSignupTermsBinding, SignupViewMo
                     for(i in checkList) {
                         i.isChecked = true
                     }
-                    sendData("true")
+                    sendData(true)
                 }else{
                     for(i in checkList) {
                         i.isChecked = false
                     }
+                    sendData(false)
+                }
+            }
+
+            signupTermsCbTerms.setOnCheckedChangeListener { buttonView, isChecked ->
+                if(isChecked){
+                    sendData(true)
+                }else{
+                    sendData(false)
+                }
+            }
+
+            signupTermsCbPrivacy.setOnCheckedChangeListener { buttonView, isChecked ->
+                if(isChecked){
+                    sendData(true)
+                }else{
+                    sendData(false)
+                }
+            }
+
+            signupTermsCbAge.setOnCheckedChangeListener { buttonView, isChecked ->
+                if(isChecked){
+                    sendData(true)
+                }else{
+                    sendData(false)
                 }
             }
         }
     }
-    private fun sendData(data: String) {
+    private fun sendData(data: Boolean) {
         viewModel.setTermData(data)
     }
 }

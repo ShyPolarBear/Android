@@ -19,13 +19,7 @@ class SignupFragment :
     private var idx = 1
 
     override fun initView() {
-        // activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
-
-        // test중 #4
-        var termsNext = "false"
-        viewModel.getTermData().observe(viewLifecycleOwner) { newData ->
-            termsNext = newData
-        }
+         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
 
         val pageList = listOf(
             SignupTermsFragment(),
@@ -36,10 +30,13 @@ class SignupFragment :
         pagerAdapter = SignupAdapter(this, pageList)
 
         binding.apply {
-
+            viewModel.getTermData().observe(viewLifecycleOwner) { newData ->
+                signupTvNext.isActivated = newData
+                signupBtnNext.isActivated = newData
+            }
             signupIndicator.setOnClickListener {
                 // viewmodel 공유값 확인용
-                Timber.tag("Signup").d(termsNext)
+//                Timber.tag("Signup").d(termsNext)
             }
 
             signupIndicator.text = getString(R.string.signup_page_indicator, idx)
