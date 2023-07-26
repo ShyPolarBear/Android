@@ -3,6 +3,7 @@ package com.shypolarbear.presentation.ui.feed.feedDetail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.domain.model.feed.feedDetail.CommentData
 import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
@@ -22,8 +23,8 @@ class FeedDetailViewModel @Inject constructor(
     private val _feed = MutableLiveData<Feed>()
     val feed: LiveData<Feed> = _feed
 
-    private val _feedCommentMock = MutableLiveData<CommentData>()
-    val feedCommentMock: LiveData<CommentData> = _feedCommentMock
+    private val _feedCommentMock = MutableLiveData<List<Comment>>()
+    val feedCommentMock: LiveData<List<Comment>> = _feedCommentMock
 
     private val _feedComment = MutableLiveData<List<FeedComment>>()
     val feedComment: LiveData<List<FeedComment>> = _feedComment
@@ -49,7 +50,7 @@ class FeedDetailViewModel @Inject constructor(
 
             feedCommentMockData
                 .onSuccess {
-                    _feedCommentMock.value = it.data
+                    _feedCommentMock.value = it.data.comments
                     Timber.d(it.toString())
                 }
                 .onFailure {

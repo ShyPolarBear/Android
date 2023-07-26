@@ -28,8 +28,6 @@ class FeedPostViewHolder(
         var postLikeCnt: Int = post.likeCount
         var commentLikeCnt = post.comment.likeCount
 
-        Timber.d(post.comment.toString())
-
         if (post.commentCount == 0) {
             binding.layoutFeedComment.isVisible = false
         }

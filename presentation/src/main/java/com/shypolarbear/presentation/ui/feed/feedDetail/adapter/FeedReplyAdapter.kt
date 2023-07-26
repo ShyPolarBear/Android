@@ -8,33 +8,28 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.shypolarbear.domain.model.feed.Comment
-import com.shypolarbear.presentation.databinding.ItemFeedCommentDeleteBinding
-import com.shypolarbear.presentation.databinding.ItemFeedCommentNormalBinding
+import com.shypolarbear.domain.model.feed.feedDetail.ChildComment
+import com.shypolarbear.presentation.databinding.ItemFeedReplyDeleteBinding
+import com.shypolarbear.presentation.databinding.ItemFeedReplyNormalBinding
 import com.shypolarbear.presentation.ui.feed.feedDetail.FeedCommentViewType
-import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentDeleteViewHolder
-import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentNormalViewHolder
+import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedReplyDeleteViewHolder
+import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedReplyNormalViewHolder
 
-class FeedCommentAdapter(
-    private val onMyCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
-    private val onOtherCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
+class FeedReplyAdapter (
     private val onMyReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onBtnLikeClick: (view: Button, isLiked: Boolean, likeCnt: Int, textView: TextView) -> Int = { _, _, _, _ -> 0}
-): ListAdapter<Comment, RecyclerView.ViewHolder>(FeedCommentDiffCallback()) {
-
+): ListAdapter<ChildComment, RecyclerView.ViewHolder>(FeedReplyDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         when(viewType) {
             FeedCommentViewType.COMMENT_NORMAL.commentType -> {
-                return FeedCommentNormalViewHolder(
-                    ItemFeedCommentNormalBinding.inflate(
+                return FeedReplyNormalViewHolder(
+                    ItemFeedReplyNormalBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
                         false
                     ),
-                    onMyCommentPropertyClick = onMyCommentPropertyClick,
-                    onOtherCommentPropertyClick = onOtherCommentPropertyClick,
                     onMyReplyPropertyClick = onMyReplyPropertyClick,
                     onOtherReplyPropertyClick = onOtherReplyPropertyClick,
                     onBtnLikeClick = onBtnLikeClick
@@ -42,8 +37,8 @@ class FeedCommentAdapter(
             }
 
             FeedCommentViewType.COMMENT_DELETE.commentType -> {
-                return FeedCommentDeleteViewHolder(
-                    ItemFeedCommentDeleteBinding.inflate(
+                return FeedReplyDeleteViewHolder(
+                    ItemFeedReplyDeleteBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
                         false
@@ -62,30 +57,30 @@ class FeedCommentAdapter(
         when(getItem(position)) {
 
             null -> {
-                (holder as FeedCommentDeleteViewHolder).bind(getItem(position))
+                (holder as FeedReplyDeleteViewHolder).bind(getItem(position))
             }
             else -> {
-                (holder as FeedCommentNormalViewHolder).bind(getItem(position))
+                (holder as FeedReplyNormalViewHolder).bind(getItem(position))
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        val comment: Comment? = getItem(position)
-        return if (comment != null)
+        val reply: ChildComment? = getItem(position)
+        return if (reply != null)
             0
         else
             1
     }
 }
 
-class FeedCommentDiffCallback : DiffUtil.ItemCallback<Comment>() {
+class FeedReplyDiffCallback : DiffUtil.ItemCallback<ChildComment>() {
 
-    override fun areItemsTheSame(oldItem: Comment, newItem: Comment): Boolean {
+    override fun areItemsTheSame(oldItem: ChildComment, newItem: ChildComment): Boolean {
         return oldItem.commentId == newItem.commentId
     }
 
-    override fun areContentsTheSame(oldItem: Comment, newItem: Comment): Boolean {
+    override fun areContentsTheSame(oldItem: ChildComment, newItem: ChildComment): Boolean {
         return oldItem == newItem
     }
 }
