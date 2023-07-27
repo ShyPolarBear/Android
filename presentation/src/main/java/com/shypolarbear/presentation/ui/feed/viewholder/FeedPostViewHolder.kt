@@ -5,6 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
@@ -56,6 +57,19 @@ class FeedPostViewHolder(
     }
 
     private fun setFeedPost(post: Feed) {
+
+        if (post.authorProfileImage != "") {
+            Glide.with(itemView)
+                .load(post.authorProfileImage)
+                .into(binding.ivFeedPostUserProfile)
+        }
+
+        if (post.comment.authorProfileImage != "") {
+            Glide.with(itemView)
+                .load(post.comment.authorProfileImage)
+                .into(binding.ivFeedPostCommentUserProfile)
+        }
+
         binding.tvFeedPostLikeCnt.text = post.likeCount.toString()
         binding.tvFeedPostBestCommentLikeCnt.text = post.comment.likeCount.toString()
 

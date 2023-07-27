@@ -26,15 +26,17 @@
                 android:background="@color/Gray_05"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_feed_comment_normal_profile"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="18dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_user_base_profile"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/view_feed_detail_div" />
+                app:layout_constraintTop_toTopOf="@+id/view_feed_detail_div"
+                app:shapeAppearanceOverlay="@style/Radius18" />
 
             <TextView
                 android:id="@+id/tv_feed_comment_normal_nickname"

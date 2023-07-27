@@ -6,6 +6,14 @@
         <item name="cornerSize">10dp</item>
     </style>
 
+    <style name="Radius18" >
+        <item name="cornerSize">18.55dp</item>
+    </style>
+
+    <style name="Radius24" >
+        <item name="cornerSize">24.16dp</item>
+    </style>
+
     <!--    text style    -->
     <style name="H1" parent="TextAppearance.MaterialComponents.Headline3">
         <item name="fontFamily">@font/ptd_extra_bold</item>

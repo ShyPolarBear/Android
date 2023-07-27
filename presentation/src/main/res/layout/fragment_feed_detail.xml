@@ -32,12 +32,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_feed_detail_user_profile"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="16dp"
                     android:src="@drawable/ic_user_base_profile"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/Radius24"
                     app:layout_constraintStart_toStartOf="@id/btn_feed_detail_back"
                     app:layout_constraintTop_toBottomOf="@+id/btn_feed_detail_back" />
 

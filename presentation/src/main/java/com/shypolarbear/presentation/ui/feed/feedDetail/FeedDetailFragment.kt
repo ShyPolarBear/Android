@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.R
@@ -94,6 +95,15 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             )
             isPostLike = !isPostLike
         }
+
+        if (feedDetail.authorProfileImage != "") {
+            Glide.with(this)
+                .load(feedDetail.authorProfileImage)
+                .into(binding.ivFeedDetailUserProfile)
+        }
+
+        if (feedDetail.commentCount == 0)
+            binding.rvFeedDetailReply.isVisible = false
 
         with(binding.viewpagerFeedDetailImg) {
             adapter = ImageViewPagerAdapter().apply {

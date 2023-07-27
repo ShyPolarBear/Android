@@ -4,6 +4,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.domain.model.feed.feedDetail.ChildComment
 import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
@@ -55,6 +56,12 @@ class FeedReplyNormalViewHolder (
         binding.tvFeedReplyNormalNickname.text = reply.author
         binding.tvFeedReplyNormalContent.text = reply.content
         binding.tvFeedReplyNormalTime.text = reply.createdDate
+
+        if (reply.authorProfileImage != "") {
+            Glide.with(itemView)
+                .load(reply.authorProfileImage)
+                .into(binding.ivFeedReplyNormalProfile)
+        }
     }
 
     private fun setLikeBtn(reply: ChildComment) {
