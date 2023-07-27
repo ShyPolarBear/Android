@@ -23,10 +23,6 @@ class FeedPostViewHolder(
     ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(post: Feed) {
-        var isPostLike = post.isLike
-        var isCommentLike = post.comment.isLike
-        var postLikeCnt: Int = post.likeCount
-        var commentLikeCnt = post.comment.likeCount
 
         if (post.commentCount == 0) {
             binding.layoutFeedComment.isVisible = false
@@ -52,6 +48,48 @@ class FeedPostViewHolder(
             }
         }
 
+        setFeedPost(post)
+        setFeedPostImg(post)
+        setLikeBtn(post)
+
+        binding.executePendingBindings()
+    }
+
+    private fun setFeedPost(post: Feed) {
+        binding.tvFeedPostLikeCnt.text = post.likeCount.toString()
+        binding.tvFeedPostBestCommentLikeCnt.text = post.comment.likeCount.toString()
+
+        binding.tvFeedPostUserNickname.text = post.author
+        binding.tvFeedPostPostingTime.text = post.createdDate
+        binding.tvFeedPostTitle.text = post.title
+        binding.tvFeedPostContent.text = post.content
+        binding.tvFeedPostCommentCnt.text = post.commentCount.toString()
+
+        binding.tvFeedPostCommentUserNickname.text = post.comment.author
+        binding.tvFeedPostBestCommentContent.text = post.comment.content
+    }
+
+    private fun setFeedPostImg(post: Feed) {
+        with(binding.viewpagerFeedPostImg) {
+            adapter = ImageViewPagerAdapter().apply {
+                submitList(
+                    post.feedImage
+                )
+            }
+
+            TabLayoutMediator(binding.tablayoutFeedPostIndicator, this
+            ) { tab, position ->
+
+            }.attach()
+        }
+    }
+
+    private fun setLikeBtn(post: Feed) {
+        var isPostLike = post.isLike
+        var isCommentLike = post.comment.isLike
+        var postLikeCnt: Int = post.likeCount
+        var commentLikeCnt = post.comment.likeCount
+
         binding.btnFeedPostLike.showLike(post.isLike, binding.btnFeedPostLike)
         binding.btnFeedPostBestCommentLike.showLike(post.comment.isLike, binding.btnFeedPostBestCommentLike)
 
@@ -74,33 +112,5 @@ class FeedPostViewHolder(
             )
             isCommentLike = !isCommentLike
         }
-
-        binding.tvFeedPostLikeCnt.text = post.likeCount.toString()
-        binding.tvFeedPostBestCommentLikeCnt.text = post.comment.likeCount.toString()
-
-        binding.tvFeedPostUserNickname.text = post.author
-        binding.tvFeedPostPostingTime.text = post.createdDate
-        binding.tvFeedPostTitle.text = post.title
-        binding.tvFeedPostContent.text = post.content
-        binding.tvFeedPostCommentCnt.text = post.commentCount.toString()
-
-        binding.tvFeedPostCommentUserNickname.text = post.comment.author
-        binding.tvFeedPostBestCommentContent.text = post.comment.content
-
-        with(binding.viewpagerFeedPostImg) {
-            adapter = ImageViewPagerAdapter().apply {
-                submitList(
-                    // 테스트 데이터
-                    post.feedImage
-                )
-            }
-
-            TabLayoutMediator(binding.tablayoutFeedPostIndicator, this
-            ) { tab, position ->
-
-            }.attach()
-        }
-
-        binding.executePendingBindings()
     }
 }
