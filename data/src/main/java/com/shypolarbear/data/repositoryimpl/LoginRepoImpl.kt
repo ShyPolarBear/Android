@@ -14,7 +14,7 @@ class LoginRepoImpl @Inject constructor(
         return try {
             val response = api.postLogin(loginRequest)
             when {
-                response.isSuccessful -> Result.success(api.postLogin(loginRequest).body()!!)
+                response.isSuccessful -> Result.success(response.body()!!)
                 else -> {
                     Result.failure(HttpError(response.code(), response.errorBody()?.string() ?: ""))
                 }

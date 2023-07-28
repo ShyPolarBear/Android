@@ -1,4 +1,4 @@
-package com.shypolarbear.presentation.ui.feed.adapter
+package com.shypolarbear.presentation.ui.feed.feedTotal.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.domain.model.feed.FeedTotal
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
-import com.shypolarbear.presentation.ui.feed.viewholder.FeedPostViewHolder
+import com.shypolarbear.presentation.ui.feed.feedTotal.viewholder.FeedPostViewHolder
 
 class FeedPostAdapter(
     private val onMyPostPropertyClick: (view: ImageView) -> Unit = { _ -> },

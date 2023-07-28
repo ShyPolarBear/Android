@@ -1,4 +1,4 @@
-package com.shypolarbear.presentation.ui.feed.viewholder
+package com.shypolarbear.presentation.ui.feed.feedTotal.viewholder
 
 import android.widget.Button
 import android.widget.ImageView

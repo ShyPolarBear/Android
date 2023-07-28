@@ -17,7 +17,7 @@ class FeedRepoImpl @Inject constructor(
             val response = api.getFeedTotal()
             when {
                 response.isSuccessful -> {
-                    Result.success(api.getFeedTotal().body()!!)
+                    Result.success(response.body()!!)
                 }
                 else -> {
                     Result.failure(HttpError(response.code(), response.errorBody()?.string() ?: ""))
@@ -33,7 +33,7 @@ class FeedRepoImpl @Inject constructor(
             val response = api.getFeedDetail(feedId)
             when {
                 response.isSuccessful -> {
-                    Result.success(api.getFeedDetail(feedId).body()!!)
+                    Result.success(response.body()!!)
                 }
                 else -> {
                     Result.failure(HttpError(response.code(), response.errorBody()?.string() ?: ""))
@@ -49,7 +49,7 @@ class FeedRepoImpl @Inject constructor(
             val response = api.getFeedComment(feedId)
             when {
                 response.isSuccessful -> {
-                    Result.success(api.getFeedComment(feedId).body()!!)
+                    Result.success(response.body()!!)
                 }
                 else -> {
                     Result.failure(HttpError(response.code(), response.errorBody()?.string() ?: ""))
