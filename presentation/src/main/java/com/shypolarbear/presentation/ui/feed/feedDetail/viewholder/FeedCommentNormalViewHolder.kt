@@ -20,7 +20,7 @@ class FeedCommentNormalViewHolder (
     private val onOtherCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onMyReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
-    private val onBtnLikeClick: (view: Button, isLiked: Boolean, likeCnt: Int, textView: TextView) -> Int = { _, _, _, _ -> 0},
+    private val onBtnLikeClick: (view: Button, isLiked: Boolean, likeCnt: Int, textView: TextView) -> Int = { _, _, _, _ -> 0}
     ) : RecyclerView.ViewHolder(binding.root) {
 
     private val feedReplyAdapter: FeedReplyAdapter by lazy {
@@ -72,7 +72,6 @@ class FeedCommentNormalViewHolder (
         binding.tvFeedCommentNormalContent.text = comment.content
         binding.tvFeedCommentNormalTime.text = comment.createdDate
 
-        Timber.d(comment.toString())
         if (comment.authorProfileImage != "") {
 
             Glide.with(itemView)
