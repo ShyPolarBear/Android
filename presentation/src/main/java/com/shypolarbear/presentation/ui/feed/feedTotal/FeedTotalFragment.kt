@@ -30,7 +30,6 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
     }
 
     override val viewModel: FeedTotalViewModel by viewModels()
-    private var isLike = false
     private val feedPostAdapter = FeedPostAdapter(
         onMyPostPropertyClick = { view: ImageView ->
             showMyPostPropertyMenu(view)
