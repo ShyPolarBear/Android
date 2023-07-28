@@ -20,9 +20,5 @@ class SampleActivity : BaseActivity<ActivitySampleBinding, SampleViewModel>(
             Timber.d("Timber Test(Activity)")
         }
     }
-
-    override fun preLoad() {
-        installSplashScreen()
-    }
 }
 

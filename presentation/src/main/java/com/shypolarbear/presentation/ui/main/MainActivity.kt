@@ -19,9 +19,4 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
              bottomNavigationBar.visibility = View.INVISIBLE
         }
     }
-
-    override fun preLoad() {
-        installSplashScreen()
-    }
-
 }
