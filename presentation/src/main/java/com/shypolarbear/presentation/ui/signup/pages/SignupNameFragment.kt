@@ -3,13 +3,18 @@ package com.shypolarbear.presentation.ui.signup.pages
 import android.annotation.SuppressLint
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.KeyEvent
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentSignupNameBinding
 import com.shypolarbear.presentation.ui.signup.SignupViewModel
 import com.shypolarbear.presentation.util.hideKeyboard
 import com.shypolarbear.presentation.util.setTextColorById
+import timber.log.Timber
 
 class SignupNameFragment :
     BaseFragment<FragmentSignupNameBinding, SignupViewModel>(R.layout.fragment_signup_name) {
@@ -19,14 +24,22 @@ class SignupNameFragment :
     override fun initView() {
 
         binding.apply {
-            layoutSignupName.setOnTouchListener { v, _ ->
-                hideKeyboard()
-                tvSignupNameRule.setTextColorById(requireContext(), R.color.Gray_05)
-                v.clearFocus()
-                false
-            }
-            ivSignupNameEdit.setOnClickListener {
-                etSignupNickname.clearFocus()
+
+            val pickMedia =
+                registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+                    if (uri != null) {
+                        Glide.with(requireContext())
+                            .load(uri)
+                            .centerCrop()
+                            .circleCrop()
+                            .into(ivSignupNameProfile)
+                    } else {
+                        Timber.d("이미지 선택 안됨")
+                    }
+                }
+
+            ivSignupImgEdit.setOnClickListener {
+                pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             }
 
             etSignupNickname.setOnFocusChangeListener { v, hasFocus ->
@@ -35,6 +48,15 @@ class SignupNameFragment :
                 }
             }
 
+            etSignupNickname.setOnEditorActionListener{ v, _, event ->
+                if (event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER) {
+                    // 키보드 숨기기
+                    hideKeyboard()
+                    v.clearFocus()
+                    return@setOnEditorActionListener true
+                }
+                return@setOnEditorActionListener false
+            }
             etSignupNickname.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
@@ -75,7 +97,7 @@ class SignupNameFragment :
     }
 
     private fun sendData(data: String) {
+        // 프로필 이미지를 uri나 bitmap/ mime Type으로 보내는 것은 추후 설정
         viewModel.setNameData(data)
     }
-
 }

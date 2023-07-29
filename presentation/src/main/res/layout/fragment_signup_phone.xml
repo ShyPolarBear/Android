@@ -28,6 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:padding="12dp"
+            android:maxLength="13"
             style="@style/b1"
             android:id="@+id/et_signup_phone"
             android:textColorHint="@color/Gray_05"

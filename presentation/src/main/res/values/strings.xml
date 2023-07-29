@@ -54,7 +54,7 @@
     <string name="singup_error_text">닉네임은 최소 2글자 이상, 최대 8글자 이하로 작성해주세요.</string>
     <string name="signup_check_text">사용가능한 닉네임인지 확인하고 있어요.</string>
     <string name="signup_confirm_text">사용가능한 닉네임입니다!</string>
-    <string name="signup_phone_hint">000–0000-0000</string>
+    <string name="signup_phone_hint">010–0000-0000</string>
     <string name="signup_phone_hint_detail">-은 자동으로 넣어드려요.</string>
     <string name="signup_phone_hint_error">올바른 번호를 입력해주세요.</string>
     <string name="signup_phone_hint_confirm">사용가능한 휴대폰 번호입니다.</string>

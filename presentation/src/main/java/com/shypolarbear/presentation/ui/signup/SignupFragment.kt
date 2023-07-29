@@ -21,12 +21,12 @@ class SignupFragment :
     private lateinit var viewpager: ViewPager2
     private lateinit var indicator: TextView
     private var idx = 1
-
     override fun initView() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
-        val isComplete = arrayListOf(false, false, true, true)
-        var name: String?
-        var logText = ""
+        val isComplete = arrayListOf(true, true, true, false)
+        var name: String = ""
+        var phoneNumber: String = ""
+        var mail: String = ""
 
         val pageList = listOf(
             SignupTermsFragment(),
@@ -55,7 +55,8 @@ class SignupFragment :
             }
 
             viewModel.getPhoneData().observe(viewLifecycleOwner) { resPhone ->
-                val goNextState: Boolean = resPhone.isNotEmpty()
+                val goNextState: Boolean = resPhone.length == 11
+                phoneNumber = resPhone
                 signupTvNext.isActivated = goNextState
                 signupBtnNext.isActivated = goNextState
                 isComplete[2] = goNextState
@@ -63,13 +64,14 @@ class SignupFragment :
 
             viewModel.getMailData().observe(viewLifecycleOwner) { resMail ->
                 val goNextState: Boolean = resMail.isNotEmpty()
+                mail = resMail
                 signupTvNext.isActivated = goNextState
                 signupBtnNext.isActivated = goNextState
                 isComplete[3] = goNextState
             }
             signupIndicator.setOnClickListener {
                 // viewmodel 공유값 확인용
-                Timber.tag("Signup").d(logText)
+                Timber.tag("Signup").d("$name $phoneNumber $mail")
             }
 
             signupIndicator.text = getString(R.string.signup_page_indicator, idx)
@@ -80,7 +82,7 @@ class SignupFragment :
 
             signupBtnNext.setOnClickListener {
                 val currentItem = viewpager.currentItem
-                signupTvNext.text = if (currentItem + 1 != 3) {
+                signupTvNext.text = if (currentItem + 1 < 3) {
                     "다음"
                 } else {
                     "가입 완료"
@@ -93,10 +95,14 @@ class SignupFragment :
                     }
 
                     1 -> if (isComplete[1]) {
+                        signupTvNext.isActivated = isComplete[2]
+                        signupBtnNext.isActivated = isComplete[2]
                         goToNextPage(currentItem)
                     }
 
                     2 -> if (isComplete[2]) {
+                        signupTvNext.isActivated = isComplete[3]
+                        signupBtnNext.isActivated = isComplete[3]
                         goToNextPage(currentItem)
 
                     }
