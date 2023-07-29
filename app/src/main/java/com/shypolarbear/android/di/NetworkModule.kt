@@ -1,5 +1,12 @@
 package com.shypolarbear.android.di
 
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParser
+import com.google.gson.JsonSyntaxException
+import com.shypolarbear.android.util.MOCK_URL
+import com.shypolarbear.android.util.RETROFIT_TAG
+import com.shypolarbear.android.util.isJsonArray
+import com.shypolarbear.android.util.isJsonObject
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,22 +21,41 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-
-    const val BASE_URL = "http://3.37.80.247:8080/"
-    const val SAMPLE_URL = "https://api.chucknorris.io/"
-    const val MOCK_URL = "https://ed3bf92e-bc49-483f-85b9-c042456779e9.mock.pstmn.io"
+    @Singleton
+    @Provides
+    fun provideHttpClient(
+        logger: HttpLoggingInterceptor
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(logger)
+            .build()
+    }
 
     @Singleton
     @Provides
-    fun provideRetrofit(): Retrofit {
-
-        val logger = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BASIC
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
+        val loggingInterceptor = HttpLoggingInterceptor {
+            when {
+                !it.isJsonArray() && !it.isJsonObject() ->
+                    Timber.tag(RETROFIT_TAG).d("CONNECTION INFO: $it")
+                else ->  try {
+                    Timber.tag(RETROFIT_TAG).d(
+                        GsonBuilder().setPrettyPrinting().create().toJson(
+                        JsonParser().parse(it)))
+                } catch (m: JsonSyntaxException) {
+                    Timber.tag(RETROFIT_TAG).d(it)
+                }
+            }
         }
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        return loggingInterceptor
+    }
 
-        val client = OkHttpClient.Builder()
-            .addInterceptor(logger)
-            .build()
+    @Singleton
+    @Provides
+    fun provideRetrofit(
+        client: OkHttpClient
+    ): Retrofit {
 
         return Retrofit.Builder()
             .baseUrl(MOCK_URL)
