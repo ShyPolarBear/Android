@@ -95,7 +95,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             isPostLike = !isPostLike
         }
 
-        if (feedDetail.authorProfileImage != "") {
+        if (!feedDetail.authorProfileImage.isNullOrBlank()) {
             Glide.with(this)
                 .load(feedDetail.authorProfileImage)
                 .into(binding.ivFeedDetailUserProfile)

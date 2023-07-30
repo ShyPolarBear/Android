@@ -72,7 +72,7 @@ class FeedReplyNormalViewHolder (
         binding.btnFeedReplyNormalLike.showLike(reply.isLike, binding.btnFeedReplyNormalLike)
         binding.tvFeedReplyNormalLikeCnt.text = reply.likeCount.toString()
 
-        if (reply.authorProfileImage != "") {
+        if (!reply.authorProfileImage.isNullOrBlank()) {
             Glide.with(itemView)
                 .load(reply.authorProfileImage)
                 .into(binding.ivFeedReplyNormalProfile)

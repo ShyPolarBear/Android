@@ -97,7 +97,6 @@ class FeedPostViewHolder(
     }
 
     fun bind(post: Feed) {
-
         po = post
 
         if (post.commentCount == 0) {
@@ -112,13 +111,13 @@ class FeedPostViewHolder(
 
     private fun setFeedPost(post: Feed) {
 
-        if (post.authorProfileImage != "") {
+        if (!post.authorProfileImage.isNullOrBlank()) {
             Glide.with(itemView)
                 .load(post.authorProfileImage)
                 .into(binding.ivFeedPostUserProfile)
         }
 
-        if (post.comment.authorProfileImage != "") {
+        if (!post.comment.authorProfileImage.isNullOrBlank()) {
             Glide.with(itemView)
                 .load(post.comment.authorProfileImage)
                 .into(binding.ivFeedPostCommentUserProfile)
