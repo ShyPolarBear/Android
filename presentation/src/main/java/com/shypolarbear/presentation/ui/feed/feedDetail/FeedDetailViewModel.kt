@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.domain.model.feed.Feed
-import com.shypolarbear.domain.model.feed.feedDetail.CommentData
 import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
-import com.shypolarbear.domain.model.feed.feedDetail.FeedCommentMock
-import com.shypolarbear.domain.usecase.feed.FeedUseCase
+import com.shypolarbear.domain.usecase.feed.FeedCommentUseCase
+import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
+import com.shypolarbear.domain.usecase.feed.FeedTotalUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -17,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FeedDetailViewModel @Inject constructor(
-    private val feedUseCase: FeedUseCase
+    private val feedDetailUseCase: FeedDetailUseCase,
+    private val feedCommentUseCase: FeedCommentUseCase
 ): BaseViewModel() {
 
     private val _feed = MutableLiveData<Feed>()
@@ -26,12 +27,9 @@ class FeedDetailViewModel @Inject constructor(
     private val _feedCommentMock = MutableLiveData<List<Comment>>()
     val feedCommentMock: LiveData<List<Comment>> = _feedCommentMock
 
-    private val _feedComment = MutableLiveData<List<FeedComment>>()
-    val feedComment: LiveData<List<FeedComment>> = _feedComment
-
     fun loadFeedDetail(feedId: Int) {
         viewModelScope.launch {
-            val feedDetailTestData = feedUseCase.loadFeedDetailData(feedId)
+            val feedDetailTestData = feedDetailUseCase.loadFeedDetailData(feedId)
 
             feedDetailTestData
                 .onSuccess {
@@ -46,7 +44,7 @@ class FeedDetailViewModel @Inject constructor(
 
     fun loadFeedCommentMock(feedId: Int) {
         viewModelScope.launch {
-            val feedCommentMockData = feedUseCase.loadFeedCommentData(feedId)
+            val feedCommentMockData = feedCommentUseCase.loadFeedCommentData(feedId)
 
             feedCommentMockData
                 .onSuccess {
@@ -57,19 +55,5 @@ class FeedDetailViewModel @Inject constructor(
 
                 }
         }
-    }
-
-    fun loadFeedComment() {
-        _feedComment.value = mutableListOf(
-            // 테스트 데이터
-            FeedComment("1", 0, "my"),
-            FeedComment("1", 0, "other"),
-            FeedComment("1", 2, "my"),
-            FeedComment("1", 3, "other"),
-            FeedComment("1", 1, "my"),
-            FeedComment("1", 0, "other"),
-            FeedComment("1", 2, "other"),
-            FeedComment("1", 2, "my"),
-        )
     }
 }
