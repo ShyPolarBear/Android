@@ -27,7 +27,7 @@ class FeedCommentNormalViewHolder (
         )
     }
 
-    private var co: Comment = Comment()
+    private var comment: Comment = Comment()
 
     init {
         var btnClicked = false
@@ -41,8 +41,8 @@ class FeedCommentNormalViewHolder (
                     commentLikeCnt = commentLikeCnt
                 }
                 false -> {
-                    isCommentLike = co.isLike
-                    commentLikeCnt = co.likeCount
+                    isCommentLike = comment.isLike
+                    commentLikeCnt = comment.likeCount
                 }
             }
 
@@ -57,7 +57,7 @@ class FeedCommentNormalViewHolder (
         }
 
         binding.ivFeedCommentNormalProperty.setOnClickListener {
-            when(co.isAuthor) {
+            when(comment.isAuthor) {
                 true ->
                     onMyCommentPropertyClick(binding.ivFeedCommentNormalProperty)
                 false ->
@@ -66,10 +66,10 @@ class FeedCommentNormalViewHolder (
         }
     }
 
-    fun bind(comment: Comment) {
+    fun bind(item: Comment) {
         // Todo(일반 댓글)
-        co = comment
-        setComment(comment)
+        comment = item
+        setComment(item)
 
         binding.executePendingBindings()
     }

@@ -16,7 +16,7 @@ class FeedReplyNormalViewHolder (
     private val onBtnLikeClick: (view: Button, isLiked: Boolean, likeCnt: Int, textView: TextView) -> Int = { _, _, _, _ -> 0}
     ) : RecyclerView.ViewHolder(binding.root) {
 
-    private var ch: ChildComment = ChildComment()
+    private var childComment: ChildComment = ChildComment()
 
     init {
         var btnClicked = false
@@ -30,8 +30,8 @@ class FeedReplyNormalViewHolder (
                     replyLikeCnt = replyLikeCnt
                 }
                 false -> {
-                    isReplyLike = ch.isLike
-                    replyLikeCnt = ch.likeCount
+                    isReplyLike = childComment.isLike
+                    replyLikeCnt = childComment.likeCount
                 }
             }
 
@@ -45,7 +45,7 @@ class FeedReplyNormalViewHolder (
             btnClicked = true
         }
         binding.ivFeedReplyNormalProperty.setOnClickListener {
-            when(ch.isAuthor) {
+            when(childComment.isAuthor) {
                 true ->
                     onMyReplyPropertyClick(binding.ivFeedReplyNormalProperty)
                 false ->
@@ -55,11 +55,11 @@ class FeedReplyNormalViewHolder (
 
     }
 
-    fun bind(reply: ChildComment) {
+    fun bind(item: ChildComment) {
         // Todo(일반 대댓글)
 
-        ch = reply
-        setReply(reply)
+        childComment = item
+        setReply(item)
 
         binding.executePendingBindings()
     }

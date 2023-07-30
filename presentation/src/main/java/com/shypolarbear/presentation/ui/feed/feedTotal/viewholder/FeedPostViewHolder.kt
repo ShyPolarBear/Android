@@ -22,23 +22,23 @@ class FeedPostViewHolder(
     private val onMoveToDetailClick: (feedId: Int) -> Unit = { }
     ) : RecyclerView.ViewHolder(binding.root) {
 
-    private var po: Feed = Feed()
+    private var post: Feed = Feed()
 
     init {
         var postBtnClicked = false
         var commentBtnClicked = false
         var isPostLike = false
         var isCommentLike = false
-        var postLikeCnt: Int = 0
+        var postLikeCnt = 0
         var commentLikeCnt = 0
 
         binding.layoutMoveToDetailArea.setOnClickListener {
-            onMoveToDetailClick(po.feedId)
+            onMoveToDetailClick(post.feedId)
         }
 
         // 게시물 작성자 확인
         binding.ivFeedPostProperty.setOnClickListener {
-            when(po.isAuthor) {
+            when(post.isAuthor) {
                 true -> onMyPostPropertyClick(binding.ivFeedPostProperty)
                 false -> onOtherPostPropertyClick(binding.ivFeedPostProperty)
             }
@@ -46,7 +46,7 @@ class FeedPostViewHolder(
 
         // 베스트 댓글 작성자 확인
         binding.ivFeedPostCommentProperty.setOnClickListener {
-            when(po.comment.isAuthor) {
+            when(post.comment.isAuthor) {
                 true -> onMyBestCommentPropertyClick(binding.ivFeedPostCommentProperty)
                 false -> onOtherBestCommentPropertyClick(binding.ivFeedPostCommentProperty)
             }
@@ -59,8 +59,8 @@ class FeedPostViewHolder(
                     postLikeCnt = postLikeCnt
                 }
                 false -> {
-                    isPostLike = po.isLike
-                    postLikeCnt= po.likeCount
+                    isPostLike = post.isLike
+                    postLikeCnt= post.likeCount
                 }
             }
             postLikeCnt = onBtnLikeClick(
@@ -80,8 +80,8 @@ class FeedPostViewHolder(
                     commentLikeCnt = commentLikeCnt
                 }
                 false -> {
-                    isCommentLike = po.comment.isLike
-                    commentLikeCnt= po.comment.likeCount
+                    isCommentLike = post.comment.isLike
+                    commentLikeCnt= post.comment.likeCount
                 }
             }
             commentLikeCnt = onBtnLikeClick(
@@ -95,15 +95,15 @@ class FeedPostViewHolder(
         }
     }
 
-    fun bind(post: Feed) {
-        po = post
+    fun bind(item: Feed) {
+        post = item
 
-        if (post.commentCount == 0) {
+        if (item.commentCount == 0) {
             binding.layoutFeedComment.isVisible = false
         }
 
-        setFeedPost(post)
-        setFeedPostImg(post)
+        setFeedPost(item)
+        setFeedPostImg(item)
 
         binding.executePendingBindings()
     }
