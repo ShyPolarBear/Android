@@ -2,7 +2,6 @@ package com.shypolarbear.presentation.ui.feed.feedDetail.viewholder
 
 import androidx.recyclerview.widget.RecyclerView
 import com.shypolarbear.domain.model.feed.feedDetail.ChildComment
-import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
 import com.shypolarbear.presentation.databinding.ItemFeedReplyDeleteBinding
 
 class FeedReplyDeleteViewHolder (private val binding: ItemFeedReplyDeleteBinding) : RecyclerView.ViewHolder(binding.root) {

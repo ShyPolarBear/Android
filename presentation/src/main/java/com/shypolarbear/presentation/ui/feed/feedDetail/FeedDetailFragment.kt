@@ -151,7 +151,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
 
     private fun setFeedComment() {
         binding.rvFeedDetailReply.adapter = feedCommentAdapter
-        viewModel.feedCommentMock.observe(viewLifecycleOwner) {
+        viewModel.feedComment.observe(viewLifecycleOwner) {
             feedCommentAdapter.submitList(it)
         }
     }
