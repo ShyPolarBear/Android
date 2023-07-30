@@ -21,7 +21,7 @@
             android:src="@drawable/ic_user_base_profile"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/Radius24" />
+            app:shapeAppearanceOverlay="@style/radius_24" />
 
         <TextView
             android:id="@+id/tv_feed_post_user_nickname"
