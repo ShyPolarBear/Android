@@ -5,9 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.domain.model.feed.feedDetail.ChildComment
-import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
 import com.shypolarbear.presentation.databinding.ItemFeedReplyNormalBinding
 import com.shypolarbear.presentation.util.showLike
 
@@ -18,36 +16,50 @@ class FeedReplyNormalViewHolder (
     private val onBtnLikeClick: (view: Button, isLiked: Boolean, likeCnt: Int, textView: TextView) -> Int = { _, _, _, _ -> 0}
     ) : RecyclerView.ViewHolder(binding.root) {
 
+    private var ch: ChildComment = ChildComment()
+
     init {
+        var btnClicked = false
+        var isReplyLike = false
+        var replyLikeCnt = 0
+
         binding.btnFeedReplyNormalLike.setOnClickListener {
-            onBtnLikeClick(
+            when(btnClicked) {
+                true -> {
+                    isReplyLike = isReplyLike
+                    replyLikeCnt = replyLikeCnt
+                }
+                false -> {
+                    isReplyLike = ch.isLike
+                    replyLikeCnt = ch.likeCount
+                }
+            }
+
+            replyLikeCnt = onBtnLikeClick(
                 binding.btnFeedReplyNormalLike,
-                // 테스트 데이터
-                true,
-                10,
-                binding.tvFeedReplyNormalLikeCnt)
+                isReplyLike,
+                replyLikeCnt,
+                binding.tvFeedReplyNormalLikeCnt
+            )
+            isReplyLike = !isReplyLike
+            btnClicked = true
         }
+        binding.ivFeedReplyNormalProperty.setOnClickListener {
+            when(ch.isAuthor) {
+                true ->
+                    onMyReplyPropertyClick(binding.ivFeedReplyNormalProperty)
+                false ->
+                    onOtherReplyPropertyClick(binding.ivFeedReplyNormalProperty)
+            }
+        }
+
     }
 
     fun bind(reply: ChildComment) {
         // Todo(일반 대댓글)
 
-        when(reply.isAuthor) {
-            true -> {
-                binding.ivFeedReplyNormalProperty.setOnClickListener {
-                    onMyReplyPropertyClick(binding.ivFeedReplyNormalProperty)
-                }
-            }
-
-            false -> {
-                binding.ivFeedReplyNormalProperty.setOnClickListener {
-                    onOtherReplyPropertyClick(binding.ivFeedReplyNormalProperty)
-                }
-            }
-        }
-
+        ch = reply
         setReply(reply)
-        setLikeBtn(reply)
 
         binding.executePendingBindings()
     }
@@ -57,28 +69,13 @@ class FeedReplyNormalViewHolder (
         binding.tvFeedReplyNormalContent.text = reply.content
         binding.tvFeedReplyNormalTime.text = reply.createdDate
 
+        binding.btnFeedReplyNormalLike.showLike(reply.isLike, binding.btnFeedReplyNormalLike)
+        binding.tvFeedReplyNormalLikeCnt.text = reply.likeCount.toString()
+
         if (reply.authorProfileImage != "") {
             Glide.with(itemView)
                 .load(reply.authorProfileImage)
                 .into(binding.ivFeedReplyNormalProfile)
-        }
-    }
-
-    private fun setLikeBtn(reply: ChildComment) {
-        var isReplyLike = reply.isLike
-        var replyLikeCnt: Int = reply.likeCount
-
-        binding.btnFeedReplyNormalLike.showLike(reply.isLike, binding.btnFeedReplyNormalLike)
-        binding.tvFeedReplyNormalLikeCnt.text = reply.likeCount.toString()
-
-        binding.btnFeedReplyNormalLike.setOnClickListener {
-            replyLikeCnt = onBtnLikeClick(
-                binding.btnFeedReplyNormalLike,
-                isReplyLike,
-                replyLikeCnt,
-                binding.tvFeedReplyNormalLikeCnt
-            )
-            isReplyLike = !isReplyLike
         }
     }
 }

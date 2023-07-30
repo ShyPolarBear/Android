@@ -23,19 +23,23 @@ class FeedPostViewHolder(
     private val onMoveToDetailClick: (feedId: Int) -> Unit = { }
     ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(post: Feed) {
+    private var po: Feed = Feed()
 
-        if (post.commentCount == 0) {
-            binding.layoutFeedComment.isVisible = false
-        }
+    init {
+        var postBtnClicked = false
+        var commentBtnClicked = false
+        var isPostLike = false
+        var isCommentLike = false
+        var postLikeCnt: Int = 0
+        var commentLikeCnt = 0
 
         binding.layoutMoveToDetailArea.setOnClickListener {
-            onMoveToDetailClick(post.feedId)
+            onMoveToDetailClick(po.feedId)
         }
 
         // 게시물 작성자 확인
         binding.ivFeedPostProperty.setOnClickListener {
-            when(post.isAuthor) {
+            when(po.isAuthor) {
                 true -> onMyPostPropertyClick(binding.ivFeedPostProperty)
                 false -> onOtherPostPropertyClick(binding.ivFeedPostProperty)
             }
@@ -43,15 +47,65 @@ class FeedPostViewHolder(
 
         // 베스트 댓글 작성자 확인
         binding.ivFeedPostCommentProperty.setOnClickListener {
-            when(post.comment.isAuthor) {
+            when(po.comment.isAuthor) {
                 true -> onMyBestCommentPropertyClick(binding.ivFeedPostCommentProperty)
                 false -> onOtherBestCommentPropertyClick(binding.ivFeedPostCommentProperty)
             }
         }
 
+        binding.btnFeedPostLike.setOnClickListener {
+            when(postBtnClicked) {
+                true -> {
+                    isPostLike = isPostLike
+                    postLikeCnt = postLikeCnt
+                }
+                false -> {
+                    isPostLike = po.isLike
+                    postLikeCnt= po.likeCount
+                }
+            }
+            postLikeCnt = onBtnLikeClick(
+                binding.btnFeedPostLike,
+                isPostLike,
+                postLikeCnt,
+                binding.tvFeedPostLikeCnt
+            )
+            isPostLike = !isPostLike
+            postBtnClicked = true
+        }
+
+        binding.btnFeedPostBestCommentLike.setOnClickListener {
+            when(commentBtnClicked) {
+                true -> {
+                    isCommentLike = isCommentLike
+                    commentLikeCnt = commentLikeCnt
+                }
+                false -> {
+                    isCommentLike = po.comment.isLike
+                    commentLikeCnt= po.comment.likeCount
+                }
+            }
+            commentLikeCnt = onBtnLikeClick(
+                binding.btnFeedPostBestCommentLike,
+                isCommentLike,
+                commentLikeCnt,
+                binding.tvFeedPostBestCommentLikeCnt
+            )
+            isCommentLike = !isCommentLike
+            commentBtnClicked = true
+        }
+    }
+
+    fun bind(post: Feed) {
+
+        po = post
+
+        if (post.commentCount == 0) {
+            binding.layoutFeedComment.isVisible = false
+        }
+
         setFeedPost(post)
         setFeedPostImg(post)
-        setLikeBtn(post)
 
         binding.executePendingBindings()
     }
@@ -79,6 +133,9 @@ class FeedPostViewHolder(
         binding.tvFeedPostContent.text = post.content
         binding.tvFeedPostCommentCnt.text = post.commentCount.toString()
 
+        binding.btnFeedPostLike.showLike(post.isLike, binding.btnFeedPostLike)
+        binding.btnFeedPostBestCommentLike.showLike(post.comment.isLike, binding.btnFeedPostBestCommentLike)
+
         binding.tvFeedPostCommentUserNickname.text = post.comment.author
         binding.tvFeedPostBestCommentContent.text = post.comment.content
     }
@@ -95,36 +152,6 @@ class FeedPostViewHolder(
             ) { tab, position ->
 
             }.attach()
-        }
-    }
-
-    private fun setLikeBtn(post: Feed) {
-        var isPostLike = post.isLike
-        var isCommentLike = post.comment.isLike
-        var postLikeCnt: Int = post.likeCount
-        var commentLikeCnt = post.comment.likeCount
-
-        binding.btnFeedPostLike.showLike(post.isLike, binding.btnFeedPostLike)
-        binding.btnFeedPostBestCommentLike.showLike(post.comment.isLike, binding.btnFeedPostBestCommentLike)
-
-        binding.btnFeedPostLike.setOnClickListener {
-            postLikeCnt = onBtnLikeClick(
-                binding.btnFeedPostLike,
-                isPostLike,
-                postLikeCnt,
-                binding.tvFeedPostLikeCnt
-            )
-            isPostLike = !isPostLike
-        }
-
-        binding.btnFeedPostBestCommentLike.setOnClickListener {
-            commentLikeCnt = onBtnLikeClick(
-                binding.btnFeedPostBestCommentLike,
-                isCommentLike,
-                commentLikeCnt,
-                binding.tvFeedPostBestCommentLikeCnt
-            )
-            isCommentLike = !isCommentLike
         }
     }
 }

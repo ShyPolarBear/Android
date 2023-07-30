@@ -6,10 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.shypolarbear.domain.model.feed.Comment
-import com.shypolarbear.domain.model.feed.feedDetail.CommentData
-import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
 import com.shypolarbear.presentation.databinding.ItemFeedCommentNormalBinding
-import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedCommentAdapter
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedReplyAdapter
 import com.shypolarbear.presentation.util.showLike
 import timber.log.Timber
@@ -31,34 +28,48 @@ class FeedCommentNormalViewHolder (
         )
     }
 
+    private var co: Comment = Comment()
+
     init {
+        var btnClicked = false
+        var isCommentLike = false
+        var commentLikeCnt = 0
+
         binding.btnFeedCommentNormalLike.setOnClickListener {
-            onBtnLikeClick(
+            when (btnClicked) {
+                true -> {
+                    isCommentLike = isCommentLike
+                    commentLikeCnt = commentLikeCnt
+                }
+                false -> {
+                    isCommentLike = co.isLike
+                    commentLikeCnt = co.likeCount
+                }
+            }
+
+            commentLikeCnt = onBtnLikeClick(
                 binding.btnFeedCommentNormalLike,
-                true,
-                10,
-                binding.tvFeedCommentNormalLikeCnt)
+                isCommentLike,
+                commentLikeCnt,
+                binding.tvFeedCommentNormalLikeCnt
+            )
+            isCommentLike = !isCommentLike
+            btnClicked = true
+        }
+
+        binding.ivFeedCommentNormalProperty.setOnClickListener {
+            when(co.isAuthor) {
+                true ->
+                    onMyCommentPropertyClick(binding.ivFeedCommentNormalProperty)
+                false ->
+                    onOtherCommentPropertyClick(binding.ivFeedCommentNormalProperty)
+            }
         }
     }
 
     fun bind(comment: Comment) {
         // Todo(일반 댓글)
-
-        when(comment.isAuthor) {
-            true -> {
-                binding.ivFeedCommentNormalProperty.setOnClickListener {
-                    onMyCommentPropertyClick(binding.ivFeedCommentNormalProperty)
-                }
-            }
-
-            false -> {
-                binding.ivFeedCommentNormalProperty.setOnClickListener {
-                    onOtherCommentPropertyClick(binding.ivFeedCommentNormalProperty)
-                }
-            }
-        }
-
-        setLikeBtn(comment)
+        co = comment
         setComment(comment)
 
         binding.executePendingBindings()
@@ -72,29 +83,14 @@ class FeedCommentNormalViewHolder (
         binding.tvFeedCommentNormalContent.text = comment.content
         binding.tvFeedCommentNormalTime.text = comment.createdDate
 
+        binding.btnFeedCommentNormalLike.showLike(comment.isLike, binding.btnFeedCommentNormalLike)
+        binding.tvFeedCommentNormalLikeCnt.text = comment.likeCount.toString()
+
         if (comment.authorProfileImage != "") {
 
             Glide.with(itemView)
                 .load(comment.authorProfileImage)
                 .into(binding.ivFeedCommentNormalProfile)
-        }
-    }
-
-    private fun setLikeBtn(comment: Comment) {
-        var isCommentLike = comment.isLike
-        var commentLikeCnt: Int = comment.likeCount
-
-        binding.btnFeedCommentNormalLike.showLike(comment.isLike, binding.btnFeedCommentNormalLike)
-        binding.tvFeedCommentNormalLikeCnt.text = comment.likeCount.toString()
-
-        binding.btnFeedCommentNormalLike.setOnClickListener {
-            commentLikeCnt = onBtnLikeClick(
-                binding.btnFeedCommentNormalLike,
-                isCommentLike,
-                commentLikeCnt,
-                binding.tvFeedCommentNormalLikeCnt
-            )
-            isCommentLike = !isCommentLike
         }
     }
 }
