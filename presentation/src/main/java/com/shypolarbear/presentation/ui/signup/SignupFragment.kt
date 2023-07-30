@@ -3,6 +3,7 @@ package com.shypolarbear.presentation.ui.signup
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
@@ -69,10 +70,6 @@ class SignupFragment :
                 signupBtnNext.isActivated = goNextState
                 isComplete[3] = goNextState
             }
-            signupIndicator.setOnClickListener {
-                // viewmodel 공유값 확인용
-                Timber.tag("Signup").d("$name $phoneNumber $mail")
-            }
 
             signupIndicator.text = getString(R.string.signup_page_indicator, idx)
             viewpager.apply {
@@ -81,13 +78,7 @@ class SignupFragment :
             }
 
             signupBtnNext.setOnClickListener {
-                val currentItem = viewpager.currentItem
-                signupTvNext.text = if (currentItem + 1 < 3) {
-                    "다음"
-                } else {
-                    "가입 완료"
-                }
-                when (currentItem) {
+                when (val currentItem = viewpager.currentItem) {
                     0 -> if (isComplete[0]) {
                         signupTvNext.isActivated = isComplete[1]
                         signupBtnNext.isActivated = isComplete[1]
@@ -104,13 +95,12 @@ class SignupFragment :
                         signupTvNext.isActivated = isComplete[3]
                         signupBtnNext.isActivated = isComplete[3]
                         goToNextPage(currentItem)
-
+                        signupTvNext.text = getString(R.string.signup_complete)
                     }
 
                     3 -> {
-                        // 메인페이지로 이동
                         if (false !in isComplete) {
-
+                            findNavController().navigate(R.id.action_signupFragment_to_feedFragment)
                         }
                     }
                 }
@@ -118,12 +108,11 @@ class SignupFragment :
 
             signupBtnBack.setOnClickListener {
                 val currentItem = viewpager.currentItem
-                signupTvNext.text = "다음"
+                signupTvNext.text = getString(R.string.signup_next)
                 if (currentItem > 0) {
                     idx--
                     signupIndicator.text = getString(R.string.signup_page_indicator, idx)
                     signupViewpager.setCurrentItem(currentItem - 1, true)
-                    Timber.d("SIGN - $currentItem")
                 }
 
                 when (currentItem) {
@@ -157,6 +146,5 @@ class SignupFragment :
             indicator.text = getString(R.string.signup_page_indicator, idx)
             viewpager.setCurrentItem(currentItem + 1, true)
         }
-        Timber.d("SIGN + $currentItem")
     }
 }

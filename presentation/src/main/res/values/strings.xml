@@ -43,6 +43,7 @@
     <string name="signup_btn_back">뒤로가기 버튼</string>
     <string name="signup_terms_title">가입을 위한\n약관 동의가 필요해요!</string>
     <string name="signup_next">다음</string>
+    <string name="signup_complete">가입 완료</string>
     <string name="signup_terms_op1">전체 동의</string>
     <string name="signup_terms_op2">만 14세 이상입니다</string>
     <string name="fliped_back_btn">fliped back btn</string>
