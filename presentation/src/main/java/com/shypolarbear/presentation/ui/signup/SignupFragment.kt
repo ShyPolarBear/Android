@@ -23,7 +23,7 @@ class SignupFragment :
     private var idx = 1
     override fun initView() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
-        val isComplete = arrayListOf(true, true, true, false)
+        val isComplete = arrayListOf(false, false, false, false)
         var name: String = ""
         var phoneNumber: String = ""
         var mail: String = ""
@@ -108,7 +108,7 @@ class SignupFragment :
                     }
 
                     3 -> {
-                        // 메인페이지로 가도록
+                        // 메인페이지로 이동
                         if (false !in isComplete) {
 
                         }
