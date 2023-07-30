@@ -8,7 +8,7 @@ import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
 import com.skydoves.powermenu.PowerMenuItem
 
-fun Button.showLike(isLike: Boolean, view: Button) {
+fun Button.showLikeBtnIsLike(isLike: Boolean, view: Button) {
 
     val likeBtnOn = ContextCompat.getDrawable(context, R.drawable.ic_btn_like_on)
     val likeBtnOff = ContextCompat.getDrawable(context, R.drawable.ic_btn_like_off)

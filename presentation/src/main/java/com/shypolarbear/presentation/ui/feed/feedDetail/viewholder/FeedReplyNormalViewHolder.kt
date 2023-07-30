@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.shypolarbear.domain.model.feed.feedDetail.ChildComment
 import com.shypolarbear.presentation.databinding.ItemFeedReplyNormalBinding
-import com.shypolarbear.presentation.util.showLike
+import com.shypolarbear.presentation.util.showLikeBtnIsLike
 
 class FeedReplyNormalViewHolder (
     private val binding: ItemFeedReplyNormalBinding,
@@ -69,7 +69,7 @@ class FeedReplyNormalViewHolder (
         binding.tvFeedReplyNormalContent.text = reply.content
         binding.tvFeedReplyNormalTime.text = reply.createdDate
 
-        binding.btnFeedReplyNormalLike.showLike(reply.isLike, binding.btnFeedReplyNormalLike)
+        binding.btnFeedReplyNormalLike.showLikeBtnIsLike(reply.isLike, binding.btnFeedReplyNormalLike)
         binding.tvFeedReplyNormalLikeCnt.text = reply.likeCount.toString()
 
         if (!reply.authorProfileImage.isNullOrBlank()) {

@@ -11,7 +11,7 @@ import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedTotalBinding
 import com.shypolarbear.presentation.ui.feed.feedTotal.adapter.FeedPostAdapter
-import com.shypolarbear.presentation.util.showLike
+import com.shypolarbear.presentation.util.showLikeBtnIsLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
@@ -140,7 +140,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
     private fun changeLikeBtn(button: Button, isLiked: Boolean, likeCnt: Int, likeCntText: TextView): Int {
         var isLike = isLiked
         isLike = !isLike
-        button.showLike(isLike, button)
+        button.showLikeBtnIsLike(isLike, button)
 
         if (isLike) {
             likeCntText.text = (likeCnt + 1).toString()

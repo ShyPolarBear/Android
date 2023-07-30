@@ -8,8 +8,7 @@ import com.bumptech.glide.Glide
 import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.presentation.databinding.ItemFeedCommentNormalBinding
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedReplyAdapter
-import com.shypolarbear.presentation.util.showLike
-import timber.log.Timber
+import com.shypolarbear.presentation.util.showLikeBtnIsLike
 
 class FeedCommentNormalViewHolder (
     private val binding: ItemFeedCommentNormalBinding,
@@ -83,7 +82,7 @@ class FeedCommentNormalViewHolder (
         binding.tvFeedCommentNormalContent.text = comment.content
         binding.tvFeedCommentNormalTime.text = comment.createdDate
 
-        binding.btnFeedCommentNormalLike.showLike(comment.isLike, binding.btnFeedCommentNormalLike)
+        binding.btnFeedCommentNormalLike.showLikeBtnIsLike(comment.isLike, binding.btnFeedCommentNormalLike)
         binding.tvFeedCommentNormalLikeCnt.text = comment.likeCount.toString()
 
         if (!comment.authorProfileImage.isNullOrBlank()) {

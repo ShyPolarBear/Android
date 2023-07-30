@@ -10,8 +10,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
-import com.shypolarbear.presentation.util.showLike
-import timber.log.Timber
+import com.shypolarbear.presentation.util.showLikeBtnIsLike
 
 class FeedPostViewHolder(
     private val binding: ItemFeedBinding,
@@ -132,8 +131,8 @@ class FeedPostViewHolder(
         binding.tvFeedPostContent.text = post.content
         binding.tvFeedPostCommentCnt.text = post.commentCount.toString()
 
-        binding.btnFeedPostLike.showLike(post.isLike, binding.btnFeedPostLike)
-        binding.btnFeedPostBestCommentLike.showLike(post.comment.isLike, binding.btnFeedPostBestCommentLike)
+        binding.btnFeedPostLike.showLikeBtnIsLike(post.isLike, binding.btnFeedPostLike)
+        binding.btnFeedPostBestCommentLike.showLikeBtnIsLike(post.comment.isLike, binding.btnFeedPostBestCommentLike)
 
         binding.tvFeedPostCommentUserNickname.text = post.comment.author
         binding.tvFeedPostBestCommentContent.text = post.comment.content

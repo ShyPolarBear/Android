@@ -15,7 +15,7 @@ import com.shypolarbear.presentation.databinding.FragmentFeedDetailBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedCommentAdapter
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment.Companion.FEED_ID
-import com.shypolarbear.presentation.util.showLike
+import com.shypolarbear.presentation.util.showLikeBtnIsLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
@@ -84,7 +84,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         binding.tvFeedDetailContent.text = feedDetail.content
         binding.tvFeedDetailReplyCnt.text = feedDetail.commentCount.toString()
 
-        binding.btnFeedDetailLike.showLike(feedDetail.isLike, binding.btnFeedDetailLike)
+        binding.btnFeedDetailLike.showLikeBtnIsLike(feedDetail.isLike, binding.btnFeedDetailLike)
         binding.btnFeedDetailLike.setOnClickListener {
             postLikeCnt = changeLikeBtn(
                 binding.btnFeedDetailLike,
@@ -219,7 +219,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     private fun changeLikeBtn(button: Button, isLiked: Boolean, likeCnt: Int, likeCntText: TextView): Int {
         var isLike = isLiked
         isLike = !isLike
-        button.showLike(isLike, button)
+        button.showLikeBtnIsLike(isLike, button)
 
         if (isLike) {
             likeCntText.text = (likeCnt + 1).toString()
