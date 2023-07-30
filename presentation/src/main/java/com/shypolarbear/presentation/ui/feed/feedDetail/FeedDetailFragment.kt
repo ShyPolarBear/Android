@@ -74,6 +74,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     }
 
     private fun setFeedPost(feedDetail: Feed) {
+        var postPropertyItems: List<PowerMenuItem>
         var isPostLike = feedDetail.isLike
         var postLikeCnt: Int = feedDetail.likeCount
 
@@ -122,30 +123,26 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         binding.ivFeedDetailProperty.setOnClickListener {
             when (feedDetail.isAuthor) {
                 true -> {
-                    val postPropertyItems: List<PowerMenuItem> =
+                    postPropertyItems =
                         listOf(
                             PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
                             PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete))
                         )
-                    binding.ivFeedDetailProperty.setMenu(
-                        binding.ivFeedDetailProperty,
-                        postPropertyItems,
-                        viewLifecycleOwner
-                    )
                 }
                 false -> {
-                    val postPropertyItems: List<PowerMenuItem> =
+                    postPropertyItems =
                         listOf(
                             PowerMenuItem(requireContext().getString(R.string.feed_post_property_report)),
                             PowerMenuItem(requireContext().getString(R.string.feed_post_property_block))
                         )
-                    binding.ivFeedDetailProperty.setMenu(
-                        binding.ivFeedDetailProperty,
-                        postPropertyItems,
-                        viewLifecycleOwner
-                    )
                 }
             }
+
+            binding.ivFeedDetailProperty.setMenu(
+                binding.ivFeedDetailProperty,
+                postPropertyItems,
+                viewLifecycleOwner
+            )
         }
     }
 
