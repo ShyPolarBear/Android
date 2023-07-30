@@ -1,5 +1,6 @@
 package com.shypolarbear.presentation.ui.signup
 
+import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.fragment.app.viewModels
@@ -12,22 +13,29 @@ import com.shypolarbear.presentation.ui.signup.pages.SignupMailFragment
 import com.shypolarbear.presentation.ui.signup.pages.SignupNameFragment
 import com.shypolarbear.presentation.ui.signup.pages.SignupPhoneFragment
 import com.shypolarbear.presentation.ui.signup.pages.SignupTermsFragment
-import timber.log.Timber
+
+val NAME_RANGE = 2..8
 
 class SignupFragment :
     BaseFragment<FragmentSignupBinding, SignupViewModel>(R.layout.fragment_signup) {
-
     override val viewModel: SignupViewModel by viewModels()
+    private val isComplete = arrayListOf(false, false, false, false)
     private lateinit var pagerAdapter: SignupAdapter
     private lateinit var viewpager: ViewPager2
     private lateinit var indicator: TextView
-    private var idx = 1
+    private lateinit var btnNext: View
+    private lateinit var btnTv: TextView
+    private var pageIndex = 1
+
+    enum class Page(val page: Int) {
+        TERMS(0),
+        NAME(1),
+        PHONE(2),
+        MAIL(3)
+    }
+
     override fun initView() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
-        val isComplete = arrayListOf(false, false, false, false)
-        var name: String = ""
-        var phoneNumber: String = ""
-        var mail: String = ""
 
         val pageList = listOf(
             SignupTermsFragment(),
@@ -40,38 +48,26 @@ class SignupFragment :
         binding.apply {
             viewpager = signupViewpager
             indicator = signupIndicator
+            btnNext = signupBtnNext
+            btnTv = signupTvNext
 
             viewModel.getTermData().observe(viewLifecycleOwner) { resTerms ->
-                signupTvNext.isActivated = resTerms
-                signupBtnNext.isActivated = resTerms
-                isComplete[0] = resTerms
+                activateButtonState(resTerms, Page.TERMS.page)
             }
 
             viewModel.getNameData().observe(viewLifecycleOwner) { resName ->
-                val goNextState: Boolean = resName.length in 2..8
-                name = resName
-                signupTvNext.isActivated = goNextState
-                signupBtnNext.isActivated = goNextState
-                isComplete[1] = goNextState
+                activateButtonState(resName.length in NAME_RANGE, Page.NAME.page)
             }
 
             viewModel.getPhoneData().observe(viewLifecycleOwner) { resPhone ->
-                val goNextState: Boolean = resPhone.length == 11
-                phoneNumber = resPhone
-                signupTvNext.isActivated = goNextState
-                signupBtnNext.isActivated = goNextState
-                isComplete[2] = goNextState
+                activateButtonState(resPhone.length == 11, Page.PHONE.page)
             }
 
             viewModel.getMailData().observe(viewLifecycleOwner) { resMail ->
-                val goNextState: Boolean = resMail.isNotEmpty()
-                mail = resMail
-                signupTvNext.isActivated = goNextState
-                signupBtnNext.isActivated = goNextState
-                isComplete[3] = goNextState
+                activateButtonState(resMail.isNotEmpty(), Page.MAIL.page)
             }
 
-            signupIndicator.text = getString(R.string.signup_page_indicator, idx)
+            signupIndicator.text = getString(R.string.signup_page_indicator, pageIndex)
             viewpager.apply {
                 adapter = pagerAdapter
                 isUserInputEnabled = false
@@ -79,26 +75,10 @@ class SignupFragment :
 
             signupBtnNext.setOnClickListener {
                 when (val currentItem = viewpager.currentItem) {
-                    0 -> if (isComplete[0]) {
-                        signupTvNext.isActivated = isComplete[1]
-                        signupBtnNext.isActivated = isComplete[1]
-                        goToNextPage(currentItem)
-                    }
-
-                    1 -> if (isComplete[1]) {
-                        signupTvNext.isActivated = isComplete[2]
-                        signupBtnNext.isActivated = isComplete[2]
-                        goToNextPage(currentItem)
-                    }
-
-                    2 -> if (isComplete[2]) {
-                        signupTvNext.isActivated = isComplete[3]
-                        signupBtnNext.isActivated = isComplete[3]
-                        goToNextPage(currentItem)
-                        signupTvNext.text = getString(R.string.signup_complete)
-                    }
-
-                    3 -> {
+                    Page.TERMS.page -> goToNextPage(currentItem)
+                    Page.NAME.page -> goToNextPage(currentItem)
+                    Page.PHONE.page -> goToNextPage(currentItem)
+                    Page.MAIL.page -> {
                         if (false !in isComplete) {
                             findNavController().navigate(R.id.action_signupFragment_to_feedFragment)
                         }
@@ -110,41 +90,40 @@ class SignupFragment :
                 val currentItem = viewpager.currentItem
                 signupTvNext.text = getString(R.string.signup_next)
                 if (currentItem > 0) {
-                    idx--
-                    signupIndicator.text = getString(R.string.signup_page_indicator, idx)
+                    pageIndex--
+                    signupIndicator.text = getString(R.string.signup_page_indicator, pageIndex)
                     signupViewpager.setCurrentItem(currentItem - 1, true)
                 }
 
                 when (currentItem) {
-                    0 -> if (isComplete[currentItem]) {
-                        signupTvNext.isActivated = isComplete[currentItem]
-                        signupBtnNext.isActivated = isComplete[currentItem]
-                    }
-
-                    1 -> if (isComplete[0]) {
-                        signupTvNext.isActivated = isComplete[0]
-                        signupBtnNext.isActivated = isComplete[0]
-                    }
-
-                    2 -> if (isComplete[1]) {
-                        signupTvNext.isActivated = isComplete[1]
-                        signupBtnNext.isActivated = isComplete[1]
-                    }
-
-                    3 -> if (isComplete[2]) {
-                        signupTvNext.isActivated = isComplete[2]
-                        signupBtnNext.isActivated = isComplete[2]
-                    }
+                    Page.NAME.page -> updateButtonState(isComplete[Page.TERMS.page])
+                    Page.PHONE.page -> updateButtonState(isComplete[Page.NAME.page])
+                    Page.MAIL.page -> updateButtonState(isComplete[Page.PHONE.page])
                 }
             }
         }
     }
 
+    private fun activateButtonState(goNextState: Boolean, pageIndex: Int) {
+        btnTv.isActivated = goNextState
+        btnNext.isActivated = goNextState
+        isComplete[pageIndex] = goNextState
+    }
+
+    private fun updateButtonState(goNextState: Boolean) {
+        btnTv.isActivated = goNextState
+        btnNext.isActivated = goNextState
+    }
+
     private fun goToNextPage(currentItem: Int) {
-        if (currentItem < viewpager.adapter!!.itemCount.minus(1)) {
-            idx = currentItem + 2
-            indicator.text = getString(R.string.signup_page_indicator, idx)
-            viewpager.setCurrentItem(currentItem + 1, true)
+        if (isComplete[currentItem]) {
+            if (currentItem < viewpager.adapter!!.itemCount.minus(1)) {
+                pageIndex = currentItem + 2
+                indicator.text = getString(R.string.signup_page_indicator, pageIndex)
+                viewpager.setCurrentItem(currentItem + 1, true)
+                updateButtonState(isComplete[currentItem + 1])
+                if(currentItem == Page.PHONE.page) btnTv.text = getString(R.string.signup_complete)
+            }
         }
     }
 }
