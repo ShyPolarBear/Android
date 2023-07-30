@@ -18,6 +18,6 @@ interface FeedApi {
 
     @GET("api/feeds/{feedId}/comment")
     suspend fun getFeedComment(
-        @Path("feedId", encoded = true) feedID: Int
+        @Path("feedId") feedID: Int
     ): Response<FeedCommentMock>
 }
