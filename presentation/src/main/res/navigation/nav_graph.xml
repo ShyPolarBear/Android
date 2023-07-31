@@ -33,5 +33,8 @@
         <action
             android:id="@+id/action_feedDetailFragment_to_feedTotalFragment"
             app:destination="@id/feedTotalFragment" />
+        <argument
+            android:name="feedId"
+            app:argType="integer" />
     </fragment>
 </navigation>

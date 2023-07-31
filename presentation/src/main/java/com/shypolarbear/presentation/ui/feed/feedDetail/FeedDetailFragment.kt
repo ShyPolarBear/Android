@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.Feed
@@ -14,11 +15,11 @@ import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedDetailBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedCommentAdapter
-import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment.Companion.FEED_ID
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailViewModel>(
@@ -26,6 +27,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
 ) {
 
     override val viewModel: FeedDetailViewModel by viewModels()
+    private val feedDetailArgs: FeedDetailFragmentArgs by navArgs()
     private val feedCommentAdapter: FeedCommentAdapter by lazy {
         FeedCommentAdapter(
             onMyCommentPropertyClick = { view: ImageView ->
@@ -64,8 +66,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             binding.cardviewFeedCommentWritingMsg.isVisible = false
         }
 
-        viewModel.loadFeedDetail(requireArguments().getString(FEED_ID)!!.toInt())
-        viewModel.loadFeedCommentMock(requireArguments().getString(FEED_ID)!!.toInt())
+        viewModel.loadFeedDetail(feedDetailArgs.feedId)
+        viewModel.loadFeedCommentMock(feedDetailArgs.feedId)
 
         viewModel.feed.observe(viewLifecycleOwner) {feed ->
             setFeedPost(feed)

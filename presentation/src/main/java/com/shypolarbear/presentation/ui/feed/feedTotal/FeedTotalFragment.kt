@@ -3,7 +3,6 @@ package com.shypolarbear.presentation.ui.feed.feedTotal
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -26,7 +25,6 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
     companion object {
         const val POWER_MENU_OFFSET_X = -290
         const val POWER_MENU_OFFSET_Y = 0
-        const val FEED_ID = "feed_id"
     }
 
     override val viewModel: FeedTotalViewModel by viewModels()
@@ -153,9 +151,8 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
     }
 
     private fun showFeedPostDetail(feedId: Int) {
-        Timber.d(feedId.toString())
-        findNavController().navigate(R.id.action_feedTotalFragment_to_feedDetailFragment, bundleOf(
-            FEED_ID to feedId.toString()
-        ))
+        findNavController().navigate(
+            FeedTotalFragmentDirections.actionFeedTotalFragmentToFeedDetailFragment(feedId)
+        )
     }
 }
