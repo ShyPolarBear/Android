@@ -1,6 +1,8 @@
 package com.shypolarbear.presentation.util
 
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -10,10 +12,13 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
-import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
 import com.skydoves.powermenu.PowerMenuItem
+
+
+val emailPattern = Regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
+val phonePattern = Regex("[^0-9]")
 
 fun Button.checkLike(isLike: Boolean, view: Button) {
 
@@ -25,6 +30,21 @@ fun Button.checkLike(isLike: Boolean, view: Button) {
     } else {
         view.background = likeBtnOff
     }
+}
+fun EditText.afterTextChanged(method: (editable: Editable?) -> Unit, type: String = "text"){
+    addTextChangedListener(object : TextWatcher {
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+        }
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+        }
+
+        override fun afterTextChanged(p0: Editable?) {
+            method(p0)
+        }
+    })
 }
 fun EditText.keyboardDown(fragment: Fragment){
     this.setOnEditorActionListener{ v, _, event ->

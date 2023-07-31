@@ -3,7 +3,6 @@ package com.shypolarbear.presentation.ui.signup.pages
 import android.annotation.SuppressLint
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.KeyEvent
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
@@ -13,7 +12,6 @@ import com.shypolarbear.presentation.databinding.FragmentSignupNameBinding
 import com.shypolarbear.presentation.ui.signup.NAME_RANGE
 import com.shypolarbear.presentation.ui.signup.SignupViewModel
 import com.shypolarbear.presentation.util.GlideUtil
-import com.shypolarbear.presentation.util.hideKeyboard
 import com.shypolarbear.presentation.util.keyboardDown
 import com.shypolarbear.presentation.util.setTextColorById
 import timber.log.Timber
@@ -29,10 +27,8 @@ class SignupNameFragment :
 
             val pickMedia =
                 registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-                    if (uri != null) {
+                    uri?.let {
                         GlideUtil.loadCircleImage(requireContext(), uri, ivSignupNameProfile)
-                    } else {
-                        Timber.d("이미지 선택 안됨")
                     }
                 }
 
@@ -66,28 +62,23 @@ class SignupNameFragment :
                         s != null && s.length !in NAME_RANGE -> {
                             tvSignupNameRule.text = getString(R.string.singup_error_text)
                             tvSignupNameRule.setTextColorById(requireContext(), R.color.Error_01)
-                            sendData(s.toString())
+                            viewModel.setNameData(s.toString())
                         }
 
                         s.isNullOrEmpty() -> {
                             tvSignupNameRule.text = getString(R.string.signup_name_rule)
                             tvSignupNameRule.setTextColorById(requireContext(), R.color.Blue_02)
-                            sendData(s.toString())
+                            viewModel.setNameData(s.toString())
                         }
 
                         else -> {
                             tvSignupNameRule.text = getString(R.string.signup_confirm_text)
                             tvSignupNameRule.setTextColorById(requireContext(), R.color.Success_01)
-                            sendData(s.toString())
+                            viewModel.setNameData(s.toString())
                         }
                     }
                 }
             })
         }
-    }
-
-    private fun sendData(data: String) {
-        // 프로필 이미지를 uri나 bitmap/ mime Type으로 보내는 것은 추후 설정
-        viewModel.setNameData(data)
     }
 }

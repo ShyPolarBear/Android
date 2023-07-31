@@ -23,12 +23,12 @@ class SignupTermsFragment :
                             i.isChecked = true
                             isComplete[idx] = true
                         }
-                        sendData(true)
+                        viewModel.setTermData(true)
                     } else {
                         for (i in checkList) {
                             i.isChecked = false
                         }
-                        sendData(false)
+                        viewModel.setTermData(false)
                     }
                 }
             }
@@ -38,12 +38,12 @@ class SignupTermsFragment :
                     isComplete[0] = true
                     if (false !in isComplete) {
                         signupTermsCbAll.isChecked = true
-                        sendData(true)
+                        viewModel.setTermData(true)
                     }
                 } else {
                     signupTermsCbAll.isChecked = false
                     isComplete[0] = false
-                    sendData(false)
+                    viewModel.setTermData(false)
                 }
             }
 
@@ -52,12 +52,12 @@ class SignupTermsFragment :
                     isComplete[1] = true
                     if (false !in isComplete) {
                         signupTermsCbAll.isChecked = true
-                        sendData(true)
+                        viewModel.setTermData(true)
                     }
                 } else {
                     signupTermsCbAll.isChecked = false
                     isComplete[1] = false
-                    sendData(false)
+                    viewModel.setTermData(false)
                 }
             }
 
@@ -66,18 +66,14 @@ class SignupTermsFragment :
                     isComplete[2] = true
                     if (false !in isComplete) {
                         signupTermsCbAll.isChecked = true
-                        sendData(true)
+                        viewModel.setTermData(true)
                     }
                 } else {
                     signupTermsCbAll.isChecked = false
                     isComplete[2] = false
-                    sendData(false)
+                    viewModel.setTermData(false)
                 }
             }
         }
-    }
-
-    private fun sendData(data: Boolean) {
-        viewModel.setTermData(data)
     }
 }
