@@ -1,13 +1,16 @@
 package com.shypolarbear.presentation.util
 
 import android.content.Context
+import android.view.KeyEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
 import com.skydoves.powermenu.PowerMenuItem
@@ -23,7 +26,15 @@ fun Button.checkLike(isLike: Boolean, view: Button) {
         view.background = likeBtnOff
     }
 }
-
+fun EditText.keyboardDown(fragment: Fragment){
+    this.setOnEditorActionListener{ v, _, event ->
+        if (event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER) {
+            fragment.hideKeyboard()
+            return@setOnEditorActionListener true
+        }
+        return@setOnEditorActionListener false
+    }
+}
 fun ImageView.setMenu(
     view: ImageView,
     menuList: List<PowerMenuItem>,

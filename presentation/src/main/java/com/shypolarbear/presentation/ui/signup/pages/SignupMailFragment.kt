@@ -9,21 +9,14 @@ import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentSignupMailBinding
 import com.shypolarbear.presentation.ui.signup.SignupViewModel
 import com.shypolarbear.presentation.util.hideKeyboard
+import com.shypolarbear.presentation.util.keyboardDown
 
+val emailPattern = Regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
 class SignupMailFragment:BaseFragment<FragmentSignupMailBinding, SignupViewModel>(R.layout.fragment_signup_mail) {
     override val viewModel: SignupViewModel by viewModels({ requireParentFragment() })
-    val emailPattern = Regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
     override fun initView() {
         binding.apply {
-            etSignupMail.setOnEditorActionListener{ v, _, event ->
-                if (event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER) {
-                    // 키보드 숨기기
-                    hideKeyboard()
-                    v.clearFocus()
-                    return@setOnEditorActionListener true
-                }
-                return@setOnEditorActionListener false
-            }
+            etSignupMail.keyboardDown(this@SignupMailFragment)
 
             etSignupMail.addTextChangedListener ( object : TextWatcher {
                 override fun beforeTextChanged(

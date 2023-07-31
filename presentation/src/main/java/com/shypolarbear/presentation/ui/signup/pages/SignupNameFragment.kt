@@ -7,12 +7,14 @@ import android.view.KeyEvent
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentSignupNameBinding
+import com.shypolarbear.presentation.ui.signup.NAME_RANGE
 import com.shypolarbear.presentation.ui.signup.SignupViewModel
+import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.hideKeyboard
+import com.shypolarbear.presentation.util.keyboardDown
 import com.shypolarbear.presentation.util.setTextColorById
 import timber.log.Timber
 
@@ -28,11 +30,7 @@ class SignupNameFragment :
             val pickMedia =
                 registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                     if (uri != null) {
-                        Glide.with(requireContext())
-                            .load(uri)
-                            .centerCrop()
-                            .circleCrop()
-                            .into(ivSignupNameProfile)
+                        GlideUtil.loadCircleImage(requireContext(), uri, ivSignupNameProfile)
                     } else {
                         Timber.d("이미지 선택 안됨")
                     }
@@ -48,15 +46,7 @@ class SignupNameFragment :
                 }
             }
 
-            etSignupNickname.setOnEditorActionListener{ v, _, event ->
-                if (event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER) {
-                    // 키보드 숨기기
-                    hideKeyboard()
-                    v.clearFocus()
-                    return@setOnEditorActionListener true
-                }
-                return@setOnEditorActionListener false
-            }
+            etSignupNickname.keyboardDown(this@SignupNameFragment)
             etSignupNickname.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
@@ -73,7 +63,7 @@ class SignupNameFragment :
 
                 override fun afterTextChanged(s: Editable?) {
                     when {
-                        s != null && s.length !in 2..8 -> {
+                        s != null && s.length !in NAME_RANGE -> {
                             tvSignupNameRule.text = getString(R.string.singup_error_text)
                             tvSignupNameRule.setTextColorById(requireContext(), R.color.Error_01)
                             sendData(s.toString())
