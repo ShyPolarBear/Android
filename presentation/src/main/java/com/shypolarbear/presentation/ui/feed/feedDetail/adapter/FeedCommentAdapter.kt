@@ -26,7 +26,7 @@ class FeedCommentAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         when(viewType) {
-            FeedCommentViewType.COMMENT_NORMAL.commentType -> {
+            FeedCommentViewType.NORMAL.commentType -> {
                 return FeedCommentNormalViewHolder(
                     ItemFeedCommentNormalBinding.inflate(
                         LayoutInflater.from(parent.context),
@@ -41,7 +41,7 @@ class FeedCommentAdapter(
                 )
             }
 
-            FeedCommentViewType.COMMENT_DELETE.commentType -> {
+            FeedCommentViewType.DELETE.commentType -> {
                 return FeedCommentDeleteViewHolder(
                     ItemFeedCommentDeleteBinding.inflate(
                         LayoutInflater.from(parent.context),
@@ -72,10 +72,11 @@ class FeedCommentAdapter(
 
     override fun getItemViewType(position: Int): Int {
         val comment: Comment? = getItem(position)
+        // 추후에 isDeleted가 추가되면 이에 따라 판단할 예정
         return if (comment != null)
-            0
+            FeedCommentViewType.NORMAL.commentType
         else
-            1
+            FeedCommentViewType.DELETE.commentType
     }
 }
 
