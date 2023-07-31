@@ -51,19 +51,19 @@ class SignupFragment :
             btnNext = signupBtnNext
             btnTv = signupTvNext
 
-            viewModel.getTermData().observe(viewLifecycleOwner) { resTerms ->
+            viewModel.termData.observe(viewLifecycleOwner) { resTerms ->
                 activateButtonState(resTerms, Page.TERMS.page)
             }
 
-            viewModel.getNameData().observe(viewLifecycleOwner) { resName ->
+            viewModel.nameData.observe(viewLifecycleOwner) { resName ->
                 activateButtonState(resName.length in NAME_RANGE, Page.NAME.page)
             }
 
-            viewModel.getPhoneData().observe(viewLifecycleOwner) { resPhone ->
+            viewModel.phoneData.observe(viewLifecycleOwner) { resPhone ->
                 activateButtonState(resPhone.length == 11, Page.PHONE.page)
             }
 
-            viewModel.getMailData().observe(viewLifecycleOwner) { resMail ->
+            viewModel.mailData.observe(viewLifecycleOwner) { resMail ->
                 activateButtonState(resMail.isNotEmpty(), Page.MAIL.page)
             }
 

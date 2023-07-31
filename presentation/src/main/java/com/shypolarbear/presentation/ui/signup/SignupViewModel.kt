@@ -2,40 +2,32 @@ package com.shypolarbear.presentation.ui.signup
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.shypolarbear.domain.model.feed.FeedPost
 import com.shypolarbear.presentation.base.BaseViewModel
 
-class SignupViewModel:BaseViewModel(){
-    private val termData = MutableLiveData<Boolean>()
-    private val nameData = MutableLiveData<String>()
-    private val phoneData = MutableLiveData<String>()
-    private val mailData = MutableLiveData<String>()
-
-    fun getTermData(): LiveData<Boolean> {
-        return termData
-    }
+class SignupViewModel : BaseViewModel() {
+    private val _termData = MutableLiveData<Boolean>()
+    val termData: LiveData<Boolean> = _termData
+    private val _nameData = MutableLiveData<String>()
+    val nameData: LiveData<String> = _nameData
+    private val _phoneData = MutableLiveData<String>()
+    val phoneData: LiveData<String> = _phoneData
+    private val _mailData = MutableLiveData<String>()
+    val mailData: LiveData<String> = _mailData
 
     fun setTermData(newData: Boolean) {
-        termData.value = newData
-    }
-    fun getNameData(): LiveData<String> {
-        return nameData
+        _termData.value = newData
     }
 
     fun setNameData(newData: String) {
-        nameData.value = newData
-    }
-    fun getPhoneData(): LiveData<String> {
-        return phoneData
+        _nameData.value = newData
     }
 
     fun setPhoneData(newData: String) {
-        phoneData.value = newData
-    }
-    fun getMailData(): LiveData<String> {
-        return mailData
+        _phoneData.value = newData
     }
 
     fun setMailData(newData: String) {
-        mailData.value = newData
+        _mailData.value = newData
     }
 }
