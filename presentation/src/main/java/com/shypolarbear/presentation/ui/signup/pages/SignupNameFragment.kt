@@ -14,7 +14,6 @@ import com.shypolarbear.presentation.ui.signup.SignupViewModel
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.keyboardDown
 import com.shypolarbear.presentation.util.setTextColorById
-import timber.log.Timber
 
 class SignupNameFragment :
     BaseFragment<FragmentSignupNameBinding, SignupViewModel>(R.layout.fragment_signup_name) {

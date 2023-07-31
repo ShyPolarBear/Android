@@ -31,6 +31,7 @@ fun Button.checkLike(isLike: Boolean, view: Button) {
         view.background = likeBtnOff
     }
 }
+
 fun EditText.afterTextChanged(method: (editable: Editable?) -> Unit, type: String = "text"){
     addTextChangedListener(object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
