@@ -19,18 +19,16 @@ class SignupNameFragment :
     BaseFragment<FragmentSignupNameBinding, SignupViewModel>(R.layout.fragment_signup_name) {
     override val viewModel: SignupViewModel by viewModels({ requireParentFragment() })
 
+    private val pickMedia =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            uri?.let {
+                GlideUtil.loadCircleImage(requireContext(), uri, binding.ivSignupNameProfile)
+            }
+        }
     @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
 
         binding.apply {
-
-            val pickMedia =
-                registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-                    uri?.let {
-                        GlideUtil.loadCircleImage(requireContext(), uri, ivSignupNameProfile)
-                    }
-                }
-
             ivSignupImgEdit.setOnClickListener {
                 pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             }
