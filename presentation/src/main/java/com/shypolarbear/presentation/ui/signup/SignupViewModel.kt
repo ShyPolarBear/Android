@@ -15,6 +15,19 @@ class SignupViewModel : BaseViewModel() {
     private val _mailData = MutableLiveData<String>()
     val mailData: LiveData<String> = _mailData
 
+    private val _pageState = arrayListOf(false, false, false, false)
+    val pageState: List<Boolean> = _pageState
+    private val _pageIndex = MutableLiveData<Int>(1)
+    val pageIndex: LiveData<Int> = _pageIndex
+
+    fun setPageState(page: Int, state: Boolean) {
+        _pageState[page] = state
+    }
+
+    fun setPageIndex(page: Int) {
+        _pageIndex.value = page
+    }
+
     fun setTermData(newData: Boolean) {
         _termData.value = newData
     }

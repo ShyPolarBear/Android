@@ -10,22 +10,23 @@ import com.shypolarbear.presentation.util.afterTextChanged
 import com.shypolarbear.presentation.util.keyboardDown
 import com.shypolarbear.presentation.util.phonePattern
 
+const val PHONE_NUMBER_DASH_INCLUDE = 13
 class SignupPhoneFragment :
     BaseFragment<FragmentSignupPhoneBinding, SignupViewModel>(R.layout.fragment_signup_phone) {
     override val viewModel: SignupViewModel by viewModels({ requireParentFragment() })
+    private lateinit var phoneNumber: String
     override fun initView() {
         binding.apply {
             etSignupPhone.keyboardDown(this@SignupPhoneFragment)
 
             etSignupPhone.addTextChangedListener(PhoneNumberFormattingTextWatcher("KR"))
             etSignupPhone.afterTextChanged({ s ->
-                viewModel.setPhoneData("")
-                s?.let {
-                    if(s.length == 13){
-                        val phoneNumber = s.replace(phonePattern, "")
-                        viewModel.setPhoneData(phoneNumber)
-                    }
+                phoneNumber = if(s?.length == PHONE_NUMBER_DASH_INCLUDE){
+                    s.replace(phonePattern, "")
+                }else{
+                    ""
                 }
+                viewModel.setPhoneData(phoneNumber)
             })
         }
     }
