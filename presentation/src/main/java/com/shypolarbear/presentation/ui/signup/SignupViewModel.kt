@@ -2,7 +2,6 @@ package com.shypolarbear.presentation.ui.signup
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.shypolarbear.domain.model.feed.FeedPost
 import com.shypolarbear.presentation.base.BaseViewModel
 
 class SignupViewModel : BaseViewModel() {
@@ -29,6 +28,10 @@ class SignupViewModel : BaseViewModel() {
     }
     fun goNextPageIndex(){
         _pageIndex.value = _pageIndex.value!! + 1
+    }
+
+    fun getActualPageIndex(): Int{
+        return _pageIndex.value!! - 1
     }
 
     fun setTermData(newData: Boolean) {

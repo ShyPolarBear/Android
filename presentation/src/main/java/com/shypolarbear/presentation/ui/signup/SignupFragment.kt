@@ -1,14 +1,7 @@
 package com.shypolarbear.presentation.ui.signup
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.navigation.fragment.findNavController
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
@@ -34,7 +27,6 @@ class SignupFragment :
     }
 
     override fun initView() {
-        updateButtonState(viewModel.pageState[viewModel.pageIndex.value!!-1])
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         val pageList = listOf(
             SignupTermsFragment(),
@@ -44,23 +36,33 @@ class SignupFragment :
         )
         pagerAdapter = SignupAdapter(this, pageList)
         binding.apply {
-            viewModel.termData.observe(viewLifecycleOwner) { resTerms ->
-                activateButtonState(resTerms, Page.TERMS.page)
+            viewModel.termData.observe(viewLifecycleOwner) { resTerms->
+                if (viewModel.getActualPageIndex() == Page.TERMS.page) {
+                    activateButtonState(resTerms, Page.TERMS.page)
+                }
             }
 
             viewModel.nameData.observe(viewLifecycleOwner) { resName ->
-                activateButtonState(resName.length in NAME_RANGE, Page.NAME.page)
+                if (viewModel.getActualPageIndex() == Page.NAME.page) {
+                    activateButtonState(resName.length in NAME_RANGE, Page.NAME.page)
+                }
             }
 
             viewModel.phoneData.observe(viewLifecycleOwner) { resPhone ->
-                activateButtonState(resPhone.length == 11, Page.PHONE.page)
+                if (viewModel.getActualPageIndex() == Page.PHONE.page) {
+                    activateButtonState(resPhone.length == 11, Page.PHONE.page)
+                }
             }
 
             viewModel.mailData.observe(viewLifecycleOwner) { resMail ->
-                activateButtonState(resMail.isNotEmpty(), Page.MAIL.page)
+                if (viewModel.getActualPageIndex() == Page.MAIL.page) {
+                    activateButtonState(resMail.isNotEmpty(), Page.MAIL.page)
+                }
             }
 
             signupIndicator.text = getString(R.string.signup_page_indicator, viewModel.pageIndex.value)
+            updateButtonState(viewModel.pageState[viewModel.pageIndex.value!! - 1])
+
             signupViewpager.apply {
                 adapter = pagerAdapter
                 isUserInputEnabled = false
@@ -71,8 +73,9 @@ class SignupFragment :
                     Page.TERMS.page, Page.NAME.page, Page.PHONE.page -> {
                         goToNextPage(currentItem)
                     }
+
                     Page.MAIL.page -> {
-                        if (viewModel.pageState.all{it}) {
+                        if (viewModel.pageState.all { it }) {
                             findNavController().navigate(R.id.action_signupFragment_to_feedFragment)
                         }
                     }
@@ -84,7 +87,8 @@ class SignupFragment :
                 signupTvNext.text = getString(R.string.signup_next)
                 if (currentItem > 0) {
                     viewModel.goBackPageIndex()
-                    signupIndicator.text = getString(R.string.signup_page_indicator, viewModel.pageIndex.value)
+                    signupIndicator.text =
+                        getString(R.string.signup_page_indicator, viewModel.pageIndex.value)
                     signupViewpager.setCurrentItem(currentItem - 1, true)
                 }
 
@@ -106,16 +110,19 @@ class SignupFragment :
     private fun updateButtonState(goNextState: Boolean) {
         binding.signupTvNext.isActivated = goNextState
         binding.signupBtnNext.isActivated = goNextState
+        Timber.tag("restore").d("${viewModel.pageState} View: ${binding.signupBtnNext.isActivated}")
     }
 
     private fun goToNextPage(currentItem: Int) {
         if (viewModel.pageState[currentItem]) {
             if (currentItem < binding.signupViewpager.adapter!!.itemCount.minus(1)) {
                 viewModel.goNextPageIndex()
-                binding.signupIndicator.text = getString(R.string.signup_page_indicator, viewModel.pageIndex.value)
+                binding.signupIndicator.text =
+                    getString(R.string.signup_page_indicator, viewModel.pageIndex.value)
                 binding.signupViewpager.setCurrentItem(currentItem + 1, true)
                 updateButtonState(viewModel.pageState[currentItem + 1])
-                if(currentItem == Page.PHONE.page) binding.signupTvNext.text = getString(R.string.signup_complete)
+                if (currentItem == Page.PHONE.page) binding.signupTvNext.text =
+                    getString(R.string.signup_complete)
             }
         }
     }
