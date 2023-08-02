@@ -24,8 +24,11 @@ class SignupViewModel : BaseViewModel() {
         _pageState[page] = state
     }
 
-    fun setPageIndex(page: Int) {
-        _pageIndex.value = page
+    fun goBackPageIndex(){
+        _pageIndex.value = _pageIndex.value!! - 1
+    }
+    fun goNextPageIndex(){
+        _pageIndex.value = _pageIndex.value!! + 1
     }
 
     fun setTermData(newData: Boolean) {

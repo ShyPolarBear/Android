@@ -1,7 +1,14 @@
 package com.shypolarbear.presentation.ui.signup
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.navigation.fragment.findNavController
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
@@ -10,6 +17,7 @@ import com.shypolarbear.presentation.ui.signup.pages.SignupMailFragment
 import com.shypolarbear.presentation.ui.signup.pages.SignupNameFragment
 import com.shypolarbear.presentation.ui.signup.pages.SignupPhoneFragment
 import com.shypolarbear.presentation.ui.signup.pages.SignupTermsFragment
+import timber.log.Timber
 
 val NAME_RANGE = 2..8
 
@@ -24,10 +32,10 @@ class SignupFragment :
         PHONE(2),
         MAIL(3)
     }
-    override fun initView() {
-        loadState()
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
 
+    override fun initView() {
+        loadState(viewModel.pageState[viewModel.pageIndex.value!!-1])
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         val pageList = listOf(
             SignupTermsFragment(),
             SignupNameFragment(),
@@ -60,7 +68,9 @@ class SignupFragment :
 
             signupBtnNext.setOnClickListener {
                 when (val currentItem = signupViewpager.currentItem) {
-                    Page.TERMS.page, Page.NAME.page, Page.PHONE.page -> goToNextPage(currentItem)
+                    Page.TERMS.page, Page.NAME.page, Page.PHONE.page -> {
+                        goToNextPage(currentItem)
+                    }
                     Page.MAIL.page -> {
                         if (viewModel.pageState.all{it}) {
                             findNavController().navigate(R.id.action_signupFragment_to_feedFragment)
@@ -73,7 +83,7 @@ class SignupFragment :
                 val currentItem = signupViewpager.currentItem
                 signupTvNext.text = getString(R.string.signup_next)
                 if (currentItem > 0) {
-                    viewModel.setPageIndex(viewModel.pageIndex.value!! - 1)
+                    viewModel.goBackPageIndex()
                     signupIndicator.text = getString(R.string.signup_page_indicator, viewModel.pageIndex.value)
                     signupViewpager.setCurrentItem(currentItem - 1, true)
                 }
@@ -98,15 +108,15 @@ class SignupFragment :
         binding.signupBtnNext.isActivated = goNextState
     }
 
-    private fun loadState(){
-        binding.signupTvNext.isActivated = viewModel.pageState[viewModel.pageIndex.value!! - 1]
-        binding.signupBtnNext.isActivated = viewModel.pageState[viewModel.pageIndex.value!! - 1]
+    private fun loadState(state: Boolean){
+        binding.signupTvNext.isActivated = state
+        binding.signupBtnNext.isActivated = state
     }
 
     private fun goToNextPage(currentItem: Int) {
         if (viewModel.pageState[currentItem]) {
             if (currentItem < binding.signupViewpager.adapter!!.itemCount.minus(1)) {
-                viewModel.setPageIndex(currentItem + 2)
+                viewModel.goNextPageIndex()
                 binding.signupIndicator.text = getString(R.string.signup_page_indicator, viewModel.pageIndex.value)
                 binding.signupViewpager.setCurrentItem(currentItem + 1, true)
                 updateButtonState(viewModel.pageState[currentItem + 1])
