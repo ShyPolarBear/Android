@@ -34,7 +34,7 @@ class SignupFragment :
     }
 
     override fun initView() {
-        loadState(viewModel.pageState[viewModel.pageIndex.value!!-1])
+        updateButtonState(viewModel.pageState[viewModel.pageIndex.value!!-1])
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         val pageList = listOf(
             SignupTermsFragment(),
@@ -106,11 +106,6 @@ class SignupFragment :
     private fun updateButtonState(goNextState: Boolean) {
         binding.signupTvNext.isActivated = goNextState
         binding.signupBtnNext.isActivated = goNextState
-    }
-
-    private fun loadState(state: Boolean){
-        binding.signupTvNext.isActivated = state
-        binding.signupBtnNext.isActivated = state
     }
 
     private fun goToNextPage(currentItem: Int) {
