@@ -9,10 +9,12 @@ import androidx.fragment.app.viewModels
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentSignupNameBinding
+import com.shypolarbear.presentation.ui.signup.InputState
 import com.shypolarbear.presentation.ui.signup.NAME_RANGE
 import com.shypolarbear.presentation.ui.signup.SignupViewModel
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.keyboardDown
+import com.shypolarbear.presentation.util.setColorStateWithInput
 import com.shypolarbear.presentation.util.setTextColorById
 
 class SignupNameFragment :
@@ -25,6 +27,7 @@ class SignupNameFragment :
                 GlideUtil.loadCircleImage(requireContext(), uri, binding.ivSignupNameProfile)
             }
         }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
 
@@ -36,6 +39,7 @@ class SignupNameFragment :
             etSignupNickname.setOnFocusChangeListener { v, hasFocus ->
                 if (hasFocus) {
                     tvSignupNameRule.setTextColorById(requireContext(), R.color.Blue_02)
+                } else {
                 }
             }
 
@@ -52,25 +56,35 @@ class SignupNameFragment :
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     tvSignupNameRule.setTextColorById(requireContext(), R.color.Blue_02)
+                    etSignupNickname.setColorStateWithInput(
+                        InputState.ON,
+                        tvSignupNameRule,
+                        signupEtCheck
+                    )
                 }
 
                 override fun afterTextChanged(s: Editable?) {
-                    when {
+                    val state = when {
                         s != null && s.length !in NAME_RANGE -> {
                             tvSignupNameRule.text = getString(R.string.singup_error_text)
-                            tvSignupNameRule.setTextColorById(requireContext(), R.color.Error_01)
+                            InputState.ERROR
                         }
 
                         s.isNullOrEmpty() -> {
                             tvSignupNameRule.text = getString(R.string.signup_name_rule)
-                            tvSignupNameRule.setTextColorById(requireContext(), R.color.Blue_02)
+                            InputState.ON
                         }
 
                         else -> {
                             tvSignupNameRule.text = getString(R.string.signup_confirm_text)
-                            tvSignupNameRule.setTextColorById(requireContext(), R.color.Success_01)
+                            InputState.ACCEPT
                         }
                     }
+                    etSignupNickname.setColorStateWithInput(
+                        state,
+                        tvSignupNameRule,
+                        signupEtCheck
+                    )
                     viewModel.setNameData(s.toString())
                 }
             })

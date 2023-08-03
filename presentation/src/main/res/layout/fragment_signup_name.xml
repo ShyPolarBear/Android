@@ -66,6 +66,7 @@
             android:layout_marginVertical="12dp"
             android:src="@drawable/ic_signup_success"
             android:layout_marginEnd="10dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@id/et_signup_nickname"
             app:layout_constraintTop_toTopOf="@id/et_signup_nickname"
             app:layout_constraintBottom_toBottomOf="@id/et_signup_nickname"

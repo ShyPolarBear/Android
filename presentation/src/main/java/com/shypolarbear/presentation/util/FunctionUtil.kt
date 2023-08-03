@@ -4,16 +4,19 @@ import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
+import com.shypolarbear.presentation.ui.signup.InputState
 import com.skydoves.powermenu.PowerMenuItem
 
 
@@ -29,6 +32,37 @@ fun Button.checkLike(isLike: Boolean, view: Button) {
         view.background = likeBtnOn
     } else {
         view.background = likeBtnOff
+    }
+}
+
+fun EditText.setColorStateWithInput(state: InputState, textView: TextView, imageView: ImageView){
+    when (state){
+        InputState.ACCEPT -> {
+            this.background = ResourcesCompat.getDrawable(resources, R.drawable.background_signup_et_accept, context.theme)
+            textView.setTextColorById(context, R.color.Success_01)
+            imageView.apply {
+                setImageResource(R.drawable.ic_signup_success)
+                visibility = View.VISIBLE
+            }
+        }
+        InputState.ERROR -> {
+            this.background = ResourcesCompat.getDrawable(resources, R.drawable.background_signup_et_error, context.theme)
+            textView.setTextColorById(context, R.color.Error_01)
+            imageView.apply {
+                setImageResource(R.drawable.ic_signup_error)
+                visibility = View.VISIBLE
+            }
+        }
+        InputState.ON -> {
+            this.background = ResourcesCompat.getDrawable(resources, R.drawable.background_signup_et_on, context.theme)
+            textView.setTextColorById(context, R.color.Blue_02)
+            imageView.visibility = View.GONE
+        }
+        InputState.OFF -> {
+            textView.setTextColorById(context, R.color.Gray_02)
+            this.background = ResourcesCompat.getDrawable(resources, R.drawable.background_signup_et_off, context.theme)
+            imageView.visibility = View.GONE
+        }
     }
 }
 
