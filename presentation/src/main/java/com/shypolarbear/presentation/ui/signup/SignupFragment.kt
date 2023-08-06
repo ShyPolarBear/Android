@@ -13,18 +13,17 @@ import com.shypolarbear.presentation.ui.signup.pages.SignupTermsFragment
 import timber.log.Timber
 
 val NAME_RANGE = 2..8
+enum class Page(val page: Int) {
+    TERMS(0),
+    NAME(1),
+    PHONE(2),
+    MAIL(3)
+}
 
 class SignupFragment :
     BaseFragment<FragmentSignupBinding, SignupViewModel>(R.layout.fragment_signup) {
     override val viewModel: SignupViewModel by viewModels()
     private lateinit var pagerAdapter: SignupAdapter
-
-    enum class Page(val page: Int) {
-        TERMS(0),
-        NAME(1),
-        PHONE(2),
-        MAIL(3)
-    }
 
     override fun initView() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)

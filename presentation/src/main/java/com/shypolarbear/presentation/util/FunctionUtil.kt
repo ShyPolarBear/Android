@@ -4,12 +4,14 @@ import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import com.shypolarbear.presentation.R
@@ -19,6 +21,13 @@ import com.skydoves.powermenu.PowerMenuItem
 
 val emailPattern = Regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
 val phonePattern = Regex("[^0-9]")
+
+enum class InputState(val state: Int) {
+    ACCEPT(0),
+    ERROR(1),
+    ON(2),
+    OFF(3)
+}
 
 fun Button.checkLike(isLike: Boolean, view: Button) {
 
@@ -32,7 +41,57 @@ fun Button.checkLike(isLike: Boolean, view: Button) {
     }
 }
 
-fun EditText.afterTextChanged(method: (editable: Editable?) -> Unit, type: String = "text"){
+fun EditText.setColorStateWithInput(state: InputState, textView: TextView, imageView: ImageView) {
+    when (state) {
+        InputState.ACCEPT -> {
+            this.background = ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.background_signup_et_accept,
+                context.theme
+            )
+            textView.setTextColorById(context, R.color.Success_01)
+            imageView.apply {
+                setImageResource(R.drawable.ic_signup_success)
+                visibility = View.VISIBLE
+            }
+        }
+
+        InputState.ERROR -> {
+            this.background = ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.background_signup_et_error,
+                context.theme
+            )
+            textView.setTextColorById(context, R.color.Error_01)
+            imageView.apply {
+                setImageResource(R.drawable.ic_signup_error)
+                visibility = View.VISIBLE
+            }
+        }
+
+        InputState.ON -> {
+            this.background = ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.background_signup_et_on,
+                context.theme
+            )
+            textView.setTextColorById(context, R.color.Blue_02)
+            imageView.visibility = View.GONE
+        }
+
+        InputState.OFF -> {
+            textView.setTextColorById(context, R.color.Gray_02)
+            this.background = ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.background_signup_et_off,
+                context.theme
+            )
+            imageView.visibility = View.GONE
+        }
+    }
+}
+
+fun EditText.afterTextChanged(method: (editable: Editable?) -> Unit) {
     addTextChangedListener(object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -47,8 +106,9 @@ fun EditText.afterTextChanged(method: (editable: Editable?) -> Unit, type: Strin
         }
     })
 }
-fun EditText.keyboardDown(fragment: Fragment){
-    this.setOnEditorActionListener{ v, _, event ->
+
+fun EditText.keyboardDown(fragment: Fragment) {
+    this.setOnEditorActionListener { v, _, event ->
         if (event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER) {
             fragment.hideKeyboard()
             return@setOnEditorActionListener true
@@ -56,16 +116,17 @@ fun EditText.keyboardDown(fragment: Fragment){
         return@setOnEditorActionListener false
     }
 }
+
 fun ImageView.setMenu(
     view: ImageView,
     menuList: List<PowerMenuItem>,
-    viewLifecycleOwner: LifecycleOwner
+    viewLifecycleOwner: LifecycleOwner,
 ) {
     PowerMenuUtil.getPowerMenu(
         context,
         viewLifecycleOwner,
         menuList
-    ) .showAsDropDown(
+    ).showAsDropDown(
         view,
         FeedTotalFragment.POWER_MENU_OFFSET_X,
         FeedTotalFragment.POWER_MENU_OFFSET_Y
