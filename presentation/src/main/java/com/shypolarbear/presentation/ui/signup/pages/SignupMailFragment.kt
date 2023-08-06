@@ -18,7 +18,7 @@ class SignupMailFragment :
         binding.apply {
             etSignupMail.apply {
                 keyboardDown(this@SignupMailFragment)
-                afterTextChanged({
+                afterTextChanged {
                     val match: MatchResult? = emailPattern.find(it.toString())
 
                     val state = when {
@@ -42,7 +42,7 @@ class SignupMailFragment :
                         signupEtCheck
                     )
                     viewModel.setMailData(match?.value ?: "")
-                })
+                }
             }
         }
     }

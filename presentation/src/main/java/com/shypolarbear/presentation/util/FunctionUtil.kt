@@ -91,7 +91,7 @@ fun EditText.setColorStateWithInput(state: InputState, textView: TextView, image
     }
 }
 
-fun EditText.afterTextChanged(method: (editable: Editable?) -> Unit, type: String = "text") {
+fun EditText.afterTextChanged(method: (editable: Editable?) -> Unit) {
     addTextChangedListener(object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 

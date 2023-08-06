@@ -23,7 +23,7 @@ class SignupPhoneFragment :
             etSignupPhone.apply {
                 keyboardDown(this@SignupPhoneFragment)
                 addTextChangedListener(PhoneNumberFormattingTextWatcher("KR"))
-                afterTextChanged({ s ->
+                afterTextChanged { s ->
                     val state = when {
                         s.isNullOrEmpty() -> {
                             tvSignupPhoneRule.text = getString(R.string.signup_phone_hint_detail)
@@ -48,7 +48,7 @@ class SignupPhoneFragment :
                         signupEtCheck
                     )
                     viewModel.setPhoneData(phoneNumber)
-                })
+                }
             }
         }
     }
