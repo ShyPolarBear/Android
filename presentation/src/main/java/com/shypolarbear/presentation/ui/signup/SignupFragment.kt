@@ -20,13 +20,6 @@ enum class Page(val page: Int) {
     MAIL(3)
 }
 
-enum class InputState(val state: Int) {
-    ACCEPT(0),
-    ERROR(1),
-    ON(2),
-    OFF(3)
-}
-
 class SignupFragment :
     BaseFragment<FragmentSignupBinding, SignupViewModel>(R.layout.fragment_signup) {
     override val viewModel: SignupViewModel by viewModels()
