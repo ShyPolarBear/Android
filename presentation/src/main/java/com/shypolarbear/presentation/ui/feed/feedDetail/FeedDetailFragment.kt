@@ -42,8 +42,15 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             onOtherReplyPropertyClick = { view: ImageView ->
                 showOtherReplyPropertyMenu(view)
             },
-            onBtnLikeClick = { btn: Button, isLiked: Boolean, likeCnt: Int, textView: TextView ->
-                changeLikeBtn(btn, isLiked, likeCnt, textView)
+            onBtnLikeClick = {
+                    btn: Button,
+                    isLiked: Boolean,
+                    likeCnt: Int,
+                    textView: TextView,
+                    commentId: Int,
+                    replyId: Int,
+                    itemType: FeedDetailLikeBtnType ->
+                changeLikeBtn(btn, isLiked, likeCnt, textView, commentId, replyId, itemType)
             }
         )
     }
@@ -67,7 +74,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         }
 
         viewModel.loadFeedDetail(feedDetailArgs.feedId)
-        viewModel.loadFeedCommentMock(feedDetailArgs.feedId)
+        viewModel.loadFeedComment(feedDetailArgs.feedId)
 
         viewModel.feed.observe(viewLifecycleOwner) {feed ->
             setFeedPost(feed)
@@ -89,13 +96,13 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
 
         binding.btnFeedDetailLike.showLikeBtnIsLike(feedDetail.isLike, binding.btnFeedDetailLike)
         binding.btnFeedDetailLike.setOnClickListener {
-            postLikeCnt = changeLikeBtn(
-                binding.btnFeedDetailLike,
-                isPostLike,
-                postLikeCnt,
-                binding.tvFeedDetailLikeCnt
+            changeLikeBtn(
+                button = binding.btnFeedDetailLike,
+                isLiked = isPostLike,
+                likeCnt = postLikeCnt,
+                likeCntText = binding.tvFeedDetailLikeCnt,
+                itemType = FeedDetailLikeBtnType.POST_LIKE_BTN
             )
-            isPostLike = !isPostLike
         }
 
         if (!feedDetail.authorProfileImage.isNullOrBlank()) {
@@ -151,6 +158,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     private fun setFeedComment() {
         binding.rvFeedDetailReply.adapter = feedCommentAdapter
         viewModel.feedComment.observe(viewLifecycleOwner) {
+            Timber.d(it.map { it.likeCount }.toString())
+            Timber.d(it.map { it.childComments }.toString())
             feedCommentAdapter.submitList(it)
         }
     }
@@ -215,18 +224,49 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         )
     }
 
-    private fun changeLikeBtn(button: Button, isLiked: Boolean, likeCnt: Int, likeCntText: TextView): Int {
+    private fun changeLikeBtn(
+        button: Button,
+        isLiked: Boolean,
+        likeCnt: Int,
+        likeCntText: TextView,
+        commentId: Int = 0,
+        replyId: Int = 0,
+        itemType: FeedDetailLikeBtnType
+    ) {
         var isLike = isLiked
-        isLike = !isLike
-        button.showLikeBtnIsLike(isLike, button)
+        var likeCount = likeCnt
 
-        if (isLike) {
-            likeCntText.text = (likeCnt + 1).toString()
-            return likeCnt + 1
+        isLike = !isLike
+
+        when(isLike) {
+            true -> likeCount += 1
+            false -> likeCount -= 1
         }
-        else {
-            likeCntText.text = (likeCnt - 1).toString()
-            return likeCnt - 1
+
+        when(itemType) {
+            FeedDetailLikeBtnType.POST_LIKE_BTN ->
+                viewModel.clickFeedPostLikeBtn(
+                    isLiked = isLike,
+                    likeCnt = likeCount
+                )
+
+            FeedDetailLikeBtnType.COMMENT_LIKE_BTN ->
+                viewModel.clickCommentLikeBtn(
+                    isLiked = isLike,
+                    likeCnt = likeCount,
+                    commentId = commentId
+                )
+
+            FeedDetailLikeBtnType.REPLY_LIKE_BTN ->
+                viewModel.clickReplyLikeBtn(
+                    isLiked = isLike,
+                    likeCnt = likeCount,
+                    parentCommentId = commentId,
+                    replyId = replyId
+                )
         }
+
+        button.showLikeBtnIsLike(isLike, button)
+        likeCntText.text = likeCount.toString()
     }
 }

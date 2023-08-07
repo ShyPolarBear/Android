@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.domain.model.feed.FeedTotal
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
+import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalLikeBtnType
 import com.shypolarbear.presentation.ui.feed.feedTotal.viewholder.FeedPostViewHolder
 
 class FeedPostAdapter(
@@ -18,7 +19,14 @@ class FeedPostAdapter(
     private val onOtherPostPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onMyBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onOtherBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
-    private val onBtnLikeClick: (view: Button, isLiked: Boolean, likeCnt: Int, textView: TextView) -> Int = { _, _, _, _ -> 0},
+    private val onBtnLikeClick: (
+        view: Button,
+        isLiked: Boolean,
+        likeCnt: Int,
+        textView: TextView,
+        feedId: Int,
+        itemType: FeedTotalLikeBtnType
+            ) -> Unit = { _, _, _, _, _, _ -> },
     private val onMoveToDetailClick: (feedId: Int) -> Unit = { }
     ): ListAdapter<Feed, FeedPostViewHolder>(FeedPostDiffCallback()) {
 

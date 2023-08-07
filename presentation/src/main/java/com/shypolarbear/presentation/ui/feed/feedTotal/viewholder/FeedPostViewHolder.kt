@@ -10,7 +10,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
+import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalLikeBtnType
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
+import timber.log.Timber
 
 class FeedPostViewHolder(
     private val binding: ItemFeedBinding,
@@ -18,19 +20,20 @@ class FeedPostViewHolder(
     private val onOtherPostPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onMyBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onOtherBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
-    private val onBtnLikeClick: (view: Button, isLiked: Boolean, likeCnt: Int, textView: TextView) -> Int = { _, _, _, _ -> 0},
+    private val onBtnLikeClick: (
+        view: Button,
+        isLiked: Boolean,
+        likeCnt: Int,
+        textView: TextView,
+        feedId: Int,
+        itemType: FeedTotalLikeBtnType
+    ) -> Unit = { _, _, _, _, _, _ -> },
     private val onMoveToDetailClick: (feedId: Int) -> Unit = { }
     ) : RecyclerView.ViewHolder(binding.root) {
 
     private var post: Feed = Feed()
 
     init {
-        var postBtnClicked = false
-        var commentBtnClicked = false
-        var isPostLike = false
-        var isCommentLike = false
-        var postLikeCnt = 0
-        var commentLikeCnt = 0
 
         binding.layoutMoveToDetailArea.setOnClickListener {
             onMoveToDetailClick(post.feedId)
@@ -53,45 +56,25 @@ class FeedPostViewHolder(
         }
 
         binding.btnFeedPostLike.setOnClickListener {
-            when(postBtnClicked) {
-                true -> {
-                    isPostLike = isPostLike
-                    postLikeCnt = postLikeCnt
-                }
-                false -> {
-                    isPostLike = post.isLike
-                    postLikeCnt= post.likeCount
-                }
-            }
-            postLikeCnt = onBtnLikeClick(
+            onBtnLikeClick(
                 binding.btnFeedPostLike,
-                isPostLike,
-                postLikeCnt,
-                binding.tvFeedPostLikeCnt
+                post.isLike,
+                post.likeCount,
+                binding.tvFeedPostLikeCnt,
+                post.feedId,
+                FeedTotalLikeBtnType.POST_LIKE_BTN
             )
-            isPostLike = !isPostLike
-            postBtnClicked = true
         }
 
         binding.btnFeedPostBestCommentLike.setOnClickListener {
-            when(commentBtnClicked) {
-                true -> {
-                    isCommentLike = isCommentLike
-                    commentLikeCnt = commentLikeCnt
-                }
-                false -> {
-                    isCommentLike = post.comment.isLike
-                    commentLikeCnt= post.comment.likeCount
-                }
-            }
-            commentLikeCnt = onBtnLikeClick(
+            onBtnLikeClick(
                 binding.btnFeedPostBestCommentLike,
-                isCommentLike,
-                commentLikeCnt,
-                binding.tvFeedPostBestCommentLikeCnt
+                post.comment.isLike,
+                post.comment.likeCount,
+                binding.tvFeedPostBestCommentLikeCnt,
+                post.feedId,
+                FeedTotalLikeBtnType.BEST_COMMENT_LIKE_BTN
             )
-            isCommentLike = !isCommentLike
-            commentBtnClicked = true
         }
     }
 
@@ -99,6 +82,7 @@ class FeedPostViewHolder(
         post = item
 
         if (item.commentCount == 0) {
+            Timber.d("댓글 없는 피드 id: ${item.feedId}")
             binding.layoutFeedComment.isVisible = false
         }
 
@@ -109,18 +93,6 @@ class FeedPostViewHolder(
     }
 
     private fun setFeedPost(post: Feed) {
-
-        if (!post.authorProfileImage.isNullOrBlank()) {
-            Glide.with(itemView)
-                .load(post.authorProfileImage)
-                .into(binding.ivFeedPostUserProfile)
-        }
-
-        if (!post.comment.authorProfileImage.isNullOrBlank()) {
-            Glide.with(itemView)
-                .load(post.comment.authorProfileImage)
-                .into(binding.ivFeedPostCommentUserProfile)
-        }
 
         binding.tvFeedPostLikeCnt.text = post.likeCount.toString()
         binding.tvFeedPostBestCommentLikeCnt.text = post.comment.likeCount.toString()
@@ -136,6 +108,20 @@ class FeedPostViewHolder(
 
         binding.tvFeedPostCommentUserNickname.text = post.comment.author
         binding.tvFeedPostBestCommentContent.text = post.comment.content
+
+        if (!post.authorProfileImage.isNullOrBlank()) {
+            Timber.d("프로필 이미지 세팅 post.authorProfileImage: ${post.authorProfileImage}")
+            Glide.with(itemView)
+                .load(post.authorProfileImage)
+                .into(binding.ivFeedPostUserProfile)
+        }
+
+        if (!post.comment.authorProfileImage.isNullOrBlank()) {
+            Timber.d("프로필 이미지 세팅 post.comment.authorProfileImage: ${post.comment.authorProfileImage}")
+            Glide.with(itemView)
+                .load(post.comment.authorProfileImage)
+                .into(binding.ivFeedPostCommentUserProfile)
+        }
     }
 
     private fun setFeedPostImg(post: Feed) {
@@ -147,7 +133,7 @@ class FeedPostViewHolder(
             }
 
             TabLayoutMediator(binding.tablayoutFeedPostIndicator, this
-            ) { tab, position ->
+            ) { _, _ ->
 
             }.attach()
         }

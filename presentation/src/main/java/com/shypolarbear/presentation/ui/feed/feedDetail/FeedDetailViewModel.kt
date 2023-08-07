@@ -25,6 +25,8 @@ class FeedDetailViewModel @Inject constructor(
     private val _feedComment = MutableLiveData<List<Comment>>()
     val feedComment: LiveData<List<Comment>> = _feedComment
 
+    private lateinit var currentCommentList: List<Comment>
+
     fun loadFeedDetail(feedId: Int) {
         viewModelScope.launch {
             val feedDetailTestData = feedDetailUseCase.loadFeedDetailData(feedId)
@@ -32,7 +34,6 @@ class FeedDetailViewModel @Inject constructor(
             feedDetailTestData
                 .onSuccess {
                     _feed.value = it.data
-                    Timber.d(it.toString())
                 }
                 .onFailure {
 
@@ -40,18 +41,57 @@ class FeedDetailViewModel @Inject constructor(
         }
     }
 
-    fun loadFeedCommentMock(feedId: Int) {
+    fun loadFeedComment(feedId: Int) {
         viewModelScope.launch {
             val feedCommentMockData = feedCommentUseCase.loadFeedCommentData(feedId)
 
             feedCommentMockData
                 .onSuccess {
                     _feedComment.value = it.data.comments
-                    Timber.d(it.toString())
                 }
                 .onFailure {
 
                 }
         }
+    }
+
+    fun clickFeedPostLikeBtn(isLiked: Boolean, likeCnt: Int) {
+        val currentFeed = _feed.value?: return
+        val updatedFeed = currentFeed.copy(isLike = isLiked, likeCount = likeCnt)
+        _feed.value = updatedFeed
+    }
+
+    fun clickCommentLikeBtn(isLiked: Boolean, likeCnt: Int, commentId: Int) {
+
+        currentCommentList = _feedComment.value!!
+
+        val updatedCommentList = currentCommentList.map { comment ->
+            if (comment.commentId == commentId)
+                comment.copy(isLike = isLiked, likeCount = likeCnt)
+            else
+                comment
+        }
+        _feedComment.value = updatedCommentList
+    }
+
+    fun clickReplyLikeBtn(isLiked: Boolean, likeCnt: Int, parentCommentId: Int, replyId: Int) {
+
+        currentCommentList = _feedComment.value!!
+
+        val updatedCommentList = currentCommentList.map { comment ->
+            if (comment.commentId == parentCommentId) {
+
+                val updatedReplyList = comment.childComments.map { reply ->
+                    if (reply.commentId == replyId)
+                        reply.copy(isLike = isLiked, likeCount = likeCnt)
+                    else
+                        reply
+                }
+                comment.copy(childComments = updatedReplyList)
+            }
+            else
+                comment
+        }
+        _feedComment.value = updatedCommentList
     }
 }

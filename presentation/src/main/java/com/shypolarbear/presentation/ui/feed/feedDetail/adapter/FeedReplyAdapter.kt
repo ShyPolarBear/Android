@@ -12,13 +12,23 @@ import com.shypolarbear.domain.model.feed.feedDetail.ChildComment
 import com.shypolarbear.presentation.databinding.ItemFeedReplyDeleteBinding
 import com.shypolarbear.presentation.databinding.ItemFeedReplyNormalBinding
 import com.shypolarbear.presentation.ui.feed.feedDetail.FeedCommentViewType
+import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailLikeBtnType
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedReplyDeleteViewHolder
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedReplyNormalViewHolder
 
 class FeedReplyAdapter (
     private val onMyReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
-    private val onBtnLikeClick: (view: Button, isLiked: Boolean, likeCnt: Int, textView: TextView) -> Int = { _, _, _, _ -> 0}
+    private val onBtnLikeClick: (
+        view: Button,
+        isLiked: Boolean,
+        likeCnt: Int,
+        textView: TextView,
+        commentId: Int,
+        replyId: Int,
+        itemType: FeedDetailLikeBtnType
+    ) -> Unit = { _, _, _, _, _, _, _ -> },
+    private val parentCommentId: Int
 ): ListAdapter<ChildComment, RecyclerView.ViewHolder>(FeedReplyDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -32,7 +42,8 @@ class FeedReplyAdapter (
                     ),
                     onMyReplyPropertyClick = onMyReplyPropertyClick,
                     onOtherReplyPropertyClick = onOtherReplyPropertyClick,
-                    onBtnLikeClick = onBtnLikeClick
+                    onBtnLikeClick = onBtnLikeClick,
+                    parentCommentId = parentCommentId
                 )
             }
 

@@ -12,6 +12,7 @@ import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.presentation.databinding.ItemFeedCommentDeleteBinding
 import com.shypolarbear.presentation.databinding.ItemFeedCommentNormalBinding
 import com.shypolarbear.presentation.ui.feed.feedDetail.FeedCommentViewType
+import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailLikeBtnType
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentDeleteViewHolder
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentNormalViewHolder
 
@@ -20,7 +21,15 @@ class FeedCommentAdapter(
     private val onOtherCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onMyReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
-    private val onBtnLikeClick: (view: Button, isLiked: Boolean, likeCnt: Int, textView: TextView) -> Int = { _, _, _, _ -> 0}
+    private val onBtnLikeClick: (
+        view: Button,
+        isLiked: Boolean,
+        likeCnt: Int,
+        textView: TextView,
+        commentId: Int,
+        replyId: Int,
+        itemType: FeedDetailLikeBtnType
+            ) -> Unit = { _, _, _, _, _, _, _ -> }
 ): ListAdapter<Comment, RecyclerView.ViewHolder>(FeedCommentDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

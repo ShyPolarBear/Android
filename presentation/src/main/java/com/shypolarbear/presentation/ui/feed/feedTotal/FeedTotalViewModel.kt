@@ -8,6 +8,7 @@ import com.shypolarbear.domain.usecase.feed.FeedTotalUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,9 +21,9 @@ class FeedTotalViewModel @Inject constructor (
 
     fun loadFeedTotalData() {
         viewModelScope.launch {
-            val testData = feedTotalUseCase.loadFeedTotalData()
+            val feedData = feedTotalUseCase.loadFeedTotalData()
 
-            testData
+            feedData
                 .onSuccess {
                     _feed.value = it.data.feeds
                 }
@@ -31,5 +32,36 @@ class FeedTotalViewModel @Inject constructor (
                 }
 
         }
+    }
+
+    fun clickFeedLikeBtn(isLiked: Boolean, likeCnt: Int, feedId: Int) {
+        val currentFeed = _feed.value?: return
+        val updatedFeed = currentFeed.map { feed ->
+
+            if (feed.feedId == feedId){
+                Timber.d("feed.authorProfileImage: ${feed.authorProfileImage}")
+                Timber.d("feed.comment.authorProfileImage: ${feed.comment.authorProfileImage}")
+                feed.copy(isLike = isLiked, likeCount = likeCnt)
+            }
+            else
+                feed
+        }
+        _feed.value = updatedFeed
+    }
+
+    fun clickFeedBestCommentLikeBtn(isLiked: Boolean, likeCnt: Int, feedId: Int) {
+        val currentFeed = _feed.value?: return
+        val updatedFeed = currentFeed.map { feed ->
+
+            if (feed.feedId == feedId) {
+                val updatedBestComment = feed.comment.copy(isLike = isLiked, likeCount = likeCnt)
+                Timber.d("feed.authorProfileImage: ${feed.authorProfileImage}")
+                Timber.d("feed.comment.authorProfileImage: ${feed.comment.authorProfileImage}")
+                feed.copy(comment = updatedBestComment)
+            }
+            else
+                feed
+        }
+        _feed.value = updatedFeed
     }
 }

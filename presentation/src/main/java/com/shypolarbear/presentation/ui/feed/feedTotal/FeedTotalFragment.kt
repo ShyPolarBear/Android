@@ -28,24 +28,6 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
     }
 
     override val viewModel: FeedTotalViewModel by viewModels()
-    private val feedPostAdapter = FeedPostAdapter(
-        onMyPostPropertyClick = { view: ImageView ->
-            showMyPostPropertyMenu(view)
-        },
-        onOtherPostPropertyClick = { view: ImageView ->
-            showOtherPostPropertyMenu(view)
-        },
-        onMyBestCommentPropertyClick = { view: ImageView ->
-            showMyBestCommentPropertyMenu(view)
-        },
-        onOtherBestCommentPropertyClick = { view: ImageView ->
-            showOtherBestCommentPropertyMenu(view)
-        },
-        onBtnLikeClick = { btn: Button, isLiked: Boolean, likeCnt: Int, textView: TextView ->
-            changeLikeBtn(btn, isLiked, likeCnt, textView)
-        },
-        onMoveToDetailClick = { feedId: Int -> showFeedPostDetail(feedId) }
-    )
     private val feedSortItems: List<PowerMenuItem> by lazy {
         listOf(
             PowerMenuItem(requireContext().getString(R.string.feed_post_property_recent)),
@@ -71,9 +53,35 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
     }
 
     private fun setFeedPost() {
+        val feedPostAdapter = FeedPostAdapter(
+            onMyPostPropertyClick = { view: ImageView ->
+                showMyPostPropertyMenu(view)
+            },
+            onOtherPostPropertyClick = { view: ImageView ->
+                showOtherPostPropertyMenu(view)
+            },
+            onMyBestCommentPropertyClick = { view: ImageView ->
+                showMyBestCommentPropertyMenu(view)
+            },
+            onOtherBestCommentPropertyClick = { view: ImageView ->
+                showOtherBestCommentPropertyMenu(view)
+            },
+            onBtnLikeClick = {
+                    btn: Button,
+                    isLiked: Boolean,
+                    likeCnt: Int,
+                    textView: TextView,
+                    feedId: Int,
+                    itemType: FeedTotalLikeBtnType ->
+                changeLikeBtn(btn, isLiked, likeCnt, textView, feedId, itemType)
+            },
+            onMoveToDetailClick = { feedId: Int -> showFeedPostDetail(feedId) }
+        )
+
         binding.rvFeedPost.adapter = feedPostAdapter
         lifecycleScope.launch {
             viewModel.feed.observe(viewLifecycleOwner) {
+                Timber.d("피드 리스트: $it")
                 feedPostAdapter.submitList(it)
             }
         }
@@ -135,19 +143,34 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         )
     }
 
-    private fun changeLikeBtn(button: Button, isLiked: Boolean, likeCnt: Int, likeCntText: TextView): Int {
+    private fun changeLikeBtn(
+        button: Button,
+        isLiked: Boolean,
+        likeCnt: Int,
+        likeCntText: TextView,
+        feedId: Int,
+        itemType: FeedTotalLikeBtnType
+        ) {
         var isLike = isLiked
-        isLike = !isLike
-        button.showLikeBtnIsLike(isLike, button)
+        var likeCount = likeCnt
 
-        if (isLike) {
-            likeCntText.text = (likeCnt + 1).toString()
-            return likeCnt + 1
+        isLike = !isLike
+
+        when(isLike) {
+            true -> likeCount += 1
+            false -> likeCount -= 1
         }
-        else {
-            likeCntText.text = (likeCnt - 1).toString()
-            return likeCnt - 1
+
+        when (itemType) {
+            FeedTotalLikeBtnType.POST_LIKE_BTN ->
+                viewModel.clickFeedLikeBtn(isLike, likeCount, feedId)
+
+            FeedTotalLikeBtnType.BEST_COMMENT_LIKE_BTN ->
+                viewModel.clickFeedBestCommentLikeBtn(isLike, likeCount, feedId)
         }
+
+        button.showLikeBtnIsLike(isLike, button)
+        likeCntText.text = likeCount.toString()
     }
 
     private fun showFeedPostDetail(feedId: Int) {

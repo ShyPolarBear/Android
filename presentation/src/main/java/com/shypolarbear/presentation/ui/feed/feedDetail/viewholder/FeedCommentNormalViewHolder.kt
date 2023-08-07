@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.presentation.databinding.ItemFeedCommentNormalBinding
+import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailLikeBtnType
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedReplyAdapter
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
 
@@ -16,44 +17,30 @@ class FeedCommentNormalViewHolder (
     private val onOtherCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onMyReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
-    private val onBtnLikeClick: (view: Button, isLiked: Boolean, likeCnt: Int, textView: TextView) -> Int = { _, _, _, _ -> 0}
+    private val onBtnLikeClick: (
+        view: Button,
+        isLiked: Boolean,
+        likeCnt: Int,
+        textView: TextView,
+        commentId: Int,
+        replyId: Int,
+        itemType: FeedDetailLikeBtnType
+    ) -> Unit = { _, _, _, _, _, _, _ -> }
     ) : RecyclerView.ViewHolder(binding.root) {
-
-    private val feedReplyAdapter: FeedReplyAdapter by lazy {
-        FeedReplyAdapter(
-            onMyReplyPropertyClick = onMyReplyPropertyClick,
-            onOtherReplyPropertyClick = onOtherReplyPropertyClick,
-            onBtnLikeClick = onBtnLikeClick
-        )
-    }
 
     private var comment: Comment = Comment()
 
     init {
-        var btnClicked = false
-        var isCommentLike = false
-        var commentLikeCnt = 0
-
         binding.btnFeedCommentNormalLike.setOnClickListener {
-            when (btnClicked) {
-                true -> {
-                    isCommentLike = isCommentLike
-                    commentLikeCnt = commentLikeCnt
-                }
-                false -> {
-                    isCommentLike = comment.isLike
-                    commentLikeCnt = comment.likeCount
-                }
-            }
-
-            commentLikeCnt = onBtnLikeClick(
+            onBtnLikeClick(
                 binding.btnFeedCommentNormalLike,
-                isCommentLike,
-                commentLikeCnt,
-                binding.tvFeedCommentNormalLikeCnt
+                comment.isLike,
+                comment.likeCount,
+                binding.tvFeedCommentNormalLikeCnt,
+                comment.commentId,
+                0,
+                FeedDetailLikeBtnType.COMMENT_LIKE_BTN
             )
-            isCommentLike = !isCommentLike
-            btnClicked = true
         }
 
         binding.ivFeedCommentNormalProperty.setOnClickListener {
@@ -75,6 +62,13 @@ class FeedCommentNormalViewHolder (
     }
 
     private fun setComment(comment: Comment) {
+        val feedReplyAdapter = FeedReplyAdapter(
+            onMyReplyPropertyClick = onMyReplyPropertyClick,
+            onOtherReplyPropertyClick = onOtherReplyPropertyClick,
+            onBtnLikeClick = onBtnLikeClick,
+            parentCommentId = comment.commentId
+        )
+
         binding.rvFeedCommentReply.adapter = feedReplyAdapter
         feedReplyAdapter.submitList(comment.childComments)
 
