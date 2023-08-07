@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="signupViewModel"
+            type="com.shypolarbear.presentation.ui.signup.SignupViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,6 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:id="@+id/signup_indicator"
                     android:layout_marginVertical="16dp"
                     android:layout_marginEnd="20dp"
                     android:text="@string/signup_page_indicator"
@@ -52,15 +55,14 @@
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.fragment.app.FragmentContainerView
+        <androidx.viewpager2.widget.ViewPager2
             android:paddingHorizontal="20dp"
-            android:id="@+id/signup_fragment"
+            android:id="@+id/signup_viewpager"
             android:focusableInTouchMode="true"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/signup_btn_next"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/signup_appbar" />
 
@@ -75,7 +77,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signup_fragment" />
+            app:layout_constraintTop_toBottomOf="@+id/signup_viewpager" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -28,6 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:padding="12dp"
+            android:maxLength="13"
             style="@style/b1"
             android:id="@+id/et_signup_phone"
             android:textColorHint="@color/Gray_05"
@@ -36,6 +37,18 @@
             >
 
         </EditText>
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginVertical="12dp"
+            android:src="@drawable/ic_signup_success"
+            android:layout_marginEnd="10dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/et_signup_phone"
+            app:layout_constraintTop_toTopOf="@id/et_signup_phone"
+            app:layout_constraintBottom_toBottomOf="@id/et_signup_phone"
+            android:id="@+id/signup_et_check"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:id="@+id/tv_signup_phone_rule"

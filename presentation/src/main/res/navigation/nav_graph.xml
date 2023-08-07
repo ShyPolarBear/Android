@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/feedFragment">
+    app:startDestination="@id/signupFragment">
 
     <fragment
         android:id="@+id/feedFragment"
@@ -36,5 +36,53 @@
         <argument
             android:name="feedId"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.shypolarbear.presentation.ui.signup.SignupFragment"
+        android:label="SignupFragment" >
+        <action
+            android:id="@+id/action_signupFragment_to_signupPhoneFragment"
+            app:destination="@id/signupPhoneFragment" />
+        <action
+            android:id="@+id/action_signupFragment_to_signupNameFragment"
+            app:destination="@id/signupNameFragment" />
+        <action
+            android:id="@+id/action_signupFragment_to_signupTermsFragment"
+            app:destination="@id/signupTermsFragment" />
+        <action
+            android:id="@+id/action_signupFragment_to_signupMailFragment"
+            app:destination="@id/signupMailFragment" />
+        <action
+            android:id="@+id/action_signupFragment_to_feedFragment"
+            app:destination="@id/feedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupPhoneFragment"
+        android:name="com.shypolarbear.presentation.ui.signup.pages.SignupPhoneFragment"
+        android:label="SignupPhoneFragment" >
+        <action
+            android:id="@+id/action_signupPhoneFragment_to_signupMailFragment"
+            app:destination="@id/signupMailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupMailFragment"
+        android:name="com.shypolarbear.presentation.ui.signup.pages.SignupMailFragment"
+        android:label="SignupMailFragment" />
+    <fragment
+        android:id="@+id/signupTermsFragment"
+        android:name="com.shypolarbear.presentation.ui.signup.pages.SignupTermsFragment"
+        android:label="SignupTermsFragment" >
+        <action
+            android:id="@+id/action_signupTermsFragment_to_signupNameFragment"
+            app:destination="@id/signupNameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupNameFragment"
+        android:name="com.shypolarbear.presentation.ui.signup.pages.SignupNameFragment"
+        android:label="SignupNameFragment" >
+        <action
+            android:id="@+id/action_signupNameFragment_to_signupPhoneFragment"
+            app:destination="@id/signupPhoneFragment" />
     </fragment>
 </navigation>

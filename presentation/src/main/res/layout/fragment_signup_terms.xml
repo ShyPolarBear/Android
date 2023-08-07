@@ -33,6 +33,7 @@
             android:layout_height="28dp"
             android:background="@drawable/selector_signup_check_btn"
             android:button="@null"
+            android:id="@+id/signup_terms_cb_all"
             app:layout_constraintBottom_toBottomOf="@id/signup_op1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/signup_op1" />
@@ -58,6 +59,7 @@
         <CheckBox
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:id="@+id/signup_terms_cb_privacy"
             android:background="@drawable/selector_signup_check_btn"
             android:button="@null"
             app:layout_constraintBottom_toBottomOf="@id/signup_op2"
@@ -103,6 +105,7 @@
             android:layout_height="24dp"
             android:background="@drawable/selector_signup_check_btn"
             android:button="@null"
+            android:id="@+id/signup_terms_cb_terms"
             app:layout_constraintBottom_toBottomOf="@id/signup_op3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/signup_op3" />
@@ -120,6 +123,7 @@
         <CheckBox
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:id="@+id/signup_terms_cb_age"
             android:background="@drawable/selector_signup_check_btn"
             android:button="@null"
             app:layout_constraintBottom_toBottomOf="@id/signup_op4"
