@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.Feed
+import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalLikeBtnType
@@ -81,6 +82,8 @@ class FeedPostViewHolder(
     fun bind(item: Feed) {
         post = item
 
+        binding.layoutFeedComment.isVisible = true
+
         if (item.commentCount == 0) {
             Timber.d("댓글 없는 피드 id: ${item.feedId}")
             binding.layoutFeedComment.isVisible = false
@@ -92,34 +95,42 @@ class FeedPostViewHolder(
         binding.executePendingBindings()
     }
 
-    private fun setFeedPost(post: Feed) {
+    private fun setFeedPost(item: Feed) {
 
-        binding.tvFeedPostLikeCnt.text = post.likeCount.toString()
-        binding.tvFeedPostBestCommentLikeCnt.text = post.comment.likeCount.toString()
+        binding.tvFeedPostLikeCnt.text = item.likeCount.toString()
+        binding.tvFeedPostBestCommentLikeCnt.text = item.comment.likeCount.toString()
 
-        binding.tvFeedPostUserNickname.text = post.author
-        binding.tvFeedPostPostingTime.text = post.createdDate
-        binding.tvFeedPostTitle.text = post.title
-        binding.tvFeedPostContent.text = post.content
-        binding.tvFeedPostCommentCnt.text = post.commentCount.toString()
+        binding.tvFeedPostUserNickname.text = item.author
+        binding.tvFeedPostPostingTime.text = item.createdDate
+        binding.tvFeedPostTitle.text = item.title
+        binding.tvFeedPostContent.text = item.content
+        binding.tvFeedPostCommentCnt.text = item.commentCount.toString()
 
-        binding.btnFeedPostLike.showLikeBtnIsLike(post.isLike, binding.btnFeedPostLike)
-        binding.btnFeedPostBestCommentLike.showLikeBtnIsLike(post.comment.isLike, binding.btnFeedPostBestCommentLike)
+        binding.btnFeedPostLike.showLikeBtnIsLike(item.isLike, binding.btnFeedPostLike)
+        binding.btnFeedPostBestCommentLike.showLikeBtnIsLike(item.comment.isLike, binding.btnFeedPostBestCommentLike)
 
-        binding.tvFeedPostCommentUserNickname.text = post.comment.author
-        binding.tvFeedPostBestCommentContent.text = post.comment.content
+        binding.tvFeedPostCommentUserNickname.text = item.comment.author
+        binding.tvFeedPostBestCommentContent.text = item.comment.content
 
-        if (!post.authorProfileImage.isNullOrBlank()) {
-            Timber.d("프로필 이미지 세팅 post.authorProfileImage: ${post.authorProfileImage}")
+        if (!item.authorProfileImage.isNullOrBlank()) {
+            Timber.d("프로필 이미지 세팅 post.authorProfileImage: ${item.authorProfileImage}")
             Glide.with(itemView)
-                .load(post.authorProfileImage)
+                .load(item.authorProfileImage)
+                .into(binding.ivFeedPostUserProfile)
+        } else {
+            Glide.with(itemView)
+                .load(R.drawable.ic_user_base_profile)
                 .into(binding.ivFeedPostUserProfile)
         }
 
-        if (!post.comment.authorProfileImage.isNullOrBlank()) {
-            Timber.d("프로필 이미지 세팅 post.comment.authorProfileImage: ${post.comment.authorProfileImage}")
+        if (!item.comment.authorProfileImage.isNullOrBlank()) {
+            Timber.d("프로필 이미지 세팅 post.comment.authorProfileImage: ${item.comment.authorProfileImage}")
             Glide.with(itemView)
-                .load(post.comment.authorProfileImage)
+                .load(item.comment.authorProfileImage)
+                .into(binding.ivFeedPostCommentUserProfile)
+        }else {
+            Glide.with(itemView)
+                .load(R.drawable.ic_user_base_profile)
                 .into(binding.ivFeedPostCommentUserProfile)
         }
     }
