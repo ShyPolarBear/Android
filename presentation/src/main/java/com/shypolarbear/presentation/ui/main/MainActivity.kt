@@ -38,7 +38,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 
     private fun initNavBar() {
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fragment1) as NavHostFragment
+            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
         binding.bottomNavigationBar.itemIconTintList = null
 
