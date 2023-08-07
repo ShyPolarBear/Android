@@ -109,6 +109,10 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             Glide.with(this)
                 .load(feedDetail.authorProfileImage)
                 .into(binding.ivFeedDetailUserProfile)
+        } else {
+            Glide.with(this)
+                .load(R.drawable.ic_user_base_profile)
+                .into(binding.ivFeedDetailUserProfile)
         }
 
         if (feedDetail.commentCount == 0)
@@ -116,14 +120,11 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
 
         with(binding.viewpagerFeedDetailImg) {
             adapter = ImageViewPagerAdapter().apply {
-                submitList(
-                    // 테스트 데이터
-                    feedDetail.feedImage
-                )
+                submitList(feedDetail.feedImage)
             }
 
             TabLayoutMediator(binding.tablayoutFeedDetailIndicator, this
-            ) { tab, position ->
+            ) { _, _ ->
 
             }.attach()
         }
@@ -158,8 +159,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     private fun setFeedComment() {
         binding.rvFeedDetailReply.adapter = feedCommentAdapter
         viewModel.feedComment.observe(viewLifecycleOwner) {
-            Timber.d(it.map { it.likeCount }.toString())
-            Timber.d(it.map { it.childComments }.toString())
             feedCommentAdapter.submitList(it)
         }
     }

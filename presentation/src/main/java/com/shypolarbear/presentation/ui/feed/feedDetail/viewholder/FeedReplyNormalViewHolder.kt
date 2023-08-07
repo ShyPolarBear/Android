@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.shypolarbear.domain.model.feed.feedDetail.ChildComment
+import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedReplyNormalBinding
 import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailLikeBtnType
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
@@ -61,17 +62,21 @@ class FeedReplyNormalViewHolder (
         binding.executePendingBindings()
     }
 
-    private fun setReply(reply: ChildComment) {
-        binding.tvFeedReplyNormalNickname.text = reply.author
-        binding.tvFeedReplyNormalContent.text = reply.content
-        binding.tvFeedReplyNormalTime.text = reply.createdDate
+    private fun setReply(item: ChildComment) {
+        binding.tvFeedReplyNormalNickname.text = item.author
+        binding.tvFeedReplyNormalContent.text = item.content
+        binding.tvFeedReplyNormalTime.text = item.createdDate
 
-        binding.btnFeedReplyNormalLike.showLikeBtnIsLike(reply.isLike, binding.btnFeedReplyNormalLike)
-        binding.tvFeedReplyNormalLikeCnt.text = reply.likeCount.toString()
+        binding.btnFeedReplyNormalLike.showLikeBtnIsLike(item.isLike, binding.btnFeedReplyNormalLike)
+        binding.tvFeedReplyNormalLikeCnt.text = item.likeCount.toString()
 
-        if (!reply.authorProfileImage.isNullOrBlank()) {
+        if (!item.authorProfileImage.isNullOrBlank()) {
             Glide.with(itemView)
-                .load(reply.authorProfileImage)
+                .load(item.authorProfileImage)
+                .into(binding.ivFeedReplyNormalProfile)
+        } else {
+            Glide.with(itemView)
+                .load(R.drawable.ic_user_base_profile)
                 .into(binding.ivFeedReplyNormalProfile)
         }
     }

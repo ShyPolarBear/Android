@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.shypolarbear.domain.model.feed.Comment
+import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedCommentNormalBinding
 import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailLikeBtnType
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedReplyAdapter
@@ -61,27 +62,31 @@ class FeedCommentNormalViewHolder (
         binding.executePendingBindings()
     }
 
-    private fun setComment(comment: Comment) {
+    private fun setComment(item: Comment) {
         val feedReplyAdapter = FeedReplyAdapter(
             onMyReplyPropertyClick = onMyReplyPropertyClick,
             onOtherReplyPropertyClick = onOtherReplyPropertyClick,
             onBtnLikeClick = onBtnLikeClick,
-            parentCommentId = comment.commentId
+            parentCommentId = item.commentId
         )
 
         binding.rvFeedCommentReply.adapter = feedReplyAdapter
-        feedReplyAdapter.submitList(comment.childComments)
+        feedReplyAdapter.submitList(item.childComments)
 
-        binding.tvFeedCommentNormalNickname.text = comment.author
-        binding.tvFeedCommentNormalContent.text = comment.content
-        binding.tvFeedCommentNormalTime.text = comment.createdDate
+        binding.tvFeedCommentNormalNickname.text = item.author
+        binding.tvFeedCommentNormalContent.text = item.content
+        binding.tvFeedCommentNormalTime.text = item.createdDate
 
-        binding.btnFeedCommentNormalLike.showLikeBtnIsLike(comment.isLike, binding.btnFeedCommentNormalLike)
-        binding.tvFeedCommentNormalLikeCnt.text = comment.likeCount.toString()
+        binding.btnFeedCommentNormalLike.showLikeBtnIsLike(item.isLike, binding.btnFeedCommentNormalLike)
+        binding.tvFeedCommentNormalLikeCnt.text = item.likeCount.toString()
 
-        if (!comment.authorProfileImage.isNullOrBlank()) {
+        if (!item.authorProfileImage.isNullOrBlank()) {
             Glide.with(itemView)
-                .load(comment.authorProfileImage)
+                .load(item.authorProfileImage)
+                .into(binding.ivFeedCommentNormalProfile)
+        } else {
+            Glide.with(itemView)
+                .load(R.drawable.ic_user_base_profile)
                 .into(binding.ivFeedCommentNormalProfile)
         }
     }
