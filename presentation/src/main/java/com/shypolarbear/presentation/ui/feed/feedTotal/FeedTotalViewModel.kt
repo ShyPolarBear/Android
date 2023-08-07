@@ -38,11 +38,8 @@ class FeedTotalViewModel @Inject constructor (
         val currentFeed = _feed.value?: return
         val updatedFeed = currentFeed.map { feed ->
 
-            if (feed.feedId == feedId){
-                Timber.d("feed.authorProfileImage: ${feed.authorProfileImage}")
-                Timber.d("feed.comment.authorProfileImage: ${feed.comment.authorProfileImage}")
+            if (feed.feedId == feedId)
                 feed.copy(isLike = isLiked, likeCount = likeCnt)
-            }
             else
                 feed
         }
@@ -55,8 +52,6 @@ class FeedTotalViewModel @Inject constructor (
 
             if (feed.feedId == feedId) {
                 val updatedBestComment = feed.comment.copy(isLike = isLiked, likeCount = likeCnt)
-                Timber.d("feed.authorProfileImage: ${feed.authorProfileImage}")
-                Timber.d("feed.comment.authorProfileImage: ${feed.comment.authorProfileImage}")
                 feed.copy(comment = updatedBestComment)
             }
             else

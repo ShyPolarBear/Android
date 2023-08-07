@@ -84,10 +84,8 @@ class FeedPostViewHolder(
 
         binding.layoutFeedComment.isVisible = true
 
-        if (item.commentCount == 0) {
-            Timber.d("댓글 없는 피드 id: ${item.feedId}")
+        if (item.commentCount == 0)
             binding.layoutFeedComment.isVisible = false
-        }
 
         setFeedPost(item)
         setFeedPostImg(item)
@@ -113,7 +111,6 @@ class FeedPostViewHolder(
         binding.tvFeedPostBestCommentContent.text = item.comment.content
 
         if (!item.authorProfileImage.isNullOrBlank()) {
-            Timber.d("프로필 이미지 세팅 post.authorProfileImage: ${item.authorProfileImage}")
             Glide.with(itemView)
                 .load(item.authorProfileImage)
                 .into(binding.ivFeedPostUserProfile)
@@ -124,11 +121,10 @@ class FeedPostViewHolder(
         }
 
         if (!item.comment.authorProfileImage.isNullOrBlank()) {
-            Timber.d("프로필 이미지 세팅 post.comment.authorProfileImage: ${item.comment.authorProfileImage}")
             Glide.with(itemView)
                 .load(item.comment.authorProfileImage)
                 .into(binding.ivFeedPostCommentUserProfile)
-        }else {
+        } else {
             Glide.with(itemView)
                 .load(R.drawable.ic_user_base_profile)
                 .into(binding.ivFeedPostCommentUserProfile)

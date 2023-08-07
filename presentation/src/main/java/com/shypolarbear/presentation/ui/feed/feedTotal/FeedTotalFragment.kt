@@ -28,6 +28,30 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
     }
 
     override val viewModel: FeedTotalViewModel by viewModels()
+    private val feedPostAdapter = FeedPostAdapter(
+        onMyPostPropertyClick = { view: ImageView ->
+            showMyPostPropertyMenu(view)
+        },
+        onOtherPostPropertyClick = { view: ImageView ->
+            showOtherPostPropertyMenu(view)
+        },
+        onMyBestCommentPropertyClick = { view: ImageView ->
+            showMyBestCommentPropertyMenu(view)
+        },
+        onOtherBestCommentPropertyClick = { view: ImageView ->
+            showOtherBestCommentPropertyMenu(view)
+        },
+        onBtnLikeClick = {
+                btn: Button,
+                isLiked: Boolean,
+                likeCnt: Int,
+                textView: TextView,
+                feedId: Int,
+                itemType: FeedTotalLikeBtnType ->
+            changeLikeBtn(btn, isLiked, likeCnt, textView, feedId, itemType)
+        },
+        onMoveToDetailClick = { feedId: Int -> showFeedPostDetail(feedId) }
+    )
     private val feedSortItems: List<PowerMenuItem> by lazy {
         listOf(
             PowerMenuItem(requireContext().getString(R.string.feed_post_property_recent)),
@@ -53,35 +77,9 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
     }
 
     private fun setFeedPost() {
-        val feedPostAdapter = FeedPostAdapter(
-            onMyPostPropertyClick = { view: ImageView ->
-                showMyPostPropertyMenu(view)
-            },
-            onOtherPostPropertyClick = { view: ImageView ->
-                showOtherPostPropertyMenu(view)
-            },
-            onMyBestCommentPropertyClick = { view: ImageView ->
-                showMyBestCommentPropertyMenu(view)
-            },
-            onOtherBestCommentPropertyClick = { view: ImageView ->
-                showOtherBestCommentPropertyMenu(view)
-            },
-            onBtnLikeClick = {
-                    btn: Button,
-                    isLiked: Boolean,
-                    likeCnt: Int,
-                    textView: TextView,
-                    feedId: Int,
-                    itemType: FeedTotalLikeBtnType ->
-                changeLikeBtn(btn, isLiked, likeCnt, textView, feedId, itemType)
-            },
-            onMoveToDetailClick = { feedId: Int -> showFeedPostDetail(feedId) }
-        )
-
         binding.rvFeedPost.adapter = feedPostAdapter
         lifecycleScope.launch {
             viewModel.feed.observe(viewLifecycleOwner) {
-                Timber.d("피드 리스트: $it")
                 feedPostAdapter.submitList(it)
             }
         }
