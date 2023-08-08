@@ -4,9 +4,6 @@
 
     <data>
 
-        <variable
-            name="feed_post_img"
-            type="com.shypolarbear.domain.model.feed.FeedPostImg" />
     </data>
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -14,5 +11,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        app:shapeAppearanceOverlay="@style/Radius10"/>
+        app:shapeAppearanceOverlay="@style/radius_10"/>
 </layout>

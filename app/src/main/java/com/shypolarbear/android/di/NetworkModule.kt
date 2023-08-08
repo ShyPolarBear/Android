@@ -1,6 +1,12 @@
 package com.shypolarbear.android.di
 
-import com.shypolarbear.data.api.ExampleApi
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParser
+import com.google.gson.JsonSyntaxException
+import com.shypolarbear.android.util.MOCK_URL
+import com.shypolarbear.android.util.RETROFIT_TAG
+import com.shypolarbear.android.util.isJsonArray
+import com.shypolarbear.android.util.isJsonObject
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -9,29 +15,50 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-
-    const val BASE_URL = "http://3.37.80.247:8080/"
-    const val SAMPLE_URL = "https://api.chucknorris.io/"
+    @Singleton
+    @Provides
+    fun provideHttpClient(
+        logger: HttpLoggingInterceptor
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(logger)
+            .build()
+    }
 
     @Singleton
     @Provides
-    fun provideRetrofit(): Retrofit {
-
-        val logger = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BASIC
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
+        val loggingInterceptor = HttpLoggingInterceptor {
+            when {
+                !it.isJsonArray() && !it.isJsonObject() ->
+                    Timber.tag(RETROFIT_TAG).d("CONNECTION INFO: $it")
+                else ->  try {
+                    Timber.tag(RETROFIT_TAG).d(
+                        GsonBuilder().setPrettyPrinting().create().toJson(
+                        JsonParser().parse(it)))
+                } catch (m: JsonSyntaxException) {
+                    Timber.tag(RETROFIT_TAG).d(it)
+                }
+            }
         }
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        return loggingInterceptor
+    }
 
-        val client = OkHttpClient.Builder()
-            .addInterceptor(logger)
-            .build()
+    @Singleton
+    @Provides
+    fun provideRetrofit(
+        client: OkHttpClient
+    ): Retrofit {
 
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(MOCK_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

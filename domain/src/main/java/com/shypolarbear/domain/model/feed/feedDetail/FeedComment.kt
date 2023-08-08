@@ -1,7 +1,7 @@
 package com.shypolarbear.domain.model.feed.feedDetail
 
-data class FeedComment (
-    val test1: String,
-    val viewType: Int,
-    val owner: String
+data class FeedComment(
+    val code: Int,
+    val data: CommentData,
+    val message: String
 )

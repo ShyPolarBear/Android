@@ -1,9 +1,13 @@
 package com.shypolarbear.android.di
 
 import com.shypolarbear.domain.repository.ExampleRepo
+import com.shypolarbear.domain.repository.feed.FeedRepo
 import com.shypolarbear.domain.repository.LoginRepo
 import com.shypolarbear.domain.usecase.ExampleUseCase
+import com.shypolarbear.domain.usecase.feed.FeedTotalUseCase
 import com.shypolarbear.domain.usecase.LoginUseCase
+import com.shypolarbear.domain.usecase.feed.FeedCommentUseCase
+import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,5 +27,23 @@ class UseCaseModule {
     @Provides
     fun provideExampleUseCase(repo: ExampleRepo): ExampleUseCase {
         return ExampleUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideFeedTotalUseCase(repo: FeedRepo): FeedTotalUseCase {
+        return FeedTotalUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideFeedDetailUseCase(repo: FeedRepo): FeedDetailUseCase {
+        return FeedDetailUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideFeedCommentUseCase(repo: FeedRepo): FeedCommentUseCase {
+        return FeedCommentUseCase(repo)
     }
 }

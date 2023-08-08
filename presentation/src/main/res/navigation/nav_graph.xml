@@ -21,7 +21,9 @@
         tools:layout="@layout/fragment_feed_total" >
         <action
             android:id="@+id/action_feedTotalFragment_to_feedDetailFragment"
-            app:destination="@id/feedDetailFragment" />
+            app:destination="@id/feedDetailFragment"
+            app:enterAnim="@anim/fragment_enter_anim"
+            app:popEnterAnim="@anim/fragment_pop_enter_anim" />
     </fragment>
     <fragment
         android:id="@+id/feedDetailFragment"
@@ -31,6 +33,9 @@
         <action
             android:id="@+id/action_feedDetailFragment_to_feedTotalFragment"
             app:destination="@id/feedTotalFragment" />
+        <argument
+            android:name="feedId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/signupFragment"

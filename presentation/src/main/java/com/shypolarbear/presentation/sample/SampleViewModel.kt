@@ -14,7 +14,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class SampleViewModel @Inject constructor(
+class SampleViewModel @Inject constructor (
     private val exampleUseCase: ExampleUseCase
 ): BaseViewModel() {
 

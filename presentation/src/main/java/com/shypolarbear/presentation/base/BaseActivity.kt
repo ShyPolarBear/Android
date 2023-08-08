@@ -3,8 +3,10 @@ package com.shypolarbear.presentation.base
 import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import timber.log.Timber
 
 abstract class BaseActivity<B: ViewDataBinding, VM: BaseViewModel>(
     @LayoutRes private val layoutId: Int
@@ -16,8 +18,6 @@ abstract class BaseActivity<B: ViewDataBinding, VM: BaseViewModel>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        preLoad()
-
         binding = DataBindingUtil.setContentView(this, layoutId)
         binding.lifecycleOwner = this
 
@@ -25,6 +25,4 @@ abstract class BaseActivity<B: ViewDataBinding, VM: BaseViewModel>(
     }
     
     protected abstract fun initView()
-
-    abstract fun preLoad()
 }
