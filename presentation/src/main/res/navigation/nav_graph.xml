@@ -85,4 +85,12 @@
             android:id="@+id/action_signupNameFragment_to_signupPhoneFragment"
             app:destination="@id/signupPhoneFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/quizMainFragment"
+        android:name="com.shypolarbear.presentation.ui.quiz.main.QuizMainFragment"
+        android:label="QuizMainFragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.shypolarbear.presentation.ui.login.LoginFragment"
+        android:label="LoginFragment" />
 </navigation>

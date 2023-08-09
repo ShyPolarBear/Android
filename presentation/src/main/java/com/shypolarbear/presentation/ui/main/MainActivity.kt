@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.children
+import androidx.fragment.app.findFragment
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.shypolarbear.presentation.R
@@ -28,12 +31,15 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     private lateinit var navController: NavController
 
     override fun initView() {
-        binding.apply {
-            // LoginFragment 테스트
-             bottomNavigationBar.visibility = View.INVISIBLE
-        }
-
         initNavBar()
+        binding.apply {
+            navController.addOnDestinationChangedListener { controller, destination, arguments ->
+                when(destination.id){
+                    R.id.signupFragment, R.id.loginFragment -> bottomNavigationBar.visibility = View.INVISIBLE
+                    else -> bottomNavigationBar.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
     private fun initNavBar() {
@@ -44,5 +50,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 
         binding.bottomNavigationBar.setupWithNavController(navController)
         binding.bottomNavigationBar.setOnItemReselectedListener { }
+
     }
 }
