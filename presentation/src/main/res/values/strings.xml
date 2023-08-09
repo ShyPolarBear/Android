@@ -68,4 +68,12 @@
     <string name="feed_reply">댓글</string>
     <string name="feed_comment_delete_msg">삭제된 댓글입니다.</string>
     <string name="feed_detail_comment_msg">\t\t\t\t\t\t\t\t\t\t\t\t\t댓글을 입력해주세요.</string>
+
+    <string name="quiz_main_write">피드 작성하기</string>
+    <string name="quiz_main_write_detail">오늘은 어떻게 환경을 지키셨나요?</string>
+    <string name="quiz_main_recent">🍃 최근 올라온 환경 피드</string>
+    <string name="quiz_main_refresh">매일 오전 8시에 갱신돼요</string>
+    <string name="quiz_main_go_quiz">오늘의 환경 문제\n같이 풀어봐요!</string>
+    <string name="quiz_main_title">교과서에 북극곰이 나오지 않는\n그날까지 함께 달려요! 🏃</string>
+    <string name="quiz_main_user_name">%1$s님,</string>
 </resources>

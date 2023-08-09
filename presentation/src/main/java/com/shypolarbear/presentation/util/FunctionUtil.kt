@@ -1,8 +1,14 @@
 package com.shypolarbear.presentation.util
 
 import android.content.Context
+import android.graphics.Typeface
 import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableString
 import android.text.TextWatcher
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
+import android.text.style.TextAppearanceSpan
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -21,6 +27,7 @@ import com.skydoves.powermenu.PowerMenuItem
 
 val emailPattern = Regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
 val phonePattern = Regex("[^0-9]")
+val textInputType = "name"
 
 enum class InputState(val state: Int) {
     ACCEPT(0),
@@ -39,6 +46,28 @@ fun Button.showLikeBtnIsLike(isLike: Boolean, view: Button) {
     } else {
         view.background = likeBtnOff
     }
+}
+
+fun TextView.setSpecificTextColor(text: String, targetText: String, type: String = "") {
+    val spanningText = SpannableString(text)
+    val startIndex = text.indexOf(targetText)
+    val endIndex = startIndex + targetText.length
+
+    if (type == textInputType) {
+        spanningText.setSpan(
+            TextAppearanceSpan(context, R.style.H3),
+            startIndex,
+            endIndex,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+    }
+    spanningText.setSpan(
+        ForegroundColorSpan(resources.getColor(R.color.Blue_01, context?.theme)),
+        startIndex,
+        endIndex,
+        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+    )
+    this.text = spanningText
 }
 
 fun EditText.setColorStateWithInput(state: InputState, textView: TextView, imageView: ImageView) {
