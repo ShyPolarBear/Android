@@ -5,15 +5,6 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/signupFragment">
 
-<!--    <fragment-->
-<!--        android:id="@+id/navigation_feed"-->
-<!--        android:name="com.shypolarbear.presentation.ui.feed.FeedFragment"-->
-<!--        android:label="FeedFragment"-->
-<!--        tools:layout="@layout/fragment_feed">-->
-<!--        <action-->
-<!--            android:id="@+id/action_feedFragment_to_feedTotalFragment"-->
-<!--            app:destination="@id/feedTotalFragment" />-->
-<!--    </fragment>-->
     <fragment
         android:id="@+id/navigation_feed"
         android:name="com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment"
