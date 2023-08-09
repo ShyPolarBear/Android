@@ -75,7 +75,7 @@ class SignupFragment :
 
                     Page.MAIL.page -> {
                         if (viewModel.pageState.all { it }) {
-                            findNavController().navigate(R.id.action_signupFragment_to_feedFragment)
+                            findNavController().navigate(R.id.action_signupFragment_to_feedTotalFragment)
                         }
                     }
                 }
