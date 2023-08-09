@@ -76,4 +76,5 @@
     <string name="quiz_main_go_quiz">오늘의 환경 문제\n같이 풀어봐요!</string>
     <string name="quiz_main_title">교과서에 북극곰이 나오지 않는\n그날까지 함께 달려요! 🏃</string>
     <string name="quiz_main_user_name">%1$s님,</string>
+    <string name="quiz_main_more"><![CDATA[더보기 >]]></string>
 </resources>

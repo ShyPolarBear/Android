@@ -1,13 +1,11 @@
 package com.shypolarbear.presentation.util
 
 import android.content.Context
-import android.graphics.Typeface
 import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.text.style.TextAppearanceSpan
 import android.view.KeyEvent
 import android.view.View
@@ -27,7 +25,7 @@ import com.skydoves.powermenu.PowerMenuItem
 
 val emailPattern = Regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
 val phonePattern = Regex("[^0-9]")
-val textInputType = "name"
+val NAME = "name"
 
 enum class InputState(val state: Int) {
     ACCEPT(0),
@@ -53,7 +51,7 @@ fun TextView.setSpecificTextColor(text: String, targetText: String, type: String
     val startIndex = text.indexOf(targetText)
     val endIndex = startIndex + targetText.length
 
-    if (type == textInputType) {
+    if (type == NAME) {
         spanningText.setSpan(
             TextAppearanceSpan(context, R.style.H3),
             startIndex,
