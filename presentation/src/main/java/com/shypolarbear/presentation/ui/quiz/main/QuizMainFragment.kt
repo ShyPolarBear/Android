@@ -17,7 +17,13 @@ class QuizMainFragment :
 
             quizMainTvName.setSpecificTextColor(getString(R.string.quiz_main_user_name, userName), userName, NAME)
             quizMainTvTitle.setSpecificTextColor(getString(R.string.quiz_main_title), "북극곰")
-
+            setAdapter()
         }
+    }
+
+    private fun setAdapter(){
+        val items = listOf<String>("A","B","C")
+        val adapter = QuizMainAdapter(items)
+        binding.quizMainRv.adapter = adapter
     }
 }

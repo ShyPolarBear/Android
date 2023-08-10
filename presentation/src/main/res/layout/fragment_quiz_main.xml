@@ -81,6 +81,7 @@
             android:id="@+id/quiz_main_box"
             android:layout_width="0dp"
             android:layout_height="10dp"
+            android:layout_marginTop="8dp"
             android:background="#F2FAFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -109,23 +110,23 @@
             app:layout_constraintBottom_toBottomOf="@id/quiz_main_tv_recent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <androidx.viewpager2.widget.ViewPager2
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/quiz_main_rv"
             android:layout_width="0dp"
-            android:id="@+id/quiz_main_viewpager"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/quiz_main_tv_recent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/quiz_main_box_bottom"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="12dp"
-            android:layout_height="0dp"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/quiz_main_tv_recent" />
 
         <View
+            android:id="@+id/quiz_main_box_bottom"
             android:layout_width="0dp"
             android:layout_height="10dp"
             android:layout_marginBottom="16dp"
             android:background="#F2FAFF"
-            android:id="@+id/quiz_main_box_bottom"
             app:layout_constraintBottom_toTopOf="@id/quiz_main_tv_detail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
