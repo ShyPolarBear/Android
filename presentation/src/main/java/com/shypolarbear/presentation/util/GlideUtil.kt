@@ -34,8 +34,14 @@ object GlideUtil {
         initGlide(context, uri = uri).centerCrop().circleCrop().into(view)
     }
 
-    private fun initGlide(context: Context, url: String? = null, uri: Uri? = null) = run {
-        if (uri == null) Glide.with(context).load(url) else Glide.with(context).load(uri)
+    fun loadImage(context: Context, urd: Int, view: ImageView) {
+        initGlide(context, urd = urd).into(view)
+    }
+
+    private fun initGlide(context: Context, url: String? = null, uri: Uri? = null, urd: Int? = null) = run {
+        if (uri != null) Glide.with(context).load(uri)
+        else if (url != null) Glide.with(context).load(url)
+        else Glide.with(context).load(urd)
     }
 
 }

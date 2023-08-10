@@ -16,6 +16,7 @@ import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedDetailBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedCommentAdapter
+import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
@@ -110,13 +111,9 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         }
 
         if (!feedDetail.authorProfileImage.isNullOrBlank()) {
-            Glide.with(this)
-                .load(feedDetail.authorProfileImage)
-                .into(binding.ivFeedDetailUserProfile)
+            GlideUtil.loadImage(requireContext(), feedDetail.authorProfileImage, binding.ivFeedDetailUserProfile)
         } else {
-            Glide.with(this)
-                .load(R.drawable.ic_user_base_profile)
-                .into(binding.ivFeedDetailUserProfile)
+            GlideUtil.loadImage(requireContext(), urd = R.drawable.ic_user_base_profile, binding.ivFeedDetailUserProfile)
         }
 
         if (feedDetail.commentCount == 0)

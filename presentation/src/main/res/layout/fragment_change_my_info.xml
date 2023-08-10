@@ -37,7 +37,6 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:background="@drawable/ic_signup_name_edit"
-            android:contentDescription="@string/profile_icon"
             app:layout_constraintBottom_toBottomOf="@id/iv_change_my_info_profile"
             app:layout_constraintEnd_toEndOf="@+id/iv_change_my_info_profile" />
 
