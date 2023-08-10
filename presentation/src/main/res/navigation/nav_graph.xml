@@ -86,5 +86,16 @@
         android:name="com.shypolarbear.presentation.ui.more.MoreFragment"
         android:label="MoreFragment"
         tools:layout="@layout/fragment_more">
+        <action
+            android:id="@+id/action_navigation_more_to_changeMyInfoFragment"
+            app:destination="@id/changeMyInfoFragment"
+            app:enterAnim="@anim/fragment_enter_anim"
+            app:popEnterAnim="@anim/fragment_pop_enter_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeMyInfoFragment"
+        android:name="com.shypolarbear.presentation.ui.more.changemyinfo.ChangeMyInfoFragment"
+        android:label="ChangeMyInfoFragment"
+        tools:layout="@layout/fragment_change_my_info">
     </fragment>
 </navigation>
