@@ -48,6 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:id="@+id/quiz_main_tv_go_quiz"
             android:text="@string/quiz_main_go_quiz"
             android:textColor="@color/Blue_06"
             app:layout_constraintBottom_toBottomOf="@+id/quiz_main_btn_go_quiz"
