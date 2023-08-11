@@ -26,11 +26,6 @@ import com.skydoves.powermenu.PowerMenuItem
 val emailPattern = Regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
 val phonePattern = Regex("[^0-9]")
 
-enum class Type(){
-    NAME,
-    DEFAULT
-}
-
 enum class InputState(val state: Int) {
     ACCEPT(0),
     ERROR(1),
@@ -50,25 +45,33 @@ fun Button.showLikeBtnIsLike(isLike: Boolean, view: Button) {
     }
 }
 
-fun TextView.setSpecificTextColor(text: String, targetText: String, type: Type = Type.DEFAULT) {
+fun TextView.setSpecificTextColor(
+    text: String,
+    targetText: String,
+    styleId: Int? = null,
+    colorId: Int? = null,
+) {
     val spanningText = SpannableString(text)
     val startIndex = text.indexOf(targetText)
     val endIndex = startIndex + targetText.length
 
-    if (type == Type.NAME) {
+    if (styleId != null) {
         spanningText.setSpan(
-            TextAppearanceSpan(context, R.style.H3),
+            TextAppearanceSpan(context, styleId),
             startIndex,
             endIndex,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
     }
-    spanningText.setSpan(
-        ForegroundColorSpan(resources.getColor(R.color.Blue_01, context?.theme)),
-        startIndex,
-        endIndex,
-        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-    )
+    if (colorId != null) {
+        spanningText.setSpan(
+            ForegroundColorSpan(resources.getColor(colorId, context?.theme)),
+            startIndex,
+            endIndex,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+    }
+
     this.text = spanningText
 }
 
