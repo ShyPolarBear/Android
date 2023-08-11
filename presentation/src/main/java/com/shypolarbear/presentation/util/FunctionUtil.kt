@@ -2,7 +2,11 @@ package com.shypolarbear.presentation.util
 
 import android.content.Context
 import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableString
 import android.text.TextWatcher
+import android.text.style.ForegroundColorSpan
+import android.text.style.TextAppearanceSpan
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -39,6 +43,36 @@ fun Button.showLikeBtnIsLike(isLike: Boolean, view: Button) {
     } else {
         view.background = likeBtnOff
     }
+}
+
+fun TextView.setSpecificTextColor(
+    text: String,
+    targetText: String,
+    styleId: Int? = null,
+    colorId: Int? = null,
+) {
+    val spanningText = SpannableString(text)
+    val startIndex = text.indexOf(targetText)
+    val endIndex = startIndex + targetText.length
+
+    if (styleId != null) {
+        spanningText.setSpan(
+            TextAppearanceSpan(context, styleId),
+            startIndex,
+            endIndex,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+    }
+    if (colorId != null) {
+        spanningText.setSpan(
+            ForegroundColorSpan(resources.getColor(colorId, context?.theme)),
+            startIndex,
+            endIndex,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+    }
+
+    this.text = spanningText
 }
 
 fun EditText.setColorStateWithInput(state: InputState, textView: TextView, imageView: ImageView) {

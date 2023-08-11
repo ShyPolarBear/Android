@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/signupFragment">
+    app:startDestination="@id/quizMainFragment">
 
     <fragment
         android:id="@+id/navigation_feed"
@@ -99,4 +99,12 @@
             android:id="@+id/action_changeMyInfoFragment_to_navigation_more"
             app:destination="@id/navigation_more" />
     </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.shypolarbear.presentation.ui.login.LoginFragment"
+        android:label="LoginFragment" />
+    <fragment
+        android:id="@+id/quizMainFragment"
+        android:name="com.shypolarbear.presentation.ui.quiz.main.QuizMainFragment"
+        android:label="QuizMainFragment" />
 </navigation>
