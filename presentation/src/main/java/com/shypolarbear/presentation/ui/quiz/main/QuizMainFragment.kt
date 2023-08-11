@@ -5,8 +5,8 @@ import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentQuizMainBinding
 import com.shypolarbear.presentation.ui.quiz.main.QuizMainAdapter.Companion.initAdapter
+import com.shypolarbear.presentation.util.Type
 import com.shypolarbear.presentation.util.setSpecificTextColor
-import com.shypolarbear.presentation.util.NAME
 
 class QuizMainFragment :
     BaseFragment<FragmentQuizMainBinding, QuizMainViewModel>(R.layout.fragment_quiz_main) {
@@ -17,7 +17,7 @@ class QuizMainFragment :
             val userName = "춘식이"
             var solvedState = false
 
-            quizMainTvName.setSpecificTextColor(getString(R.string.quiz_main_user_name, userName), userName, NAME)
+            quizMainTvName.setSpecificTextColor(getString(R.string.quiz_main_user_name, userName), userName, Type.NAME)
             quizMainTvTitle.setSpecificTextColor(getString(R.string.quiz_main_title), "북극곰")
             setAdapter()
         }
