@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.R
@@ -15,6 +16,7 @@ import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedDetailBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedCommentAdapter
+import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
@@ -56,6 +58,9 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     }
 
     override fun initView() {
+
+        val bottomNavigationViewMainActivity = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation_bar)
+        bottomNavigationViewMainActivity.isVisible = false
 
         binding.btnFeedDetailBack.setOnClickListener {
             findNavController().navigate(R.id.action_feedDetailFragment_to_feedTotalFragment)
@@ -106,13 +111,9 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         }
 
         if (!feedDetail.authorProfileImage.isNullOrBlank()) {
-            Glide.with(this)
-                .load(feedDetail.authorProfileImage)
-                .into(binding.ivFeedDetailUserProfile)
+            GlideUtil.loadImage(requireContext(), feedDetail.authorProfileImage, binding.ivFeedDetailUserProfile)
         } else {
-            Glide.with(this)
-                .load(R.drawable.ic_user_base_profile)
-                .into(binding.ivFeedDetailUserProfile)
+            GlideUtil.loadImage(requireContext(), url = null, view = binding.ivFeedDetailUserProfile, placeHolder = R.drawable.ic_user_base_profile)
         }
 
         if (feedDetail.commentCount == 0)

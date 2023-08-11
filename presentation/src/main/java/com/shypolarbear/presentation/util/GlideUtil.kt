@@ -10,11 +10,11 @@ import com.bumptech.glide.request.RequestListener
 
 object GlideUtil {
     fun loadImage(context: Context, url: String, view: ImageView) {
-        initGlide(context, url).into(view)
+        loadGlide(context, url = url).into(view)
     }
 
-    fun loadImage(context: Context, url: String, view: ImageView, placeHolder: Int) {
-        initGlide(context, url).placeholder(placeHolder).into(view)
+    fun loadImage(context: Context, url: String?, view: ImageView, placeHolder: Int) {
+        loadGlide(context, url = url).placeholder(placeHolder).into(view)
     }
 
     fun loadImage(
@@ -23,19 +23,24 @@ object GlideUtil {
         view: ImageView,
         listener: RequestListener<Drawable>,
     ) {
-        initGlide(context, url).listener(listener).into(view)
+        loadGlide(context, url = url).listener(listener).into(view)
     }
 
     fun loadImage(context: Context, uri: Uri, view: ImageView) {
-        initGlide(context, uri = uri).into(view)
+        loadGlide(context, uri = uri).into(view)
     }
 
     fun loadCircleImage(context: Context, uri: Uri, view: ImageView) {
-        initGlide(context, uri = uri).centerCrop().circleCrop().into(view)
+        loadGlide(context, uri = uri).centerCrop().circleCrop().into(view)
     }
 
-    private fun initGlide(context: Context, url: String? = null, uri: Uri? = null) = run {
-        if (uri == null) Glide.with(context).load(url) else Glide.with(context).load(uri)
+    private fun loadGlide(context: Context, url: String? = null) = run {
+        Glide.with(context).load(url)
     }
+
+    private fun loadGlide(context: Context, uri: Uri? = null) = run {
+        Glide.with(context).load(uri)
+    }
+
 
 }

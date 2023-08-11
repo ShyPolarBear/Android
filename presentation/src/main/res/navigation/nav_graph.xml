@@ -6,16 +6,7 @@
     app:startDestination="@id/signupFragment">
 
     <fragment
-        android:id="@+id/feedFragment"
-        android:name="com.shypolarbear.presentation.ui.feed.FeedFragment"
-        android:label="FeedFragment"
-        tools:layout="@layout/fragment_feed">
-        <action
-            android:id="@+id/action_feedFragment_to_feedTotalFragment"
-            app:destination="@id/feedTotalFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/feedTotalFragment"
+        android:id="@+id/navigation_feed"
         android:name="com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment"
         android:label="FeedTotalFragment"
         tools:layout="@layout/fragment_feed_total" >
@@ -32,7 +23,7 @@
         tools:layout="@layout/fragment_feed_detail">
         <action
             android:id="@+id/action_feedDetailFragment_to_feedTotalFragment"
-            app:destination="@id/feedTotalFragment" />
+            app:destination="@id/navigation_feed" />
         <argument
             android:name="feedId"
             app:argType="integer" />
@@ -40,7 +31,8 @@
     <fragment
         android:id="@+id/signupFragment"
         android:name="com.shypolarbear.presentation.ui.signup.SignupFragment"
-        android:label="SignupFragment" >
+        android:label="SignupFragment"
+        tools:layout="@layout/fragment_signup">
         <action
             android:id="@+id/action_signupFragment_to_signupPhoneFragment"
             app:destination="@id/signupPhoneFragment" />
@@ -54,13 +46,14 @@
             android:id="@+id/action_signupFragment_to_signupMailFragment"
             app:destination="@id/signupMailFragment" />
         <action
-            android:id="@+id/action_signupFragment_to_feedFragment"
-            app:destination="@id/feedFragment" />
+            android:id="@+id/action_signupFragment_to_feedTotalFragment"
+            app:destination="@id/navigation_feed" />
     </fragment>
     <fragment
         android:id="@+id/signupPhoneFragment"
         android:name="com.shypolarbear.presentation.ui.signup.pages.SignupPhoneFragment"
-        android:label="SignupPhoneFragment" >
+        android:label="SignupPhoneFragment"
+        tools:layout="@layout/fragment_signup_phone">
         <action
             android:id="@+id/action_signupPhoneFragment_to_signupMailFragment"
             app:destination="@id/signupMailFragment" />
@@ -68,11 +61,13 @@
     <fragment
         android:id="@+id/signupMailFragment"
         android:name="com.shypolarbear.presentation.ui.signup.pages.SignupMailFragment"
-        android:label="SignupMailFragment" />
+        android:label="SignupMailFragment"
+        tools:layout="@layout/fragment_signup_mail"/>
     <fragment
         android:id="@+id/signupTermsFragment"
         android:name="com.shypolarbear.presentation.ui.signup.pages.SignupTermsFragment"
-        android:label="SignupTermsFragment" >
+        android:label="SignupTermsFragment"
+        tools:layout="@layout/fragment_signup_terms">
         <action
             android:id="@+id/action_signupTermsFragment_to_signupNameFragment"
             app:destination="@id/signupNameFragment" />
@@ -80,9 +75,28 @@
     <fragment
         android:id="@+id/signupNameFragment"
         android:name="com.shypolarbear.presentation.ui.signup.pages.SignupNameFragment"
-        android:label="SignupNameFragment" >
+        android:label="SignupNameFragment"
+        tools:layout="@layout/fragment_signup_name">
         <action
             android:id="@+id/action_signupNameFragment_to_signupPhoneFragment"
             app:destination="@id/signupPhoneFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_more"
+        android:name="com.shypolarbear.presentation.ui.more.MoreFragment"
+        android:label="MoreFragment"
+        tools:layout="@layout/fragment_more">
+        <action
+            android:id="@+id/action_navigation_more_to_changeMyInfoFragment"
+            app:destination="@id/changeMyInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeMyInfoFragment"
+        android:name="com.shypolarbear.presentation.ui.more.changemyinfo.ChangeMyInfoFragment"
+        android:label="ChangeMyInfoFragment"
+        tools:layout="@layout/fragment_change_my_info">
+        <action
+            android:id="@+id/action_changeMyInfoFragment_to_navigation_more"
+            app:destination="@id/navigation_more" />
     </fragment>
 </navigation>

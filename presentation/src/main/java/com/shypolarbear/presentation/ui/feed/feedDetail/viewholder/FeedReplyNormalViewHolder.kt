@@ -9,6 +9,7 @@ import com.shypolarbear.domain.model.feed.feedDetail.ChildComment
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedReplyNormalBinding
 import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailLikeBtnType
+import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
 
 class FeedReplyNormalViewHolder (
@@ -71,13 +72,9 @@ class FeedReplyNormalViewHolder (
         binding.tvFeedReplyNormalLikeCnt.text = item.likeCount.toString()
 
         if (!item.authorProfileImage.isNullOrBlank()) {
-            Glide.with(itemView)
-                .load(item.authorProfileImage)
-                .into(binding.ivFeedReplyNormalProfile)
+            GlideUtil.loadImage(itemView.context, item.authorProfileImage, binding.ivFeedReplyNormalProfile)
         } else {
-            Glide.with(itemView)
-                .load(R.drawable.ic_user_base_profile)
-                .into(binding.ivFeedReplyNormalProfile)
+            GlideUtil.loadImage(itemView.context, url = null, view = binding.ivFeedReplyNormalProfile, placeHolder = R.drawable.ic_user_base_profile)
         }
     }
 }

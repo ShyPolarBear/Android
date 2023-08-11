@@ -68,4 +68,14 @@
     <string name="feed_reply">댓글</string>
     <string name="feed_comment_delete_msg">삭제된 댓글입니다.</string>
     <string name="feed_detail_comment_msg">\t\t\t\t\t\t\t\t\t\t\t\t\t댓글을 입력해주세요.</string>
+    <string name="more_my_info_change">내 정보 수정</string>
+    <string name="more_contact">문의하기</string>
+    <string name="more_open_source_library">오픈 소스 라이브러리</string>
+    <string name="more_term">이용 약관</string>
+    <string name="more_privacy_policy">개인 정보 처리 방침</string>
+    <string name="more_usage_rules">커뮤니티 이용 수칙</string>
+    <string name="more_log_out">로그아웃</string>
+    <string name="more_withdraw">회원탈퇴</string>
+    <string name="more_my_post_and_comment">내가 쓴 게시물/댓글</string>
+    <string name="more_change_my_info_complete">수정 완료</string>
 </resources>
