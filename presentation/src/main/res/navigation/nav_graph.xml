@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/quizMainFragment">
+    app:startDestination="@id/navigation_quiz_main">
 
     <fragment
         android:id="@+id/navigation_feed"
@@ -102,9 +102,11 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.shypolarbear.presentation.ui.login.LoginFragment"
-        android:label="LoginFragment" />
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login"/>
     <fragment
-        android:id="@+id/quizMainFragment"
+        android:id="@+id/navigation_quiz_main"
         android:name="com.shypolarbear.presentation.ui.quiz.main.QuizMainFragment"
-        android:label="QuizMainFragment" />
+        android:label="QuizMainFragment"
+        tools:layout="@layout/fragment_quiz_main" />
 </navigation>
