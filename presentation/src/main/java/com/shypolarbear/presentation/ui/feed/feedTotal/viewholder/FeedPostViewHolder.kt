@@ -12,6 +12,7 @@ import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalLikeBtnType
+import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
 import timber.log.Timber
 
@@ -111,23 +112,15 @@ class FeedPostViewHolder(
         binding.tvFeedPostBestCommentContent.text = item.comment.content
 
         if (!item.authorProfileImage.isNullOrBlank()) {
-            Glide.with(itemView)
-                .load(item.authorProfileImage)
-                .into(binding.ivFeedPostUserProfile)
+            GlideUtil.loadImage(itemView.context, item.authorProfileImage, binding.ivFeedPostUserProfile)
         } else {
-            Glide.with(itemView)
-                .load(R.drawable.ic_user_base_profile)
-                .into(binding.ivFeedPostUserProfile)
+            GlideUtil.loadImage(itemView.context, url = null, view = binding.ivFeedPostUserProfile, placeHolder = R.drawable.ic_user_base_profile)
         }
 
         if (!item.comment.authorProfileImage.isNullOrBlank()) {
-            Glide.with(itemView)
-                .load(item.comment.authorProfileImage)
-                .into(binding.ivFeedPostCommentUserProfile)
+            GlideUtil.loadImage(itemView.context, item.comment.authorProfileImage, binding.ivFeedPostCommentUserProfile)
         } else {
-            Glide.with(itemView)
-                .load(R.drawable.ic_user_base_profile)
-                .into(binding.ivFeedPostCommentUserProfile)
+            GlideUtil.loadImage(itemView.context, url = null, view = binding.ivFeedPostCommentUserProfile, placeHolder = R.drawable.ic_user_base_profile)
         }
     }
 

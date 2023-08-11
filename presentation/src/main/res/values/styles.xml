@@ -10,6 +10,10 @@
         <item name="cornerSize">18.55dp</item>
     </style>
 
+    <style name="radius_20" >
+        <item name="cornerSize">20.13dp</item>
+    </style>
+
     <style name="radius_24" >
         <item name="cornerSize">24.16dp</item>
     </style>
