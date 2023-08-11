@@ -84,7 +84,7 @@ class FeedCommentNormalViewHolder (
         if (!item.authorProfileImage.isNullOrBlank()) {
             GlideUtil.loadImage(itemView.context, item.authorProfileImage, binding.ivFeedCommentNormalProfile)
         } else {
-            GlideUtil.loadImage(itemView.context, urd = R.drawable.ic_user_base_profile, binding.ivFeedCommentNormalProfile)
+            GlideUtil.loadImage(itemView.context, url = null, view = binding.ivFeedCommentNormalProfile, placeHolder = R.drawable.ic_user_base_profile)
         }
     }
 }

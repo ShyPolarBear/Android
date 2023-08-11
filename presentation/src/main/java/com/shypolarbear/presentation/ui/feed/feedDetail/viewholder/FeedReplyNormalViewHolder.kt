@@ -74,7 +74,7 @@ class FeedReplyNormalViewHolder (
         if (!item.authorProfileImage.isNullOrBlank()) {
             GlideUtil.loadImage(itemView.context, item.authorProfileImage, binding.ivFeedReplyNormalProfile)
         } else {
-            GlideUtil.loadImage(itemView.context, urd = R.drawable.ic_user_base_profile, binding.ivFeedReplyNormalProfile)
+            GlideUtil.loadImage(itemView.context, url = null, view = binding.ivFeedReplyNormalProfile, placeHolder = R.drawable.ic_user_base_profile)
         }
     }
 }

@@ -114,13 +114,13 @@ class FeedPostViewHolder(
         if (!item.authorProfileImage.isNullOrBlank()) {
             GlideUtil.loadImage(itemView.context, item.authorProfileImage, binding.ivFeedPostUserProfile)
         } else {
-            GlideUtil.loadImage(itemView.context, urd = R.drawable.ic_user_base_profile, binding.ivFeedPostUserProfile)
+            GlideUtil.loadImage(itemView.context, url = null, view = binding.ivFeedPostUserProfile, placeHolder = R.drawable.ic_user_base_profile)
         }
 
         if (!item.comment.authorProfileImage.isNullOrBlank()) {
             GlideUtil.loadImage(itemView.context, item.comment.authorProfileImage, binding.ivFeedPostCommentUserProfile)
         } else {
-            GlideUtil.loadImage(itemView.context, urd = R.drawable.ic_user_base_profile, binding.ivFeedPostCommentUserProfile)
+            GlideUtil.loadImage(itemView.context, url = null, view = binding.ivFeedPostCommentUserProfile, placeHolder = R.drawable.ic_user_base_profile)
         }
     }
 

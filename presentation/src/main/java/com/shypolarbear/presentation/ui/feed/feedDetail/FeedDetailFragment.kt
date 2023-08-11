@@ -113,7 +113,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         if (!feedDetail.authorProfileImage.isNullOrBlank()) {
             GlideUtil.loadImage(requireContext(), feedDetail.authorProfileImage, binding.ivFeedDetailUserProfile)
         } else {
-            GlideUtil.loadImage(requireContext(), urd = R.drawable.ic_user_base_profile, binding.ivFeedDetailUserProfile)
+            GlideUtil.loadImage(requireContext(), url = null, view = binding.ivFeedDetailUserProfile, placeHolder = R.drawable.ic_user_base_profile)
         }
 
         if (feedDetail.commentCount == 0)

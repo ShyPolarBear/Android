@@ -10,11 +10,11 @@ import com.bumptech.glide.request.RequestListener
 
 object GlideUtil {
     fun loadImage(context: Context, url: String, view: ImageView) {
-        initGlide(context, url).into(view)
+        initGlide(context, url = url).into(view)
     }
 
-    fun loadImage(context: Context, url: String, view: ImageView, placeHolder: Int) {
-        initGlide(context, url).placeholder(placeHolder).into(view)
+    fun loadImage(context: Context, url: String?, view: ImageView, placeHolder: Int) {
+        initGlide(context, url = url).placeholder(placeHolder).into(view)
     }
 
     fun loadImage(
@@ -23,7 +23,7 @@ object GlideUtil {
         view: ImageView,
         listener: RequestListener<Drawable>,
     ) {
-        initGlide(context, url).listener(listener).into(view)
+        initGlide(context, url = url).listener(listener).into(view)
     }
 
     fun loadImage(context: Context, uri: Uri, view: ImageView) {
@@ -34,14 +34,13 @@ object GlideUtil {
         initGlide(context, uri = uri).centerCrop().circleCrop().into(view)
     }
 
-    fun loadImage(context: Context, urd: Int, view: ImageView) {
-        initGlide(context, urd = urd).into(view)
+    private fun initGlide(context: Context, url: String? = null) = run {
+        Glide.with(context).load(url)
     }
 
-    private fun initGlide(context: Context, url: String? = null, uri: Uri? = null, urd: Int? = null) = run {
-        if (uri != null) Glide.with(context).load(uri)
-        else if (url != null) Glide.with(context).load(url)
-        else Glide.with(context).load(urd)
+    private fun initGlide(context: Context, uri: Uri? = null) = run {
+        Glide.with(context).load(uri)
     }
+
 
 }
