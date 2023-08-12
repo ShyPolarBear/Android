@@ -23,6 +23,7 @@ import javax.inject.Singleton
 object NetworkModule {
     @Singleton
     @Provides
+    @NormalOkHttp
     fun provideHttpClient(
         logger: HttpLoggingInterceptor
     ): OkHttpClient {
@@ -53,8 +54,9 @@ object NetworkModule {
 
     @Singleton
     @Provides
+    @NormalRetrofit
     fun provideRetrofit(
-        client: OkHttpClient
+        @NormalOkHttp client: OkHttpClient
     ): Retrofit {
 
         return Retrofit.Builder()
