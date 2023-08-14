@@ -18,8 +18,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.findNavController
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
+import com.shypolarbear.presentation.ui.quiz.daily.dialog.QuizDialog
 import com.skydoves.powermenu.PowerMenuItem
 
 
@@ -37,6 +39,21 @@ enum class DialogType(val point: String){
     CORRECT("plus"),
     INCORRECT("0"),
     REVIEW("review")
+}
+
+fun ImageView.setQuizBackButton(type: DialogType, dialog: QuizDialog){
+    if(type == DialogType.REVIEW){
+        this.setOnClickListener {
+            dialog.showDialog(DialogType.REVIEW)
+            dialog.alertDialog.setOnCancelListener {
+                findNavController().navigate(R.id.action_quizDailyOXFragment_to_quizMainFragment)
+            }
+        }
+    }else{
+        this.setOnClickListener {
+            findNavController().navigate(R.id.action_quizDailyOXFragment_to_quizMainFragment)
+        }
+    }
 }
 
 fun Button.showLikeBtnIsLike(isLike: Boolean, view: Button) {

@@ -1,7 +1,6 @@
 package com.shypolarbear.presentation.ui.quiz.daily.dialog
 
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
@@ -37,14 +36,6 @@ class QuizDialog(private val context: Context) {
                 alertDialog.dismiss()
             }
         }
-
-
-//        binding.btnClickedListener.setOnClickListener {
-//            btnClickedListener.onClick(it)
-//            alertDialog.dismiss()
-//        }
-
-
     }
 
     private fun initDialog(binding: ViewDataBinding){
