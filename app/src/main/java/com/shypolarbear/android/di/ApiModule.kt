@@ -31,7 +31,7 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun provideFeedApi(@AuthRetrofit retrofit: Retrofit): FeedApi {
+    fun provideFeedApi(@NormalRetrofit retrofit: Retrofit): FeedApi {
         return retrofit.create(FeedApi::class.java)
     }
 }
