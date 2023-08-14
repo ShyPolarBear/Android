@@ -22,7 +22,7 @@ class QuizMainFragment :
             setAdapter()
 
             quizMainBtnGoQuiz.setOnClickListener {
-                findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyMultiChoiceFragment)
+                findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyOXFragment)
             }
         }
     }

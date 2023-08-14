@@ -117,9 +117,17 @@
     <fragment
         android:id="@+id/quizDailyMultiChoiceFragment"
         android:name="com.shypolarbear.presentation.ui.quiz.daily.QuizDailyMultiChoiceFragment"
-        android:label="QuizDailyMultiChoiceFragment" />
+        android:label="QuizDailyMultiChoiceFragment" >
+        <action
+            android:id="@+id/action_quizDailyMultiChoiceFragment_to_quizMainFragment"
+            app:destination="@id/quizMainFragment" />
+    </fragment>
     <fragment
         android:id="@+id/quizDailyOXFragment"
         android:name="com.shypolarbear.presentation.ui.quiz.daily.QuizDailyOXFragment"
-        android:label="QuizDailyOXFragment" />
+        android:label="QuizDailyOXFragment" >
+        <action
+            android:id="@+id/action_quizDailyOXFragment_to_quizMainFragment"
+            app:destination="@id/quizMainFragment" />
+    </fragment>
 </navigation>

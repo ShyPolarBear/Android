@@ -33,6 +33,12 @@ enum class InputState(val state: Int) {
     OFF(3)
 }
 
+enum class DialogType(val point: String){
+    CORRECT("plus"),
+    INCORRECT("0"),
+    REVIEW("review")
+}
+
 fun Button.showLikeBtnIsLike(isLike: Boolean, view: Button) {
 
     val likeBtnOn = ContextCompat.getDrawable(context, R.drawable.ic_btn_like_on)
