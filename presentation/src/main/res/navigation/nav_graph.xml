@@ -106,5 +106,20 @@
     <fragment
         android:id="@+id/quizMainFragment"
         android:name="com.shypolarbear.presentation.ui.quiz.main.QuizMainFragment"
-        android:label="QuizMainFragment" />
+        android:label="QuizMainFragment" >
+        <action
+            android:id="@+id/action_quizMainFragment_to_quizDailyOXFragment"
+            app:destination="@id/quizDailyOXFragment" />
+        <action
+            android:id="@+id/action_quizMainFragment_to_quizDailyMultiChoiceFragment"
+            app:destination="@id/quizDailyMultiChoiceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizDailyMultiChoiceFragment"
+        android:name="com.shypolarbear.presentation.ui.quiz.daily.QuizDailyMultiChoiceFragment"
+        android:label="QuizDailyMultiChoiceFragment" />
+    <fragment
+        android:id="@+id/quizDailyOXFragment"
+        android:name="com.shypolarbear.presentation.ui.quiz.daily.QuizDailyOXFragment"
+        android:label="QuizDailyOXFragment" />
 </navigation>

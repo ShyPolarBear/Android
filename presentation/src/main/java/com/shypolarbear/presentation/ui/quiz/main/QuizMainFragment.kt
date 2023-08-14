@@ -1,6 +1,7 @@
 package com.shypolarbear.presentation.ui.quiz.main
 
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentQuizMainBinding
@@ -19,6 +20,10 @@ class QuizMainFragment :
             quizMainTvName.setSpecificTextColor(getString(R.string.quiz_main_user_name, userName), userName, styleId = R.style.H3, colorId = R.color.Blue_01)
             quizMainTvTitle.setSpecificTextColor(getString(R.string.quiz_main_title), "북극곰", colorId = R.color.Blue_01)
             setAdapter()
+
+            quizMainBtnGoQuiz.setOnClickListener {
+                findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyMultiChoiceFragment)
+            }
         }
     }
 
