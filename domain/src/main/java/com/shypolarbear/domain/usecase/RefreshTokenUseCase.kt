@@ -5,7 +5,7 @@ import com.shypolarbear.domain.repository.TokenRepo
 class RefreshTokenUseCase (
     private val repo: TokenRepo
 ){
-    fun loadRefreshToken() {
+    fun loadRefreshToken(): String {
         return repo.getRefreshToken()
     }
 }

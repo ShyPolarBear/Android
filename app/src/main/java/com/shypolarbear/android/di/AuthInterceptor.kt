@@ -2,6 +2,8 @@ package com.shypolarbear.android.di
 
 import com.shypolarbear.domain.usecase.AccessTokenUseCase
 import com.shypolarbear.domain.usecase.RefreshTokenUseCase
+import com.shypolarbear.domain.usecase.TokenRenewUseCase
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 import timber.log.Timber
@@ -11,12 +13,13 @@ import javax.inject.Singleton
 @Singleton
 class AuthInterceptor @Inject constructor(
     private val accessTokenUseCase: AccessTokenUseCase,
-    private val refreshTokenUseCase: RefreshTokenUseCase
+    private val refreshTokenUseCase: RefreshTokenUseCase,
+    private val tokenRenewUseCase: TokenRenewUseCase
 ): Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         // TODO("TokenRepoImpl에서 토큰 가져오는 동작 구현되면 주석 해제하기")
-//        val accessToken = accessTokenUseCase.loadAccessToken()
-//        val refreshToken = refreshTokenUseCase.loadRefreshToken()
+//        var accessToken = accessTokenUseCase.loadAccessToken()
+//        var refreshToken = refreshTokenUseCase.loadRefreshToken()
 
 //        val request = chain.request().newBuilder().addHeader("accessToken","$accessToken").build()
         val addedAccessTokenRequest = chain.request().newBuilder().addHeader("accessToken","testHeader").build()
@@ -24,8 +27,23 @@ class AuthInterceptor @Inject constructor(
 
         when (response.code) {
             401 -> {
-                // Access Token 갱신하는 동작
+                // Token 갱신하는 동작
+                runBlocking {
+                    val renewResponse = tokenRenewUseCase.loadTokens()
+
+                    renewResponse
+                        .onSuccess {
+                            var accessToken = it.data.accessToken
+                            var refreshToken = it.data.refreshToken
+
+                            Timber.d("access token: $accessToken, refresh token: $refreshToken")
+                        }
+                        .onFailure {
+
+                        }
+                }
             }
+
         }
 
         Timber.d("헤더에 잘 붙음?: $addedAccessTokenRequest")

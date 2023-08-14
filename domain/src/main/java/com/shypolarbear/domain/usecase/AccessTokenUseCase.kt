@@ -5,7 +5,7 @@ import com.shypolarbear.domain.repository.TokenRepo
 class AccessTokenUseCase (
     private val repo: TokenRepo
 ){
-    fun loadAccessToken() {
+    fun loadAccessToken(): String {
         return repo.getAccessToken()
     }
 }

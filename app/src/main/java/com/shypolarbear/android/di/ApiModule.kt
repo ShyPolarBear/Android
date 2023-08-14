@@ -2,6 +2,7 @@ package com.shypolarbear.android.di
 
 import com.shypolarbear.data.api.ExampleApi
 import com.shypolarbear.data.api.LoginApi
+import com.shypolarbear.data.api.TokenApi
 import com.shypolarbear.data.api.feed.FeedApi
 import dagger.Module
 import dagger.Provides
@@ -31,7 +32,13 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun provideFeedApi(@NormalRetrofit retrofit: Retrofit): FeedApi {
+    fun provideFeedApi(@AuthRetrofit retrofit: Retrofit): FeedApi {
         return retrofit.create(FeedApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideTokenRenewApi(@NormalRetrofit retrofit: Retrofit): TokenApi {
+        return retrofit.create(TokenApi::class.java)
     }
 }

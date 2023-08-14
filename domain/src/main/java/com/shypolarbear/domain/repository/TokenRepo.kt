@@ -1,7 +1,11 @@
 package com.shypolarbear.domain.repository
 
-interface TokenRepo {
-    fun getAccessToken()
+import com.shypolarbear.domain.model.TokenRenew
 
-    fun getRefreshToken()
+interface TokenRepo {
+    fun getAccessToken(): String
+
+    fun getRefreshToken(): String
+
+    suspend fun renewTokens(): Result<TokenRenew>
 }

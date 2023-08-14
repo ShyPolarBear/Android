@@ -9,6 +9,7 @@ import com.shypolarbear.domain.usecase.ExampleUseCase
 import com.shypolarbear.domain.usecase.feed.FeedTotalUseCase
 import com.shypolarbear.domain.usecase.LoginUseCase
 import com.shypolarbear.domain.usecase.RefreshTokenUseCase
+import com.shypolarbear.domain.usecase.TokenRenewUseCase
 import com.shypolarbear.domain.usecase.feed.FeedCommentUseCase
 import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
 import dagger.Module
@@ -60,5 +61,11 @@ class UseCaseModule {
     @Provides
     fun provideRefreshTokenUseCase(repo: TokenRepo): RefreshTokenUseCase {
         return RefreshTokenUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideTokenRenewUseCase(repo: TokenRepo): TokenRenewUseCase {
+        return TokenRenewUseCase(repo)
     }
 }
