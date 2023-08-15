@@ -5,63 +5,63 @@
     <data>
 
     </data>
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        app:cardCornerRadius="20dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:background="@color/White_01"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/White_01">
 
             <ImageView
+                android:id="@+id/iv_quiz_dialog"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:id="@+id/iv_quiz_dialog"
+                android:layout_marginTop="40dp"
                 android:src="@drawable/ic_signup_success"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="40dp"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/H3"
-                android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_quiz_dialog"
                 android:id="@+id/tv_quiz_dialog_point"
-                android:text="@string/quiz_dialog_point"
-                />
-
-            <TextView
+                style="@style/H3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/b1"
-                android:text="화분은 일반 쓰레기가 맞아요!"
-                android:id="@+id/tv_quiz_dialog_explain"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp"
+                android:text="@string/quiz_dialog_point"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_quiz_dialog_point"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_quiz_dialog" />
+
+            <TextView
+                android:id="@+id/tv_quiz_dialog_explain"
+                style="@style/b1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                />
+                android:text="화분은 일반 쓰레기가 맞아요!"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_quiz_dialog_point" />
 
             <View
                 android:id="@+id/quiz_dialog_btn"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
-                app:layout_constraintTop_toBottomOf="@id/tv_quiz_dialog_explain"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="45dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/activated_btn_next"
                 android:clickable="true"
-
                 app:layout_constraintBottom_toBottomOf="parent"
+
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_quiz_dialog_explain" />
 
             <TextView
                 android:id="@+id/quiz_daily_tv_submit"

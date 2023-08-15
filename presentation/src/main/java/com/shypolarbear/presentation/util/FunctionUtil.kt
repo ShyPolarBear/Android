@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
@@ -36,22 +37,45 @@ enum class InputState(val state: Int) {
 }
 
 enum class DialogType(val point: String){
-    CORRECT("plus"),
+    CORRECT("PLUS"),
     INCORRECT("0"),
-    REVIEW("review")
+    REVIEW("REVIEW")
 }
 
-fun ImageView.setQuizBackButton(type: DialogType, dialog: QuizDialog){
+enum class QuizType(val type: String){
+    MULTI("MULTIPLE_CHOICE"),
+    OX("TRUE_FALSE")
+}
+
+
+fun initChoices(choiceList: List<TextView>){
+    for(choice in choiceList){
+        choice.detectActivation(*choiceList.filter { it != choice }.toTypedArray())
+    }
+}
+fun TextView.detectActivation(vararg choices: TextView){
+    setOnClickListener {
+        for(i in choices){
+            if(i.isActivated){
+                i.isActivated = i.isActivated.not()
+            }
+        }
+        this.isActivated = this.isActivated.not()
+    }
+}
+fun ImageView.setReviewMode(type: DialogType, pages: TextView, dialog: QuizDialog, resId: Int){
     if(type == DialogType.REVIEW){
+        pages.isVisible = true
         this.setOnClickListener {
             dialog.showDialog(DialogType.REVIEW)
             dialog.alertDialog.setOnCancelListener {
-                findNavController().navigate(R.id.action_quizDailyOXFragment_to_quizMainFragment)
+                findNavController().navigate(resId)
             }
         }
     }else{
+        pages.isVisible = false
         this.setOnClickListener {
-            findNavController().navigate(R.id.action_quizDailyOXFragment_to_quizMainFragment)
+            findNavController().navigate(resId)
         }
     }
 }

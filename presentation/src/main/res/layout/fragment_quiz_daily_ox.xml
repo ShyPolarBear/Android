@@ -28,10 +28,10 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="96dp"
+            android:text="문제"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/quiz_daily_btn_back"
-            android:text="문제" />
+            app:layout_constraintTop_toBottomOf="@+id/quiz_daily_btn_back" />
 
         <TextView
             android:id="@+id/quiz_daily_o"
@@ -39,26 +39,40 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
-            android:background="@drawable/bg_stroke_blue_01_radius_15"
+            android:background="@drawable/bg_stroke_quiz_01_radius_15"
             android:gravity="center"
             android:paddingVertical="40dp"
             android:text="@string/quiz_daily_o"
-            android:textColor="@color/Blue_01"
+            android:textColor="@color/selector_quiz_text_color"
             app:layout_constraintBottom_toTopOf="@id/quiz_daily_progress_bar"
             app:layout_constraintEnd_toStartOf="@+id/quiz_daily_x"
             app:layout_constraintStart_toStartOf="@id/quiz_daily_progress_bar"
             app:layout_constraintTop_toBottomOf="@+id/quiz_daily_problem" />
 
         <TextView
+            style="@style/H5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:id="@+id/quiz_daily_pages"
+            android:layout_marginVertical="16dp"
+            android:visibility="invisible"
+            android:layout_marginEnd="20dp"
+            android:text="@string/signup_page_indicator"
+            android:textColor="@color/Black_01"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/quiz_daily_x"
             style="@style/H1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_stroke_blue_01_radius_15"
+            android:background="@drawable/bg_stroke_quiz_01_radius_15"
             android:gravity="center"
             android:paddingVertical="40dp"
             android:text="@string/quiz_daily_x"
-            android:textColor="@color/Blue_01"
+            android:textColor="@color/selector_quiz_text_color"
             app:layout_constraintBottom_toTopOf="@id/quiz_daily_progress_bar"
             app:layout_constraintEnd_toEndOf="@id/quiz_daily_progress_bar"
             app:layout_constraintStart_toEndOf="@id/quiz_daily_o"

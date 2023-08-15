@@ -15,21 +15,26 @@ class QuizDialog(private val context: Context) {
     lateinit var alertDialog: AlertDialog
     fun showDialog(dialogType: DialogType, explain: String? = null, point: String? = null) {
 
-        if(dialogType == DialogType.REVIEW){
+        if (dialogType == DialogType.REVIEW) {
             val binding = DialogQuizStopBinding.inflate(LayoutInflater.from(context), null, false)
             initDialog(binding)
+
             binding.quizDialogBtnYes.setOnClickListener {
                 alertDialog.cancel()
             }
             binding.quizDialogBtnNo.setOnClickListener {
                 alertDialog.dismiss()
             }
-        }else{
+        } else {
             val binding = DialogQuizResultBinding.inflate(LayoutInflater.from(context), null, false)
             initDialog(binding)
-            if(dialogType == DialogType.INCORRECT){
+            if (dialogType == DialogType.INCORRECT) {
                 binding.ivQuizDialog.setImageResource(R.drawable.ic_quiz_incorrect)
-                binding.tvQuizDialogPoint.text = context.getString(R.string.quiz_dialog_point, DialogType.INCORRECT.point)
+                binding.tvQuizDialogPoint.text =
+                    context.getString(R.string.quiz_dialog_point, DialogType.INCORRECT.point)
+            } else {
+                binding.tvQuizDialogPoint.text =
+                    context.getString(R.string.quiz_dialog_point, point)
             }
 
             binding.quizDialogBtn.setOnClickListener {
@@ -38,7 +43,7 @@ class QuizDialog(private val context: Context) {
         }
     }
 
-    private fun initDialog(binding: ViewDataBinding){
+    private fun initDialog(binding: ViewDataBinding) {
         val dialogBuilder = AlertDialog.Builder(context)
             .setView(binding.root)
             .setCancelable(false)
