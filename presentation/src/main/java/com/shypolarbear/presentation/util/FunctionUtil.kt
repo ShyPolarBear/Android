@@ -55,27 +55,30 @@ fun initChoices(choiceList: List<TextView>){
 }
 fun TextView.detectActivation(vararg choices: TextView){
     setOnClickListener {
-        for(i in choices){
-            if(i.isActivated){
-                i.isActivated = i.isActivated.not()
+        for(choice in choices){
+            if(choice.isActivated){
+                choice.isActivated = choice.isActivated.not()
             }
         }
         this.isActivated = this.isActivated.not()
     }
 }
 fun ImageView.setReviewMode(type: DialogType, pages: TextView, dialog: QuizDialog, resId: Int){
-    if(type == DialogType.REVIEW){
-        pages.isVisible = true
-        this.setOnClickListener {
-            dialog.showDialog(DialogType.REVIEW)
-            dialog.alertDialog.setOnCancelListener {
-                findNavController().navigate(resId)
+    when(type){
+        DialogType.REVIEW -> {
+            pages.isVisible = true
+            this.setOnClickListener {
+                dialog.showDialog(DialogType.REVIEW)
+                dialog.alertDialog.setOnCancelListener {
+                    findNavController().navigate(resId)
+                }
             }
         }
-    }else{
-        pages.isVisible = false
-        this.setOnClickListener {
-            findNavController().navigate(resId)
+        DialogType.CORRECT, DialogType.INCORRECT -> {
+            pages.isVisible = false
+            this.setOnClickListener {
+                findNavController().navigate(resId)
+            }
         }
     }
 }

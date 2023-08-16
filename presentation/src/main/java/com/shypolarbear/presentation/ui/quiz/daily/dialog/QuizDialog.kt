@@ -13,32 +13,37 @@ import com.shypolarbear.presentation.util.DialogType
 
 class QuizDialog(private val context: Context) {
     lateinit var alertDialog: AlertDialog
-    fun showDialog(dialogType: DialogType, explain: String? = null, point: String? = null) {
+    fun showDialog(
+        dialogType: DialogType,
+        explain: String? = null,
+        point: String = DialogType.INCORRECT.point,
+    ) {
+        when (dialogType) {
+            DialogType.REVIEW -> {
+                val binding =
+                    DialogQuizStopBinding.inflate(LayoutInflater.from(context), null, false)
+                initDialog(binding)
 
-        if (dialogType == DialogType.REVIEW) {
-            val binding = DialogQuizStopBinding.inflate(LayoutInflater.from(context), null, false)
-            initDialog(binding)
+                binding.quizDialogBtnYes.setOnClickListener {
+                    alertDialog.cancel()
+                }
+                binding.quizDialogBtnNo.setOnClickListener {
+                    alertDialog.dismiss()
+                }
+            }
 
-            binding.quizDialogBtnYes.setOnClickListener {
-                alertDialog.cancel()
-            }
-            binding.quizDialogBtnNo.setOnClickListener {
-                alertDialog.dismiss()
-            }
-        } else {
-            val binding = DialogQuizResultBinding.inflate(LayoutInflater.from(context), null, false)
-            initDialog(binding)
-            if (dialogType == DialogType.INCORRECT) {
-                binding.ivQuizDialog.setImageResource(R.drawable.ic_quiz_incorrect)
-                binding.tvQuizDialogPoint.text =
-                    context.getString(R.string.quiz_dialog_point, DialogType.INCORRECT.point)
-            } else {
+            DialogType.CORRECT, DialogType.INCORRECT -> {
+                val binding =
+                    DialogQuizResultBinding.inflate(LayoutInflater.from(context), null, false)
+                initDialog(binding)
+                if (dialogType == DialogType.INCORRECT) {
+                    binding.ivQuizDialog.setImageResource(R.drawable.ic_quiz_incorrect)
+                }
                 binding.tvQuizDialogPoint.text =
                     context.getString(R.string.quiz_dialog_point, point)
-            }
-
-            binding.quizDialogBtn.setOnClickListener {
-                alertDialog.dismiss()
+                binding.quizDialogBtn.setOnClickListener {
+                    alertDialog.dismiss()
+                }
             }
         }
     }

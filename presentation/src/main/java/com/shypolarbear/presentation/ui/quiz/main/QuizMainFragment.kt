@@ -26,7 +26,7 @@ class QuizMainFragment :
             )
             quizMainTvTitle.setSpecificTextColor(
                 getString(R.string.quiz_main_title),
-                "북극곰",
+                getString(R.string.quiz_main_polarbear),
                 colorId = R.color.Blue_01
             )
             setAdapter()
@@ -47,11 +47,10 @@ class QuizMainFragment :
     }
 
     private fun getQuizFromServer(): QuizType {
-        val type = "MULTI" // from API
-        return if (type == QuizType.OX.type) {
-            QuizType.OX
-        } else {
-            QuizType.MULTI
+        val type = "MULTIPLE_CHOICE" // from API
+        return when(type){
+            QuizType.OX.type -> QuizType.OX
+            else -> QuizType.MULTI
         }
     }
 }
