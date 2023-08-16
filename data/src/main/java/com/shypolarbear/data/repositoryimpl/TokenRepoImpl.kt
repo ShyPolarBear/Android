@@ -18,9 +18,9 @@ class TokenRepoImpl @Inject constructor(
         TODO("DataStore에서 Refresh Token 가져오는 동작")
     }
 
-    override suspend fun renewTokens(): Result<TokenRenew> {
+    override suspend fun renewTokens(refreshToken: String): Result<TokenRenew> {
         return try {
-            val response = api.renewToken()
+            val response = api.renewToken(refreshToken)
             when {
                 response.isSuccessful -> {
                     Result.success(response.body()!!)

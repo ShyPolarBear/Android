@@ -21,7 +21,11 @@ class AuthInterceptor @Inject constructor(
 //        var accessToken = accessTokenUseCase.loadAccessToken()
 //        var refreshToken = refreshTokenUseCase.loadRefreshToken()
 
-//        val request = chain.request().newBuilder().addHeader("accessToken","$accessToken").build()
+        // 임시 정의
+        var accessToken = "access token"
+        var refreshToken = "refresh token"
+
+//        val addedAccessTokenRequest = chain.request().newBuilder().addHeader("accessToken","$accessToken").build()
         val addedAccessTokenRequest = chain.request().newBuilder().addHeader("accessToken","testHeader").build()
         val response = chain.proceed(addedAccessTokenRequest)
 
@@ -29,12 +33,12 @@ class AuthInterceptor @Inject constructor(
             401 -> {
                 // Token 갱신하는 동작
                 runBlocking {
-                    val renewResponse = tokenRenewUseCase.loadTokens()
+                    val renewResponse = tokenRenewUseCase.loadTokens(refreshToken)
 
                     renewResponse
                         .onSuccess {
-                            var accessToken = it.data.accessToken
-                            var refreshToken = it.data.refreshToken
+                            accessToken = it.data.accessToken
+                            refreshToken = it.data.refreshToken
 
                             Timber.d("access token: $accessToken, refresh token: $refreshToken")
                         }
@@ -42,8 +46,9 @@ class AuthInterceptor @Inject constructor(
 
                         }
                 }
-            }
 
+            }
+            else -> response
         }
 
         Timber.d("헤더에 잘 붙음?: $addedAccessTokenRequest")

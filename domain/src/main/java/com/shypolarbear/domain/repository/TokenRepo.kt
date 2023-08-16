@@ -7,5 +7,5 @@ interface TokenRepo {
 
     fun getRefreshToken(): String
 
-    suspend fun renewTokens(): Result<TokenRenew>
+    suspend fun renewTokens(refreshToken: String): Result<TokenRenew>
 }
