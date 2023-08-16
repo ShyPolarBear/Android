@@ -6,7 +6,7 @@ import com.shypolarbear.domain.repository.TokenRepo
 class TokenRenewUseCase (
     private val repo: TokenRepo
 ){
-    suspend fun loadTokens(refreshToken: String): Result<TokenRenew> {
+    suspend operator fun invoke(refreshToken: String): Result<TokenRenew> {
         return repo.renewTokens(refreshToken)
     }
 }

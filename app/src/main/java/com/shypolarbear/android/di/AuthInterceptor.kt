@@ -18,8 +18,8 @@ class AuthInterceptor @Inject constructor(
 ): Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         // TODO("TokenRepoImpl에서 토큰 가져오는 동작 구현되면 주석 해제하기")
-//        var accessToken = accessTokenUseCase.loadAccessToken()
-//        var refreshToken = refreshTokenUseCase.loadRefreshToken()
+//        var accessToken = accessTokenUseCase()
+//        var refreshToken = refreshTokenUseCase()
 
         // 임시 정의
         var accessToken = "access token"
@@ -33,7 +33,7 @@ class AuthInterceptor @Inject constructor(
             401 -> {
                 // Token 갱신하는 동작
                 runBlocking {
-                    val renewResponse = tokenRenewUseCase.loadTokens(refreshToken)
+                    val renewResponse = tokenRenewUseCase(refreshToken)
 
                     renewResponse
                         .onSuccess {
