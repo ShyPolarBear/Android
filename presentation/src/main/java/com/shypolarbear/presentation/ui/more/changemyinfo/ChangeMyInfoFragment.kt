@@ -14,6 +14,7 @@ import com.shypolarbear.presentation.ui.signup.NAME_RANGE
 import com.shypolarbear.presentation.ui.signup.pages.PHONE_NUMBER_DASH_INCLUDE
 import com.shypolarbear.presentation.util.InputState
 import com.shypolarbear.presentation.util.afterTextChanged
+import com.shypolarbear.presentation.util.emailPattern
 import com.shypolarbear.presentation.util.keyboardDown
 import com.shypolarbear.presentation.util.phonePattern
 import com.shypolarbear.presentation.util.setColorStateWithInput
@@ -116,6 +117,34 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                         state,
                         tvChangeMyInfoPhoneNumberRule,
                         ivChangeMyInfoPhoneNumberCheck
+                    )
+                }
+            }
+
+            edtChangeMyInfoEmail.apply {
+                keyboardDown(this@ChangeMyInfoFragment)
+                afterTextChanged {
+                    val match: MatchResult? = emailPattern.find(it.toString())
+
+                    val state = when {
+                        it.isNullOrEmpty() -> {
+                            InputState.ON
+                        }
+
+                        match == null -> {
+                            tvChangeMyInfoEmailRule.text = getString(R.string.signup_mail_hint_error)
+                            InputState.ERROR
+                        }
+
+                        else -> {
+                            tvChangeMyInfoEmailRule.text = getString(R.string.signup_mail_hint_confirm)
+                            InputState.ACCEPT
+                        }
+                    }
+                    setColorStateWithInput(
+                        state,
+                        tvChangeMyInfoEmailRule,
+                        ivChangeMyInfoEmailCheck
                     )
                 }
             }
