@@ -36,7 +36,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
             navController.addOnDestinationChangedListener { controller, destination, arguments ->
                 when(destination.id){
                     R.id.signupFragment, R.id.loginFragment, R.id.quizDailyOXFragment,
-                    R.id.quizDailyMultiChoiceFragment, R.id.feedWriteFragment -> bottomNavigationBar.visibility = View.INVISIBLE
+                    R.id.quizDailyMultiChoiceFragment, R.id.feedWriteFragment, R.id.feedDetailFragment,
+                    R.id.changeMyInfoFragment -> bottomNavigationBar.visibility = View.INVISIBLE
                     else -> bottomNavigationBar.visibility = View.VISIBLE
                 }
             }

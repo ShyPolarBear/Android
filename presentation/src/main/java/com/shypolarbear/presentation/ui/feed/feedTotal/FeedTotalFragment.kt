@@ -64,9 +64,6 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
 
     override fun initView() {
 
-        val bottomNavigationViewMainActivity = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation_bar)
-        bottomNavigationViewMainActivity.isVisible = true
-
         binding.apply {
             viewModel.loadFeedTotalData()
 

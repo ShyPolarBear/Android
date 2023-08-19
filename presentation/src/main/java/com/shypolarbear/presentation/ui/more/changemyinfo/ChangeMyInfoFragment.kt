@@ -27,8 +27,6 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
     private lateinit var phoneNumber: String
 
     override fun initView() {
-        val bottomNavigationViewMainActivity = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation_bar)
-        bottomNavigationViewMainActivity.isVisible = false
 
         binding.apply {
             btnChangeMyInfoBack.setOnClickListener {

@@ -59,9 +59,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
 
     override fun initView() {
 
-        val bottomNavigationViewMainActivity = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation_bar)
-        bottomNavigationViewMainActivity.isVisible = false
-
         binding.btnFeedDetailBack.setOnClickListener {
             findNavController().navigate(R.id.action_feedDetailFragment_to_feedTotalFragment)
         }
