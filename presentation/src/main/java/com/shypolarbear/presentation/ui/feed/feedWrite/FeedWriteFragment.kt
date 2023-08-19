@@ -1,5 +1,6 @@
 package com.shypolarbear.presentation.ui.feed.feedWrite
 
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.shypolarbear.presentation.R
@@ -16,6 +17,17 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
         binding.apply {
             btnFeedWriteBack.setOnClickListener {
                 findNavController().navigate(R.id.action_feedWriteFragment_to_navigation_feed)
+            }
+
+            btnFeedWriteConfirm.setOnClickListener {
+                if (edtFeedWriteTitle.text.toString().isBlank())
+                    Toast.makeText(requireContext(), "제목을 입력해주세요", Toast.LENGTH_SHORT).show()
+                else if (edtFeedWriteContent.text.toString().isBlank())
+                    Toast.makeText(requireContext(), "내용을 입력해주세요", Toast.LENGTH_SHORT).show()
+                else
+                    findNavController().navigate(R.id.action_feedWriteFragment_to_navigation_feed)
+
+
             }
         }
     }
