@@ -1,5 +1,6 @@
 package com.shypolarbear.presentation.ui.more.changemyinfo
 
+import android.telephony.PhoneNumberFormattingTextWatcher
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.core.view.isVisible
@@ -10,8 +11,11 @@ import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentChangeMyInfoBinding
 import com.shypolarbear.presentation.ui.signup.NAME_RANGE
+import com.shypolarbear.presentation.ui.signup.pages.PHONE_NUMBER_DASH_INCLUDE
 import com.shypolarbear.presentation.util.InputState
+import com.shypolarbear.presentation.util.afterTextChanged
 import com.shypolarbear.presentation.util.keyboardDown
+import com.shypolarbear.presentation.util.phonePattern
 import com.shypolarbear.presentation.util.setColorStateWithInput
 
 class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyInfoViewModel> (
@@ -19,6 +23,7 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
 ) {
 
     override val viewModel: ChangeMyInfoViewModel by viewModels()
+    private lateinit var phoneNumber: String
 
     override fun initView() {
         val bottomNavigationViewMainActivity = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation_bar)
@@ -83,6 +88,36 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                         )
                     }
                 })
+            }
+
+            edtChangeMyInfoPhoneNumber.apply {
+                keyboardDown(this@ChangeMyInfoFragment)
+                addTextChangedListener(PhoneNumberFormattingTextWatcher("KR"))
+                afterTextChanged { s ->
+                    val state = when {
+                        s.isNullOrEmpty() -> {
+                            tvChangeMyInfoPhoneNumberRule.text = getString(R.string.signup_phone_hint_detail)
+                            InputState.ON
+                        }
+
+                        s.length == PHONE_NUMBER_DASH_INCLUDE -> {
+                            phoneNumber = s.replace(phonePattern, "")
+                            tvChangeMyInfoPhoneNumberRule.text = getString(R.string.signup_phone_hint_confirm)
+                            InputState.ACCEPT
+                        }
+
+                        else -> {
+                            phoneNumber = ""
+                            tvChangeMyInfoPhoneNumberRule.text = getString(R.string.signup_phone_hint_error)
+                            InputState.ERROR
+                        }
+                    }
+                    setColorStateWithInput(
+                        state,
+                        tvChangeMyInfoPhoneNumberRule,
+                        ivChangeMyInfoPhoneNumberCheck
+                    )
+                }
             }
         }
     }

@@ -102,7 +102,7 @@
             android:layout_marginEnd="20dp"
             android:background="@drawable/selector_signup_nickname"
             android:hint="@string/signup_phone_hint"
-            android:inputType="text"
+            android:inputType="phone"
             android:padding="10dp"
             android:textColorHint="@color/Gray_05"
             app:layout_constraintEnd_toEndOf="parent"
