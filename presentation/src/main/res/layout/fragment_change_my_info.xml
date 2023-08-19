@@ -58,7 +58,7 @@
             app:layout_constraintTop_toBottomOf="@id/iv_change_my_info_profile" />
 
         <ImageView
-            android:id="@+id/iv_change_my_info_edt_check"
+            android:id="@+id/iv_change_my_info_name_check"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginVertical="12dp"
