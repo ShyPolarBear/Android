@@ -35,6 +35,11 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                 findNavController().navigate(R.id.action_changeMyInfoFragment_to_navigation_more)
             }
 
+            btnChangeMyInfoRevise.setOnClickListener {
+                // TODO("내 정보 수정 조건 검사 완료 후 이전 페이지로 이동")
+                findNavController().navigate(R.id.action_changeMyInfoFragment_to_navigation_more)
+            }
+
             edtChangeMyInfoNickname.apply {
                 keyboardDown(this@ChangeMyInfoFragment)
                 addTextChangedListener(object : TextWatcher {
