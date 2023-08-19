@@ -47,7 +47,7 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                         s: CharSequence?,
                         start: Int,
                         count: Int,
-                        after: Int,
+                        after: Int
                     ) {
                         setColorStateWithInput(
                             InputState.ON,
@@ -60,7 +60,7 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                         s: CharSequence?,
                         start: Int,
                         before: Int,
-                        count: Int,
+                        count: Int
                     ) {
                         setColorStateWithInput(
                             InputState.ON,

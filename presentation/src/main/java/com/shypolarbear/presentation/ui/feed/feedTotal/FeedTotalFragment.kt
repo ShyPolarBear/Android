@@ -77,6 +77,10 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                     viewLifecycleOwner
                 )
             }
+
+            btnFeedPostWrite.setOnClickListener {
+                findNavController().navigate(R.id.action_navigation_feed_to_feedWriteFragment)
+            }
             setFeedPost()
         }
     }
