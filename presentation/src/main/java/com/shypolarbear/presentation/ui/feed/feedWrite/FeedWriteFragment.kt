@@ -36,10 +36,13 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
 
             rvFeedWriteUploadImg.adapter = feedWriteImgAdapter
             feedWriteImgAdapter.submitList(imgTestList)
-            Timber.d("전달 된 리스트: $imgTestList")
 
             btnFeedWriteBack.setOnClickListener {
                 findNavController().navigate(R.id.action_feedWriteFragment_to_navigation_feed)
+            }
+
+            btnFeedWriteAddPhoto.setOnClickListener {
+                addImg()
             }
 
             btnFeedWriteConfirm.setOnClickListener {
@@ -54,14 +57,18 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
         }
     }
 
-    private fun removeImg(position: Int) {
-        binding.apply {
-            imgTestList.removeAt(position)
-            Timber.d("아이템: $imgTestList")
+    private fun addImg() {
+        imgTestList.add(0, FeedWriteImg("https://github.com/ShyPolarBear/Android/assets/107917980/30b3d3c8-f2d8-4760-9912-faeec239fe34"))
+        binding.rvFeedWriteUploadImg.adapter!!.notifyItemInserted(0)
+        binding.rvFeedWriteUploadImg.scrollToPosition(0)
+    }
 
-            rvFeedWriteUploadImg.adapter!!.notifyItemRemoved(position)
-            Timber.d("$position 번째 아이템")
-        }
+    private fun removeImg(position: Int) {
+        imgTestList.removeAt(position)
+        Timber.d("아이템: $imgTestList")
+
+        binding.rvFeedWriteUploadImg.adapter!!.notifyItemRemoved(position)
+        Timber.d("$position 번째 아이템")
 
     }
 }
