@@ -7,13 +7,14 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="60dp"
+        android:layout_width="76dp"
         android:layout_height="60dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_feed_write_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
             android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/radius_10"/>
 
