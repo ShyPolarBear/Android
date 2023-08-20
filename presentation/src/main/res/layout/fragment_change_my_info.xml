@@ -58,7 +58,7 @@
             app:layout_constraintTop_toBottomOf="@id/iv_change_my_info_profile" />
 
         <ImageView
-            android:id="@+id/iv_change_my_info_edt_check"
+            android:id="@+id/iv_change_my_info_name_check"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginVertical="12dp"
@@ -102,7 +102,7 @@
             android:layout_marginEnd="20dp"
             android:background="@drawable/selector_signup_nickname"
             android:hint="@string/signup_phone_hint"
-            android:inputType="text"
+            android:inputType="phone"
             android:padding="10dp"
             android:textColorHint="@color/Gray_05"
             app:layout_constraintEnd_toEndOf="parent"
@@ -154,7 +154,7 @@
             android:layout_marginEnd="20dp"
             android:background="@drawable/selector_signup_nickname"
             android:hint="@string/signup_mail_hint"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:padding="10dp"
             android:textColorHint="@color/Gray_05"
             app:layout_constraintEnd_toEndOf="parent"
@@ -197,6 +197,7 @@
             tools:text="Email 힌트" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_change_my_info_revise"
             style="@style/Button1"
             android:layout_width="match_parent"
             android:layout_height="60dp"
