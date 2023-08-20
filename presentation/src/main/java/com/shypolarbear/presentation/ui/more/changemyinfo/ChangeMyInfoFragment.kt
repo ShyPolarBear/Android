@@ -41,7 +41,6 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
             }
 
             btnChangeMyInfoRevise.setOnClickListener {
-
                 if (nameState == InputState.ERROR || phoneNumberState == InputState.ERROR || emailState == InputState.ERROR) {
                     Toast.makeText(requireContext(), getString(R.string.check_my_info_term), Toast.LENGTH_SHORT).show()
                 }
@@ -85,28 +84,25 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                     }
 
                     override fun afterTextChanged(s: Editable?) {
-                        val state = when {
+                        nameState = when {
                             s.isNullOrEmpty() -> {
                                 tvChangeMyInfoNameRule.text = getString(R.string.signup_name_rule)
-                                nameState = InputState.ON
                                 InputState.ON
                             }
 
                             s.length !in NAME_RANGE -> {
                                 tvChangeMyInfoNameRule.text = getString(R.string.singup_error_text)
-                                nameState = InputState.ERROR
                                 InputState.ERROR
                             }
 
                             else -> {
                                 tvChangeMyInfoNameRule.text = getString(R.string.signup_confirm_text)
-                                nameState = InputState.ACCEPT
                                 InputState.ACCEPT
                             }
                         }
 
                         setColorStateWithInput(
-                            state,
+                            nameState,
                             tvChangeMyInfoNameRule,
                             ivChangeMyInfoNameCheck
                         )
@@ -118,29 +114,27 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                 keyboardDown(this@ChangeMyInfoFragment)
                 addTextChangedListener(PhoneNumberFormattingTextWatcher("KR"))
                 afterTextChanged { s ->
-                    val state = when {
+                    phoneNumberState = when {
                         s.isNullOrEmpty() -> {
                             tvChangeMyInfoPhoneNumberRule.text = getString(R.string.signup_phone_hint_detail)
-                            phoneNumberState = InputState.ON
                             InputState.ON
                         }
 
                         s.length == PHONE_NUMBER_DASH_INCLUDE -> {
                             phoneNumber = s.replace(phonePattern, "")
                             tvChangeMyInfoPhoneNumberRule.text = getString(R.string.signup_phone_hint_confirm)
-                            phoneNumberState = InputState.ACCEPT
                             InputState.ACCEPT
                         }
 
                         else -> {
                             phoneNumber = ""
                             tvChangeMyInfoPhoneNumberRule.text = getString(R.string.signup_phone_hint_error)
-                            phoneNumberState = InputState.ERROR
                             InputState.ERROR
                         }
                     }
+
                     setColorStateWithInput(
-                        state,
+                        phoneNumberState,
                         tvChangeMyInfoPhoneNumberRule,
                         ivChangeMyInfoPhoneNumberCheck
                     )
@@ -152,26 +146,24 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                 afterTextChanged {
                     val match: MatchResult? = emailPattern.find(it.toString())
 
-                    val state = when {
+                    emailState = when {
                         it.isNullOrEmpty() -> {
-                            emailState = InputState.ON
                             InputState.ON
                         }
 
                         match == null -> {
                             tvChangeMyInfoEmailRule.text = getString(R.string.signup_mail_hint_error)
-                            emailState = InputState.ERROR
                             InputState.ERROR
                         }
 
                         else -> {
                             tvChangeMyInfoEmailRule.text = getString(R.string.signup_mail_hint_confirm)
-                            emailState = InputState.ACCEPT
                             InputState.ACCEPT
                         }
                     }
+
                     setColorStateWithInput(
-                        state,
+                        emailState,
                         tvChangeMyInfoEmailRule,
                         ivChangeMyInfoEmailCheck
                     )
