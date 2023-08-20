@@ -65,10 +65,10 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_feed_write_upload_img"
             tools:listitem="@layout/item_feed_write_img"
             android:layout_width="0dp"
             android:layout_height="60dp"
-            android:layout_marginStart="16dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="@+id/btn_feed_write_add_photo"
