@@ -3,6 +3,7 @@ package com.shypolarbear.presentation.ui.more.changemyinfo
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -18,6 +19,7 @@ import com.shypolarbear.presentation.util.emailPattern
 import com.shypolarbear.presentation.util.keyboardDown
 import com.shypolarbear.presentation.util.phonePattern
 import com.shypolarbear.presentation.util.setColorStateWithInput
+import timber.log.Timber
 
 class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyInfoViewModel> (
     R.layout.fragment_change_my_info
@@ -25,6 +27,9 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
 
     override val viewModel: ChangeMyInfoViewModel by viewModels()
     private lateinit var phoneNumber: String
+    private var nameState: InputState = InputState.OFF
+    private var phoneNumberState: InputState = InputState.OFF
+    private var emailState: InputState = InputState.OFF
 
     override fun initView() {
 
@@ -34,8 +39,17 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
             }
 
             btnChangeMyInfoRevise.setOnClickListener {
-                // TODO("내 정보 수정 조건 검사 완료 후 이전 페이지로 이동")
-                findNavController().navigate(R.id.action_changeMyInfoFragment_to_navigation_more)
+                if (nameState == InputState.ERROR || phoneNumberState == InputState.ERROR || emailState == InputState.ERROR) {
+                    Toast.makeText(requireContext(), getString(R.string.check_my_info_term), Toast.LENGTH_SHORT).show()
+                }
+                else if (nameState == InputState.OFF && phoneNumberState == InputState.OFF && emailState == InputState.OFF) {
+                    Toast.makeText(requireContext(), getString(R.string.check_my_info_input), Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    // TODO("수정 된 정보 서버로 전달")
+                    findNavController().navigate(R.id.action_changeMyInfoFragment_to_navigation_more)
+                }
+
             }
 
             edtChangeMyInfoNickname.apply {
@@ -68,7 +82,7 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                     }
 
                     override fun afterTextChanged(s: Editable?) {
-                        val state = when {
+                        nameState = when {
                             s.isNullOrEmpty() -> {
                                 tvChangeMyInfoNameRule.text = getString(R.string.signup_name_rule)
                                 InputState.ON
@@ -86,7 +100,7 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                         }
 
                         setColorStateWithInput(
-                            state,
+                            nameState,
                             tvChangeMyInfoNameRule,
                             ivChangeMyInfoNameCheck
                         )
@@ -98,7 +112,7 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                 keyboardDown(this@ChangeMyInfoFragment)
                 addTextChangedListener(PhoneNumberFormattingTextWatcher("KR"))
                 afterTextChanged { s ->
-                    val state = when {
+                    phoneNumberState = when {
                         s.isNullOrEmpty() -> {
                             tvChangeMyInfoPhoneNumberRule.text = getString(R.string.signup_phone_hint_detail)
                             InputState.ON
@@ -116,8 +130,9 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                             InputState.ERROR
                         }
                     }
+
                     setColorStateWithInput(
-                        state,
+                        phoneNumberState,
                         tvChangeMyInfoPhoneNumberRule,
                         ivChangeMyInfoPhoneNumberCheck
                     )
@@ -129,7 +144,7 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                 afterTextChanged {
                     val match: MatchResult? = emailPattern.find(it.toString())
 
-                    val state = when {
+                    emailState = when {
                         it.isNullOrEmpty() -> {
                             InputState.ON
                         }
@@ -144,8 +159,9 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                             InputState.ACCEPT
                         }
                     }
+
                     setColorStateWithInput(
-                        state,
+                        emailState,
                         tvChangeMyInfoEmailRule,
                         ivChangeMyInfoEmailCheck
                     )
