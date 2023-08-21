@@ -55,6 +55,8 @@ dependencies {
     androidTestImplementation(AndroidX.ESPRESSO_CORE)
     implementation(AndroidX.NAVIGATION_FRAGMENT_KTX)
     implementation(AndroidX.NAVIGATION_UI_KTX)
+    implementation(AndroidX.PREFERENCES_DATASTORE)
+    implementation(AndroidX.PROTO_DATASTORE)
 
     implementation(Google.HILT_ANDROID)
     kapt(Google.HILT_ANDROID_COMPILER)
