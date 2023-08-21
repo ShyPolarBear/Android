@@ -9,6 +9,7 @@ import com.shypolarbear.domain.usecase.JoinUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,10 +38,10 @@ class SignupViewModel @Inject constructor(
             val responseJoin = joinUseCase.invoke(
                 JoinRequest(
                     socialAccessToken,
-                    nickName = nameData.toString(),
-                    phoneNumber = phoneData.toString(),
-                    email = mailData.toString(),
-                    profileImage = ""
+                    nickName = nameData.value.toString(),
+                    phoneNumber = phoneData.value.toString(),
+                    email = mailData.value.toString(),
+                    profileImage = "아직 미구현"
                 )
             )
 
@@ -48,24 +49,28 @@ class SignupViewModel @Inject constructor(
                 .onSuccess { response ->
                     when (response.code.toInt()) {
                         0 -> {
+                            Timber.tag("JOIN").i("카카오톡으로 로그인 성공 " + response.data[0]+ response.data[1])
                             initToken(Token(response.data[0], response.data[1]))
                         }
 
                         1007 -> {
+                            Timber.tag("JOIN").i(response.message)
 
                         }
 
                         1101 -> {
+                            Timber.tag("JOIN").i(response.message)
 
                         }
 
                         1004 -> {
+                            Timber.tag("JOIN").i(response.message)
 
                         }
                     }
                 }
-                .onFailure {
-
+                .onFailure {response ->
+                    Timber.tag("JOIN").i(response.message)
                 }
         }
 
