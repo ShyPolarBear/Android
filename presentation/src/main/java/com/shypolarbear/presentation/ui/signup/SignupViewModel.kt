@@ -23,11 +23,14 @@ class SignupViewModel @Inject constructor(
     val phoneData: LiveData<String> = _phoneData
     private val _mailData = MutableLiveData<String>()
     val mailData: LiveData<String> = _mailData
+    private val _tokens = MutableLiveData<Token>()
+    val tokens: LiveData<Token> = _tokens
 
     private val _pageState = arrayListOf(false, false, false, false)
     val pageState: List<Boolean> = _pageState
     private val _pageIndex = MutableLiveData<Int>(1)
     val pageIndex: LiveData<Int> = _pageIndex
+
 
     fun requestJoin(socialAccessToken: String) {
         viewModelScope.launch {
@@ -42,18 +45,20 @@ class SignupViewModel @Inject constructor(
             )
 
             responseJoin
-                .onSuccess {
-                    when(it.code){
+                .onSuccess { response ->
+                    when (response.code.toInt()) {
                         0 -> {
-                            val token = Token(it.data[0], it.data[1])
-                            // DataStore에 넣기
+                            initToken(Token(response.data[0], response.data[1]))
                         }
+
                         1007 -> {
 
                         }
+
                         1101 -> {
 
                         }
+
                         1004 -> {
 
                         }
@@ -64,6 +69,10 @@ class SignupViewModel @Inject constructor(
                 }
         }
 
+    }
+
+    private fun initToken(responseToken: Token) {
+        _tokens.value = responseToken
     }
 
     fun setPageState(page: Int, state: Boolean) {

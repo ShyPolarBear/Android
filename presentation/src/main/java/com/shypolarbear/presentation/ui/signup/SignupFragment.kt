@@ -1,8 +1,12 @@
 package com.shypolarbear.presentation.ui.signup
 
+import android.content.Context
 import android.view.WindowManager
+import androidx.datastore.preferences.core.edit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.shypolarbear.domain.model.join.Token
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentSignupBinding
@@ -10,16 +14,26 @@ import com.shypolarbear.presentation.ui.signup.pages.SignupMailFragment
 import com.shypolarbear.presentation.ui.signup.pages.SignupNameFragment
 import com.shypolarbear.presentation.ui.signup.pages.SignupPhoneFragment
 import com.shypolarbear.presentation.ui.signup.pages.SignupTermsFragment
+import com.shypolarbear.presentation.util.ACCESS_TOKEN
+import com.shypolarbear.presentation.util.REFRESH_TOKEN
+import com.shypolarbear.presentation.util.dataStore
+import com.shypolarbear.presentation.util.setTokens
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 val NAME_RANGE = 2..8
+
 enum class Page(val page: Int) {
     TERMS(0),
     NAME(1),
     PHONE(2),
     MAIL(3)
 }
+
 @AndroidEntryPoint
 class SignupFragment :
     BaseFragment<FragmentSignupBinding, SignupViewModel>(R.layout.fragment_signup) {
@@ -28,6 +42,10 @@ class SignupFragment :
 
     override fun initView() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+
+        val userAgeFlow: Flow<String?> = requireContext().dataStore.data.map {
+            it[ACCESS_TOKEN]
+        }
         val pageList = listOf(
             SignupTermsFragment(),
             SignupNameFragment(),
@@ -36,7 +54,7 @@ class SignupFragment :
         )
         pagerAdapter = SignupAdapter(this, pageList)
         binding.apply {
-            viewModel.termData.observe(viewLifecycleOwner) { resTerms->
+            viewModel.termData.observe(viewLifecycleOwner) { resTerms ->
                 if (viewModel.getActualPageIndex() == Page.TERMS.page) {
                     activateButtonState(resTerms, Page.TERMS.page)
                 }
@@ -60,7 +78,17 @@ class SignupFragment :
                 }
             }
 
-            signupIndicator.text = getString(R.string.signup_page_indicator, viewModel.pageIndex.value)
+            viewModel.tokens.observe(viewLifecycleOwner) { tokens ->
+                tokens?.let {
+                    lifecycleScope.launch {
+                        setTokens(requireContext(), it)
+                        Timber.tag("DATASTORE").d("$userAgeFlow")
+                    }
+                }
+            }
+
+            signupIndicator.text =
+                getString(R.string.signup_page_indicator, viewModel.pageIndex.value)
             updateButtonState(viewModel.pageState[viewModel.pageIndex.value!! - 1])
 
             signupViewpager.apply {
@@ -76,7 +104,12 @@ class SignupFragment :
 
                     Page.MAIL.page -> {
                         if (viewModel.pageState.all { it }) {
-                            findNavController().navigate(R.id.action_signupFragment_to_feedTotalFragment)
+                            lifecycleScope.launch {
+                                // 회원가입 API 호출하고, datastore에 저장까지.
+                                viewModel.requestJoin("ff")
+                                delay(500)
+                                findNavController().navigate(R.id.action_signupFragment_to_feedTotalFragment)
+                            }
                         }
                     }
                 }
@@ -126,4 +159,6 @@ class SignupFragment :
             }
         }
     }
+
+
 }

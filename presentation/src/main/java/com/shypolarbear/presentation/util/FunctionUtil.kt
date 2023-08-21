@@ -17,9 +17,15 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
+import com.shypolarbear.domain.model.join.Token
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
 import com.shypolarbear.presentation.ui.quiz.daily.dialog.QuizDialog
@@ -28,6 +34,10 @@ import com.skydoves.powermenu.PowerMenuItem
 
 val emailPattern = Regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
 val phonePattern = Regex("[^0-9]")
+
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "tokens")
+val ACCESS_TOKEN = stringPreferencesKey("access_token")
+val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
 
 enum class InputState(val state: Int) {
     ACCEPT(0),
@@ -47,7 +57,12 @@ enum class QuizType(val type: String){
     OX("TRUE_FALSE")
 }
 
-
+suspend fun setTokens(context: Context, tokens: Token){
+    context.dataStore.edit {
+        it[ACCESS_TOKEN] = tokens.accessToken
+        it[REFRESH_TOKEN] = tokens.refreshToken
+    }
+}
 fun initChoices(choiceList: List<TextView>){
     for(choice in choiceList){
         choice.detectActivation(*choiceList.filter { it != choice }.toTypedArray())
