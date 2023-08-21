@@ -1,6 +1,7 @@
 package com.shypolarbear.android.di
 
 import com.shypolarbear.data.api.ExampleApi
+import com.shypolarbear.data.api.JoinApi
 import com.shypolarbear.data.api.LoginApi
 import com.shypolarbear.data.api.TokenApi
 import com.shypolarbear.data.api.feed.FeedApi
@@ -9,6 +10,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -21,6 +23,12 @@ object ApiModule {
     @Provides
     fun provideLoginApi(retrofit: Retrofit): LoginApi {
         return retrofit.create(LoginApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideJoinApi(@NormalRetrofit retrofit: Retrofit): JoinApi{
+        return retrofit.create(JoinApi::class.java)
     }
 
     @Singleton

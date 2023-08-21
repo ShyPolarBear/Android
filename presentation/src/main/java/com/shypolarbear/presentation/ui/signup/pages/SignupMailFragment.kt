@@ -10,7 +10,9 @@ import com.shypolarbear.presentation.util.afterTextChanged
 import com.shypolarbear.presentation.util.emailPattern
 import com.shypolarbear.presentation.util.keyboardDown
 import com.shypolarbear.presentation.util.setColorStateWithInput
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignupMailFragment :
     BaseFragment<FragmentSignupMailBinding, SignupViewModel>(R.layout.fragment_signup_mail) {
     override val viewModel: SignupViewModel by viewModels({ requireParentFragment() })

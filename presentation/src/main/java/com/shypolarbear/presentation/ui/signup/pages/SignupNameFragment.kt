@@ -17,7 +17,9 @@ import com.shypolarbear.presentation.util.InputState
 import com.shypolarbear.presentation.util.keyboardDown
 import com.shypolarbear.presentation.util.setColorStateWithInput
 import com.shypolarbear.presentation.util.setTextColorById
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignupNameFragment :
     BaseFragment<FragmentSignupNameBinding, SignupViewModel>(R.layout.fragment_signup_name) {
     override val viewModel: SignupViewModel by viewModels({ requireParentFragment() })

@@ -2,9 +2,15 @@ package com.shypolarbear.presentation.ui.signup
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.shypolarbear.domain.usecase.JoinUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SignupViewModel : BaseViewModel() {
+@HiltViewModel
+class SignupViewModel @Inject constructor(
+    private val joinUseCase: JoinUseCase
+): BaseViewModel() {
     private val _termData = MutableLiveData<Boolean>()
     val termData: LiveData<Boolean> = _termData
     private val _nameData = MutableLiveData<String>()

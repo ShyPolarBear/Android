@@ -11,9 +11,11 @@ import com.shypolarbear.presentation.util.afterTextChanged
 import com.shypolarbear.presentation.util.keyboardDown
 import com.shypolarbear.presentation.util.phonePattern
 import com.shypolarbear.presentation.util.setColorStateWithInput
+import dagger.hilt.android.AndroidEntryPoint
 
 const val PHONE_NUMBER_DASH_INCLUDE = 13
 
+@AndroidEntryPoint
 class SignupPhoneFragment :
     BaseFragment<FragmentSignupPhoneBinding, SignupViewModel>(R.layout.fragment_signup_phone) {
     override val viewModel: SignupViewModel by viewModels({ requireParentFragment() })

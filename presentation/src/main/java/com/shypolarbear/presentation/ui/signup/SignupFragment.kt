@@ -10,6 +10,7 @@ import com.shypolarbear.presentation.ui.signup.pages.SignupMailFragment
 import com.shypolarbear.presentation.ui.signup.pages.SignupNameFragment
 import com.shypolarbear.presentation.ui.signup.pages.SignupPhoneFragment
 import com.shypolarbear.presentation.ui.signup.pages.SignupTermsFragment
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 val NAME_RANGE = 2..8
@@ -19,7 +20,7 @@ enum class Page(val page: Int) {
     PHONE(2),
     MAIL(3)
 }
-
+@AndroidEntryPoint
 class SignupFragment :
     BaseFragment<FragmentSignupBinding, SignupViewModel>(R.layout.fragment_signup) {
     override val viewModel: SignupViewModel by viewModels()
