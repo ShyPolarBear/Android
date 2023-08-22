@@ -36,11 +36,11 @@ class JoinViewModel @Inject constructor(
     val pageIndex: LiveData<Int> = _pageIndex
 
 
-    fun requestJoin(socialAccessToken: String) {
+    fun requestJoin(socialAccessToken: String? = null) {
         viewModelScope.launch {
             val responseJoin = joinUseCase.invoke(
                 JoinRequest(
-                    socialAccessToken,
+                    socialAccessToken!!,
                     nickName = nameData.value!!,
                     phoneNumber = phoneData.value!!,
                     email = mailData.value!!,

@@ -3,14 +3,10 @@ package com.shypolarbear.presentation.ui.login
 import android.content.Context
 import android.text.util.Linkify
 import android.text.util.Linkify.addLinks
-import android.util.Log
 import android.view.View
-import androidx.core.os.BuildCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.kakao.sdk.auth.model.OAuthToken
-import com.kakao.sdk.common.KakaoSdk
-import com.kakao.sdk.common.KakaoSdk.keyHash
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.common.util.Utility
@@ -19,7 +15,6 @@ import com.shypolarbear.domain.model.login.LoginRequest
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentLoginBinding
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.regex.Pattern
@@ -98,6 +93,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
             }
         }
     }
+
     private fun kakaoLogin(context: Context): Int {
         var stateCodeLogIn = SIGNUP_NEED
 
