@@ -86,7 +86,7 @@ class SignupFragment :
             viewModel.tokens.observe(viewLifecycleOwner) { tokens ->
                 tokens?.let {
                     lifecycleScope.launch {
-                        setTokens(requireContext(), it)
+                        setTokens(requireContext(), viewModel.tokens.value!!)
                         Timber.tag("DATASTORE").d("$userAgeFlow")
                     }
                 }
@@ -109,38 +109,36 @@ class SignupFragment :
 
                     Page.MAIL.page -> {
                         if (viewModel.pageState.all { it }) {
-                            lifecycleScope.launch {
-                                // 회원가입 API 호출하고, datastore에 저장까지.
+                            // 회원가입 API 호출하고, datastore에 저장까지.
 
-                                val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+                            val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+                                if (error != null) {
+                                    Timber.tag("JOIN").e(error, "카카오계정으로 로그인 실패")
+                                } else if (token != null) {
+                                    Timber.tag("JOIN").i("카카오계정으로 로그인 성공 " + token.accessToken)
+                                    viewModel.requestJoin(token.accessToken)
+//                                        findNavController().navigate(R.id.action_signupFragment_to_feedTotalFragment)
+                                }
+                            }
+
+                            if (UserApiClient.instance.isKakaoTalkLoginAvailable(requireContext())) {
+                                UserApiClient.instance.loginWithKakaoTalk(requireContext()) { token, error ->
                                     if (error != null) {
-                                        Timber.tag("JOIN").e(error, "카카오계정으로 로그인 실패")
-                                    } else if (token != null) {
-                                        Timber.tag("JOIN").i("카카오계정으로 로그인 성공 " + token.accessToken)
-                                        viewModel.requestJoin(token.accessToken)
-                                        findNavController().navigate(R.id.action_signupFragment_to_feedTotalFragment)
-                                    }
-                                }
+                                        Timber.tag("JOIN").e(error, "카카오톡으로 로그인 실패")
 
-                                if (UserApiClient.instance.isKakaoTalkLoginAvailable(requireContext())) {
-                                    UserApiClient.instance.loginWithKakaoTalk(requireContext()) { token, error ->
-                                        if (error != null) {
-                                            Timber.tag("JOIN").e(error, "카카오톡으로 로그인 실패")
-
-                                            if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                                                return@loginWithKakaoTalk
-                                            }
-                                            // 연결된 계정 없을 때
-                                            UserApiClient.instance.loginWithKakaoAccount(requireContext(), callback = callback)
-                                        } else if (token != null) {
-                                            Timber.tag("JOIN").i("카카오톡으로 로그인 성공 " + token.accessToken)
-                                            viewModel.requestJoin(token.accessToken)
-                                            findNavController().navigate(R.id.action_signupFragment_to_feedTotalFragment)
+                                        if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
+                                            return@loginWithKakaoTalk
                                         }
+                                        // 연결된 계정 없을 때
+                                        UserApiClient.instance.loginWithKakaoAccount(requireContext(), callback = callback)
+                                    } else if (token != null) {
+                                        Timber.tag("JOIN").i("카카오톡으로 로그인 성공 " + token.accessToken)
+                                        viewModel.requestJoin(token.accessToken)
+
                                     }
-                                } else {
-                                    UserApiClient.instance.loginWithKakaoAccount(requireContext(), callback = callback)
                                 }
+                            } else {
+                                UserApiClient.instance.loginWithKakaoAccount(requireContext(), callback = callback)
                             }
                         }
                     }

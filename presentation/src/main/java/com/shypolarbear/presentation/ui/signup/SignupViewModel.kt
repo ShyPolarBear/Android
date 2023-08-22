@@ -47,6 +47,7 @@ class SignupViewModel @Inject constructor(
 
             responseJoin
                 .onSuccess { response ->
+                    Timber.tag("JOIN").i("$response")
                     when (response.code.toInt()) {
                         0 -> {
                             Timber.tag("JOIN").i("카카오톡으로 로그인 성공 " + response.data[0]+ response.data[1])
