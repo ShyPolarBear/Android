@@ -1,14 +1,11 @@
-package com.shypolarbear.presentation.ui.signup
+package com.shypolarbear.presentation.ui.join
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
-import com.google.gson.JsonObject
 import com.shypolarbear.domain.model.HttpError
+import com.shypolarbear.domain.model.Tokens
 import com.shypolarbear.domain.model.join.JoinRequest
-import com.shypolarbear.domain.model.join.JoinResponse
-import com.shypolarbear.domain.model.join.Token
 import com.shypolarbear.domain.usecase.JoinUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +15,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class SignupViewModel @Inject constructor(
+class JoinViewModel @Inject constructor(
     private val joinUseCase: JoinUseCase,
 ) : BaseViewModel() {
     private val _termData = MutableLiveData<Boolean>()
@@ -29,8 +26,8 @@ class SignupViewModel @Inject constructor(
     val phoneData: LiveData<String> = _phoneData
     private val _mailData = MutableLiveData<String>()
     val mailData: LiveData<String> = _mailData
-    private val _tokens = MutableLiveData<Token>()
-    val tokens: LiveData<Token> = _tokens
+    private val _tokens = MutableLiveData<Tokens>()
+    val tokens: LiveData<Tokens> = _tokens
 
     private val _pageState = arrayListOf(false, false, false, false)
     val pageState: List<Boolean> = _pageState
@@ -52,14 +49,13 @@ class SignupViewModel @Inject constructor(
 
             responseJoin
                 .onSuccess { response ->
-                    Timber.tag("JOIN").i("카카오톡으로 로그인 성공 " + response.data[0]+ response.data[1])
-                    initToken(Token(response.data[0], response.data[1]))
+                    Timber.tag("JOIN").i("카카오톡 login 성공 ${response.data.accessToken}${response.data.refreshToken}")
+                    initToken(Tokens(response.data.accessToken, response.data.refreshToken))
                 }
                 .onFailure {error ->
                     if (error is HttpError) {
                         val errorBodyData = JSONObject(error.errorBody)
 
-//                        val errorBody = Gson().fromJson(errorBodyData.get("data") as JsonObject, JoinResponse::class.java)
                         when (errorBodyData.get("code")) {
                             1007 -> {
                                 Timber.tag("JOIN").i("${errorBodyData.get("message")}")
@@ -77,7 +73,7 @@ class SignupViewModel @Inject constructor(
 
     }
 
-    private fun initToken(responseToken: Token) {
+    private fun initToken(responseToken: Tokens) {
         _tokens.value = responseToken
     }
 

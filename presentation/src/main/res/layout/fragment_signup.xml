@@ -5,7 +5,7 @@
     <data>
         <variable
             name="signupViewModel"
-            type="com.shypolarbear.presentation.ui.signup.SignupViewModel" />
+            type="com.shypolarbear.presentation.ui.join.JoinViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

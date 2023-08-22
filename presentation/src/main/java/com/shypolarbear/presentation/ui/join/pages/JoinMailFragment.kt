@@ -1,10 +1,10 @@
-package com.shypolarbear.presentation.ui.signup.pages
+package com.shypolarbear.presentation.ui.join.pages
 
 import androidx.fragment.app.viewModels
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentSignupMailBinding
-import com.shypolarbear.presentation.ui.signup.SignupViewModel
+import com.shypolarbear.presentation.ui.join.JoinViewModel
 import com.shypolarbear.presentation.util.InputState
 import com.shypolarbear.presentation.util.afterTextChanged
 import com.shypolarbear.presentation.util.emailPattern
@@ -13,13 +13,13 @@ import com.shypolarbear.presentation.util.setColorStateWithInput
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SignupMailFragment :
-    BaseFragment<FragmentSignupMailBinding, SignupViewModel>(R.layout.fragment_signup_mail) {
-    override val viewModel: SignupViewModel by viewModels({ requireParentFragment() })
+class JoinMailFragment :
+    BaseFragment<FragmentSignupMailBinding, JoinViewModel>(R.layout.fragment_signup_mail) {
+    override val viewModel: JoinViewModel by viewModels({ requireParentFragment() })
     override fun initView() {
         binding.apply {
             etSignupMail.apply {
-                keyboardDown(this@SignupMailFragment)
+                keyboardDown(this@JoinMailFragment)
                 afterTextChanged {
                     val match: MatchResult? = emailPattern.find(it.toString())
 

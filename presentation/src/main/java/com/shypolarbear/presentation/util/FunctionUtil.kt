@@ -25,7 +25,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
-import com.shypolarbear.domain.model.join.Token
+import com.shypolarbear.domain.model.Tokens
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
 import com.shypolarbear.presentation.ui.quiz.daily.dialog.QuizDialog
@@ -57,7 +57,7 @@ enum class QuizType(val type: String){
     OX("TRUE_FALSE")
 }
 
-suspend fun setTokens(context: Context, tokens: Token){
+suspend fun setTokens(context: Context, tokens: Tokens){
     context.dataStore.edit {
         it[ACCESS_TOKEN] = tokens.accessToken
         it[REFRESH_TOKEN] = tokens.refreshToken

@@ -11,15 +11,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentChangeMyInfoBinding
-import com.shypolarbear.presentation.ui.signup.NAME_RANGE
-import com.shypolarbear.presentation.ui.signup.pages.PHONE_NUMBER_DASH_INCLUDE
+import com.shypolarbear.presentation.ui.join.NAME_RANGE
+import com.shypolarbear.presentation.ui.join.pages.PHONE_NUMBER_DASH_INCLUDE
 import com.shypolarbear.presentation.util.InputState
 import com.shypolarbear.presentation.util.afterTextChanged
 import com.shypolarbear.presentation.util.emailPattern
 import com.shypolarbear.presentation.util.keyboardDown
 import com.shypolarbear.presentation.util.phonePattern
 import com.shypolarbear.presentation.util.setColorStateWithInput
-import timber.log.Timber
 
 class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyInfoViewModel> (
     R.layout.fragment_change_my_info

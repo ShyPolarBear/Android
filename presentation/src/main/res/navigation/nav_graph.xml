@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
-        android:name="com.shypolarbear.presentation.ui.signup.SignupFragment"
+        android:name="com.shypolarbear.presentation.ui.join.JoinFragment"
         android:label="SignupFragment"
         tools:layout="@layout/fragment_signup">
         <action
@@ -51,7 +51,7 @@
     </fragment>
     <fragment
         android:id="@+id/signupPhoneFragment"
-        android:name="com.shypolarbear.presentation.ui.signup.pages.SignupPhoneFragment"
+        android:name="com.shypolarbear.presentation.ui.join.pages.SignupPhoneFragment"
         android:label="SignupPhoneFragment"
         tools:layout="@layout/fragment_signup_phone">
         <action
@@ -60,12 +60,12 @@
     </fragment>
     <fragment
         android:id="@+id/signupMailFragment"
-        android:name="com.shypolarbear.presentation.ui.signup.pages.SignupMailFragment"
+        android:name="com.shypolarbear.presentation.ui.join.pages.JoinMailFragment"
         android:label="SignupMailFragment"
         tools:layout="@layout/fragment_signup_mail"/>
     <fragment
         android:id="@+id/signupTermsFragment"
-        android:name="com.shypolarbear.presentation.ui.signup.pages.SignupTermsFragment"
+        android:name="com.shypolarbear.presentation.ui.join.pages.JoinTermsFragment"
         android:label="SignupTermsFragment"
         tools:layout="@layout/fragment_signup_terms">
         <action
@@ -74,7 +74,7 @@
     </fragment>
     <fragment
         android:id="@+id/signupNameFragment"
-        android:name="com.shypolarbear.presentation.ui.signup.pages.SignupNameFragment"
+        android:name="com.shypolarbear.presentation.ui.join.pages.JoinNameFragment"
         android:label="SignupNameFragment"
         tools:layout="@layout/fragment_signup_name">
         <action

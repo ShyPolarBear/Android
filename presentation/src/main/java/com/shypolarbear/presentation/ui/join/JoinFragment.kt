@@ -1,30 +1,23 @@
-package com.shypolarbear.presentation.ui.signup
+package com.shypolarbear.presentation.ui.join
 
-import android.content.Context
-import android.util.Log
 import android.view.WindowManager
-import androidx.datastore.preferences.core.edit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
-import com.shypolarbear.domain.model.join.Token
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentSignupBinding
-import com.shypolarbear.presentation.ui.signup.pages.SignupMailFragment
-import com.shypolarbear.presentation.ui.signup.pages.SignupNameFragment
-import com.shypolarbear.presentation.ui.signup.pages.SignupPhoneFragment
-import com.shypolarbear.presentation.ui.signup.pages.SignupTermsFragment
+import com.shypolarbear.presentation.ui.join.pages.JoinMailFragment
+import com.shypolarbear.presentation.ui.join.pages.JoinNameFragment
+import com.shypolarbear.presentation.ui.join.pages.JoinPhoneFragment
+import com.shypolarbear.presentation.ui.join.pages.JoinTermsFragment
 import com.shypolarbear.presentation.util.ACCESS_TOKEN
-import com.shypolarbear.presentation.util.REFRESH_TOKEN
 import com.shypolarbear.presentation.util.dataStore
 import com.shypolarbear.presentation.util.setTokens
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -40,10 +33,10 @@ enum class Page(val page: Int) {
 }
 
 @AndroidEntryPoint
-class SignupFragment :
-    BaseFragment<FragmentSignupBinding, SignupViewModel>(R.layout.fragment_signup) {
-    override val viewModel: SignupViewModel by viewModels()
-    private lateinit var pagerAdapter: SignupAdapter
+class JoinFragment :
+    BaseFragment<FragmentSignupBinding, JoinViewModel>(R.layout.fragment_signup) {
+    override val viewModel: JoinViewModel by viewModels()
+    private lateinit var pagerAdapter: JoinAdapter
 
     override fun initView() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
@@ -52,12 +45,12 @@ class SignupFragment :
             it[ACCESS_TOKEN]
         }
         val pageList = listOf(
-            SignupTermsFragment(),
-            SignupNameFragment(),
-            SignupPhoneFragment(),
-            SignupMailFragment()
+            JoinTermsFragment(),
+            JoinNameFragment(),
+            JoinPhoneFragment(),
+            JoinMailFragment()
         )
-        pagerAdapter = SignupAdapter(this, pageList)
+        pagerAdapter = JoinAdapter(this, pageList)
         binding.apply {
             viewModel.termData.observe(viewLifecycleOwner) { resTerms ->
                 if (viewModel.getActualPageIndex() == Page.TERMS.page) {
