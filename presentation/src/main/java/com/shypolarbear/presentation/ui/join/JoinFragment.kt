@@ -17,6 +17,7 @@ import com.shypolarbear.presentation.ui.join.pages.JoinNameFragment
 import com.shypolarbear.presentation.ui.join.pages.JoinPhoneFragment
 import com.shypolarbear.presentation.ui.join.pages.JoinTermsFragment
 import com.shypolarbear.presentation.util.ACCESS_TOKEN
+import com.shypolarbear.presentation.util.REFRESH_TOKEN
 import com.shypolarbear.presentation.util.dataStore
 import com.shypolarbear.presentation.util.setTokens
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,14 +49,8 @@ class JoinFragment :
         val userAccessToken: Flow<String?> = requireContext().dataStore.data.map {
             it[ACCESS_TOKEN]
         }
-        runBlocking {
-            userAccessToken.collect { value ->
-                Timber.tag("DATASTORE").d(
-                    "${
-                        value
-                    }"
-                )
-            }
+        val userRefreshToken: Flow<String?> = requireContext().dataStore.data.map {
+            it[REFRESH_TOKEN]
         }
 
         val pageList = listOf(
@@ -95,7 +90,6 @@ class JoinFragment :
                 tokens?.let {
                     lifecycleScope.launch {
                         setTokens(requireContext(), viewModel.tokens.value!!)
-                        Timber.tag("DATASTORE").d("$userAccessToken")
                         findNavController().navigate(R.id.action_signupFragment_to_feedTotalFragment)
                     }
                 }
