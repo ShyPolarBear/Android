@@ -1,9 +1,10 @@
 package com.shypolarbear.presentation.ui.feed.feedWrite
 
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.shypolarbear.domain.model.feed.FeedWriteImg
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedWriteBinding
@@ -16,6 +17,15 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
 ) {
 
     override val viewModel: FeedWriteViewModel by viewModels()
+    private val pickMedia =
+        registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(5)) { uris ->
+            uris?.let {
+                viewModel.addImgList(uris)
+                binding.rvFeedWriteUploadImg.adapter!!.notifyItemRangeChanged(0, uris.size)
+                binding.rvFeedWriteUploadImg.scrollToPosition(0)
+            }
+        }
+
     private val feedWriteImgAdapter = FeedWriteImgAdapter(
         onRemoveImgClick = { position: Int -> removeImg(position) }
     )
@@ -49,14 +59,11 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
     }
 
     private fun addImg() {
-        viewModel.addImgList()
-        binding.rvFeedWriteUploadImg.adapter!!.notifyItemInserted(0)
-        binding.rvFeedWriteUploadImg.scrollToPosition(0)
+        pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
     }
 
     private fun removeImg(position: Int) {
         viewModel.removeImgList(position)
-
         binding.rvFeedWriteUploadImg.adapter!!.notifyItemRemoved(position)
         Timber.d("${position + 1} 번째 아이템")
 
