@@ -3,12 +3,17 @@ package com.shypolarbear.presentation.ui.signup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.domain.model.join.JoinRequest
+import com.shypolarbear.domain.model.join.JoinResponse
 import com.shypolarbear.domain.model.join.Token
 import com.shypolarbear.domain.usecase.JoinUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -47,31 +52,26 @@ class SignupViewModel @Inject constructor(
 
             responseJoin
                 .onSuccess { response ->
-                    Timber.tag("JOIN").i("$response")
-                    when (response.code.toInt()) {
-                        0 -> {
-                            Timber.tag("JOIN").i("카카오톡으로 로그인 성공 " + response.data[0]+ response.data[1])
-                            initToken(Token(response.data[0], response.data[1]))
-                        }
+                    Timber.tag("JOIN").i("카카오톡으로 로그인 성공 " + response.data[0]+ response.data[1])
+                    initToken(Token(response.data[0], response.data[1]))
+                }
+                .onFailure {error ->
+                    if (error is HttpError) {
+                        val errorBodyData = JSONObject(error.errorBody)
 
-                        1007 -> {
-                            Timber.tag("JOIN").i(response.message)
-
-                        }
-
-                        1101 -> {
-                            Timber.tag("JOIN").i(response.message)
-
-                        }
-
-                        1004 -> {
-                            Timber.tag("JOIN").i(response.message)
-
+//                        val errorBody = Gson().fromJson(errorBodyData.get("data") as JsonObject, JoinResponse::class.java)
+                        when (errorBodyData.get("code")) {
+                            1007 -> {
+                                Timber.tag("JOIN").i("${errorBodyData.get("message")}")
+                            }
+                            1101 -> {
+                                Timber.tag("JOIN").i("${errorBodyData.get("message")}")
+                            }
+                            1004 -> {
+                                Timber.tag("JOIN").i("${errorBodyData.get("message")}")
+                            }
                         }
                     }
-                }
-                .onFailure {response ->
-                    Timber.tag("JOIN").i(response.message)
                 }
         }
 
