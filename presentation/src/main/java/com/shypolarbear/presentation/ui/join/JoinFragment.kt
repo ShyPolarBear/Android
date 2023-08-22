@@ -21,8 +21,11 @@ import com.shypolarbear.presentation.util.dataStore
 import com.shypolarbear.presentation.util.setTokens
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 
 val NAME_RANGE = 2..8
@@ -42,10 +45,19 @@ class JoinFragment :
 
     override fun initView() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
-
-        val userAgeFlow: Flow<String?> = requireContext().dataStore.data.map {
+        val userAccessToken: Flow<String?> = requireContext().dataStore.data.map {
             it[ACCESS_TOKEN]
         }
+        runBlocking {
+            userAccessToken.collect { value ->
+                Timber.tag("DATASTORE").d(
+                    "${
+                        value
+                    }"
+                )
+            }
+        }
+
         val pageList = listOf(
             JoinTermsFragment(),
             JoinNameFragment(),
@@ -55,6 +67,7 @@ class JoinFragment :
         pagerAdapter = JoinAdapter(this, pageList)
         binding.apply {
             viewModel.termData.observe(viewLifecycleOwner) { resTerms ->
+
                 if (viewModel.getActualPageIndex() == Page.TERMS.page) {
                     activateButtonState(resTerms, Page.TERMS.page)
                 }
@@ -82,13 +95,13 @@ class JoinFragment :
                 tokens?.let {
                     lifecycleScope.launch {
                         setTokens(requireContext(), viewModel.tokens.value!!)
-                        Timber.tag("DATASTORE").d("$userAgeFlow")
+                        Timber.tag("DATASTORE").d("$userAccessToken")
                         findNavController().navigate(R.id.action_signupFragment_to_feedTotalFragment)
                     }
                 }
             }
 
-            viewModel.errorMessage.observe(viewLifecycleOwner){message->
+            viewModel.errorMessage.observe(viewLifecycleOwner) { message ->
                 message?.let {
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                 }
@@ -117,7 +130,6 @@ class JoinFragment :
                                 } else if (token != null) {
                                     Timber.tag("JOIN").i("카카오계정으로 로그인 성공 " + token.accessToken)
                                     viewModel.requestJoin(token.accessToken)
-//                                        findNavController().navigate(R.id.action_signupFragment_to_feedTotalFragment)
                                 }
                             }
                             if (UserApiClient.instance.isKakaoTalkLoginAvailable(requireContext())) {
@@ -128,15 +140,20 @@ class JoinFragment :
                                             return@loginWithKakaoTalk
                                         }
                                         // 연결된 계정 없을 때
-                                        UserApiClient.instance.loginWithKakaoAccount(requireContext(), callback = callback)
+                                        UserApiClient.instance.loginWithKakaoAccount(
+                                            requireContext(),
+                                            callback = callback
+                                        )
                                     } else if (token != null) {
                                         Timber.tag("JOIN").i("카카오톡으로 로그인 성공 " + token.accessToken)
                                         viewModel.requestJoin(token.accessToken)
-//                                        findNavController().navigate(R.id.action_signupFragment_to_feedTotalFragment)
                                     }
                                 }
                             } else {
-                                UserApiClient.instance.loginWithKakaoAccount(requireContext(), callback = callback)
+                                UserApiClient.instance.loginWithKakaoAccount(
+                                    requireContext(),
+                                    callback = callback
+                                )
                             }
                         }
                     }
