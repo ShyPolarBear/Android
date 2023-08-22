@@ -28,6 +28,8 @@ class JoinViewModel @Inject constructor(
     val mailData: LiveData<String> = _mailData
     private val _tokens = MutableLiveData<Tokens>()
     val tokens: LiveData<Tokens> = _tokens
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> = _errorMessage
 
     private val _pageState = arrayListOf(false, false, false, false)
     val pageState: List<Boolean> = _pageState
@@ -40,32 +42,25 @@ class JoinViewModel @Inject constructor(
             val responseJoin = joinUseCase.invoke(
                 JoinRequest(
                     socialAccessToken,
-                    nickName = nameData.value.toString(),
-                    phoneNumber = phoneData.value.toString(),
-                    email = mailData.value.toString(),
+                    nickName = nameData.value!!,
+                    phoneNumber = phoneData.value!!,
+                    email = mailData.value!!,
                     profileImage = "아직 미구현"
                 )
             )
 
             responseJoin
                 .onSuccess { response ->
-                    Timber.tag("JOIN").i("카카오톡 login 성공 ${response.data.accessToken}${response.data.refreshToken}")
                     initToken(Tokens(response.data.accessToken, response.data.refreshToken))
                 }
                 .onFailure {error ->
                     if (error is HttpError) {
                         val errorBodyData = JSONObject(error.errorBody)
-
-                        when (errorBodyData.get("code")) {
-                            1007 -> {
-                                Timber.tag("JOIN").i("${errorBodyData.get("message")}")
+                        when(errorBodyData.get("code")){
+                            1101, 1004 ->{
+                                setErrorMessage(errorBodyData.get("message") as String)
                             }
-                            1101 -> {
-                                Timber.tag("JOIN").i("${errorBodyData.get("message")}")
-                            }
-                            1004 -> {
-                                Timber.tag("JOIN").i("${errorBodyData.get("message")}")
-                            }
+                            1007 ->{}
                         }
                     }
                 }
@@ -75,6 +70,10 @@ class JoinViewModel @Inject constructor(
 
     private fun initToken(responseToken: Tokens) {
         _tokens.value = responseToken
+    }
+
+    private fun setErrorMessage(message: String){
+        _errorMessage.value = message
     }
 
     fun setPageState(page: Int, state: Boolean) {
