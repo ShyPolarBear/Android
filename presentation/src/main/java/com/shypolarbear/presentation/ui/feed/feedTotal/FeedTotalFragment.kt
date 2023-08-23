@@ -65,6 +65,9 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
     override fun initView() {
 
         binding.apply {
+            binding.progressFeedTotalLoading.isVisible = true
+            binding.layoutFeed.isVisible = false
+
             viewModel.loadFeedTotalData()
 
             ivFeedToolbarSort.setOnClickListener {
@@ -86,6 +89,8 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         binding.rvFeedPost.adapter = feedPostAdapter
         lifecycleScope.launch {
             viewModel.feed.observe(viewLifecycleOwner) {
+                binding.progressFeedTotalLoading.isVisible = false
+                binding.layoutFeed.isVisible = true
                 feedPostAdapter.submitList(it)
             }
         }
