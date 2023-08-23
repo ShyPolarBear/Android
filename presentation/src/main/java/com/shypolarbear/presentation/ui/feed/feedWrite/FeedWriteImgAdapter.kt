@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.shypolarbear.domain.model.feed.FeedWriteImg
 import com.shypolarbear.presentation.databinding.ItemFeedWriteImgBinding
+import timber.log.Timber
 
 class FeedWriteImgAdapter(
     private val onRemoveImgClick: (position: Int) -> Unit = { _ -> }
@@ -23,6 +24,7 @@ class FeedWriteImgAdapter(
     }
 
     override fun onBindViewHolder(holder: FeedWriteImgViewHolder, position: Int) {
+        Timber.d("4")
         holder.bind(getItem(position))
     }
 }

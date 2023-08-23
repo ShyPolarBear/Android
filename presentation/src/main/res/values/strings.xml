@@ -108,5 +108,6 @@
 
     <string name="feed_write_title_msg">제목을 입력해주세요!</string>
     <string name="feed_write_content_msg">내용을 입력해주세요!</string>
+    <string name="feed_write_image_count_msg">이미지는 최대 5장까지 업로드 가능합니다.</string>
 
 </resources>

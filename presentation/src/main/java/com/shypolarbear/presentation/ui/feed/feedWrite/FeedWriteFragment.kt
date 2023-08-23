@@ -11,6 +11,10 @@ import com.shypolarbear.presentation.databinding.FragmentFeedWriteBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+const val IMAGE_ADD_INDEX = 0
+const val IMAGE_MAX_COUNT = 5
+const val IMAGE_ADD_MAX = 6
+
 @AndroidEntryPoint
 class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewModel > (
     R.layout.fragment_feed_write
@@ -18,11 +22,20 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
 
     override val viewModel: FeedWriteViewModel by viewModels()
     private val pickMedia =
-        registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(5)) { uris ->
+        registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(IMAGE_MAX_COUNT)) { uris ->
             uris?.let {
-                viewModel.addImgList(uris)
-                binding.rvFeedWriteUploadImg.adapter!!.notifyItemRangeChanged(0, uris.size)
-                binding.rvFeedWriteUploadImg.scrollToPosition(0)
+                Timber.d("${viewModel.testImgList.value!!.size + uris.size}")
+                when(viewModel.testImgList.value!!.size + uris.size) {
+                    in IMAGE_ADD_MAX..Int.MAX_VALUE -> {
+                        Toast.makeText(requireContext(), getString(R.string.feed_write_image_count_msg), Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        viewModel.addImgList(uris)
+                        binding.rvFeedWriteUploadImg.adapter!!.notifyItemRangeInserted(IMAGE_ADD_INDEX, uris.size)
+                        binding.rvFeedWriteUploadImg.scrollToPosition(IMAGE_ADD_INDEX)
+                    }
+                }
+
             }
         }
 
@@ -59,13 +72,18 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
     }
 
     private fun addImg() {
-        pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        when(viewModel.testImgList.value!!.size) {
+            in IMAGE_MAX_COUNT..Int.MAX_VALUE -> {
+                Toast.makeText(requireContext(), getString(R.string.feed_write_image_count_msg), Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
+        }
     }
 
     private fun removeImg(position: Int) {
         viewModel.removeImgList(position)
         binding.rvFeedWriteUploadImg.adapter!!.notifyItemRemoved(position)
-        Timber.d("${position + 1} 번째 아이템")
-
     }
 }
