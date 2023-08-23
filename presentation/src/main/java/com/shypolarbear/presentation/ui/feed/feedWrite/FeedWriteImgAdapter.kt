@@ -24,7 +24,6 @@ class FeedWriteImgAdapter(
     }
 
     override fun onBindViewHolder(holder: FeedWriteImgViewHolder, position: Int) {
-        Timber.d("4")
         holder.bind(getItem(position))
     }
 }

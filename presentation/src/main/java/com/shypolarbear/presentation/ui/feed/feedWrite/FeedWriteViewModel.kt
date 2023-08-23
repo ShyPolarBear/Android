@@ -22,7 +22,6 @@ class FeedWriteViewModel @Inject constructor(
     fun addImgList(imgUri: List<Uri>) {
         val feedWriteImgList = imgUri.map { FeedWriteImg(it.toString()) }
         _testImgList.value!!.addAll(0, feedWriteImgList)
-        Timber.d("이미지 리스트: ${_testImgList.value}")
     }
 
     fun removeImgList(position: Int) {
