@@ -13,11 +13,8 @@ import javax.inject.Inject
 class FeedWriteViewModel @Inject constructor(
 
 ): BaseViewModel(){
-    private val _testImgList = MutableLiveData<MutableList<FeedWriteImg>>()
+    private val _testImgList = MutableLiveData<MutableList<FeedWriteImg>>(mutableListOf())
     val testImgList: LiveData<MutableList<FeedWriteImg>> = _testImgList
-    init {
-        _testImgList.value = mutableListOf()
-    }
 
     fun addImgList(imgUri: List<Uri>) {
         val feedWriteImgList = imgUri.map { FeedWriteImg(it.toString()) }
