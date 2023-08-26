@@ -46,10 +46,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
 
             rvFeedWriteUploadImg.adapter = feedWriteImgAdapter
             viewModel.liveImgList.observe(viewLifecycleOwner) {
-                var applyChangeList: MutableList<FeedWriteImg> = mutableListOf()
-                applyChangeList.addAll(it)
-
-                feedWriteImgAdapter.submitList(applyChangeList)
+                feedWriteImgAdapter.submitList(it.toList())
             }
 
             btnFeedWriteBack.setOnClickListener {
