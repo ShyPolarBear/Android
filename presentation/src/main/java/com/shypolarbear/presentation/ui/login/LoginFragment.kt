@@ -33,6 +33,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
     private val transformFilter = Linkify.TransformFilter { match, url -> "" }
     private lateinit var kakaoCallBack: (OAuthToken?, Throwable?) -> Unit
     private lateinit var sendTokenToJoin: NavDirections
+
     override fun initView() {
         val terms = Pattern.compile(getString(R.string.terms))
         val privacyPolicy = Pattern.compile(getString(R.string.privacy_policy))
@@ -41,7 +42,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
         setKakaoCallBack()
 
         viewModel.responseCode.observe(viewLifecycleOwner) { code ->
-            Timber.tag("TEST3").d("$code")
             code?.let {
                 when (it) {
                     SIGNUP_NEED -> findNavController().navigate(sendTokenToJoin)
@@ -57,8 +57,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
                 }
             }
         }
-
-
 
         binding.apply {
             btnLogin.setOnClickListener {

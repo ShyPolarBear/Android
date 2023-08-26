@@ -13,7 +13,6 @@ class ShyPolarBearApp: Application() {
         super.onCreate()
         initKakaoLogin()
         setupTimber()
-
     }
 
     private fun initKakaoLogin(){

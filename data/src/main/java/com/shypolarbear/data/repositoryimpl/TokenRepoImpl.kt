@@ -12,19 +12,19 @@ import com.shypolarbear.domain.model.TokenRenew
 import com.shypolarbear.domain.repository.TokenRepo
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
+
+@Singleton
+val Context.tokenDataStore by preferencesDataStore("tokens")
+
 class TokenRepoImpl @Inject constructor(
     private val api: TokenApi,
     @ApplicationContext private val context: Context
 ): TokenRepo {
-
-    @Singleton
-    val Context.tokenDataStore by preferencesDataStore("tokens")
 
     private object PreferenceKeys {
         val ACCESS_TOKEN = stringPreferencesKey("access_token")
