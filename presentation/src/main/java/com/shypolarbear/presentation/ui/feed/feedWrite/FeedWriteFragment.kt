@@ -5,6 +5,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.shypolarbear.domain.model.feed.FeedWriteImg
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedWriteBinding
@@ -27,7 +28,6 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(IMAGE_MAX_COUNT)) { uris ->
             uris?.let {
-                Timber.d("${viewModel.liveImgList.value!!.size + uris.size}")
                 when(viewModel.liveImgList.value!!.size + uris.size) {
                     in IMAGE_ADD_MAX..Int.MAX_VALUE -> {
                         Toast.makeText(requireContext(), getString(R.string.feed_write_image_count_msg), Toast.LENGTH_SHORT).show()
@@ -46,9 +46,10 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
 
             rvFeedWriteUploadImg.adapter = feedWriteImgAdapter
             viewModel.liveImgList.observe(viewLifecycleOwner) {
-                Timber.d("3")
-                feedWriteImgAdapter.submitList(it)
-                Timber.d("이미지 리스트 변경 감지, it: $it")
+                var applyChangeList: MutableList<FeedWriteImg> = mutableListOf()
+                applyChangeList.addAll(it)
+
+                feedWriteImgAdapter.submitList(applyChangeList)
             }
 
             btnFeedWriteBack.setOnClickListener {
@@ -87,9 +88,6 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
     }
 
     private fun removeImg(position: Int) {
-        Timber.d("2")
         viewModel.removeImgList(position)
-
-//        binding.rvFeedWriteUploadImg.adapter!!.notifyItemRemoved(position)
     }
 }

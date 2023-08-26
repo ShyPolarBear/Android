@@ -9,7 +9,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
-
 @HiltViewModel
 class FeedWriteViewModel @Inject constructor(
 
@@ -26,7 +25,6 @@ class FeedWriteViewModel @Inject constructor(
     }
 
     fun removeImgList(position: Int) {
-        Timber.d("4")
         val imgList: MutableList<FeedWriteImg> = _liveImgList.value!!
 
         imgList.removeAt(position)
