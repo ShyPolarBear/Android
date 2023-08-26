@@ -15,12 +15,12 @@ import com.kakao.sdk.user.UserApiClient
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentLoginBinding
+import com.shypolarbear.presentation.util.LOGIN_FAIL
+import com.shypolarbear.presentation.util.LOGIN_SUCCESS
+import com.shypolarbear.presentation.util.SIGNUP_NEED
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.util.regex.Pattern
-
-private const val SIGNUP_NEED = 1006
-private const val LOGIN_SUCCESS = 0
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
@@ -30,51 +30,48 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
     override val viewModel: LoginViewModel by viewModels()
     private val linkify = Linkify()
     private val transformFilter = Linkify.TransformFilter { match, url -> "" }
-    lateinit var kakaoCallBack: (OAuthToken?, Throwable?) -> Unit
-    lateinit var sendTokenToJoin: NavDirections
+    private lateinit var kakaoCallBack: (OAuthToken?, Throwable?) -> Unit
+    private lateinit var sendTokenToJoin: NavDirections
     override fun initView() {
         val terms = Pattern.compile(getString(R.string.terms))
         val privacyPolicy = Pattern.compile(getString(R.string.privacy_policy))
         val key = Utility.getKeyHash(requireContext())
 
-        viewModel.responseCode.observe(viewLifecycleOwner) { code ->
-            code?.let {
-                Timber.tag("CODE").d("$code")
-                when (it) {
-                    SIGNUP_NEED -> findNavController().navigate(sendTokenToJoin)
-                    LOGIN_SUCCESS -> findNavController().navigate(R.id.action_loginFragment_to_quizMainFragment)
+        setKakaoCallBack()
+        binding.apply {
+            viewModel.responseCode.observe(viewLifecycleOwner) { code ->
+                code?.let {
+                    when (it) {
+                        SIGNUP_NEED -> findNavController().navigate(sendTokenToJoin)
+                        LOGIN_SUCCESS -> findNavController().navigate(R.id.action_loginFragment_to_quizMainFragment)
+                    }
                 }
             }
-        }
 
-        binding.btnLogin.setOnClickListener {
-            binding.btnClickedLogin.visibility = View.VISIBLE
-            binding.progressLogin.visibility = View.VISIBLE
-            binding.ivKakaotalk.visibility = View.INVISIBLE
+            btnLogin.setOnClickListener {
+                btnClickedLogin.visibility = View.VISIBLE
+                progressLogin.visibility = View.VISIBLE
+                ivKakaotalk.visibility = View.INVISIBLE
 
-            setKakaoCallBack()
-            kakaoLogin(requireContext())
+                kakaoLogin(requireContext())
+            }
 
-            binding.btnClickedLogin.visibility = View.INVISIBLE
-            binding.progressLogin.visibility = View.INVISIBLE
-            binding.ivKakaotalk.visibility = View.VISIBLE
-        }
-
-        linkify.apply {
-            addLinks(
-                binding.tvLoginTerms,
-                terms,
-                getString(R.string.terms_url),
-                null,
-                transformFilter
-            )
-            addLinks(
-                binding.tvLoginTerms,
-                privacyPolicy,
-                getString(R.string.privacy_url),
-                null,
-                transformFilter
-            )
+            linkify.apply {
+                addLinks(
+                    tvLoginTerms,
+                    terms,
+                    getString(R.string.terms_url),
+                    null,
+                    transformFilter
+                )
+                addLinks(
+                    tvLoginTerms,
+                    privacyPolicy,
+                    getString(R.string.privacy_url),
+                    null,
+                    transformFilter
+                )
+            }
         }
     }
 

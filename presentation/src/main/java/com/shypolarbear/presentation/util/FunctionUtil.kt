@@ -39,6 +39,9 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "to
 val ACCESS_TOKEN = stringPreferencesKey("access_token")
 val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
 
+const val SIGNUP_NEED = 1006
+const val LOGIN_SUCCESS = 0
+const val LOGIN_FAIL = 1007
 enum class InputState(val state: Int) {
     ACCEPT(0),
     ERROR(1),

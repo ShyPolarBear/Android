@@ -1,6 +1,5 @@
 package com.shypolarbear.presentation.ui.login
 
-import androidx.datastore.dataStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -9,6 +8,8 @@ import com.shypolarbear.domain.model.Tokens
 import com.shypolarbear.domain.model.login.LoginRequest
 import com.shypolarbear.domain.usecase.LoginUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
+import com.shypolarbear.presentation.util.LOGIN_FAIL
+import com.shypolarbear.presentation.util.SIGNUP_NEED
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -27,18 +28,18 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
 
             responseTokens.onSuccess { response ->
                 setResponseCode(response.code)
-
+                val tokens = Tokens(response.data.accessToken, response.data.refreshToken)
             }
 
             responseTokens.onFailure { error ->
                 if (error is HttpError) {
                     val errorBodyData = JSONObject(error.errorBody)
                     when (errorBodyData.get("code")) {
-                        1006 -> {
+                        SIGNUP_NEED -> {
                             setResponseCode(1006)
                         }
 
-                        1007 -> {
+                        LOGIN_FAIL -> {
                             // token renew
                         }
                     }
