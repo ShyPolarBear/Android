@@ -6,16 +6,21 @@ import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.domain.model.Tokens
 import com.shypolarbear.domain.model.join.JoinRequest
+import com.shypolarbear.domain.usecase.AccessTokenUseCase
 import com.shypolarbear.domain.usecase.JoinUseCase
+import com.shypolarbear.domain.usecase.RefreshTokenUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class JoinViewModel @Inject constructor(
     private val joinUseCase: JoinUseCase,
+    private val accessTokenUseCase: AccessTokenUseCase,
+    private val refreshTokenUseCase: RefreshTokenUseCase
 ) : BaseViewModel() {
     private val _termData = MutableLiveData<Boolean>()
     val termData: LiveData<Boolean> = _termData
@@ -50,6 +55,9 @@ class JoinViewModel @Inject constructor(
             responseJoin
                 .onSuccess { response ->
                     initToken(Tokens(response.data.accessToken, response.data.refreshToken))
+                    accessTokenUseCase.setAccessToken(response.data.accessToken)
+                    refreshTokenUseCase.setRefreshToken(response.data.refreshToken)
+                    Timber.tag("AC").d("${accessTokenUseCase.invoke()}}")
                 }
                 .onFailure {error ->
                     if (error is HttpError) {

@@ -8,7 +8,7 @@ import com.shypolarbear.domain.repository.JoinRepo
 import javax.inject.Inject
 
 class JoinRepoImpl @Inject constructor(
-    private val api: JoinApi
+    private val api: JoinApi,
 ): JoinRepo {
     override suspend fun getJoinResponse(joinRequest: JoinRequest): Result<JoinResponse> {
         return try {

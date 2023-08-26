@@ -6,10 +6,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.kakao.sdk.auth.model.OAuthToken
-import com.kakao.sdk.common.model.ClientError
-import com.kakao.sdk.common.model.ClientErrorCause
-import com.kakao.sdk.user.UserApiClient
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentSignupBinding
@@ -17,13 +13,7 @@ import com.shypolarbear.presentation.ui.join.pages.JoinMailFragment
 import com.shypolarbear.presentation.ui.join.pages.JoinNameFragment
 import com.shypolarbear.presentation.ui.join.pages.JoinPhoneFragment
 import com.shypolarbear.presentation.ui.join.pages.JoinTermsFragment
-import com.shypolarbear.presentation.util.ACCESS_TOKEN
-import com.shypolarbear.presentation.util.REFRESH_TOKEN
-import com.shypolarbear.presentation.util.dataStore
-import com.shypolarbear.presentation.util.setTokens
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -82,7 +72,6 @@ class JoinFragment :
             viewModel.tokens.observe(viewLifecycleOwner) { tokens ->
                 tokens?.let {
                     lifecycleScope.launch {
-                        setTokens(requireContext(), viewModel.tokens.value!!)
                         findNavController().navigate(R.id.action_signupFragment_to_quizMainFragment)
                     }
                 }

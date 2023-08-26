@@ -35,10 +35,6 @@ import com.skydoves.powermenu.PowerMenuItem
 val emailPattern = Regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
 val phonePattern = Regex("[^0-9]")
 
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "tokens")
-val ACCESS_TOKEN = stringPreferencesKey("access_token")
-val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
-
 const val SIGNUP_NEED = 1006
 const val LOGIN_SUCCESS = 0
 const val LOGIN_FAIL = 1007
@@ -70,12 +66,7 @@ fun setVisibilityInvert(vararg views: View) {
             }
     }
 }
-suspend fun setTokens(context: Context, tokens: Tokens){
-    context.dataStore.edit {
-        it[ACCESS_TOKEN] = tokens.accessToken
-        it[REFRESH_TOKEN] = tokens.refreshToken
-    }
-}
+
 fun initChoices(choiceList: List<TextView>){
     for(choice in choiceList){
         choice.detectActivation(*choiceList.filter { it != choice }.toTypedArray())

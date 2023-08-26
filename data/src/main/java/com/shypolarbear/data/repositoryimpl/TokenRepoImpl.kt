@@ -1,21 +1,54 @@
 package com.shypolarbear.data.repositoryimpl
 
+import android.content.Context
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import com.shypolarbear.data.api.TokenApi
+import com.shypolarbear.data.repositoryimpl.TokenRepoImpl.PreferenceKeys.ACCESS_TOKEN
+import com.shypolarbear.data.repositoryimpl.TokenRepoImpl.PreferenceKeys.REFRESH_TOKEN
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.domain.model.TokenRenew
-import com.shypolarbear.domain.model.feed.FeedTotal
 import com.shypolarbear.domain.repository.TokenRepo
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class TokenRepoImpl @Inject constructor(
-    private val api: TokenApi
+    private val api: TokenApi,
+    @ApplicationContext private val context: Context
 ): TokenRepo {
-    override fun getAccessToken(): String {
-        TODO("DataStore에서 Access Token 가져오는 동작")
+    private val Context.tokenDataStore by preferencesDataStore("tokens")
+    private object PreferenceKeys {
+        val ACCESS_TOKEN = stringPreferencesKey("access_token")
+        val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
     }
 
-    override fun getRefreshToken(): String {
-        TODO("DataStore에서 Refresh Token 가져오는 동작")
+    override suspend fun getAccessToken(): String {
+        val userAccessToken: Flow<String?> = context.tokenDataStore.data.map {
+            it[ACCESS_TOKEN]
+        }
+        return userAccessToken.collect().toString()
+    }
+
+    override suspend fun getRefreshToken(): String {
+        val userRefreshToken: Flow<String?> = context.tokenDataStore.data.map {
+            it[REFRESH_TOKEN]
+        }
+        return userRefreshToken.collect().toString()
+    }
+    override suspend fun setAccessToken(accessToken: String) {
+        context.tokenDataStore.edit {prefs ->
+            prefs[ACCESS_TOKEN] = accessToken
+        }
+    }
+
+    override suspend fun setRefreshToken(refreshToken: String) {
+        context.tokenDataStore.edit {prefs ->
+            prefs[REFRESH_TOKEN] = refreshToken
+        }
     }
 
     override suspend fun renewTokens(refreshToken: String): Result<TokenRenew> {
