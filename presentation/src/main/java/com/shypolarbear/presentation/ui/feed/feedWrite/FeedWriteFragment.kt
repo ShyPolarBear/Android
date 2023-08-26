@@ -60,13 +60,17 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
             }
 
             btnFeedWriteConfirm.setOnClickListener {
-                if (edtFeedWriteTitle.text.toString().isBlank())
-                    Toast.makeText(requireContext(), getString(R.string.feed_write_title_msg), Toast.LENGTH_SHORT).show()
-                else if (edtFeedWriteContent.text.toString().isBlank())
-                    Toast.makeText(requireContext(), getString(R.string.feed_write_content_msg), Toast.LENGTH_SHORT).show()
-                else
-                    findNavController().navigate(R.id.action_feedWriteFragment_to_navigation_feed)
-
+                when {
+                    edtFeedWriteTitle.text.toString().isBlank() -> {
+                        Toast.makeText(requireContext(), getString(R.string.feed_write_title_msg), Toast.LENGTH_SHORT).show()
+                    }
+                    edtFeedWriteContent.text.toString().isBlank() -> {
+                        Toast.makeText(requireContext(), getString(R.string.feed_write_content_msg), Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        findNavController().navigate(R.id.action_feedWriteFragment_to_navigation_feed)
+                    }
+                }
             }
         }
     }
