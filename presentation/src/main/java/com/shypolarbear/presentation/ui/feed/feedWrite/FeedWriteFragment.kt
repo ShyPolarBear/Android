@@ -21,17 +21,19 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
 ) {
 
     override val viewModel: FeedWriteViewModel by viewModels()
+    private val feedWriteImgAdapter = FeedWriteImgAdapter(
+        onRemoveImgClick = { position: Int -> removeImg(position) }
+    )
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(IMAGE_MAX_COUNT)) { uris ->
             uris?.let {
-                Timber.d("${viewModel.testImgList.value!!.size + uris.size}")
-                when(viewModel.testImgList.value!!.size + uris.size) {
+                Timber.d("${viewModel.liveImgList.value!!.size + uris.size}")
+                when(viewModel.liveImgList.value!!.size + uris.size) {
                     in IMAGE_ADD_MAX..Int.MAX_VALUE -> {
                         Toast.makeText(requireContext(), getString(R.string.feed_write_image_count_msg), Toast.LENGTH_SHORT).show()
                     }
                     else -> {
                         viewModel.addImgList(uris)
-                        binding.rvFeedWriteUploadImg.adapter!!.notifyItemRangeInserted(IMAGE_ADD_INDEX, uris.size)
                         binding.rvFeedWriteUploadImg.scrollToPosition(IMAGE_ADD_INDEX)
                     }
                 }
@@ -39,16 +41,14 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
             }
         }
 
-    private val feedWriteImgAdapter = FeedWriteImgAdapter(
-        onRemoveImgClick = { position: Int -> removeImg(position) }
-    )
-
     override fun initView() {
         binding.apply {
 
             rvFeedWriteUploadImg.adapter = feedWriteImgAdapter
-            viewModel.testImgList.observe(viewLifecycleOwner) {
+            viewModel.liveImgList.observe(viewLifecycleOwner) {
+                Timber.d("3")
                 feedWriteImgAdapter.submitList(it)
+                Timber.d("이미지 리스트 변경 감지, it: $it")
             }
 
             btnFeedWriteBack.setOnClickListener {
@@ -72,7 +72,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
     }
 
     private fun addImg() {
-        when(viewModel.testImgList.value!!.size) {
+        when(viewModel.liveImgList.value!!.size) {
             in IMAGE_MAX_COUNT..Int.MAX_VALUE -> {
                 Toast.makeText(requireContext(), getString(R.string.feed_write_image_count_msg), Toast.LENGTH_SHORT).show()
             }
@@ -83,7 +83,9 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
     }
 
     private fun removeImg(position: Int) {
+        Timber.d("2")
         viewModel.removeImgList(position)
-        binding.rvFeedWriteUploadImg.adapter!!.notifyItemRemoved(position)
+
+//        binding.rvFeedWriteUploadImg.adapter!!.notifyItemRemoved(position)
     }
 }

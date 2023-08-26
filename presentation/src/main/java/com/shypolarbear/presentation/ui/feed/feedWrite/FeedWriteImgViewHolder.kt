@@ -15,6 +15,7 @@ class FeedWriteImgViewHolder(
     init {
         binding.apply {
             btnRemoveUploadImg.setOnClickListener {
+                Timber.d("1")
                 onRemoveImgClick(adapterPosition)
             }
         }

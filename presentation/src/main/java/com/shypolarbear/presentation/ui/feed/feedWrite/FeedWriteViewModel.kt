@@ -9,19 +9,27 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
+
 @HiltViewModel
 class FeedWriteViewModel @Inject constructor(
 
 ): BaseViewModel(){
-    private val _testImgList = MutableLiveData<MutableList<FeedWriteImg>>(mutableListOf())
-    val testImgList: LiveData<MutableList<FeedWriteImg>> = _testImgList
+    private val _liveImgList = MutableLiveData<MutableList<FeedWriteImg>>(mutableListOf())
+    val liveImgList: LiveData<MutableList<FeedWriteImg>> = _liveImgList
 
     fun addImgList(imgUri: List<Uri>) {
+        val imgList: MutableList<FeedWriteImg> = _liveImgList.value!!
         val feedWriteImgList = imgUri.map { FeedWriteImg(it.toString()) }
-        _testImgList.value!!.addAll(0, feedWriteImgList)
+
+        imgList.addAll(0, feedWriteImgList)
+        _liveImgList.value = imgList
     }
 
     fun removeImgList(position: Int) {
-        _testImgList.value!!.removeAt(position)
+        Timber.d("4")
+        val imgList: MutableList<FeedWriteImg> = _liveImgList.value!!
+
+        imgList.removeAt(position)
+        _liveImgList.value = imgList
     }
 }
