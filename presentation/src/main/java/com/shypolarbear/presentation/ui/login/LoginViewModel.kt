@@ -36,7 +36,7 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
                     val errorBodyData = JSONObject(error.errorBody)
                     when (errorBodyData.get("code")) {
                         SIGNUP_NEED -> {
-                            setResponseCode(1006)
+                            setResponseCode(SIGNUP_NEED)
                         }
 
                         LOGIN_FAIL -> {

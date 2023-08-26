@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -40,7 +41,7 @@ class JoinFragment :
     BaseFragment<FragmentSignupBinding, JoinViewModel>(R.layout.fragment_signup) {
     override val viewModel: JoinViewModel by viewModels()
     private lateinit var pagerAdapter: JoinAdapter
-
+    private val args: JoinFragmentArgs by navArgs()
     override fun initView() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
 
@@ -110,7 +111,7 @@ class JoinFragment :
 
                     Page.MAIL.page -> {
                         if (viewModel.pageState.all { it }) {
-                            viewModel.requestJoin() // token 들어가야 됨
+                            viewModel.requestJoin(args.acToken)
                         }
                     }
                 }

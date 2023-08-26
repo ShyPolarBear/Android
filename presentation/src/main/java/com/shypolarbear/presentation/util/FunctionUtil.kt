@@ -60,6 +60,16 @@ enum class QuizType(val type: String){
     OX("TRUE_FALSE")
 }
 
+fun setVisibilityInvert(vararg views: View) {
+    for (view in views) {
+        view.visibility =
+            if (view.isVisible) {
+                View.INVISIBLE
+            } else {
+                View.VISIBLE
+            }
+    }
+}
 suspend fun setTokens(context: Context, tokens: Tokens){
     context.dataStore.edit {
         it[ACCESS_TOKEN] = tokens.accessToken

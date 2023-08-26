@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.util.Linkify
 import android.text.util.Linkify.addLinks
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
@@ -18,6 +19,7 @@ import com.shypolarbear.presentation.databinding.FragmentLoginBinding
 import com.shypolarbear.presentation.util.LOGIN_FAIL
 import com.shypolarbear.presentation.util.LOGIN_SUCCESS
 import com.shypolarbear.presentation.util.SIGNUP_NEED
+import com.shypolarbear.presentation.util.setVisibilityInvert
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.util.regex.Pattern
@@ -44,15 +46,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
                     when (it) {
                         SIGNUP_NEED -> findNavController().navigate(sendTokenToJoin)
                         LOGIN_SUCCESS -> findNavController().navigate(R.id.action_loginFragment_to_quizMainFragment)
+                        LOGIN_FAIL -> {
+                            setVisibilityInvert(btnClickedLogin, progressLogin, ivKakaotalk)
+                        }
                     }
                 }
             }
 
             btnLogin.setOnClickListener {
-                btnClickedLogin.visibility = View.VISIBLE
-                progressLogin.visibility = View.VISIBLE
-                ivKakaotalk.visibility = View.INVISIBLE
-
+                setVisibilityInvert(btnClickedLogin, progressLogin, ivKakaotalk)
                 kakaoLogin(requireContext())
             }
 
@@ -79,9 +81,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
         kakaoCallBack = { token, error ->
             if (error != null) {
                 Timber.tag("KAKAO").e(error, "카카오계정으로 로그인 실패")
+                setVisibilityInvert(binding.btnClickedLogin, binding.progressLogin, binding.ivKakaotalk)
             } else if (token != null) {
                 Timber.tag("KAKAO").i("카카오계정으로 로그인 성공")
-                sendTokenToJoin = LoginFragmentDirections.actionLoginFragmentToSignupFragment(token.accessToken)
+                sendTokenToJoin =
+                    LoginFragmentDirections.actionLoginFragmentToSignupFragment(token.accessToken)
                 viewModel.requestLogin(token.accessToken)
             }
         }
@@ -92,38 +96,21 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
             UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
                 if (error != null) {
                     Timber.tag("KAKAO").e(error, "카카오톡 login 실패")
+                    setVisibilityInvert(binding.btnClickedLogin, binding.progressLogin, binding.ivKakaotalk)
+
                     if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
                         return@loginWithKakaoTalk
                     }
                     UserApiClient.instance.loginWithKakaoAccount(context, callback = kakaoCallBack)
                 } else if (token != null) {
                     Timber.tag("KAKAO").i("카카오톡 login 성공")
-                    sendTokenToJoin = LoginFragmentDirections.actionLoginFragmentToSignupFragment(token.accessToken)
+                    sendTokenToJoin =
+                        LoginFragmentDirections.actionLoginFragmentToSignupFragment(token.accessToken)
                     viewModel.requestLogin(token.accessToken)
                 }
             }
         } else {
             UserApiClient.instance.loginWithKakaoAccount(context, callback = kakaoCallBack)
-        }
-    }
-
-    fun kakaoLogout() {
-        UserApiClient.instance.logout { error ->
-            if (error != null) {
-                Timber.tag("KAKAO").e(error, "카카오톡 logout 실패")
-            } else {
-                Timber.tag("KAKAO").i("카카오톡 logout 성공")
-            }
-        }
-    }
-
-    fun kakaoUnlink() {
-        UserApiClient.instance.unlink { error ->
-            if (error != null) {
-                Timber.tag("KAKAO").e(error, "카카오톡 unlink 실패")
-            } else {
-                Timber.tag("KAKAO").i("카카오톡 unlink 성공")
-            }
         }
     }
 }
