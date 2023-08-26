@@ -6,6 +6,7 @@ import android.text.util.Linkify.addLinks
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.kakao.sdk.auth.model.OAuthToken
@@ -21,6 +22,7 @@ import com.shypolarbear.presentation.util.LOGIN_SUCCESS
 import com.shypolarbear.presentation.util.SIGNUP_NEED
 import com.shypolarbear.presentation.util.setVisibilityInvert
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.regex.Pattern
 
@@ -40,19 +42,27 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
         val key = Utility.getKeyHash(requireContext())
 
         setKakaoCallBack()
-        binding.apply {
-            viewModel.responseCode.observe(viewLifecycleOwner) { code ->
-                code?.let {
-                    when (it) {
-                        SIGNUP_NEED -> findNavController().navigate(sendTokenToJoin)
-                        LOGIN_SUCCESS -> findNavController().navigate(R.id.action_loginFragment_to_quizMainFragment)
-                        LOGIN_FAIL -> {
-                            setVisibilityInvert(btnClickedLogin, progressLogin, ivKakaotalk)
-                        }
+
+        viewModel.responseCode.observe(viewLifecycleOwner) { code ->
+            Timber.tag("TEST3").d("$code")
+            code?.let {
+                when (it) {
+                    SIGNUP_NEED -> findNavController().navigate(sendTokenToJoin)
+                    LOGIN_SUCCESS -> findNavController().navigate(R.id.action_loginFragment_to_quizMainFragment)
+                    LOGIN_FAIL -> {
+                        setVisibilityInvert(
+                            binding.btnClickedLogin,
+                            binding.progressLogin,
+                            binding.ivKakaotalk
+                        )
                     }
                 }
             }
+        }
 
+
+
+        binding.apply {
             btnLogin.setOnClickListener {
                 setVisibilityInvert(btnClickedLogin, progressLogin, ivKakaotalk)
                 kakaoLogin(requireContext())
@@ -81,7 +91,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
         kakaoCallBack = { token, error ->
             if (error != null) {
                 Timber.tag("KAKAO").e(error, "카카오계정으로 로그인 실패")
-                setVisibilityInvert(binding.btnClickedLogin, binding.progressLogin, binding.ivKakaotalk)
+                setVisibilityInvert(
+                    binding.btnClickedLogin,
+                    binding.progressLogin,
+                    binding.ivKakaotalk
+                )
             } else if (token != null) {
                 Timber.tag("KAKAO").i("카카오계정으로 로그인 성공")
                 sendTokenToJoin =
@@ -96,7 +110,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
             UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
                 if (error != null) {
                     Timber.tag("KAKAO").e(error, "카카오톡 login 실패")
-                    setVisibilityInvert(binding.btnClickedLogin, binding.progressLogin, binding.ivKakaotalk)
+                    setVisibilityInvert(
+                        binding.btnClickedLogin,
+                        binding.progressLogin,
+                        binding.ivKakaotalk
+                    )
 
                     if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
                         return@loginWithKakaoTalk

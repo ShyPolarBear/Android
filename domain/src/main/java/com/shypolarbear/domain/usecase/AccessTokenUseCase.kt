@@ -9,6 +9,10 @@ class AccessTokenUseCase (
         repo.setAccessToken(accessToken)
     }
 
+    suspend fun getAccessToken(): String{
+        return repo.getAccessToken()
+    }
+
     suspend operator fun invoke(): String {
         return repo.getAccessToken()
     }

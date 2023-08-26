@@ -3,6 +3,7 @@ package com.shypolarbear.presentation.ui.join
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.gson.annotations.SerializedName
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.domain.model.Tokens
 import com.shypolarbear.domain.model.join.JoinRequest
@@ -44,7 +45,7 @@ class JoinViewModel @Inject constructor(
         viewModelScope.launch {
             val responseJoin = joinUseCase.invoke(
                 JoinRequest(
-                    socialAccessToken!!,
+                    socialAccessToken = socialAccessToken!!,
                     nickName = nameData.value!!,
                     phoneNumber = phoneData.value!!,
                     email = mailData.value!!,
