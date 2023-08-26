@@ -3,10 +3,7 @@ package com.shypolarbear.presentation.ui.login
 import android.content.Context
 import android.text.util.Linkify
 import android.text.util.Linkify.addLinks
-import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.kakao.sdk.auth.model.OAuthToken
@@ -22,7 +19,6 @@ import com.shypolarbear.presentation.util.LOGIN_SUCCESS
 import com.shypolarbear.presentation.util.SIGNUP_NEED
 import com.shypolarbear.presentation.util.setVisibilityInvert
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.regex.Pattern
 

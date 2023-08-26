@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -43,7 +42,7 @@ class TokenRepoImpl @Inject constructor(
         val userRefreshToken: Flow<String?> = context.tokenDataStore.data.map {
             it[REFRESH_TOKEN]
         }
-        return userRefreshToken.collect().toString()
+        return userRefreshToken.first().toString()
     }
     override suspend fun setAccessToken(accessToken: String) {
         context.tokenDataStore.edit {prefs ->

@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.HttpError
-import com.shypolarbear.domain.model.Tokens
 import com.shypolarbear.domain.model.login.LoginRequest
 import com.shypolarbear.domain.usecase.AccessTokenUseCase
 import com.shypolarbear.domain.usecase.LoginUseCase
@@ -27,12 +26,6 @@ class LoginViewModel @Inject constructor(
     private val _responseCode = MutableLiveData<Int>()
     val responseCode: LiveData<Int> = _responseCode
 
-    init {
-        viewModelScope.launch {
-            _tokens.value =  accessTokenUseCase.getAccessToken()
-        }
-    }
-
     fun requestLogin(socialAccessToken: String) {
         viewModelScope.launch {
             val responseTokens = loginUseCase(LoginRequest(socialAccessToken))
@@ -40,7 +33,6 @@ class LoginViewModel @Inject constructor(
             responseTokens.onSuccess { response ->
                 accessTokenUseCase.setAccessToken(response.data.accessToken)
                 setResponseCode(response.code)
-                val tokens = Tokens(response.data.accessToken, response.data.refreshToken)
             }
 
             responseTokens.onFailure { error ->
