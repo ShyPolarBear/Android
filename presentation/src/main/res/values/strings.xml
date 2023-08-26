@@ -103,5 +103,6 @@
 
     <string name="check_my_info_term">조건에 맞게 다시 입력해주세요!</string>
     <string name="check_my_info_input">수정할 정보를 입력해주세요!</string>
+    <string name="login_fail">로그인에 실패했습니다</string>
 
 </resources>

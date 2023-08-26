@@ -3,6 +3,7 @@ package com.shypolarbear.presentation.ui.login
 import android.content.Context
 import android.text.util.Linkify
 import android.text.util.Linkify.addLinks
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
@@ -51,6 +52,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
                             binding.progressLogin,
                             binding.ivKakaotalk
                         )
+                        Toast.makeText(context, getString(R.string.login_fail), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
