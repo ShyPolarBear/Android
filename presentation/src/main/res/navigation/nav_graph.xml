@@ -48,6 +48,9 @@
         <action
             android:id="@+id/action_signupFragment_to_feedTotalFragment"
             app:destination="@id/navigation_feed" />
+        <action
+            android:id="@+id/action_signupFragment_to_quizMainFragment"
+            app:destination="@id/quizMainFragment" />
     </fragment>
     <fragment
         android:id="@+id/signupPhoneFragment"

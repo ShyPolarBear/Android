@@ -40,24 +40,9 @@ class JoinFragment :
     BaseFragment<FragmentSignupBinding, JoinViewModel>(R.layout.fragment_signup) {
     override val viewModel: JoinViewModel by viewModels()
     private lateinit var pagerAdapter: JoinAdapter
-    private lateinit var kakaoCallback: (OAuthToken?, Throwable?) -> Unit
+
     override fun initView() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
-        val userAccessToken: Flow<String?> = requireContext().dataStore.data.map {
-            it[ACCESS_TOKEN]
-        }
-        val userRefreshToken: Flow<String?> = requireContext().dataStore.data.map {
-            it[REFRESH_TOKEN]
-        }
-
-        kakaoCallback = { token, error ->
-            if (error != null) {
-                Timber.tag("JOIN").e(error, "카카오계정으로 로그인 실패")
-            } else if (token != null) {
-                Timber.tag("JOIN").i("카카오계정 로그인 성공")
-                viewModel.requestJoin(token.accessToken)
-            }
-        }
 
         val pageList = listOf(
             JoinTermsFragment(),
@@ -65,10 +50,11 @@ class JoinFragment :
             JoinPhoneFragment(),
             JoinMailFragment()
         )
+
         pagerAdapter = JoinAdapter(this, pageList)
+
         binding.apply {
             viewModel.termData.observe(viewLifecycleOwner) { resTerms ->
-
                 if (viewModel.getActualPageIndex() == Page.TERMS.page) {
                     activateButtonState(resTerms, Page.TERMS.page)
                 }
@@ -96,7 +82,7 @@ class JoinFragment :
                 tokens?.let {
                     lifecycleScope.launch {
                         setTokens(requireContext(), viewModel.tokens.value!!)
-                        findNavController().navigate(R.id.action_signupFragment_to_feedTotalFragment)
+                        findNavController().navigate(R.id.action_signupFragment_to_quizMainFragment)
                     }
                 }
             }
@@ -124,7 +110,7 @@ class JoinFragment :
 
                     Page.MAIL.page -> {
                         if (viewModel.pageState.all { it }) {
-                            kakaoJoin()
+                            viewModel.requestJoin() // token 들어가야 됨
                         }
                     }
                 }
@@ -172,32 +158,6 @@ class JoinFragment :
                 if (currentItem == Page.PHONE.page) binding.signupTvNext.text =
                     getString(R.string.signup_complete)
             }
-        }
-    }
-
-    private fun kakaoJoin() {
-        if (UserApiClient.instance.isKakaoTalkLoginAvailable(requireContext())) {
-            UserApiClient.instance.loginWithKakaoTalk(requireContext()) { token, error ->
-                if (error != null) {
-                    Timber.tag("JOIN").e(error, "카카오톡 로그인 실패")
-                    if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                        return@loginWithKakaoTalk
-                    }
-                    // 연결된 계정 없을 때
-                    UserApiClient.instance.loginWithKakaoAccount(
-                        requireContext(),
-                        callback = kakaoCallback
-                    )
-                } else if (token != null) {
-                    Timber.tag("JOIN").i("카카오톡 로그인 성공")
-                    viewModel.requestJoin(token.accessToken)
-                }
-            }
-        } else {
-            UserApiClient.instance.loginWithKakaoAccount(
-                requireContext(),
-                callback = kakaoCallback
-            )
         }
     }
 }
