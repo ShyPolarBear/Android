@@ -35,7 +35,6 @@ class JoinViewModel @Inject constructor(
     private val _pageIndex = MutableLiveData<Int>(1)
     val pageIndex: LiveData<Int> = _pageIndex
 
-
     fun requestJoin(socialAccessToken: String? = null) {
         viewModelScope.launch {
             val responseJoin = joinUseCase.invoke(

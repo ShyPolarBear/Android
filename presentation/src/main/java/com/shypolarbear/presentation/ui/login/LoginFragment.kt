@@ -5,19 +5,17 @@ import android.text.util.Linkify
 import android.text.util.Linkify.addLinks
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
-import com.shypolarbear.domain.model.login.LoginRequest
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.regex.Pattern
 
@@ -33,7 +31,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
     private val linkify = Linkify()
     private val transformFilter = Linkify.TransformFilter { match, url -> "" }
     lateinit var kakaoCallBack: (OAuthToken?, Throwable?) -> Unit
-
+    lateinit var sendTokenToJoin: NavDirections
     override fun initView() {
         val terms = Pattern.compile(getString(R.string.terms))
         val privacyPolicy = Pattern.compile(getString(R.string.privacy_policy))
@@ -43,17 +41,17 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
             code?.let {
                 Timber.tag("CODE").d("$code")
                 when (it) {
-                    SIGNUP_NEED -> findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
+                    SIGNUP_NEED -> findNavController().navigate(sendTokenToJoin)
                     LOGIN_SUCCESS -> findNavController().navigate(R.id.action_loginFragment_to_quizMainFragment)
                 }
             }
         }
 
         binding.btnLogin.setOnClickListener {
-            // 로그인 구현할 때 UIState도입예정
             binding.btnClickedLogin.visibility = View.VISIBLE
             binding.progressLogin.visibility = View.VISIBLE
             binding.ivKakaotalk.visibility = View.INVISIBLE
+
             setKakaoCallBack()
             kakaoLogin(requireContext())
 
@@ -86,7 +84,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
                 Timber.tag("KAKAO").e(error, "카카오계정으로 로그인 실패")
             } else if (token != null) {
                 Timber.tag("KAKAO").i("카카오계정으로 로그인 성공")
-                viewModel.postLogin(token.accessToken)
+                sendTokenToJoin = LoginFragmentDirections.actionLoginFragmentToSignupFragment(token.accessToken)
+                viewModel.requestLogin(token.accessToken)
             }
         }
     }
@@ -102,7 +101,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
                     UserApiClient.instance.loginWithKakaoAccount(context, callback = kakaoCallBack)
                 } else if (token != null) {
                     Timber.tag("KAKAO").i("카카오톡 login 성공")
-                    viewModel.postLogin(token.accessToken)
+                    sendTokenToJoin = LoginFragmentDirections.actionLoginFragmentToSignupFragment(token.accessToken)
+                    viewModel.requestLogin(token.accessToken)
                 }
             }
         } else {

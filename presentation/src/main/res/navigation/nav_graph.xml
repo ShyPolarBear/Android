@@ -33,6 +33,9 @@
         android:name="com.shypolarbear.presentation.ui.join.JoinFragment"
         android:label="SignupFragment"
         tools:layout="@layout/fragment_signup">
+        <argument
+            android:name="acToken"
+            app:argType="string"/>
         <action
             android:id="@+id/action_signupFragment_to_signupPhoneFragment"
             app:destination="@id/signupPhoneFragment" />
@@ -54,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/signupPhoneFragment"
-        android:name="com.shypolarbear.presentation.ui.join.pages.SignupPhoneFragment"
+        android:name="com.shypolarbear.presentation.ui.join.pages.JoinPhoneFragment"
         android:label="SignupPhoneFragment"
         tools:layout="@layout/fragment_signup_phone">
         <action
@@ -111,7 +114,11 @@
             app:destination="@id/quizMainFragment" />
         <action
             android:id="@+id/action_loginFragment_to_signupFragment"
-            app:destination="@id/signupFragment" />
+            app:destination="@id/signupFragment">
+            <argument
+                android:name="acToken"
+                app:argType="string"/>
+        </action>
     </fragment>
     <fragment
         android:id="@+id/quizMainFragment"

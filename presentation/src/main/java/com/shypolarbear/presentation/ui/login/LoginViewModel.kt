@@ -1,5 +1,6 @@
 package com.shypolarbear.presentation.ui.login
 
+import androidx.datastore.dataStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -11,7 +12,6 @@ import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,21 +21,25 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
     private val _responseCode = MutableLiveData<Int>()
     val responseCode: LiveData<Int> = _responseCode
 
-    fun postLogin(socialAccessToken: String) {
+    fun requestLogin(socialAccessToken: String) {
         viewModelScope.launch {
             val responseTokens = loginUseCase(LoginRequest(socialAccessToken))
 
             responseTokens.onSuccess { response ->
                 setResponseCode(response.code)
-                // issue: 로그인 시 돌아오는 토큰들로 refresh가 되어야하는지? -> token renew
+
             }
 
             responseTokens.onFailure { error ->
                 if (error is HttpError) {
                     val errorBodyData = JSONObject(error.errorBody)
                     when (errorBodyData.get("code")) {
-                        1006 ->{
+                        1006 -> {
                             setResponseCode(1006)
+                        }
+
+                        1007 -> {
+                            // token renew
                         }
                     }
                 }
@@ -43,7 +47,7 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
         }
     }
 
-    private fun setResponseCode(code: Int){
+    private fun setResponseCode(code: Int) {
         _responseCode.value = code
     }
 
