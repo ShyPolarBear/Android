@@ -5,13 +5,17 @@ import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.domain.model.login.LoginRequest
 import com.shypolarbear.domain.usecase.LoginUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel(private val loginUseCase: LoginUseCase) : BaseViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase) : BaseViewModel() {
 
     fun postLogin(loginRequest: LoginRequest) {
         viewModelScope.launch {
-            val responseTokens = loginUseCase.postLogin(loginRequest)
+            val responseTokens = loginUseCase(loginRequest)
+
             responseTokens.onSuccess {
 
             }
@@ -21,6 +25,7 @@ class LoginViewModel(private val loginUseCase: LoginUseCase) : BaseViewModel() {
                         404 -> {
 
                         }
+
                         else -> {}
                     }
                 }

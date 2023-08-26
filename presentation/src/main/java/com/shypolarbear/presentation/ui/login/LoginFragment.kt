@@ -15,10 +15,12 @@ import com.shypolarbear.domain.model.login.LoginRequest
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentLoginBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.regex.Pattern
 
+@AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
     R.layout.fragment_login
 ) {
@@ -35,7 +37,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
     override fun initView() {
         val terms = Pattern.compile(getString(R.string.terms))
         val privacyPolicy = Pattern.compile(getString(R.string.privacy_policy))
-        var stateCodeLogIn = SIGNUP_NEED
         val key = Utility.getKeyHash(requireContext())
 
         binding.btnLogin.setOnClickListener {
@@ -45,21 +46,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
             binding.ivKakaotalk.visibility = View.INVISIBLE
             setKakaoCallBack()
             lifecycleScope.launch {
-                stateCodeLogIn = kakaoLogin(requireContext())
+                kakaoLogin(requireContext())
 
-                when (stateCodeLogIn) {
-                    LOGIN_FAIL -> {
 
-                    }
-
-                    LOGIN_SUCCESS -> {
-
-                    }
-
-                    SIGNUP_NEED -> {
-
-                    }
-                }
                 binding.btnClickedLogin.visibility = View.INVISIBLE
                 binding.progressLogin.visibility = View.INVISIBLE
                 binding.ivKakaotalk.visibility = View.VISIBLE
@@ -94,8 +83,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
         }
     }
 
-    private fun kakaoLogin(context: Context): Int {
-        var stateCodeLogIn = SIGNUP_NEED
+    private fun kakaoLogin(context: Context){
 
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
             UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
@@ -113,7 +101,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
         } else {
             UserApiClient.instance.loginWithKakaoAccount(context, callback = kakaoCallBack)
         }
-        return stateCodeLogIn
     }
 
     fun kakaoLogout() {

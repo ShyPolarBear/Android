@@ -21,7 +21,7 @@ object ApiModule {
 // 이런 형식으로 사용할 예정
     @Singleton
     @Provides
-    fun provideLoginApi(retrofit: Retrofit): LoginApi {
+    fun provideLoginApi(@NormalRetrofit retrofit: Retrofit): LoginApi {
         return retrofit.create(LoginApi::class.java)
     }
 
