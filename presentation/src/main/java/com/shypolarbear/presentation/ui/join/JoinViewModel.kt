@@ -58,7 +58,6 @@ class JoinViewModel @Inject constructor(
                     initToken(Tokens(response.data.accessToken, response.data.refreshToken))
                     accessTokenUseCase.setAccessToken(response.data.accessToken)
                     refreshTokenUseCase.setRefreshToken(response.data.refreshToken)
-                    Timber.tag("AC").d("${accessTokenUseCase.invoke()}}")
                 }
                 .onFailure {error ->
                     if (error is HttpError) {
