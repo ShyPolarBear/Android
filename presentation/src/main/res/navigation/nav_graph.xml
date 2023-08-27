@@ -12,9 +12,10 @@
         tools:layout="@layout/fragment_feed_total" >
         <action
             android:id="@+id/action_feedTotalFragment_to_feedDetailFragment"
-            app:destination="@id/feedDetailFragment"
-            app:enterAnim="@anim/fragment_enter_anim"
-            app:popEnterAnim="@anim/fragment_pop_enter_anim" />
+            app:destination="@id/feedDetailFragment" />
+        <action
+            android:id="@+id/action_navigation_feed_to_feedWriteFragment"
+            app:destination="@id/feedWriteFragment" />
     </fragment>
     <fragment
         android:id="@+id/feedDetailFragment"
@@ -27,6 +28,15 @@
         <argument
             android:name="feedId"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedWriteFragment"
+        android:name="com.shypolarbear.presentation.ui.feed.feedWrite.FeedWriteFragment"
+        android:label="FeedWriteFragment"
+        tools:layout="@layout/fragment_feed_write">
+        <action
+            android:id="@+id/action_feedWriteFragment_to_navigation_feed"
+            app:destination="@id/navigation_feed" />
     </fragment>
     <fragment
         android:id="@+id/signupFragment"

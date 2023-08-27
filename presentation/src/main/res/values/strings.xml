@@ -100,9 +100,15 @@
     <string name="quiz_dialog_yes">네</string>
     <string name="quiz_dialog_no">아니오</string>
     <string name="quiz_main_polarbear">북극곰</string>
+    <string name="feed_write_title">제목 입력</string>
+    <string name="feed_write_content">내용 입력</string>
 
     <string name="check_my_info_term">조건에 맞게 다시 입력해주세요!</string>
     <string name="check_my_info_input">수정할 정보를 입력해주세요!</string>
     <string name="login_fail">로그인에 실패했습니다</string>
+
+    <string name="feed_write_title_msg">제목을 입력해주세요!</string>
+    <string name="feed_write_content_msg">내용을 입력해주세요!</string>
+    <string name="feed_write_image_count_msg">이미지는 최대 5장까지 업로드 가능합니다.</string>
 
 </resources>

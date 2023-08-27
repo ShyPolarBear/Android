@@ -31,8 +31,6 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
     private var emailState: InputState = InputState.OFF
 
     override fun initView() {
-        val bottomNavigationViewMainActivity = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation_bar)
-        bottomNavigationViewMainActivity.isVisible = false
 
         binding.apply {
             btnChangeMyInfoBack.setOnClickListener {
@@ -60,7 +58,7 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                         s: CharSequence?,
                         start: Int,
                         count: Int,
-                        after: Int,
+                        after: Int
                     ) {
                         setColorStateWithInput(
                             InputState.ON,
@@ -73,7 +71,7 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                         s: CharSequence?,
                         start: Int,
                         before: Int,
-                        count: Int,
+                        count: Int
                     ) {
                         setColorStateWithInput(
                             InputState.ON,

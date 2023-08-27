@@ -15,8 +15,6 @@ class MoreFragment: BaseFragment<FragmentMoreBinding, MoreViewModel> (
     override val viewModel: MoreViewModel by viewModels()
 
     override fun initView() {
-        val bottomNavigationViewMainActivity = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation_bar)
-        bottomNavigationViewMainActivity.isVisible = true
 
         binding.apply {
 

@@ -64,10 +64,10 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
 
     override fun initView() {
 
-        val bottomNavigationViewMainActivity = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation_bar)
-        bottomNavigationViewMainActivity.isVisible = true
-
         binding.apply {
+            binding.progressFeedTotalLoading.isVisible = true
+            binding.layoutFeed.isVisible = false
+
             viewModel.loadFeedTotalData()
 
             ivFeedToolbarSort.setOnClickListener {
@@ -76,6 +76,10 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                     feedSortItems,
                     viewLifecycleOwner
                 )
+            }
+
+            btnFeedPostWrite.setOnClickListener {
+                findNavController().navigate(R.id.action_navigation_feed_to_feedWriteFragment)
             }
             setFeedPost()
         }
@@ -86,6 +90,8 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         lifecycleScope.launch {
             viewModel.feed.observe(viewLifecycleOwner) {
                 feedPostAdapter.submitList(it)
+                binding.progressFeedTotalLoading.isVisible = false
+                binding.layoutFeed.isVisible = true
             }
         }
     }
