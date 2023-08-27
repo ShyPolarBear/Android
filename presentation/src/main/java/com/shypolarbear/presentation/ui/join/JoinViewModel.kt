@@ -18,8 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class JoinViewModel @Inject constructor(
     private val joinUseCase: JoinUseCase,
-    private val accessTokenUseCase: SetAccessTokenUseCase,
-    private val refreshTokenUseCase: SetRefreshTokenUseCase
+    private val setAccessTokenUseCase: SetAccessTokenUseCase,
+    private val setRefreshTokenUseCase: SetRefreshTokenUseCase
 ) : BaseViewModel() {
     private val _termData = MutableLiveData<Boolean>()
     val termData: LiveData<Boolean> = _termData
@@ -54,8 +54,8 @@ class JoinViewModel @Inject constructor(
             responseJoin
                 .onSuccess { response ->
                     initToken(Tokens(response.data.accessToken, response.data.refreshToken))
-                    accessTokenUseCase(response.data.accessToken)
-                    refreshTokenUseCase(response.data.refreshToken)
+                    setAccessTokenUseCase(response.data.accessToken)
+                    setRefreshTokenUseCase(response.data.refreshToken)
                 }
                 .onFailure {error ->
                     if (error is HttpError) {
