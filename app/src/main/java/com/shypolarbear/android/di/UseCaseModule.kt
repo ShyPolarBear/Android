@@ -1,11 +1,13 @@
 package com.shypolarbear.android.di
 
 import com.shypolarbear.domain.repository.ExampleRepo
+import com.shypolarbear.domain.repository.JoinRepo
 import com.shypolarbear.domain.repository.feed.FeedRepo
 import com.shypolarbear.domain.repository.LoginRepo
 import com.shypolarbear.domain.repository.TokenRepo
 import com.shypolarbear.domain.usecase.AccessTokenUseCase
 import com.shypolarbear.domain.usecase.ExampleUseCase
+import com.shypolarbear.domain.usecase.JoinUseCase
 import com.shypolarbear.domain.usecase.feed.FeedTotalUseCase
 import com.shypolarbear.domain.usecase.LoginUseCase
 import com.shypolarbear.domain.usecase.RefreshTokenUseCase
@@ -25,6 +27,12 @@ class UseCaseModule {
     @Provides
     fun provideLoginUseCase(repo: LoginRepo): LoginUseCase{
         return LoginUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideJoinUseCase(repo: JoinRepo): JoinUseCase{
+        return JoinUseCase(repo)
     }
 
     @Singleton

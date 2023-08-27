@@ -1,18 +1,18 @@
-package com.shypolarbear.presentation.ui.signup.pages
+package com.shypolarbear.presentation.ui.join.pages
 
 import android.widget.CheckBox
-import android.widget.CompoundButton
 import androidx.fragment.app.viewModels
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentSignupTermsBinding
-import com.shypolarbear.presentation.ui.signup.SignupViewModel
-import timber.log.Timber
+import com.shypolarbear.presentation.ui.join.JoinViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class SignupTermsFragment :
-    BaseFragment<FragmentSignupTermsBinding, SignupViewModel>(R.layout.fragment_signup_terms) {
+@AndroidEntryPoint
+class JoinTermsFragment :
+    BaseFragment<FragmentSignupTermsBinding, JoinViewModel>(R.layout.fragment_signup_terms) {
 
-    override val viewModel: SignupViewModel by viewModels({ requireParentFragment() })
+    override val viewModel: JoinViewModel by viewModels({ requireParentFragment() })
     enum class TERMS(val position: Int) {
         PRIVACY(0),
         TERM(1),

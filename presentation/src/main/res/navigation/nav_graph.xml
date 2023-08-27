@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/quizMainFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/navigation_feed"
@@ -40,9 +40,12 @@
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
-        android:name="com.shypolarbear.presentation.ui.signup.SignupFragment"
+        android:name="com.shypolarbear.presentation.ui.join.JoinFragment"
         android:label="SignupFragment"
         tools:layout="@layout/fragment_signup">
+        <argument
+            android:name="acToken"
+            app:argType="string"/>
         <action
             android:id="@+id/action_signupFragment_to_signupPhoneFragment"
             app:destination="@id/signupPhoneFragment" />
@@ -58,10 +61,13 @@
         <action
             android:id="@+id/action_signupFragment_to_feedTotalFragment"
             app:destination="@id/navigation_feed" />
+        <action
+            android:id="@+id/action_signupFragment_to_quizMainFragment"
+            app:destination="@id/quizMainFragment" />
     </fragment>
     <fragment
         android:id="@+id/signupPhoneFragment"
-        android:name="com.shypolarbear.presentation.ui.signup.pages.SignupPhoneFragment"
+        android:name="com.shypolarbear.presentation.ui.join.pages.JoinPhoneFragment"
         android:label="SignupPhoneFragment"
         tools:layout="@layout/fragment_signup_phone">
         <action
@@ -70,12 +76,12 @@
     </fragment>
     <fragment
         android:id="@+id/signupMailFragment"
-        android:name="com.shypolarbear.presentation.ui.signup.pages.SignupMailFragment"
+        android:name="com.shypolarbear.presentation.ui.join.pages.JoinMailFragment"
         android:label="SignupMailFragment"
         tools:layout="@layout/fragment_signup_mail"/>
     <fragment
         android:id="@+id/signupTermsFragment"
-        android:name="com.shypolarbear.presentation.ui.signup.pages.SignupTermsFragment"
+        android:name="com.shypolarbear.presentation.ui.join.pages.JoinTermsFragment"
         android:label="SignupTermsFragment"
         tools:layout="@layout/fragment_signup_terms">
         <action
@@ -84,7 +90,7 @@
     </fragment>
     <fragment
         android:id="@+id/signupNameFragment"
-        android:name="com.shypolarbear.presentation.ui.signup.pages.SignupNameFragment"
+        android:name="com.shypolarbear.presentation.ui.join.pages.JoinNameFragment"
         android:label="SignupNameFragment"
         tools:layout="@layout/fragment_signup_name">
         <action
@@ -112,7 +118,18 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.shypolarbear.presentation.ui.login.LoginFragment"
-        android:label="LoginFragment" />
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_quizMainFragment"
+            app:destination="@id/quizMainFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_signupFragment"
+            app:destination="@id/signupFragment">
+            <argument
+                android:name="acToken"
+                app:argType="string"/>
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/quizMainFragment"
         android:name="com.shypolarbear.presentation.ui.quiz.main.QuizMainFragment"

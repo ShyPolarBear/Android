@@ -1,18 +1,24 @@
-package com.shypolarbear.presentation.ui.signup
+package com.shypolarbear.presentation.ui.join
 
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentSignupBinding
-import com.shypolarbear.presentation.ui.signup.pages.SignupMailFragment
-import com.shypolarbear.presentation.ui.signup.pages.SignupNameFragment
-import com.shypolarbear.presentation.ui.signup.pages.SignupPhoneFragment
-import com.shypolarbear.presentation.ui.signup.pages.SignupTermsFragment
+import com.shypolarbear.presentation.ui.join.pages.JoinMailFragment
+import com.shypolarbear.presentation.ui.join.pages.JoinNameFragment
+import com.shypolarbear.presentation.ui.join.pages.JoinPhoneFragment
+import com.shypolarbear.presentation.ui.join.pages.JoinTermsFragment
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 val NAME_RANGE = 2..8
+
 enum class Page(val page: Int) {
     TERMS(0),
     NAME(1),
@@ -20,22 +26,26 @@ enum class Page(val page: Int) {
     MAIL(3)
 }
 
-class SignupFragment :
-    BaseFragment<FragmentSignupBinding, SignupViewModel>(R.layout.fragment_signup) {
-    override val viewModel: SignupViewModel by viewModels()
-    private lateinit var pagerAdapter: SignupAdapter
-
+@AndroidEntryPoint
+class JoinFragment :
+    BaseFragment<FragmentSignupBinding, JoinViewModel>(R.layout.fragment_signup) {
+    override val viewModel: JoinViewModel by viewModels()
+    private lateinit var pagerAdapter: JoinAdapter
+    private val args: JoinFragmentArgs by navArgs()
     override fun initView() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+
         val pageList = listOf(
-            SignupTermsFragment(),
-            SignupNameFragment(),
-            SignupPhoneFragment(),
-            SignupMailFragment()
+            JoinTermsFragment(),
+            JoinNameFragment(),
+            JoinPhoneFragment(),
+            JoinMailFragment()
         )
-        pagerAdapter = SignupAdapter(this, pageList)
+
+        pagerAdapter = JoinAdapter(this, pageList)
+
         binding.apply {
-            viewModel.termData.observe(viewLifecycleOwner) { resTerms->
+            viewModel.termData.observe(viewLifecycleOwner) { resTerms ->
                 if (viewModel.getActualPageIndex() == Page.TERMS.page) {
                     activateButtonState(resTerms, Page.TERMS.page)
                 }
@@ -59,7 +69,22 @@ class SignupFragment :
                 }
             }
 
-            signupIndicator.text = getString(R.string.signup_page_indicator, viewModel.pageIndex.value)
+            viewModel.tokens.observe(viewLifecycleOwner) { tokens ->
+                tokens?.let {
+                    lifecycleScope.launch {
+                        findNavController().navigate(R.id.action_signupFragment_to_quizMainFragment)
+                    }
+                }
+            }
+
+            viewModel.errorMessage.observe(viewLifecycleOwner) { message ->
+                message?.let {
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            signupIndicator.text =
+                getString(R.string.signup_page_indicator, viewModel.pageIndex.value)
             updateButtonState(viewModel.pageState[viewModel.pageIndex.value!! - 1])
 
             signupViewpager.apply {
@@ -75,7 +100,7 @@ class SignupFragment :
 
                     Page.MAIL.page -> {
                         if (viewModel.pageState.all { it }) {
-                            findNavController().navigate(R.id.action_signupFragment_to_feedTotalFragment)
+                            viewModel.requestJoin(args.acToken)
                         }
                     }
                 }
