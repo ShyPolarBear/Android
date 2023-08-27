@@ -5,20 +5,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.domain.model.login.LoginRequest
-import com.shypolarbear.domain.usecase.AccessTokenUseCase
 import com.shypolarbear.domain.usecase.LoginUseCase
+import com.shypolarbear.domain.usecase.tokens.SetAccessTokenUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import com.shypolarbear.presentation.util.LOGIN_FAIL
 import com.shypolarbear.presentation.util.SIGNUP_NEED
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
+    private val setAccessTokenUseCase: SetAccessTokenUseCase
 ) : BaseViewModel() {
     private val _tokens = MutableLiveData<String>()
     val tokens: LiveData<String> = _tokens
@@ -30,7 +30,7 @@ class LoginViewModel @Inject constructor(
             val responseTokens = loginUseCase(LoginRequest(socialAccessToken))
 
             responseTokens.onSuccess { response ->
-//                accessTokenUseCase.setAccessToken(response.data.accessToken)
+                setAccessTokenUseCase(response.data.accessToken)
                 setResponseCode(response.code)
             }
 
@@ -44,7 +44,6 @@ class LoginViewModel @Inject constructor(
 
                         LOGIN_FAIL -> {
                             setResponseCode(LOGIN_FAIL)
-                            Timber.tag("TEST2").d("fail")
                             // token renew
                         }
                     }

@@ -1,14 +1,10 @@
-package com.shypolarbear.domain.usecase
+package com.shypolarbear.domain.usecase.tokens
 
 import com.shypolarbear.domain.repository.TokenRepo
 
-class RefreshTokenUseCase (
+class GetRefreshTokenUseCase (
     private val repo: TokenRepo
 ){
-
-    suspend fun setRefreshToken(refreshToken: String){
-        repo.setRefreshToken(refreshToken)
-    }
     suspend operator fun invoke(): String {
         return repo.getRefreshToken()
     }
