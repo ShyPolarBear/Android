@@ -54,7 +54,12 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                     Toast.makeText(requireContext(), getString(R.string.check_my_info_input), Toast.LENGTH_SHORT).show()
                 }
                 else {
-                    // TODO("수정 된 정보 서버로 전달")
+                    viewModel.requestChangeMyInfo(
+                        nickName = edtChangeMyInfoNickname.text.toString(),
+                        phoneNumber = edtChangeMyInfoPhoneNumber.text.toString(),
+                        email = edtChangeMyInfoEmail.text.toString(),
+                        profileImage = null
+                    )
                     findNavController().navigate(R.id.action_changeMyInfoFragment_to_navigation_more)
                 }
 

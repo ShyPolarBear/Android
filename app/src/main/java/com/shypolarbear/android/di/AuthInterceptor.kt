@@ -24,8 +24,8 @@ class AuthInterceptor @Inject constructor(
         // TODO("TokenRepoImpl에서 토큰 가져오는 동작 구현되면 주석 해제하기")
 
         runBlocking {
-            accessToken = accessTokenUseCase.getAccessToken()
-//            refreshToken = refreshTokenUseCase()
+            accessToken = accessTokenUseCase()
+            refreshToken = refreshTokenUseCase()
         }
 
         // 임시 정의
