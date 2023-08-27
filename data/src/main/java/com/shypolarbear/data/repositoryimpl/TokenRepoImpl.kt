@@ -14,6 +14,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -48,6 +49,7 @@ class TokenRepoImpl @Inject constructor(
         context.tokenDataStore.edit {prefs ->
             prefs[ACCESS_TOKEN] = accessToken
         }
+        Timber.tag("AC").d("${accessToken}")
     }
 
     override suspend fun setRefreshToken(refreshToken: String) {

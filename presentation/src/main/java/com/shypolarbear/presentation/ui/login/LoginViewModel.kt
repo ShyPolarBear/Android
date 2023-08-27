@@ -19,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
+    private val tokenUseCase: AccessTokenUseCase
 ) : BaseViewModel() {
     private val _tokens = MutableLiveData<String>()
     val tokens: LiveData<String> = _tokens
@@ -30,7 +31,7 @@ class LoginViewModel @Inject constructor(
             val responseTokens = loginUseCase(LoginRequest(socialAccessToken))
 
             responseTokens.onSuccess { response ->
-//                accessTokenUseCase.setAccessToken(response.data.accessToken)
+                tokenUseCase.setAccessToken(response.data.accessToken)
                 setResponseCode(response.code)
             }
 
@@ -44,7 +45,6 @@ class LoginViewModel @Inject constructor(
 
                         LOGIN_FAIL -> {
                             setResponseCode(LOGIN_FAIL)
-                            Timber.tag("TEST2").d("fail")
                             // token renew
                         }
                     }
