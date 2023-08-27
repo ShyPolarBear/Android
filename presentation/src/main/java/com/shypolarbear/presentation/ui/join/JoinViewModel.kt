@@ -3,25 +3,23 @@ package com.shypolarbear.presentation.ui.join
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.gson.annotations.SerializedName
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.domain.model.Tokens
 import com.shypolarbear.domain.model.join.JoinRequest
-import com.shypolarbear.domain.usecase.AccessTokenUseCase
 import com.shypolarbear.domain.usecase.JoinUseCase
-import com.shypolarbear.domain.usecase.RefreshTokenUseCase
+import com.shypolarbear.domain.usecase.tokens.SetAccessTokenUseCase
+import com.shypolarbear.domain.usecase.tokens.SetRefreshTokenUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class JoinViewModel @Inject constructor(
     private val joinUseCase: JoinUseCase,
-    private val accessTokenUseCase: AccessTokenUseCase,
-    private val refreshTokenUseCase: RefreshTokenUseCase
+    private val accessTokenUseCase: SetAccessTokenUseCase,
+    private val refreshTokenUseCase: SetRefreshTokenUseCase
 ) : BaseViewModel() {
     private val _termData = MutableLiveData<Boolean>()
     val termData: LiveData<Boolean> = _termData
@@ -56,8 +54,8 @@ class JoinViewModel @Inject constructor(
             responseJoin
                 .onSuccess { response ->
                     initToken(Tokens(response.data.accessToken, response.data.refreshToken))
-                    accessTokenUseCase.setAccessToken(response.data.accessToken)
-                    refreshTokenUseCase.setRefreshToken(response.data.refreshToken)
+                    accessTokenUseCase(response.data.accessToken)
+                    refreshTokenUseCase(response.data.refreshToken)
                 }
                 .onFailure {error ->
                     if (error is HttpError) {

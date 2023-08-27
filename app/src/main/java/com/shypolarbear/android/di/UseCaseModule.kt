@@ -6,16 +6,18 @@ import com.shypolarbear.domain.repository.feed.FeedRepo
 import com.shypolarbear.domain.repository.LoginRepo
 import com.shypolarbear.domain.repository.TokenRepo
 import com.shypolarbear.domain.repository.quiz.QuizRepo
-import com.shypolarbear.domain.usecase.AccessTokenUseCase
+import com.shypolarbear.domain.usecase.tokens.GetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.ExampleUseCase
 import com.shypolarbear.domain.usecase.JoinUseCase
 import com.shypolarbear.domain.usecase.feed.FeedTotalUseCase
 import com.shypolarbear.domain.usecase.LoginUseCase
-import com.shypolarbear.domain.usecase.RefreshTokenUseCase
+import com.shypolarbear.domain.usecase.tokens.GetRefreshTokenUseCase
 import com.shypolarbear.domain.usecase.TokenRenewUseCase
 import com.shypolarbear.domain.usecase.feed.FeedCommentUseCase
 import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizUseCase
+import com.shypolarbear.domain.usecase.tokens.SetAccessTokenUseCase
+import com.shypolarbear.domain.usecase.tokens.SetRefreshTokenUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -63,14 +65,26 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideAccessTokenUseCase(repo: TokenRepo): AccessTokenUseCase {
-        return AccessTokenUseCase(repo)
+    fun provideGetAccessTokenUseCase(repo: TokenRepo): GetAccessTokenUseCase {
+        return GetAccessTokenUseCase(repo)
     }
 
     @Singleton
     @Provides
-    fun provideRefreshTokenUseCase(repo: TokenRepo): RefreshTokenUseCase {
-        return RefreshTokenUseCase(repo)
+    fun provideSetAccessTokenUseCase(repo: TokenRepo): SetAccessTokenUseCase {
+        return SetAccessTokenUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideSetRefreshTokenUseCase(repo: TokenRepo): SetRefreshTokenUseCase {
+        return SetRefreshTokenUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetRefreshTokenUseCase(repo: TokenRepo): GetRefreshTokenUseCase {
+        return GetRefreshTokenUseCase(repo)
     }
 
     @Singleton
