@@ -5,6 +5,7 @@ import com.shypolarbear.data.api.JoinApi
 import com.shypolarbear.data.api.LoginApi
 import com.shypolarbear.data.api.TokenApi
 import com.shypolarbear.data.api.feed.FeedApi
+import com.shypolarbear.data.api.quiz.QuizApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,6 +30,12 @@ object ApiModule {
     @Provides
     fun provideJoinApi(@NormalRetrofit retrofit: Retrofit): JoinApi{
         return retrofit.create(JoinApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideQuizApi(@NormalRetrofit retrofit: Retrofit): QuizApi{
+        return retrofit.create(QuizApi::class.java)
     }
 
     @Singleton

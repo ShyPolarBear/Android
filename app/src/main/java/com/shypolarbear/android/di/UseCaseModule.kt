@@ -5,6 +5,7 @@ import com.shypolarbear.domain.repository.JoinRepo
 import com.shypolarbear.domain.repository.feed.FeedRepo
 import com.shypolarbear.domain.repository.LoginRepo
 import com.shypolarbear.domain.repository.TokenRepo
+import com.shypolarbear.domain.repository.quiz.QuizRepo
 import com.shypolarbear.domain.usecase.AccessTokenUseCase
 import com.shypolarbear.domain.usecase.ExampleUseCase
 import com.shypolarbear.domain.usecase.JoinUseCase
@@ -14,6 +15,7 @@ import com.shypolarbear.domain.usecase.RefreshTokenUseCase
 import com.shypolarbear.domain.usecase.TokenRenewUseCase
 import com.shypolarbear.domain.usecase.feed.FeedCommentUseCase
 import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
+import com.shypolarbear.domain.usecase.quiz.QuizUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -75,5 +77,11 @@ class UseCaseModule {
     @Provides
     fun provideTokenRenewUseCase(repo: TokenRepo): TokenRenewUseCase {
         return TokenRenewUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideQuizUseCase(repo: QuizRepo): QuizUseCase{
+        return QuizUseCase(repo)
     }
 }
