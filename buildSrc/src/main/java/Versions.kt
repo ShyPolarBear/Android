@@ -32,4 +32,6 @@ object Versions {
     const val GLIDE = "4.15.1"
 
     const val KAKAO = "2.14.0"
+
+    const val DATA_STORE = "1.0.0"
 }

@@ -1,4 +1,4 @@
-package com.shypolarbear.presentation.ui.signup.pages
+package com.shypolarbear.presentation.ui.join.pages
 
 import android.annotation.SuppressLint
 import android.text.Editable
@@ -10,17 +10,18 @@ import androidx.fragment.app.viewModels
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentSignupNameBinding
-import com.shypolarbear.presentation.ui.signup.NAME_RANGE
-import com.shypolarbear.presentation.ui.signup.SignupViewModel
+import com.shypolarbear.presentation.ui.join.NAME_RANGE
+import com.shypolarbear.presentation.ui.join.JoinViewModel
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.InputState
 import com.shypolarbear.presentation.util.keyboardDown
 import com.shypolarbear.presentation.util.setColorStateWithInput
-import com.shypolarbear.presentation.util.setTextColorById
+import dagger.hilt.android.AndroidEntryPoint
 
-class SignupNameFragment :
-    BaseFragment<FragmentSignupNameBinding, SignupViewModel>(R.layout.fragment_signup_name) {
-    override val viewModel: SignupViewModel by viewModels({ requireParentFragment() })
+@AndroidEntryPoint
+class JoinNameFragment :
+    BaseFragment<FragmentSignupNameBinding, JoinViewModel>(R.layout.fragment_signup_name) {
+    override val viewModel: JoinViewModel by viewModels({ requireParentFragment() })
 
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
@@ -38,7 +39,7 @@ class SignupNameFragment :
             }
 
             etSignupNickname.apply {
-                keyboardDown(this@SignupNameFragment)
+                keyboardDown(this@JoinNameFragment)
                 addTextChangedListener(object : TextWatcher {
                     override fun beforeTextChanged(
                         s: CharSequence?,

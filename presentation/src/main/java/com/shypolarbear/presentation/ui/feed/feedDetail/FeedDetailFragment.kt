@@ -59,32 +59,34 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
 
     override fun initView() {
 
-        val bottomNavigationViewMainActivity = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation_bar)
-        bottomNavigationViewMainActivity.isVisible = false
+        binding.apply {
+            layoutFeedDetail.isVisible = false
+            progressFeedDetailLoading.isVisible = true
 
-        binding.btnFeedDetailBack.setOnClickListener {
-            findNavController().navigate(R.id.action_feedDetailFragment_to_feedTotalFragment)
+            btnFeedDetailBack.setOnClickListener {
+                findNavController().navigate(R.id.action_feedDetailFragment_to_feedTotalFragment)
+            }
+
+            edtFeedDetailReply.setOnFocusChangeListener { _, isFocus ->
+                binding.cardviewFeedCommentWritingMsg.isVisible = isFocus
+            }
+
+            layoutFeedDetail.setOnClickListener {
+                binding.edtFeedDetailReply.clearFocus()
+            }
+
+            btnFeedCommentWritingClose.setOnClickListener {
+                binding.cardviewFeedCommentWritingMsg.isVisible = false
+            }
+
+            viewModel.loadFeedDetail(feedDetailArgs.feedId)
+            viewModel.loadFeedComment(feedDetailArgs.feedId)
+
+            viewModel.feed.observe(viewLifecycleOwner) {feed ->
+                setFeedPost(feed)
+            }
+            setFeedComment()
         }
-
-        binding.edtFeedDetailReply.setOnFocusChangeListener { _, isFocus ->
-            binding.cardviewFeedCommentWritingMsg.isVisible = isFocus
-        }
-
-        binding.layoutFeedDetail.setOnClickListener {
-            binding.edtFeedDetailReply.clearFocus()
-        }
-
-        binding.btnFeedCommentWritingClose.setOnClickListener {
-            binding.cardviewFeedCommentWritingMsg.isVisible = false
-        }
-
-        viewModel.loadFeedDetail(feedDetailArgs.feedId)
-        viewModel.loadFeedComment(feedDetailArgs.feedId)
-
-        viewModel.feed.observe(viewLifecycleOwner) {feed ->
-            setFeedPost(feed)
-        }
-        setFeedComment()
     }
 
     private fun setFeedPost(feedDetail: Feed) {
@@ -161,6 +163,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         binding.rvFeedDetailReply.adapter = feedCommentAdapter
         viewModel.feedComment.observe(viewLifecycleOwner) {
             feedCommentAdapter.submitList(it)
+            binding.layoutFeedDetail.isVisible = true
+            binding.progressFeedDetailLoading.isVisible = false
         }
     }
 

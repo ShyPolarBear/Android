@@ -69,6 +69,8 @@ dependencies {
     androidTestImplementation(AndroidX.EXT_JUNIT)
     androidTestImplementation(AndroidX.ESPRESSO_CORE)
     testImplementation(AndroidX.JUNIT)
+    implementation(AndroidX.PREFERENCES_DATASTORE)
+    implementation(AndroidX.PROTO_DATASTORE)
 
     implementation(Google.HILT_ANDROID)
     kapt(Google.HILT_ANDROID_COMPILER)

@@ -1,27 +1,29 @@
-package com.shypolarbear.presentation.ui.signup.pages
+package com.shypolarbear.presentation.ui.join.pages
 
 import android.telephony.PhoneNumberFormattingTextWatcher
 import androidx.fragment.app.viewModels
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentSignupPhoneBinding
-import com.shypolarbear.presentation.ui.signup.SignupViewModel
+import com.shypolarbear.presentation.ui.join.JoinViewModel
 import com.shypolarbear.presentation.util.InputState
 import com.shypolarbear.presentation.util.afterTextChanged
 import com.shypolarbear.presentation.util.keyboardDown
 import com.shypolarbear.presentation.util.phonePattern
 import com.shypolarbear.presentation.util.setColorStateWithInput
+import dagger.hilt.android.AndroidEntryPoint
 
 const val PHONE_NUMBER_DASH_INCLUDE = 13
 
-class SignupPhoneFragment :
-    BaseFragment<FragmentSignupPhoneBinding, SignupViewModel>(R.layout.fragment_signup_phone) {
-    override val viewModel: SignupViewModel by viewModels({ requireParentFragment() })
+@AndroidEntryPoint
+class JoinPhoneFragment :
+    BaseFragment<FragmentSignupPhoneBinding, JoinViewModel>(R.layout.fragment_signup_phone) {
+    override val viewModel: JoinViewModel by viewModels({ requireParentFragment() })
     private lateinit var phoneNumber: String
     override fun initView() {
         binding.apply {
             etSignupPhone.apply {
-                keyboardDown(this@SignupPhoneFragment)
+                keyboardDown(this@JoinPhoneFragment)
                 addTextChangedListener(PhoneNumberFormattingTextWatcher("KR"))
                 afterTextChanged { s ->
                     val state = when {

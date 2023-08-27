@@ -88,4 +88,27 @@
     <string name="quiz_main_title">교과서에 북극곰이 나오지 않는\n그날까지 함께 달려요! 🏃</string>
     <string name="quiz_main_user_name">%1$s님,</string>
     <string name="quiz_main_more"><![CDATA[더보기 >]]></string>
+
+    <string name="quiz_daily_o">O</string>
+    <string name="quiz_daily_x">X</string>
+    <string name="quiz_daily_submit">제출</string>
+    <string name="quiz_daily_time">남은 시간 : %1$s초</string>
+
+    <string name="quiz_dialog_confirm">확인</string>
+    <string name="quiz_dialog_point">+ %s P</string>
+    <string name="quiz_dialog_stop">복습 문제를\n그만 푸시겠어요?</string>
+    <string name="quiz_dialog_yes">네</string>
+    <string name="quiz_dialog_no">아니오</string>
+    <string name="quiz_main_polarbear">북극곰</string>
+    <string name="feed_write_title">제목 입력</string>
+    <string name="feed_write_content">내용 입력</string>
+
+    <string name="check_my_info_term">조건에 맞게 다시 입력해주세요!</string>
+    <string name="check_my_info_input">수정할 정보를 입력해주세요!</string>
+    <string name="login_fail">로그인에 실패했습니다</string>
+
+    <string name="feed_write_title_msg">제목을 입력해주세요!</string>
+    <string name="feed_write_content_msg">내용을 입력해주세요!</string>
+    <string name="feed_write_image_count_msg">이미지는 최대 5장까지 업로드 가능합니다.</string>
+
 </resources>
