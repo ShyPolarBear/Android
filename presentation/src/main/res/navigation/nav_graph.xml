@@ -63,7 +63,7 @@
             app:destination="@id/navigation_feed" />
         <action
             android:id="@+id/action_signupFragment_to_quizMainFragment"
-            app:destination="@id/quizMainFragment" />
+            app:destination="@id/navigation_quiz_main" />
     </fragment>
     <fragment
         android:id="@+id/signupPhoneFragment"
@@ -121,7 +121,7 @@
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_quizMainFragment"
-            app:destination="@id/quizMainFragment" />
+            app:destination="@id/navigation_quiz_main" />
         <action
             android:id="@+id/action_loginFragment_to_signupFragment"
             app:destination="@id/signupFragment">
@@ -149,7 +149,7 @@
         tools:layout="@layout/fragment_quiz_daily_multi" >
         <action
             android:id="@+id/action_quizDailyMultiChoiceFragment_to_quizMainFragment"
-            app:destination="@id/quizMainFragment" />
+            app:destination="@id/navigation_quiz_main" />
     </fragment>
     <fragment
         android:id="@+id/quizDailyOXFragment"
@@ -158,6 +158,6 @@
         tools:layout="@layout/fragment_quiz_daily_ox" >
         <action
             android:id="@+id/action_quizDailyOXFragment_to_quizMainFragment"
-            app:destination="@id/quizMainFragment" />
+            app:destination="@id/navigation_quiz_main" />
     </fragment>
 </navigation>
