@@ -28,9 +28,6 @@ class AuthInterceptor @Inject constructor(
             refreshToken = refreshTokenUseCase()
         }
 
-        // 임시 정의
-        var refreshToken = "refresh token"
-
         val addedAccessTokenRequest = chain.request().newBuilder().addHeader("Authorization", "Bearer $accessToken").build()
         val response = chain.proceed(addedAccessTokenRequest)
 
@@ -55,8 +52,6 @@ class AuthInterceptor @Inject constructor(
             }
             else -> response
         }
-
-        Timber.d("헤더에 잘 붙음?: $addedAccessTokenRequest")
 
         return response
     }
