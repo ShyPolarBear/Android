@@ -19,7 +19,9 @@ import com.shypolarbear.presentation.util.emailPattern
 import com.shypolarbear.presentation.util.keyboardDown
 import com.shypolarbear.presentation.util.phonePattern
 import com.shypolarbear.presentation.util.setColorStateWithInput
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyInfoViewModel> (
     R.layout.fragment_change_my_info
 ) {
@@ -33,6 +35,13 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
     override fun initView() {
 
         binding.apply {
+            viewModel.getMyInfo()
+            viewModel.myInfo.observe(viewLifecycleOwner) { info ->
+                edtChangeMyInfoNickname.setText(info.nickName)
+                edtChangeMyInfoPhoneNumber.setText(info.phoneNumber)
+                edtChangeMyInfoEmail.setText(info.email)
+            }
+
             btnChangeMyInfoBack.setOnClickListener {
                 findNavController().navigate(R.id.action_changeMyInfoFragment_to_navigation_more)
             }

@@ -1,7 +1,34 @@
 package com.shypolarbear.presentation.ui.more.changemyinfo
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.shypolarbear.domain.model.more.Info
+import com.shypolarbear.domain.usecase.GetMyInfoUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ChangeMyInfoViewModel: BaseViewModel() {
+@HiltViewModel
+class ChangeMyInfoViewModel @Inject constructor(
+    private val getMyInfoUseCase: GetMyInfoUseCase
+): BaseViewModel() {
+    private val _myInfo = MutableLiveData<Info>()
+    val myInfo: LiveData<Info> = _myInfo
 
+    fun getMyInfo() {
+        viewModelScope.launch {
+            val info = getMyInfoUseCase.loadMyInfo()
+
+            info
+                .onSuccess {
+                    _myInfo.value = it.data
+                }
+                .onFailure {
+
+                }
+
+        }
+    }
 }

@@ -1,11 +1,13 @@
 package com.shypolarbear.android.di
 
 import com.shypolarbear.data.repositoryimpl.ExampleRepoImpl
+import com.shypolarbear.data.repositoryimpl.InfoRepoImpl
 import com.shypolarbear.data.repositoryimpl.JoinRepoImpl
 import com.shypolarbear.data.repositoryimpl.LoginRepoImpl
 import com.shypolarbear.data.repositoryimpl.TokenRepoImpl
 import com.shypolarbear.data.repositoryimpl.feed.FeedRepoImpl
 import com.shypolarbear.domain.repository.ExampleRepo
+import com.shypolarbear.domain.repository.InfoRepo
 import com.shypolarbear.domain.repository.JoinRepo
 import com.shypolarbear.domain.repository.LoginRepo
 import com.shypolarbear.domain.repository.TokenRepo
@@ -23,7 +25,7 @@ abstract class RepositoryModule {
     abstract fun bindExampleRepo(repoImp: ExampleRepoImpl): ExampleRepo
 
     @Binds
-    abstract fun bindFeedTotalRepo(repoImp: FeedRepoImpl): FeedRepo
+    abstract fun bindFeedRepo(repoImp: FeedRepoImpl): FeedRepo
 
     @Binds
     abstract fun bindTokenRepo(repoImp: TokenRepoImpl): TokenRepo
@@ -33,4 +35,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindJoinRepo(repoImp: JoinRepoImpl): JoinRepo
+
+    @Binds
+    abstract fun bindInfoRepo(repoImp: InfoRepoImpl): InfoRepo
 }
