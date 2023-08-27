@@ -6,12 +6,14 @@ import com.shypolarbear.data.repositoryimpl.JoinRepoImpl
 import com.shypolarbear.data.repositoryimpl.LoginRepoImpl
 import com.shypolarbear.data.repositoryimpl.TokenRepoImpl
 import com.shypolarbear.data.repositoryimpl.feed.FeedRepoImpl
+import com.shypolarbear.data.repositoryimpl.quiz.QuizRepoImpl
 import com.shypolarbear.domain.repository.ExampleRepo
 import com.shypolarbear.domain.repository.InfoRepo
 import com.shypolarbear.domain.repository.JoinRepo
 import com.shypolarbear.domain.repository.LoginRepo
 import com.shypolarbear.domain.repository.TokenRepo
 import com.shypolarbear.domain.repository.feed.FeedRepo
+import com.shypolarbear.domain.repository.quiz.QuizRepo
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -38,4 +40,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindInfoRepo(repoImp: InfoRepoImpl): InfoRepo
+
+    @Binds
+    abstract fun bindQuizRepo(repoImp: QuizRepoImpl): QuizRepo
 }

@@ -5,19 +5,24 @@ import androidx.navigation.fragment.findNavController
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentQuizMainBinding
+import com.shypolarbear.presentation.ui.quiz.QuizViewModel
 import com.shypolarbear.presentation.ui.quiz.main.QuizMainAdapter.Companion.initAdapter
 import com.shypolarbear.presentation.util.QuizType
 import com.shypolarbear.presentation.util.setSpecificTextColor
+import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
+@AndroidEntryPoint
 class QuizMainFragment :
-    BaseFragment<FragmentQuizMainBinding, QuizMainViewModel>(R.layout.fragment_quiz_main) {
-    override val viewModel: QuizMainViewModel by viewModels()
+    BaseFragment<FragmentQuizMainBinding, QuizViewModel>(R.layout.fragment_quiz_main) {
+    override val viewModel: QuizViewModel by viewModels()
 
     override fun initView() {
+        viewModel.getAccessToken()
         binding.apply {
             val userName = "춘식이"
             var solvedState = false
-
+            Timber.tag("AC CALL").d(viewModel.tokens.value)
             quizMainTvName.setSpecificTextColor(
                 getString(R.string.quiz_main_user_name, userName),
                 userName,

@@ -4,17 +4,18 @@ import androidx.fragment.app.viewModels
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentQuizDailyMultiBinding
+import com.shypolarbear.presentation.ui.quiz.QuizViewModel
 import com.shypolarbear.presentation.ui.quiz.daily.dialog.QuizDialog
 import com.shypolarbear.presentation.util.DialogType
 import com.shypolarbear.presentation.util.initChoices
 import com.shypolarbear.presentation.util.setReviewMode
 
 class QuizDailyMultiChoiceFragment :
-    BaseFragment<FragmentQuizDailyMultiBinding, QuizDailyViewModel>(
+    BaseFragment<FragmentQuizDailyMultiBinding, QuizViewModel>(
         R.layout.fragment_quiz_daily_multi
     ) {
     private lateinit var dialog: QuizDialog
-    override val viewModel: QuizDailyViewModel by viewModels()
+    override val viewModel: QuizViewModel by viewModels()
 
     override fun initView() {
         dialog = QuizDialog(requireContext())
