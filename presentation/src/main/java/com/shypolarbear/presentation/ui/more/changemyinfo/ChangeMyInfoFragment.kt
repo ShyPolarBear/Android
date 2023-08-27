@@ -47,22 +47,30 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
             }
 
             btnChangeMyInfoRevise.setOnClickListener {
-                if (nameState == InputState.ERROR || phoneNumberState == InputState.ERROR || emailState == InputState.ERROR) {
-                    Toast.makeText(requireContext(), getString(R.string.check_my_info_term), Toast.LENGTH_SHORT).show()
-                }
-                else if (nameState == InputState.OFF && phoneNumberState == InputState.OFF && emailState == InputState.OFF) {
-                    Toast.makeText(requireContext(), getString(R.string.check_my_info_input), Toast.LENGTH_SHORT).show()
-                }
-                else {
-                    viewModel.requestChangeMyInfo(
-                        nickName = edtChangeMyInfoNickname.text.toString(),
-                        phoneNumber = edtChangeMyInfoPhoneNumber.text.toString(),
-                        email = edtChangeMyInfoEmail.text.toString(),
-                        profileImage = null
-                    )
-                    findNavController().navigate(R.id.action_changeMyInfoFragment_to_navigation_more)
-                }
+                when {
+                    nameState == InputState.ERROR || phoneNumberState == InputState.ERROR || emailState == InputState.ERROR -> {
+                        Toast.makeText(requireContext(), getString(R.string.check_my_info_term), Toast.LENGTH_SHORT).show()
+                    }
+                    nameState == InputState.OFF ||
+                    phoneNumberState == InputState.OFF ||
+                    emailState == InputState.OFF ||
+                    edtChangeMyInfoNickname.text.toString().isNullOrBlank() ||
+                    edtChangeMyInfoPhoneNumber.text.toString().isNullOrBlank() ||
+                    edtChangeMyInfoEmail.text.toString().isNullOrBlank()-> {
+                        Toast.makeText(requireContext(), getString(R.string.check_my_info_input), Toast.LENGTH_SHORT).show()
+                    }
 
+                    else -> {
+                        viewModel.requestChangeMyInfo(
+                            nickName = edtChangeMyInfoNickname.text.toString(),
+                            phoneNumber = edtChangeMyInfoPhoneNumber.text.toString(),
+                            email = edtChangeMyInfoEmail.text.toString(),
+                            profileImage = null
+                        )
+                        Toast.makeText(requireContext(), getString(R.string.check_my_info_success), Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.action_changeMyInfoFragment_to_navigation_more)
+                    }
+                }
             }
 
             edtChangeMyInfoNickname.apply {
