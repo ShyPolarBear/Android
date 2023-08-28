@@ -3,6 +3,8 @@ package com.shypolarbear.data.repositoryimpl.feed
 import com.shypolarbear.data.api.feed.FeedApi
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.domain.model.feed.FeedTotal
+import com.shypolarbear.domain.model.feed.feedChange.ChangePostResponse
+import com.shypolarbear.domain.model.feed.feedChange.WriteFeedForm
 import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
 import com.shypolarbear.domain.model.feed.feedDetail.FeedDetail
 import com.shypolarbear.domain.repository.feed.FeedRepo
@@ -46,6 +48,35 @@ class FeedRepoImpl @Inject constructor(
     override suspend fun getFeedCommentData(feedId: Int): Result<FeedComment> {
         return try {
             val response = api.getFeedComment(feedId)
+            when {
+                response.isSuccessful -> {
+                    Result.success(response.body()!!)
+                }
+                else -> {
+                    Result.failure(HttpError(response.code(), response.errorBody()?.string() ?: ""))
+                }
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun requestChangePost(
+        feedId: Int,
+        content: String,
+        feedImages: List<String>?,
+        title: String
+    ): Result<ChangePostResponse> {
+        return try {
+            val response = api.requestChangePost(
+                feedId,
+                WriteFeedForm(
+                    content = content,
+                    feedId = feedId,
+                    feedImages = listOf("NULL"),  // TODO("이미지 작업 완료되면 수정할 예정")
+                    title = title
+                )
+            )
             when {
                 response.isSuccessful -> {
                     Result.success(response.body()!!)

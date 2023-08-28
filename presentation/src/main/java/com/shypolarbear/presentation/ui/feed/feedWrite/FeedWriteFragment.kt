@@ -87,6 +87,19 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                         Toast.makeText(requireContext(), getString(R.string.feed_write_content_msg), Toast.LENGTH_SHORT).show()
                     }
                     else -> {
+                        when(feedWriteArgs.divider) {
+                            WriteChangeDivider.WRITE -> {
+
+                            }
+                            WriteChangeDivider.CHANGE -> {
+                                viewModel.changePost(
+                                    feedId = feedWriteArgs.feedId,
+                                    content = edtFeedWriteContent.text.toString(),
+                                    feedImages = null,
+                                    title = edtFeedWriteTitle.text.toString()
+                                )
+                            }
+                        }
                         findNavController().navigate(R.id.action_feedWriteFragment_to_navigation_feed)
                     }
                 }
