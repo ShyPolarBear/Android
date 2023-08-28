@@ -15,6 +15,7 @@ import com.shypolarbear.domain.usecase.feed.FeedTotalUseCase
 import com.shypolarbear.domain.usecase.LoginUseCase
 import com.shypolarbear.domain.usecase.tokens.GetRefreshTokenUseCase
 import com.shypolarbear.domain.usecase.TokenRenewUseCase
+import com.shypolarbear.domain.usecase.feed.ChangePostUseCase
 import com.shypolarbear.domain.usecase.feed.FeedCommentUseCase
 import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
 import com.shypolarbear.domain.usecase.more.ChangeMyInfoUseCase
@@ -112,5 +113,11 @@ class UseCaseModule {
     @Provides
     fun provideQuizUseCase(repo: QuizRepo): QuizUseCase{
         return QuizUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideChangePostUseCase(repo: FeedRepo): ChangePostUseCase {
+        return ChangePostUseCase(repo)
     }
 }
