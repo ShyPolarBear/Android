@@ -12,6 +12,7 @@ import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedTotalBinding
 import com.shypolarbear.presentation.ui.feed.feedTotal.adapter.FeedPostAdapter
+import com.shypolarbear.presentation.util.PowerMenuUtil
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
@@ -103,10 +104,23 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete))
             )
 
-        view.setMenu(
+        PowerMenuUtil.getPowerMenu(
+            requireContext(),
+            viewLifecycleOwner,
+            myCommentPropertyItems
+        ) { _, item ->
+            when(item.title) {
+                getString(R.string.feed_post_property_revise) -> {
+                    findNavController().navigate(R.id.action_navigation_feed_to_feedWriteFragment)
+                }
+                getString(R.string.feed_post_property_delete) -> {
+                    // TODO("게시뭏 삭제 클릭 시 동작")
+                }
+            }
+        }.showAsDropDown(
             view,
-            myCommentPropertyItems,
-            viewLifecycleOwner
+            POWER_MENU_OFFSET_X,
+            POWER_MENU_OFFSET_Y
         )
     }
 

@@ -220,6 +220,7 @@ fun EditText.keyboardDown(fragment: Fragment) {
     }
 }
 
+// TODO("클릭 동작 수행하기 위해서는 공통으로 사용할 수 없을 듯 API 연동하면서 제거 해야 할 듯;")
 fun ImageView.setMenu(
     view: ImageView,
     menuList: List<PowerMenuItem>,
@@ -229,7 +230,8 @@ fun ImageView.setMenu(
         context,
         viewLifecycleOwner,
         menuList
-    ).showAsDropDown(
+    ) { _, _ -> }
+        .showAsDropDown(
         view,
         FeedTotalFragment.POWER_MENU_OFFSET_X,
         FeedTotalFragment.POWER_MENU_OFFSET_Y
