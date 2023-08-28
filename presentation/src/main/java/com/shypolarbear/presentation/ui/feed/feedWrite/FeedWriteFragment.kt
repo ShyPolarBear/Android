@@ -3,12 +3,15 @@ package com.shypolarbear.presentation.ui.feed.feedWrite
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.shypolarbear.domain.model.feed.FeedWriteImg
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedWriteBinding
+import com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -22,6 +25,8 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
 ) {
 
     override val viewModel: FeedWriteViewModel by viewModels()
+    private val feedWriteArgs: FeedWriteFragmentArgs by navArgs()
+
     private val feedWriteImgAdapter = FeedWriteImgAdapter(
         onRemoveImgClick = { position: Int -> removeImg(position) }
     )
@@ -43,6 +48,22 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
 
     override fun initView() {
         binding.apply {
+
+            when(feedWriteArgs.divider) {
+                WriteChangeDivider.WRITE -> {
+
+                }
+                WriteChangeDivider.CHANGE -> {
+                    viewModel.loadFeedDetail(feedWriteArgs.feedId)
+                    viewModel.feed.observe(viewLifecycleOwner) { feed ->
+                        edtFeedWriteTitle.setText(feed.title)
+                        edtFeedWriteContent.setText(feed.content)
+
+                        val imgUriList = feed.feedImage.map { it.toUri() }
+                        viewModel.addImgList(imgUriList)
+                    }
+                }
+            }
 
             rvFeedWriteUploadImg.adapter = feedWriteImgAdapter
             viewModel.liveImgList.observe(viewLifecycleOwner) {

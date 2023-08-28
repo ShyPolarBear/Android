@@ -7,7 +7,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedTotalBinding
@@ -18,7 +17,11 @@ import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
+
+enum class WriteChangeDivider(val fragmentType: Int) {
+    WRITE(0),
+    CHANGE(1)
+}
 
 @AndroidEntryPoint
 class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewModel> (
@@ -32,8 +35,8 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
 
     override val viewModel: FeedTotalViewModel by viewModels()
     private val feedPostAdapter = FeedPostAdapter(
-        onMyPostPropertyClick = { view: ImageView ->
-            showMyPostPropertyMenu(view)
+        onMyPostPropertyClick = { view: ImageView, feedId: Int ->
+            showMyPostPropertyMenu(view, feedId)
         },
         onOtherPostPropertyClick = { view: ImageView ->
             showOtherPostPropertyMenu(view)
@@ -80,7 +83,11 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
             }
 
             btnFeedPostWrite.setOnClickListener {
-                findNavController().navigate(R.id.action_navigation_feed_to_feedWriteFragment)
+                findNavController().navigate(
+                    FeedTotalFragmentDirections.actionNavigationFeedToFeedWriteFragment(
+                        WriteChangeDivider.WRITE, 0
+                    )
+                )
             }
             setFeedPost()
         }
@@ -97,7 +104,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         }
     }
 
-    private fun showMyPostPropertyMenu(view: ImageView) {
+    private fun showMyPostPropertyMenu(view: ImageView, feedId: Int) {
         val myCommentPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
@@ -111,7 +118,11 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         ) { _, item ->
             when(item.title) {
                 getString(R.string.feed_post_property_revise) -> {
-                    findNavController().navigate(R.id.action_navigation_feed_to_feedWriteFragment)
+                    findNavController().navigate(
+                        FeedTotalFragmentDirections.actionNavigationFeedToFeedWriteFragment(
+                            WriteChangeDivider.CHANGE, feedId
+                        )
+                    )
                 }
                 getString(R.string.feed_post_property_delete) -> {
                     // TODO("게시뭏 삭제 클릭 시 동작")
