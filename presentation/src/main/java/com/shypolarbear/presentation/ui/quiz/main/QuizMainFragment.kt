@@ -1,5 +1,6 @@
 package com.shypolarbear.presentation.ui.quiz.main
 
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.shypolarbear.presentation.R
@@ -16,9 +17,19 @@ const val QUIZ_TIME = 17
 @AndroidEntryPoint
 class QuizMainFragment :
     BaseFragment<FragmentQuizMainBinding, QuizViewModel>(R.layout.fragment_quiz_main) {
-    override val viewModel: QuizViewModel by viewModels()
+    override val viewModel: QuizViewModel by activityViewModels()
 
     override fun initView() {
+
+        viewModel.quizResponse.observe(viewLifecycleOwner){ quiz ->
+            quiz?.let {
+                when (getQuizFromServer(quiz.type)) {
+                    QuizType.MULTI -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyMultiChoiceFragment)
+                    QuizType.OX -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyOXFragment)
+                }
+            }
+        }
+
         viewModel.getAccessToken()
 
         binding.apply {
@@ -40,10 +51,6 @@ class QuizMainFragment :
 
             quizMainBtnGoQuiz.setOnClickListener {
                 viewModel.requestQuiz()
-//                when (getQuizFromServer()) {
-//                    QuizType.MULTI -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyMultiChoiceFragment)
-//                    QuizType.OX -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyOXFragment)
-//                }
             }
         }
     }
@@ -54,8 +61,7 @@ class QuizMainFragment :
         binding.quizMainRv.adapter = adapter
     }
 
-    private fun getQuizFromServer(): QuizType {
-        val type = "MULTIPLE_CHOICE" // from API
+    private fun getQuizFromServer(type: String): QuizType {
         return when(type){
             QuizType.OX.type -> QuizType.OX
             else -> QuizType.MULTI

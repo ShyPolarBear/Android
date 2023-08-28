@@ -17,15 +17,10 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
-import com.shypolarbear.domain.model.Tokens
+import com.shypolarbear.domain.model.quiz.Choice
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
 import com.shypolarbear.presentation.ui.quiz.daily.dialog.QuizDialog
@@ -67,21 +62,15 @@ fun setVisibilityInvert(vararg views: View) {
     }
 }
 
-fun initChoices(choiceList: List<TextView>){
-    for(choice in choiceList){
-        choice.detectActivation(*choiceList.filter { it != choice }.toTypedArray())
-    }
-}
 fun TextView.detectActivation(vararg choices: TextView){
-    setOnClickListener {
-        for(choice in choices){
-            if(choice.isActivated){
-                choice.isActivated = choice.isActivated.not()
-            }
+    for(choice in choices){
+        if(choice.isActivated){
+            choice.isActivated = choice.isActivated.not()
         }
-        this.isActivated = this.isActivated.not()
     }
+    this.isActivated = this.isActivated.not()
 }
+
 fun ImageView.setReviewMode(type: DialogType, pages: TextView, dialog: QuizDialog, resId: Int){
     when(type){
         DialogType.REVIEW -> {

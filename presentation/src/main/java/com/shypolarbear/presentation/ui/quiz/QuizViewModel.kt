@@ -24,6 +24,10 @@ class QuizViewModel @Inject constructor(
     val tokens: LiveData<String?> = _tokens
     private val _quizResponse = MutableLiveData<Quiz>()
     val quizResponse: LiveData<Quiz> = _quizResponse
+    private val _submitBtnState = MutableLiveData<Boolean>()
+    val submitBtnState: LiveData<Boolean> = _submitBtnState
+    private val _answer = MutableLiveData<String>()
+    val answer: LiveData<String> = _answer
 
     fun getAccessToken() {
         viewModelScope.launch {
@@ -40,13 +44,17 @@ class QuizViewModel @Inject constructor(
                 Timber.tag("QUIZ").d("${_quizResponse.value}")
             }
                 .onFailure { error ->
-                    Timber.tag("ERROR").d("${error}")
-
                     if (error is HttpError) {
                         val errorBodyData = JSONObject(error.errorBody)
                         Timber.tag("ERROR").d("${errorBodyData.get("code")}")
                     }
                 }
         }
+    }
+    fun setAnswer(answer: String){
+        _answer.value = answer
+    }
+    fun setSubmitBtnState(){
+        _submitBtnState.value = true
     }
 }
