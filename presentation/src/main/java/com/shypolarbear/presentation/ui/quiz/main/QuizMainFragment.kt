@@ -12,6 +12,7 @@ import com.shypolarbear.presentation.util.setSpecificTextColor
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+const val QUIZ_TIME = 17
 @AndroidEntryPoint
 class QuizMainFragment :
     BaseFragment<FragmentQuizMainBinding, QuizViewModel>(R.layout.fragment_quiz_main) {
@@ -19,6 +20,7 @@ class QuizMainFragment :
 
     override fun initView() {
         viewModel.getAccessToken()
+
         binding.apply {
             val userName = "춘식이"
             var solvedState = false
@@ -37,10 +39,11 @@ class QuizMainFragment :
             setAdapter()
 
             quizMainBtnGoQuiz.setOnClickListener {
-                when (getQuizFromServer()) {
-                    QuizType.MULTI -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyMultiChoiceFragment)
-                    QuizType.OX -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyOXFragment)
-                }
+                viewModel.requestQuiz()
+//                when (getQuizFromServer()) {
+//                    QuizType.MULTI -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyMultiChoiceFragment)
+//                    QuizType.OX -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyOXFragment)
+//                }
             }
         }
     }

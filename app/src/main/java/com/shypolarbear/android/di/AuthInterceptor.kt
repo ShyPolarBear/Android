@@ -3,6 +3,9 @@ package com.shypolarbear.android.di
 import com.shypolarbear.domain.usecase.tokens.GetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.tokens.GetRefreshTokenUseCase
 import com.shypolarbear.domain.usecase.TokenRenewUseCase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -16,17 +19,16 @@ class AuthInterceptor @Inject constructor(
     private val refreshTokenUseCase: GetRefreshTokenUseCase,
     private val tokenRenewUseCase: TokenRenewUseCase
 ): Interceptor {
+    private lateinit var accessToken: String
+    private lateinit var refreshToken: String
     override fun intercept(chain: Interceptor.Chain): Response {
         // TODO("TokenRepoImpl에서 토큰 가져오는 동작 구현되면 주석 해제하기")
-//        var accessToken = accessTokenUseCase()
-//        var refreshToken = refreshTokenUseCase()
+        runBlocking {
+            accessToken = accessTokenUseCase()
+            refreshToken = refreshTokenUseCase()
+        }
 
-        // 임시 정의
-        var accessToken = "access token"
-        var refreshToken = "refresh token"
-
-//        val addedAccessTokenRequest = chain.request().newBuilder().addHeader("accessToken","$accessToken").build()
-        val addedAccessTokenRequest = chain.request().newBuilder().addHeader("accessToken","testHeader").build()
+        val addedAccessTokenRequest = chain.request().newBuilder().addHeader("Authorization", "Bearer $accessToken").build()
         val response = chain.proceed(addedAccessTokenRequest)
 
         when (response.code) {

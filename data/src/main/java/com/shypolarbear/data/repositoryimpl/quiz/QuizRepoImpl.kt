@@ -9,7 +9,7 @@ import javax.inject.Inject
 class QuizRepoImpl @Inject constructor(
     private val api: QuizApi
 ): QuizRepo {
-    override fun requestQuiz(): Result<DailyQuizResponse> {
+    override suspend fun requestQuiz(): Result<DailyQuizResponse> {
         return try {
             val response = api.requestQuiz()
             when {

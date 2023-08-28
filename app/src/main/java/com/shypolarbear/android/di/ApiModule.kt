@@ -34,7 +34,7 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun provideQuizApi(@NormalRetrofit retrofit: Retrofit): QuizApi{
+    fun provideQuizApi(@AuthRetrofit retrofit: Retrofit): QuizApi{
         return retrofit.create(QuizApi::class.java)
     }
 
