@@ -89,7 +89,12 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                     else -> {
                         when(feedWriteArgs.divider) {
                             WriteChangeDivider.WRITE -> {
-
+                                // TODO("피드 작성 시 동작")
+                                viewModel.writePost(
+                                    title = edtFeedWriteTitle.text.toString(),
+                                    content = edtFeedWriteContent.text.toString(),
+                                    feedImages = null
+                                )
                             }
                             WriteChangeDivider.CHANGE -> {
                                 viewModel.changePost(

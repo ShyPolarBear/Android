@@ -105,4 +105,30 @@ class FeedRepoImpl @Inject constructor(
             Result.failure(e)
         }
     }
+
+    override suspend fun writeFeedData(
+        title: String,
+        content: String,
+        feedImages: List<String>?
+    ): Result<FeedChangeResponse> {
+        return try {
+            val response = api.writeFeed(
+                WriteFeedForm(
+                    title = title,
+                    content = content,
+                    feedImages = listOf("NULL"),  // TODO("이미지 작업 완료되면 수정할 예정"
+                )
+            )
+            when {
+                response.isSuccessful -> {
+                    Result.success(response.body()!!)
+                }
+                else -> {
+                    Result.failure(HttpError(response.code(), response.errorBody()?.string() ?: ""))
+                }
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

@@ -19,6 +19,7 @@ import com.shypolarbear.domain.usecase.feed.ChangePostUseCase
 import com.shypolarbear.domain.usecase.feed.FeedCommentUseCase
 import com.shypolarbear.domain.usecase.feed.FeedDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
+import com.shypolarbear.domain.usecase.feed.FeedWriteUseCase
 import com.shypolarbear.domain.usecase.more.ChangeMyInfoUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizUseCase
 import com.shypolarbear.domain.usecase.tokens.SetAccessTokenUseCase
@@ -126,5 +127,11 @@ class UseCaseModule {
     @Provides
     fun provideFeedDeleteUseCase(repo: FeedRepo): FeedDeleteUseCase {
         return FeedDeleteUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideFeedWriteUseCase(repo: FeedRepo): FeedWriteUseCase {
+        return FeedWriteUseCase(repo)
     }
 }

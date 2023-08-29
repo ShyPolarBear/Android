@@ -20,4 +20,10 @@ interface FeedRepo {
     ): Result<FeedChangeResponse>
 
     suspend fun deleteFeedData(feedId: Int): Result<FeedChangeResponse>
+
+    suspend fun writeFeedData(
+        title: String,
+        content: String,
+        feedImages: List<String>?
+    ): Result<FeedChangeResponse>
 }
