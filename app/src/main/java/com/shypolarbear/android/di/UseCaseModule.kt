@@ -15,6 +15,10 @@ import com.shypolarbear.domain.usecase.tokens.GetRefreshTokenUseCase
 import com.shypolarbear.domain.usecase.TokenRenewUseCase
 import com.shypolarbear.domain.usecase.feed.FeedCommentUseCase
 import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
+import com.shypolarbear.domain.usecase.quiz.QuizReviewUseCase
+import com.shypolarbear.domain.usecase.quiz.QuizSolvedUseCase
+import com.shypolarbear.domain.usecase.quiz.QuizSubmitMultiUseCase
+import com.shypolarbear.domain.usecase.quiz.QuizSubmitOXUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizUseCase
 import com.shypolarbear.domain.usecase.tokens.SetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.tokens.SetRefreshTokenUseCase
@@ -97,5 +101,29 @@ class UseCaseModule {
     @Provides
     fun provideQuizUseCase(repo: QuizRepo): QuizUseCase{
         return QuizUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideQuizSolvedUseCase(repo: QuizRepo): QuizSolvedUseCase{
+        return QuizSolvedUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideQuizReviewUseCase(repo: QuizRepo): QuizReviewUseCase{
+        return QuizReviewUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideQuizSubmitOXUseCase(repo: QuizRepo): QuizSubmitOXUseCase{
+        return QuizSubmitOXUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideQuizSubmitMultiUseCase(repo:QuizRepo): QuizSubmitMultiUseCase{
+        return QuizSubmitMultiUseCase(repo)
     }
 }
