@@ -125,7 +125,8 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                     )
                 }
                 getString(R.string.feed_post_property_delete) -> {
-                    // TODO("게시뭏 삭제 클릭 시 동작")
+                    // TODO("게시물 삭제 클릭 시 동작")
+                    viewModel.requestDeleteFeed(feedId)
                 }
             }
         }.showAsDropDown(

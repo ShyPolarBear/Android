@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.feed.Feed
+import com.shypolarbear.domain.usecase.feed.FeedDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.FeedTotalUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FeedTotalViewModel @Inject constructor (
-    private val feedTotalUseCase: FeedTotalUseCase
+    private val feedTotalUseCase: FeedTotalUseCase,
+    private val feedDeleteUseCase: FeedDeleteUseCase
 ): BaseViewModel() {
 
     private val _feed = MutableLiveData<List<Feed>>()
@@ -31,6 +33,12 @@ class FeedTotalViewModel @Inject constructor (
 
                 }
 
+        }
+    }
+
+    fun requestDeleteFeed(feedId: Int) {
+        viewModelScope.launch {
+            feedDeleteUseCase.requestDeleteFeed(feedId)
         }
     }
 
