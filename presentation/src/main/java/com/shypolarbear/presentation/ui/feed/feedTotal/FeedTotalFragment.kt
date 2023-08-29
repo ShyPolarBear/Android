@@ -35,8 +35,8 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
 
     override val viewModel: FeedTotalViewModel by viewModels()
     private val feedPostAdapter = FeedPostAdapter(
-        onMyPostPropertyClick = { view: ImageView, feedId: Int ->
-            showMyPostPropertyMenu(view, feedId)
+        onMyPostPropertyClick = { view: ImageView, feedId: Int, position: Int ->
+            showMyPostPropertyMenu(view, feedId, position)
         },
         onOtherPostPropertyClick = { view: ImageView ->
             showOtherPostPropertyMenu(view)
@@ -104,7 +104,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         }
     }
 
-    private fun showMyPostPropertyMenu(view: ImageView, feedId: Int) {
+    private fun showMyPostPropertyMenu(view: ImageView, feedId: Int, position: Int) {
         val myCommentPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
@@ -126,7 +126,11 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                 }
                 getString(R.string.feed_post_property_delete) -> {
                     // TODO("게시물 삭제 클릭 시 동작")
-                    viewModel.requestDeleteFeed(feedId)
+//                    viewModel.requestDeleteFeed(feedId)
+                    viewModel.removeFeedList(position)
+                    viewModel.feed.observe(viewLifecycleOwner) {
+                        feedPostAdapter.submitList(it.toList())
+                    }
                 }
             }
         }.showAsDropDown(

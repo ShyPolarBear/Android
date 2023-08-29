@@ -67,4 +67,13 @@ class FeedTotalViewModel @Inject constructor (
         }
         _feed.value = updatedFeed
     }
+
+    fun removeFeedList(position: Int) {
+        val feedList: MutableList<Feed> = mutableListOf()
+
+        feedList.addAll(0, _feed.value!!)
+
+        feedList.removeAt(position)
+        _feed.value = feedList
+    }
 }
