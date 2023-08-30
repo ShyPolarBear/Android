@@ -51,12 +51,11 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                     nameState == InputState.ERROR || phoneNumberState == InputState.ERROR || emailState == InputState.ERROR -> {
                         Toast.makeText(requireContext(), getString(R.string.check_my_info_term), Toast.LENGTH_SHORT).show()
                     }
-                    nameState == InputState.OFF ||
-                    phoneNumberState == InputState.OFF ||
-                    emailState == InputState.OFF ||
-                    edtChangeMyInfoNickname.text.toString().isNullOrBlank() ||
-                    edtChangeMyInfoPhoneNumber.text.toString().isNullOrBlank() ||
-                    edtChangeMyInfoEmail.text.toString().isNullOrBlank()-> {
+
+                    listOf(nameState, phoneNumberState, emailState).any { it ==InputState.OFF } ||
+                    listOf(edtChangeMyInfoNickname.text.toString(),
+                        edtChangeMyInfoPhoneNumber.text.toString(),
+                        edtChangeMyInfoEmail.text.toString()).any { it.isNullOrBlank() } -> {
                         Toast.makeText(requireContext(), getString(R.string.check_my_info_input), Toast.LENGTH_SHORT).show()
                     }
 
