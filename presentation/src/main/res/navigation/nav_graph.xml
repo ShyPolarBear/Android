@@ -37,6 +37,13 @@
         <action
             android:id="@+id/action_feedWriteFragment_to_navigation_feed"
             app:destination="@id/navigation_feed" />
+        <argument
+            android:name="divider"
+            app:argType="com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider" />
+        <argument
+            android:name="feedId"
+            app:argType="integer" />
+
     </fragment>
     <fragment
         android:id="@+id/signupFragment"

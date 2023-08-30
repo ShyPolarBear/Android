@@ -1,10 +1,14 @@
 package com.shypolarbear.data.api.feed
 
 import com.shypolarbear.domain.model.feed.FeedTotal
+import com.shypolarbear.domain.model.feed.feedChange.ChangePostResponse
+import com.shypolarbear.domain.model.feed.feedChange.WriteFeedForm
 import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
 import com.shypolarbear.domain.model.feed.feedDetail.FeedDetail
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface FeedApi {
@@ -15,6 +19,13 @@ interface FeedApi {
     suspend fun getFeedDetail(
         @Path("feedId") feedID: Int
     ): Response<FeedDetail>
+
+    @PUT("api/feeds/{feedId}")
+    suspend fun requestChangePost(
+        @Path("feedId") feedID: Int,
+        @Body
+        writeFeedForm: WriteFeedForm
+    ): Response<ChangePostResponse>
 
     @GET("api/feeds/{feedId}/comment")
     suspend fun getFeedComment(

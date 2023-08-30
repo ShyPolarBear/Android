@@ -2,6 +2,7 @@ package com.shypolarbear.presentation.util
 
 import android.content.Context
 import androidx.lifecycle.LifecycleOwner
+import com.skydoves.powermenu.OnMenuItemClickListener
 import com.skydoves.powermenu.PowerMenu
 import com.skydoves.powermenu.PowerMenuItem
 import com.skydoves.powermenu.kotlin.createPowerMenu
@@ -16,7 +17,8 @@ object PowerMenuUtil {
     fun getPowerMenu(
         context: Context,
         lifecycle: LifecycleOwner,
-        items: List<PowerMenuItem>
+        items: List<PowerMenuItem>,
+        onItemClickListener: OnMenuItemClickListener<PowerMenuItem>
     ): PowerMenu {
         return createPowerMenu(context) {
             addItemList(items)
@@ -26,6 +28,7 @@ object PowerMenuUtil {
             setPadding(MENU_PADDING)
             setLifecycleOwner(lifecycle)
             setAutoDismiss(true)
+            setOnMenuItemClickListener(onItemClickListener)
             build()
         }
     }
