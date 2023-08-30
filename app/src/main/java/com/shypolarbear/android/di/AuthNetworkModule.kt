@@ -1,5 +1,6 @@
 package com.shypolarbear.android.di
 
+import com.shypolarbear.android.util.BASE_URL
 import com.shypolarbear.android.util.MOCK_URL
 import dagger.Module
 import dagger.Provides
@@ -35,7 +36,8 @@ object AuthNetworkModule {
     ): Retrofit {
 
         return Retrofit.Builder()
-            .baseUrl(MOCK_URL)
+            .baseUrl(BASE_URL)
+//            .baseUrl(MOCK_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

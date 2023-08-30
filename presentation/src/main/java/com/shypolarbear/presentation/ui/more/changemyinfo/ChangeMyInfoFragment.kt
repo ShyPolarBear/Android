@@ -19,7 +19,9 @@ import com.shypolarbear.presentation.util.emailPattern
 import com.shypolarbear.presentation.util.keyboardDown
 import com.shypolarbear.presentation.util.phonePattern
 import com.shypolarbear.presentation.util.setColorStateWithInput
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyInfoViewModel> (
     R.layout.fragment_change_my_info
 ) {
@@ -33,22 +35,41 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
     override fun initView() {
 
         binding.apply {
+            viewModel.getMyInfo()
+            viewModel.myInfo.observe(viewLifecycleOwner) { info ->
+                edtChangeMyInfoNickname.setText(info.nickName)
+                edtChangeMyInfoPhoneNumber.setText(info.phoneNumber)
+                edtChangeMyInfoEmail.setText(info.email)
+            }
+
             btnChangeMyInfoBack.setOnClickListener {
                 findNavController().navigate(R.id.action_changeMyInfoFragment_to_navigation_more)
             }
 
             btnChangeMyInfoRevise.setOnClickListener {
-                if (nameState == InputState.ERROR || phoneNumberState == InputState.ERROR || emailState == InputState.ERROR) {
-                    Toast.makeText(requireContext(), getString(R.string.check_my_info_term), Toast.LENGTH_SHORT).show()
-                }
-                else if (nameState == InputState.OFF && phoneNumberState == InputState.OFF && emailState == InputState.OFF) {
-                    Toast.makeText(requireContext(), getString(R.string.check_my_info_input), Toast.LENGTH_SHORT).show()
-                }
-                else {
-                    // TODO("수정 된 정보 서버로 전달")
-                    findNavController().navigate(R.id.action_changeMyInfoFragment_to_navigation_more)
-                }
+                when {
+                    nameState == InputState.ERROR || phoneNumberState == InputState.ERROR || emailState == InputState.ERROR -> {
+                        Toast.makeText(requireContext(), getString(R.string.check_my_info_term), Toast.LENGTH_SHORT).show()
+                    }
 
+                    listOf(nameState, phoneNumberState, emailState).any { it ==InputState.OFF } ||
+                    listOf(edtChangeMyInfoNickname.text.toString(),
+                        edtChangeMyInfoPhoneNumber.text.toString(),
+                        edtChangeMyInfoEmail.text.toString()).any { it.isNullOrBlank() } -> {
+                        Toast.makeText(requireContext(), getString(R.string.check_my_info_input), Toast.LENGTH_SHORT).show()
+                    }
+
+                    else -> {
+                        viewModel.requestChangeMyInfo(
+                            nickName = edtChangeMyInfoNickname.text.toString(),
+                            phoneNumber = edtChangeMyInfoPhoneNumber.text.toString(),
+                            email = edtChangeMyInfoEmail.text.toString(),
+                            profileImage = null
+                        )
+                        Toast.makeText(requireContext(), getString(R.string.check_my_info_success), Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.action_changeMyInfoFragment_to_navigation_more)
+                    }
+                }
             }
 
             edtChangeMyInfoNickname.apply {
