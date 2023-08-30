@@ -5,6 +5,7 @@ import com.shypolarbear.domain.model.feed.feedChange.FeedChangeResponse
 import com.shypolarbear.domain.model.feed.feedChange.WriteFeedForm
 import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
 import com.shypolarbear.domain.model.feed.feedDetail.FeedDetail
+import com.shypolarbear.domain.model.feed.feedLike.FeedLikeResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -44,4 +45,9 @@ interface FeedApi {
         @Body
         writeFeedForm: WriteFeedForm
     ): Response<FeedChangeResponse>
+
+    @PUT("api/feeds/{feedId}/like")
+    suspend fun likeFeed(
+        @Path("feedId") feedID: Int
+    ): Response<FeedLikeResponse>
 }

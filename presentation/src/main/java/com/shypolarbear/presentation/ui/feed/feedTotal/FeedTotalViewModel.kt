@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.domain.usecase.feed.FeedDeleteUseCase
+import com.shypolarbear.domain.usecase.feed.FeedLikeUseCase
 import com.shypolarbear.domain.usecase.feed.FeedTotalUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class FeedTotalViewModel @Inject constructor (
     private val feedTotalUseCase: FeedTotalUseCase,
-    private val feedDeleteUseCase: FeedDeleteUseCase
+    private val feedDeleteUseCase: FeedDeleteUseCase,
+    private val feedLikeUseCase: FeedLikeUseCase
 ): BaseViewModel() {
 
     private val _feed = MutableLiveData<List<Feed>>()
@@ -32,7 +34,6 @@ class FeedTotalViewModel @Inject constructor (
                 .onFailure {
 
                 }
-
         }
     }
 
@@ -50,6 +51,9 @@ class FeedTotalViewModel @Inject constructor (
                 feed.copy(isLike = isLiked, likeCount = likeCnt)
             else
                 feed
+        }
+        viewModelScope.launch {
+            feedLikeUseCase.requestLikeFeed(feedId)
         }
         _feed.value = updatedFeed
     }

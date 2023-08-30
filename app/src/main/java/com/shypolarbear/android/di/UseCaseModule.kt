@@ -15,10 +15,11 @@ import com.shypolarbear.domain.usecase.feed.FeedTotalUseCase
 import com.shypolarbear.domain.usecase.LoginUseCase
 import com.shypolarbear.domain.usecase.tokens.GetRefreshTokenUseCase
 import com.shypolarbear.domain.usecase.TokenRenewUseCase
-import com.shypolarbear.domain.usecase.feed.ChangePostUseCase
+import com.shypolarbear.domain.usecase.feed.FeedChangeUseCase
 import com.shypolarbear.domain.usecase.feed.FeedCommentUseCase
 import com.shypolarbear.domain.usecase.feed.FeedDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
+import com.shypolarbear.domain.usecase.feed.FeedLikeUseCase
 import com.shypolarbear.domain.usecase.feed.FeedWriteUseCase
 import com.shypolarbear.domain.usecase.more.ChangeMyInfoUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizUseCase
@@ -119,8 +120,8 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideChangePostUseCase(repo: FeedRepo): ChangePostUseCase {
-        return ChangePostUseCase(repo)
+    fun provideChangePostUseCase(repo: FeedRepo): FeedChangeUseCase {
+        return FeedChangeUseCase(repo)
     }
 
     @Singleton
@@ -133,5 +134,11 @@ class UseCaseModule {
     @Provides
     fun provideFeedWriteUseCase(repo: FeedRepo): FeedWriteUseCase {
         return FeedWriteUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideFeedLikeUseCase(repo: FeedRepo): FeedLikeUseCase {
+        return FeedLikeUseCase(repo)
     }
 }

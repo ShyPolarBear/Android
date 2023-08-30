@@ -6,19 +6,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.domain.model.feed.FeedWriteImg
-import com.shypolarbear.domain.usecase.feed.ChangePostUseCase
+import com.shypolarbear.domain.usecase.feed.FeedChangeUseCase
 import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
 import com.shypolarbear.domain.usecase.feed.FeedWriteUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class FeedWriteViewModel @Inject constructor(
     private val feedDetailUseCase: FeedDetailUseCase,
-    private val changePostUseCase: ChangePostUseCase,
+    private val changePostUseCase: FeedChangeUseCase,
     private val feedWriteUseCase: FeedWriteUseCase
 ): BaseViewModel(){
     private val _feed = MutableLiveData<Feed>()

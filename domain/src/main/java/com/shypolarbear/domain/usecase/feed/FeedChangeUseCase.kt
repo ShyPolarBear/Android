@@ -3,7 +3,7 @@ package com.shypolarbear.domain.usecase.feed
 import com.shypolarbear.domain.model.feed.feedChange.FeedChangeResponse
 import com.shypolarbear.domain.repository.feed.FeedRepo
 
-class ChangePostUseCase (
+class FeedChangeUseCase (
     private val repo: FeedRepo
 ) {
     suspend fun requestChangePost(

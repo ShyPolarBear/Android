@@ -7,6 +7,7 @@ import com.shypolarbear.domain.model.feed.feedChange.FeedChangeResponse
 import com.shypolarbear.domain.model.feed.feedChange.WriteFeedForm
 import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
 import com.shypolarbear.domain.model.feed.feedDetail.FeedDetail
+import com.shypolarbear.domain.model.feed.feedLike.FeedLikeResponse
 import com.shypolarbear.domain.repository.feed.FeedRepo
 import javax.inject.Inject
 
@@ -119,6 +120,22 @@ class FeedRepoImpl @Inject constructor(
                     feedImages = listOf("NULL"),  // TODO("이미지 작업 완료되면 수정할 예정"
                 )
             )
+            when {
+                response.isSuccessful -> {
+                    Result.success(response.body()!!)
+                }
+                else -> {
+                    Result.failure(HttpError(response.code(), response.errorBody()?.string() ?: ""))
+                }
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun requestLikeFeedData(feedId: Int): Result<FeedLikeResponse> {
+        return try {
+            val response = api.likeFeed(feedId)
             when {
                 response.isSuccessful -> {
                     Result.success(response.body()!!)
