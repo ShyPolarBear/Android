@@ -20,11 +20,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
-import com.shypolarbear.domain.model.quiz.Choice
+import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
 import com.shypolarbear.presentation.ui.quiz.daily.dialog.QuizDialog
 import com.skydoves.powermenu.PowerMenuItem
+import org.json.JSONObject
+import timber.log.Timber
 
 
 val emailPattern = Regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
@@ -49,6 +51,13 @@ enum class DialogType(val point: String){
 enum class QuizType(val type: String){
     MULTI("MULTIPLE_CHOICE"),
     OX("TRUE_FALSE")
+}
+
+fun simpleHttpErrorCheck(error: Throwable){
+    if (error is HttpError) {
+        val errorBodyData = JSONObject(error.errorBody)
+        Timber.tag("ERROR").d("${errorBodyData.get("code")}")
+    }
 }
 
 fun setVisibilityInvert(vararg views: View) {

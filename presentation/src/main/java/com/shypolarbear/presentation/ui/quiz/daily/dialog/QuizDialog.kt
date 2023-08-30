@@ -9,10 +9,13 @@ import androidx.databinding.ViewDataBinding
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.DialogQuizResultBinding
 import com.shypolarbear.presentation.databinding.DialogQuizStopBinding
+import com.shypolarbear.presentation.ui.quiz.QuizViewModel
 import com.shypolarbear.presentation.util.DialogType
 
 class QuizDialog(private val context: Context) {
     lateinit var alertDialog: AlertDialog
+    // dialog에서 뷰모델 사용할 수 있게 수정하기
+
     fun showDialog(
         dialogType: DialogType,
         explain: String? = null,

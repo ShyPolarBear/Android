@@ -9,6 +9,7 @@ import com.shypolarbear.presentation.databinding.FragmentQuizDailyMultiBinding
 import com.shypolarbear.presentation.ui.quiz.QuizViewModel
 import com.shypolarbear.presentation.ui.quiz.daily.dialog.QuizDialog
 import com.shypolarbear.presentation.util.DialogType
+import com.shypolarbear.presentation.util.QuizType
 import com.shypolarbear.presentation.util.detectActivation
 import com.shypolarbear.presentation.util.setReviewMode
 import timber.log.Timber
@@ -58,6 +59,7 @@ class QuizDailyMultiChoiceFragment :
                 R.id.action_quizDailyMultiChoiceFragment_to_quizMainFragment
             )
             quizDailyBtnSubmit.setOnClickListener {
+                viewModel.submitAnswer(QuizType.MULTI)
                 dialog.showDialog(state)
             }
         }
