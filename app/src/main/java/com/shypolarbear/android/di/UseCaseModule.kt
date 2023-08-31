@@ -15,10 +15,6 @@ import com.shypolarbear.domain.usecase.tokens.GetRefreshTokenUseCase
 import com.shypolarbear.domain.usecase.TokenRenewUseCase
 import com.shypolarbear.domain.usecase.feed.FeedCommentUseCase
 import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
-import com.shypolarbear.domain.usecase.quiz.QuizReviewUseCase
-import com.shypolarbear.domain.usecase.quiz.QuizSolvedUseCase
-import com.shypolarbear.domain.usecase.quiz.QuizSubmitMultiUseCase
-import com.shypolarbear.domain.usecase.quiz.QuizSubmitOXUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizUseCase
 import com.shypolarbear.domain.usecase.tokens.SetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.tokens.SetRefreshTokenUseCase
@@ -95,6 +91,18 @@ class UseCaseModule {
     @Provides
     fun provideTokenRenewUseCase(repo: TokenRepo): TokenRenewUseCase {
         return TokenRenewUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetMyInfoUseCase(repo: InfoRepo): GetMyInfoUseCase {
+        return GetMyInfoUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideChangeMyInfoUseCase(repo: InfoRepo): ChangeMyInfoUseCase {
+        return ChangeMyInfoUseCase(repo)
     }
 
     @Singleton

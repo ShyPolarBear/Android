@@ -3,9 +3,6 @@ package com.shypolarbear.android.di
 import com.shypolarbear.domain.usecase.tokens.GetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.tokens.GetRefreshTokenUseCase
 import com.shypolarbear.domain.usecase.TokenRenewUseCase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -19,10 +16,13 @@ class AuthInterceptor @Inject constructor(
     private val refreshTokenUseCase: GetRefreshTokenUseCase,
     private val tokenRenewUseCase: TokenRenewUseCase
 ): Interceptor {
+
     private lateinit var accessToken: String
     private lateinit var refreshToken: String
+
     override fun intercept(chain: Interceptor.Chain): Response {
         // TODO("TokenRepoImpl에서 토큰 가져오는 동작 구현되면 주석 해제하기")
+
         runBlocking {
             accessToken = accessTokenUseCase()
             refreshToken = refreshTokenUseCase()
@@ -52,8 +52,6 @@ class AuthInterceptor @Inject constructor(
             }
             else -> response
         }
-
-        Timber.d("헤더에 잘 붙음?: $addedAccessTokenRequest")
 
         return response
     }
