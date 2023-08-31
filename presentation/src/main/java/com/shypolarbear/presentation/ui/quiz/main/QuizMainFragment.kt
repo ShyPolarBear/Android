@@ -23,9 +23,9 @@ class QuizMainFragment :
 
         viewModel.quizResponse.observe(viewLifecycleOwner){ quiz ->
             quiz?.let {
-                when (getQuizFromServer(quiz.type)) {
-                    QuizType.MULTI -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyMultiChoiceFragment)
-                    QuizType.OX -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyOXFragment)
+                when (quiz.type) {
+                    QuizType.MULTI.type -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyMultiChoiceFragment)
+                    QuizType.OX.type -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyOXFragment)
                 }
             }
         }
@@ -59,12 +59,5 @@ class QuizMainFragment :
         val items = listOf<String>("A", "B", "C", "A", "B", "C", "A", "B", "C", "F")
         val adapter = initAdapter(items)
         binding.quizMainRv.adapter = adapter
-    }
-
-    private fun getQuizFromServer(type: String): QuizType {
-        return when(type){
-            QuizType.OX.type -> QuizType.OX
-            else -> QuizType.MULTI
-        }
     }
 }

@@ -50,7 +50,7 @@ enum class DialogType(val point: String){
 
 enum class QuizType(val type: String){
     MULTI("MULTIPLE_CHOICE"),
-    OX("TRUE_FALSE")
+    OX("OX")
 }
 
 fun simpleHttpErrorCheck(error: Throwable){

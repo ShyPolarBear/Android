@@ -50,7 +50,6 @@ class QuizDailyMultiChoiceFragment :
                 choice.setOnClickListener {
                     val id = viewModel.quizResponse.value!!.choices!![choiceList.indexOf(choice)].id
                     viewModel.setAnswer(id.toString())
-                    Timber.tag("QUIZ").d("${id}")
 
                     choice.detectActivation(*choiceList.filter { other ->
                         other != choice
