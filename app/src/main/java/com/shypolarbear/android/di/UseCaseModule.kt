@@ -1,6 +1,7 @@
 package com.shypolarbear.android.di
 
 import com.shypolarbear.domain.repository.ExampleRepo
+import com.shypolarbear.domain.repository.InfoRepo
 import com.shypolarbear.domain.repository.JoinRepo
 import com.shypolarbear.domain.repository.feed.FeedRepo
 import com.shypolarbear.domain.repository.LoginRepo
@@ -13,8 +14,15 @@ import com.shypolarbear.domain.usecase.feed.FeedTotalUseCase
 import com.shypolarbear.domain.usecase.LoginUseCase
 import com.shypolarbear.domain.usecase.tokens.GetRefreshTokenUseCase
 import com.shypolarbear.domain.usecase.TokenRenewUseCase
+import com.shypolarbear.domain.usecase.feed.ChangePostUseCase
 import com.shypolarbear.domain.usecase.feed.FeedCommentUseCase
 import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
+import com.shypolarbear.domain.usecase.more.ChangeMyInfoUseCase
+import com.shypolarbear.domain.usecase.more.GetMyInfoUseCase
+import com.shypolarbear.domain.usecase.quiz.QuizReviewUseCase
+import com.shypolarbear.domain.usecase.quiz.QuizSolvedUseCase
+import com.shypolarbear.domain.usecase.quiz.QuizSubmitMultiUseCase
+import com.shypolarbear.domain.usecase.quiz.QuizSubmitOXUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizUseCase
 import com.shypolarbear.domain.usecase.tokens.SetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.tokens.SetRefreshTokenUseCase
@@ -113,25 +121,31 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideQuizSolvedUseCase(repo: QuizRepo): QuizSolvedUseCase{
+    fun provideChangePostUseCase(repo: FeedRepo): ChangePostUseCase {
+        return ChangePostUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideQuizSolvedUseCase(repo: QuizRepo): QuizSolvedUseCase {
         return QuizSolvedUseCase(repo)
     }
 
     @Singleton
     @Provides
-    fun provideQuizReviewUseCase(repo: QuizRepo): QuizReviewUseCase{
+    fun provideQuizReviewUseCase(repo: QuizRepo): QuizReviewUseCase {
         return QuizReviewUseCase(repo)
     }
 
     @Singleton
     @Provides
-    fun provideQuizSubmitOXUseCase(repo: QuizRepo): QuizSubmitOXUseCase{
+    fun provideQuizSubmitOXUseCase(repo: QuizRepo): QuizSubmitOXUseCase {
         return QuizSubmitOXUseCase(repo)
     }
 
     @Singleton
     @Provides
-    fun provideQuizSubmitMultiUseCase(repo:QuizRepo): QuizSubmitMultiUseCase{
+    fun provideQuizSubmitMultiUseCase(repo:QuizRepo): QuizSubmitMultiUseCase {
         return QuizSubmitMultiUseCase(repo)
     }
 }

@@ -1,5 +1,6 @@
 package com.shypolarbear.data.api.quiz
 
+import com.google.gson.annotations.SerializedName
 import com.shypolarbear.domain.model.quiz.DailyQuizResponse
 import com.shypolarbear.domain.model.quiz.ReviewQuizResponse
 import com.shypolarbear.domain.model.quiz.SolvedStateResponse
@@ -33,7 +34,7 @@ interface QuizApi {
     @POST("/api/quiz/multiple-choice/{quizId}/score")
     suspend fun submitQuizMulti(
         @Path("quizId") quizId: Int,
-        @Body answer: String
+        @Body answer: Long
     ): Response<SubmitResponse>
 
 }

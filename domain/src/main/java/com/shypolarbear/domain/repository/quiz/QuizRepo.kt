@@ -11,5 +11,5 @@ interface QuizRepo {
     suspend fun requestQuizReview(): Result<ReviewQuizResponse>
 
     suspend fun submitQuizOX(quizId: Int, answer: String): Result<SubmitResponse>
-    suspend fun submitQuizMulti(quizId: Int, answer: String): Result<SubmitResponse>
+    suspend fun submitQuizMulti(quizId: Int, answer: Long): Result<SubmitResponse>
 }

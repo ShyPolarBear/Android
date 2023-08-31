@@ -85,7 +85,7 @@ fun ImageView.setReviewMode(type: DialogType, pages: TextView, dialog: QuizDialo
         DialogType.REVIEW -> {
             pages.isVisible = true
             this.setOnClickListener {
-                dialog.showDialog(DialogType.REVIEW)
+//                dialog.showDialog(DialogType.REVIEW)
                 dialog.alertDialog.setOnCancelListener {
                     findNavController().navigate(resId)
                 }

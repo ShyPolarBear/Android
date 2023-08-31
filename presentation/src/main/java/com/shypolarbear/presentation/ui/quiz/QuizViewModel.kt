@@ -39,8 +39,8 @@ class QuizViewModel @Inject constructor(
     val dailyQuizSolvedState: LiveData<SolvedData> = _dailyQuizSolvedState
     private val _submitBtnState = MutableLiveData<Boolean>()
     val submitBtnState: LiveData<Boolean> = _submitBtnState
-    private val _answer = MutableLiveData<String>()
-    val answer: LiveData<String> = _answer
+    private val _answerId = MutableLiveData<String>()
+    val answerId: LiveData<String> = _answerId
     private val _submitResponse = MutableLiveData<Correction>()
     val submitResponse: LiveData<Correction> = _submitResponse
     fun getAccessToken() {
@@ -79,11 +79,11 @@ class QuizViewModel @Inject constructor(
         viewModelScope.launch {
             val responseAnswer = when (type) {
                 QuizType.MULTI -> {
-                    submitMultiUseCase(_quizResponse.value!!.quizId, _answer.value!!)
+                    submitMultiUseCase(_quizResponse.value!!.quizId, _answerId.value!!.toLong())
                 }
 
                 QuizType.OX -> {
-                    submitOXUseCase(_quizResponse.value!!.quizId, _answer.value!!)
+                    submitOXUseCase(_quizResponse.value!!.quizId, _answerId.value!!)
                 }
             }
 
@@ -97,7 +97,7 @@ class QuizViewModel @Inject constructor(
     }
 
     fun setAnswer(answer: String) {
-        _answer.value = answer
+        _answerId.value = answer
     }
 
     fun setSubmitBtnState() {

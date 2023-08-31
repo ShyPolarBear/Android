@@ -76,7 +76,7 @@ class QuizRepoImpl @Inject constructor(
         }
     }
 
-    override suspend fun submitQuizMulti(quizId: Int, answer: String): Result<SubmitResponse> {
+    override suspend fun submitQuizMulti(quizId: Int, answer: Long): Result<SubmitResponse> {
         return try {
             val response = api.submitQuizMulti(quizId, answer)
             when {

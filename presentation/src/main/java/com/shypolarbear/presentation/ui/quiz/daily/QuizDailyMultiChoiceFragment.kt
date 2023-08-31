@@ -25,10 +25,20 @@ class QuizDailyMultiChoiceFragment :
         dialog = QuizDialog(requireContext())
         val state: DialogType = DialogType.CORRECT // viewModel로 갈 예정
 
-        viewModel.submitBtnState.observe(viewLifecycleOwner) { state ->
-            state?.let {
-                binding.quizDailyTvSubmit.isActivated = state
-                binding.quizDailyBtnSubmit.isActivated = state
+        viewModel.submitBtnState.observe(viewLifecycleOwner) { submitState ->
+            submitState?.let {
+                binding.quizDailyTvSubmit.isActivated = submitState
+                binding.quizDailyBtnSubmit.isActivated = submitState
+            }
+        }
+
+        viewModel.submitResponse.observe(viewLifecycleOwner){ reponse ->
+            reponse?.let {
+                dialog.showDialog(
+                    viewModel.submitResponse.value!!.isCorrect,
+                    viewModel.submitResponse.value!!.explanation,
+                    viewModel.submitResponse.value!!.point.toString()
+                )
             }
         }
 
@@ -38,7 +48,10 @@ class QuizDailyMultiChoiceFragment :
 
             choiceList.map { choice ->
                 choice.setOnClickListener {
-                    viewModel.setAnswer(choice.text.toString())
+                    val id = viewModel.quizResponse.value!!.choices!![choiceList.indexOf(choice)].id
+                    viewModel.setAnswer(id.toString())
+                    Timber.tag("QUIZ").d("${id}")
+
                     choice.detectActivation(*choiceList.filter { other ->
                         other != choice
                     }.toTypedArray())
@@ -58,9 +71,9 @@ class QuizDailyMultiChoiceFragment :
                 dialog,
                 R.id.action_quizDailyMultiChoiceFragment_to_quizMainFragment
             )
+
             quizDailyBtnSubmit.setOnClickListener {
                 viewModel.submitAnswer(QuizType.MULTI)
-                dialog.showDialog(state)
             }
         }
     }

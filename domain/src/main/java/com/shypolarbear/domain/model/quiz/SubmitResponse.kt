@@ -7,10 +7,10 @@ data class SubmitResponse(
 )
 
 data class Correction(
-    val quizId: Int,
+    val quizId: Number,
     val correctAnswer: String,
     val explanation: String,
     val isCorrect: Boolean,
-    val point: Int
+    val point: Number
 )
 

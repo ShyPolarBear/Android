@@ -37,7 +37,7 @@ class QuizDailyOXFragment :
             )
 
             quizDailyBtnSubmit.setOnClickListener {
-                dialog.showDialog(state)
+//                dialog.showDialog()
             }
         }
     }
