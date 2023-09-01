@@ -7,16 +7,19 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedTotalBinding
 import com.shypolarbear.presentation.ui.feed.feedTotal.adapter.FeedPostAdapter
 import com.shypolarbear.presentation.util.PowerMenuUtil
+import com.shypolarbear.presentation.util.infiniteScroll
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 enum class WriteChangeDivider(val fragmentType: Int) {
     WRITE(0),
@@ -73,6 +76,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
             binding.layoutFeed.isVisible = false
 
             viewModel.loadFeedTotalData()
+            setFeedPost()
 
             ivFeedToolbarSort.setOnClickListener {
                 ivFeedToolbarSort.setMenu(
@@ -89,7 +93,8 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                     )
                 )
             }
-            setFeedPost()
+
+            rvFeedPost.infiniteScroll { viewModel.loadFeedTotalData() }
         }
     }
 
@@ -125,8 +130,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                     )
                 }
                 getString(R.string.feed_post_property_delete) -> {
-                    // TODO("게시물 삭제 클릭 시 동작")
-//                    viewModel.requestDeleteFeed(feedId)
+                    viewModel.requestDeleteFeed(feedId)
                     viewModel.removeFeedList(position)
                     viewModel.feed.observe(viewLifecycleOwner) {
                         feedPostAdapter.submitList(it.toList())

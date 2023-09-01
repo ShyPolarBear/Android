@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.domain.usecase.feed.FeedDeleteUseCase
+import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
 import com.shypolarbear.domain.usecase.feed.FeedLikeUseCase
 import com.shypolarbear.domain.usecase.feed.FeedTotalUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
@@ -17,7 +18,8 @@ import javax.inject.Inject
 class FeedTotalViewModel @Inject constructor (
     private val feedTotalUseCase: FeedTotalUseCase,
     private val feedDeleteUseCase: FeedDeleteUseCase,
-    private val feedLikeUseCase: FeedLikeUseCase
+    private val feedLikeUseCase: FeedLikeUseCase,
+    private val feedDetailUseCase: FeedDetailUseCase
 ): BaseViewModel() {
 
     private val _feed = MutableLiveData<List<Feed>>()
@@ -26,10 +28,38 @@ class FeedTotalViewModel @Inject constructor (
     fun loadFeedTotalData() {
         viewModelScope.launch {
             val feedData = feedTotalUseCase.loadFeedTotalData()
+            val feedDetailTestData = feedDetailUseCase.loadFeedDetailData(1)
 
             feedData
                 .onSuccess {
-                    _feed.value = it.data.feeds
+//                    when {
+//                        // 처음 로딩하는 경우
+//                        _feed.value.isNullOrEmpty() -> {
+//                            val feedList = mutableListOf<Feed>()
+//                            feedList.addAll(it.data.feeds)
+//
+//                            _feed.value = feedList
+//                        }
+//                        // 다음 페이지 로딩하는 경우
+//                        else -> {
+//                            feedDetailTestData
+//                                .onSuccess {
+//                                    val feedList = _feed.value as MutableList<Feed>
+//                                    feedList.addAll(listOf(it.data))
+//
+//                                    _feed.value = feedList
+//                                    Timber.d("피드 리스트 개수: ${feedList.size}")
+//                                }
+//                                .onFailure {
+//
+//                                }
+//                        }
+//
+//                    }
+
+                    val newDataList = it.data.feeds
+                    val currentList = _feed.value ?: emptyList()
+                    _feed.value = currentList + newDataList
                 }
                 .onFailure {
 
