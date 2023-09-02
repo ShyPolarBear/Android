@@ -14,6 +14,7 @@ import com.shypolarbear.domain.usecase.quiz.QuizSubmitOXUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizUseCase
 import com.shypolarbear.domain.usecase.tokens.GetAccessTokenUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
+import com.shypolarbear.presentation.util.Event
 import com.shypolarbear.presentation.util.QuizType
 import com.shypolarbear.presentation.util.simpleHttpErrorCheck
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,8 +34,8 @@ class QuizViewModel @Inject constructor(
 
     private val _tokens = MutableLiveData<String?>()
     val tokens: LiveData<String?> = _tokens
-    private val _quizResponse = MutableLiveData<Quiz>()
-    val quizResponse: LiveData<Quiz> = _quizResponse
+    private val _quizResponse = MutableLiveData<Event<Quiz>>()
+    val quizResponse: LiveData<Event<Quiz>> = _quizResponse
     private val _dailyQuizSolvedState = MutableLiveData<SolvedData>()
     val dailyQuizSolvedState: LiveData<SolvedData> = _dailyQuizSolvedState
     private val _submitBtnState = MutableLiveData<Boolean>()
@@ -57,7 +58,7 @@ class QuizViewModel @Inject constructor(
             val responseQuiz = quizUseCase()
 
             responseQuiz.onSuccess { response ->
-                _quizResponse.value = response.data
+                _quizResponse.value = Event(response.data)
                 Timber.tag("QUIZ").d("${_quizResponse.value}")
             }
                 .onFailure { error ->
@@ -80,13 +81,14 @@ class QuizViewModel @Inject constructor(
 
     fun submitAnswer(type: QuizType) {
         viewModelScope.launch {
+            val quiz = _quizResponse.value!!.peekContent()
             val responseAnswer = when (type) {
                 QuizType.MULTI -> {
-                    submitMultiUseCase(_quizResponse.value!!.quizId, _answerId.value!!.toLong())
+                    submitMultiUseCase(quiz.quizId, _answerId.value!!.toLong())
                 }
 
                 QuizType.OX -> {
-                    submitOXUseCase(_quizResponse.value!!.quizId, _answerId.value!!)
+                    submitOXUseCase(quiz.quizId, _answerId.value!!)
                 }
             }
 

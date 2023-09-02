@@ -8,6 +8,7 @@ import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentQuizMainBinding
 import com.shypolarbear.presentation.ui.quiz.QuizViewModel
 import com.shypolarbear.presentation.ui.quiz.main.QuizMainAdapter.Companion.initAdapter
+import com.shypolarbear.presentation.util.EventObserver
 import com.shypolarbear.presentation.util.QuizType
 import com.shypolarbear.presentation.util.setSpecificTextColor
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,15 +32,14 @@ class QuizMainFragment :
                 }
             }
         }
-        viewModel.quizResponse.observe(viewLifecycleOwner){ quiz ->
-            quiz?.let {
+        viewModel.quizResponse.observe(viewLifecycleOwner, EventObserver{ quiz ->
+            quiz.let {
                 when (quiz.type) {
                     QuizType.MULTI.type -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyMultiChoiceFragment)
                     QuizType.OX.type -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyOXFragment)
                 }
             }
-        }
-
+        })
         viewModel.getAccessToken()
 
         binding.apply {
