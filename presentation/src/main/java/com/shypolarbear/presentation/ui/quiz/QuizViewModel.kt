@@ -43,6 +43,9 @@ class QuizViewModel @Inject constructor(
     val answerId: LiveData<String> = _answerId
     private val _submitResponse = MutableLiveData<Correction>()
     val submitResponse: LiveData<Correction> = _submitResponse
+    private val _dailySubmit = MutableLiveData<Boolean>()
+    val dailySubmit: LiveData<Boolean> = _dailySubmit
+
     fun getAccessToken() {
         viewModelScope.launch {
             _tokens.value = accessTokenUseCase()
@@ -100,7 +103,7 @@ class QuizViewModel @Inject constructor(
         _answerId.value = answer
     }
 
-    fun setSubmitBtnState() {
-        _submitBtnState.value = true
+    fun dailySubmitState() {
+        _dailySubmit.value = true
     }
 }

@@ -20,7 +20,17 @@ class QuizMainFragment :
     override val viewModel: QuizViewModel by activityViewModels()
 
     override fun initView() {
+        viewModel.requestDailyQuizSolvedState()
 
+        viewModel.dailyQuizSolvedState.observe(viewLifecycleOwner){ solvedState ->
+            solvedState?.let {
+                it.quizId?.let {
+                    binding.quizMainTvGoQuiz.text = getString(R.string.quiz_main_tv_go_quiz)
+                    // review mode 키기
+
+                }
+            }
+        }
         viewModel.quizResponse.observe(viewLifecycleOwner){ quiz ->
             quiz?.let {
                 when (quiz.type) {
