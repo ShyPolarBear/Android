@@ -19,7 +19,7 @@ class FeedTotalViewModel @Inject constructor (
     private val feedTotalUseCase: FeedTotalUseCase,
     private val feedDeleteUseCase: FeedDeleteUseCase,
     private val feedLikeUseCase: FeedLikeUseCase,
-    private val feedDetailUseCase: FeedDetailUseCase
+    private val feedDetailUseCase: FeedDetailUseCase        // 테스트 용
 ): BaseViewModel() {
 
     private val _feed = MutableLiveData<List<Feed>>()
@@ -32,34 +32,38 @@ class FeedTotalViewModel @Inject constructor (
 
             feedData
                 .onSuccess {
-//                    when {
-//                        // 처음 로딩하는 경우
-//                        _feed.value.isNullOrEmpty() -> {
-//                            val feedList = mutableListOf<Feed>()
-//                            feedList.addAll(it.data.feeds)
-//
-//                            _feed.value = feedList
-//                        }
-//                        // 다음 페이지 로딩하는 경우
-//                        else -> {
-//                            feedDetailTestData
-//                                .onSuccess {
-//                                    val feedList = _feed.value as MutableList<Feed>
-//                                    feedList.addAll(listOf(it.data))
-//
-//                                    _feed.value = feedList
-//                                    Timber.d("피드 리스트 개수: ${feedList.size}")
-//                                }
-//                                .onFailure {
-//
-//                                }
-//                        }
-//
-//                    }
+                    when {
+                        // 처음 로딩하는 경우
+                        _feed.value.isNullOrEmpty() -> {
+                            val feedList = mutableListOf<Feed>()
+                            feedList.addAll(it.data.feeds)
+                            feedList.add(Feed())            // progress bar
 
-                    val newDataList = it.data.feeds
-                    val currentList = _feed.value ?: emptyList()
-                    _feed.value = currentList + newDataList
+                            _feed.value = feedList
+                        }
+                        // 다음 페이지 로딩하는 경우
+                        else -> {
+                            // 테스트 용
+                            feedDetailTestData
+                                .onSuccess { feedDetail ->
+                                    val feedList = _feed.value as MutableList<Feed>
+                                    feedList.removeLast()
+                                    feedList.addAll(listOf(feedDetail.data))
+                                    feedList.add(Feed())            // progress bar
+
+                                    _feed.value = feedList
+                                    Timber.d("피드 리스트 개수: ${feedList.size}")
+                                }
+                                .onFailure {
+
+                                }
+                        }
+
+                    }
+
+//                    val newDataList = it.data.feeds
+//                    val currentList = _feed.value ?: emptyList()
+//                    _feed.value = currentList + newDataList
                 }
                 .onFailure {
 

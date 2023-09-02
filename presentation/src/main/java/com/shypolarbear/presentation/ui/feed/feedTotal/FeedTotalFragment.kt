@@ -102,7 +102,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         binding.rvFeedPost.adapter = feedPostAdapter
         lifecycleScope.launch {
             viewModel.feed.observe(viewLifecycleOwner) {
-                feedPostAdapter.submitList(it)
+                feedPostAdapter.submitList(it.toList())
                 binding.progressFeedTotalLoading.isVisible = false
                 binding.layoutFeed.isVisible = true
             }
