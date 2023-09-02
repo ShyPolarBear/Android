@@ -71,7 +71,8 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
             }
 
             btnFeedWriteBack.setOnClickListener {
-                findNavController().navigate(R.id.action_feedWriteFragment_to_navigation_feed)
+                findNavController().popBackStack()
+
             }
 
             btnFeedWriteAddPhoto.setOnClickListener {
@@ -105,7 +106,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                                 )
                             }
                         }
-                        findNavController().navigate(R.id.action_feedWriteFragment_to_navigation_feed)
+                        findNavController().popBackStack()
                     }
                 }
             }

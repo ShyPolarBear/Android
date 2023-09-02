@@ -22,9 +22,6 @@
         android:name="com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailFragment"
         android:label="FeedDetailFragment"
         tools:layout="@layout/fragment_feed_detail">
-        <action
-            android:id="@+id/action_feedDetailFragment_to_feedTotalFragment"
-            app:destination="@id/navigation_feed" />
         <argument
             android:name="feedId"
             app:argType="integer" />
@@ -34,9 +31,6 @@
         android:name="com.shypolarbear.presentation.ui.feed.feedWrite.FeedWriteFragment"
         android:label="FeedWriteFragment"
         tools:layout="@layout/fragment_feed_write">
-        <action
-            android:id="@+id/action_feedWriteFragment_to_navigation_feed"
-            app:destination="@id/navigation_feed" />
         <argument
             android:name="divider"
             app:argType="com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider" />
@@ -118,9 +112,6 @@
         android:name="com.shypolarbear.presentation.ui.more.changemyinfo.ChangeMyInfoFragment"
         android:label="ChangeMyInfoFragment"
         tools:layout="@layout/fragment_change_my_info">
-        <action
-            android:id="@+id/action_changeMyInfoFragment_to_navigation_more"
-            app:destination="@id/navigation_more" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"

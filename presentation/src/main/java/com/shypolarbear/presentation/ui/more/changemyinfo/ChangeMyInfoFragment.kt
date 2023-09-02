@@ -43,7 +43,7 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
             }
 
             btnChangeMyInfoBack.setOnClickListener {
-                findNavController().navigate(R.id.action_changeMyInfoFragment_to_navigation_more)
+                findNavController().popBackStack()
             }
 
             btnChangeMyInfoRevise.setOnClickListener {
@@ -68,7 +68,7 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                             profileImage = null
                         )
                         Toast.makeText(requireContext(), getString(R.string.check_my_info_success), Toast.LENGTH_SHORT).show()
-                        findNavController().navigate(R.id.action_changeMyInfoFragment_to_navigation_more)
+                        findNavController().popBackStack()
                     }
                 }
             }
