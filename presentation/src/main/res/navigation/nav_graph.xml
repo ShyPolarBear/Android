@@ -154,8 +154,9 @@
         android:name="com.shypolarbear.presentation.ui.quiz.daily.QuizDailyMultiChoiceFragment"
         android:label="QuizDailyMultiChoiceFragment"
         tools:layout="@layout/fragment_quiz_daily_multi" >
+
         <action
-            android:id="@+id/action_quizDailyMultiChoiceFragment_to_quizMainFragment"
+            android:id="@+id/action_quizDailyMultiChoiceFragment_to_navigation_quiz_main"
             app:destination="@id/navigation_quiz_main" />
     </fragment>
     <fragment
@@ -163,8 +164,9 @@
         android:name="com.shypolarbear.presentation.ui.quiz.daily.QuizDailyOXFragment"
         android:label="QuizDailyOXFragment"
         tools:layout="@layout/fragment_quiz_daily_ox" >
+
         <action
-            android:id="@+id/action_quizDailyOXFragment_to_quizMainFragment"
+            android:id="@+id/action_quizDailyOXFragment_to_navigation_quiz_main"
             app:destination="@id/navigation_quiz_main" />
     </fragment>
 </navigation>
