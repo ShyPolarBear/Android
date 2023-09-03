@@ -158,6 +158,9 @@
         <action
             android:id="@+id/action_quizDailyMultiChoiceFragment_to_navigation_quiz_main"
             app:destination="@id/navigation_quiz_main" />
+        <action
+            android:id="@+id/action_quizDailyMultiChoiceFragment_to_quizDailyOXFragment"
+            app:destination="@id/quizDailyOXFragment" />
     </fragment>
     <fragment
         android:id="@+id/quizDailyOXFragment"
@@ -168,5 +171,8 @@
         <action
             android:id="@+id/action_quizDailyOXFragment_to_navigation_quiz_main"
             app:destination="@id/navigation_quiz_main" />
+        <action
+            android:id="@+id/action_quizDailyOXFragment_to_quizDailyMultiChoiceFragment"
+            app:destination="@id/quizDailyMultiChoiceFragment" />
     </fragment>
 </navigation>

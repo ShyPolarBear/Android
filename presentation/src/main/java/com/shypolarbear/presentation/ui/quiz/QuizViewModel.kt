@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.quiz.Correction
 import com.shypolarbear.domain.model.quiz.Quiz
+import com.shypolarbear.domain.model.quiz.Review
 import com.shypolarbear.domain.model.quiz.SolvedData
 import com.shypolarbear.domain.model.quiz.SubmitResponse
 import com.shypolarbear.domain.usecase.quiz.QuizReviewUseCase
@@ -36,6 +37,8 @@ class QuizViewModel @Inject constructor(
     val tokens: LiveData<String?> = _tokens
     private val _quizResponse = MutableLiveData<Event<Quiz>>()
     val quizResponse: LiveData<Event<Quiz>> = _quizResponse
+    private val _reviewResponse = MutableLiveData<Event<Review>>()
+    val reviewResponse: LiveData<Event<Review>> = _reviewResponse
     private val _dailyQuizSolvedState = MutableLiveData<SolvedData>()
     val dailyQuizSolvedState: LiveData<SolvedData> = _dailyQuizSolvedState
     private val _submitBtnState = MutableLiveData<Boolean>()
@@ -46,6 +49,27 @@ class QuizViewModel @Inject constructor(
     val submitResponse: LiveData<Correction> = _submitResponse
     private val _dailySubmit = MutableLiveData<Boolean>()
     val dailySubmit: LiveData<Boolean> = _dailySubmit
+    private val _reviewQuizPage = MutableLiveData<Int>()
+    val reviewQuizPage: LiveData<Int> = _reviewQuizPage
+
+    private val _quizInstance = MutableLiveData<Quiz>()
+    val quizInstance: LiveData<Quiz> = _quizInstance
+
+    init {
+        _reviewQuizPage.value = 0
+    }
+
+    fun getQuizInstance() {
+        _quizInstance.value = when (_dailySubmit.value) {
+            false -> {
+                _quizResponse.value!!.peekContent()
+            }
+
+            else -> {
+                _reviewResponse.value!!.peekContent().content[_reviewQuizPage.value!!]
+            }
+        }
+    }
 
     fun getAccessToken() {
         viewModelScope.launch {
@@ -67,12 +91,33 @@ class QuizViewModel @Inject constructor(
         }
     }
 
+
+    fun requestReviewQuiz() {
+        viewModelScope.launch {
+            val responseQuiz = reviewQuizUseCase()
+
+            responseQuiz.onSuccess { response ->
+                _reviewResponse.value = Event(response.data)
+                Timber.tag("REVIEW").d("${_reviewResponse.value}")
+            }
+                .onFailure { error ->
+                    simpleHttpErrorCheck(error)
+                }
+        }
+    }
+
     fun requestDailyQuizSolvedState() {
         viewModelScope.launch {
             val responseState = dailyQuizSolvedUseCase()
 
             responseState.onSuccess { response ->
                 _dailyQuizSolvedState.value = response.data
+                _dailySubmit.value = when (_dailyQuizSolvedState.value!!.quizId) {
+                    null -> false
+                    else -> true
+                }
+                Timber.tag("STATE").d("${_dailySubmit.value}")
+
             }.onFailure { error ->
                 simpleHttpErrorCheck(error)
             }
@@ -101,11 +146,12 @@ class QuizViewModel @Inject constructor(
         }
     }
 
+    fun goNextPage() {
+        _reviewQuizPage.value = _reviewQuizPage.value?.plus(1)
+    }
+
     fun setAnswer(answer: String) {
         _answerId.value = answer
     }
 
-    fun dailySubmitState() {
-        _dailySubmit.value = true
-    }
 }

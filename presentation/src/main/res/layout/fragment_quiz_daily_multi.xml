@@ -63,7 +63,7 @@
             android:layout_marginVertical="16dp"
             android:visibility="invisible"
             android:layout_marginEnd="20dp"
-            android:text="@string/signup_page_indicator"
+            android:text="@string/quiz_page_indicator"
             android:textColor="@color/Black_01"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -25,14 +25,6 @@ class QuizDailyOXFragment :
         val state: DialogType = DialogType.INCORRECT // viewModel로 갈 예정
         val quizInstance = viewModel.quizResponse.value!!.peekContent()
 
-//        viewModel.dailySubmit.observe(viewLifecycleOwner) { dailyState ->
-//            dailyState?.let {
-//                dialog.alertDialog.setOnDismissListener {
-//                    findNavController().navigate(R.id.action_quizDailyOXFragment_to_quizMainFragment)
-//                }
-//            }
-//        }
-
         viewModel.submitBtnState.observe(viewLifecycleOwner) { submitState ->
             submitState?.let {
                 binding.quizDailyTvSubmit.isActivated = submitState

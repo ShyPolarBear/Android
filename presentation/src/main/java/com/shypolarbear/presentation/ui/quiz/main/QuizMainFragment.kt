@@ -15,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 const val QUIZ_TIME = 17
+
 @AndroidEntryPoint
 class QuizMainFragment :
     BaseFragment<FragmentQuizMainBinding, QuizViewModel>(R.layout.fragment_quiz_main) {
@@ -23,28 +24,28 @@ class QuizMainFragment :
     override fun initView() {
         viewModel.requestDailyQuizSolvedState()
 
-        viewModel.dailyQuizSolvedState.observe(viewLifecycleOwner){ solvedState ->
-            solvedState?.let {
-                it.quizId?.let {
-                    binding.quizMainTvGoQuiz.text = getString(R.string.quiz_main_tv_go_quiz)
-                    // review mode 키기
-
-                }
+        viewModel.dailySubmit.observe(viewLifecycleOwner) { solvedState ->
+            if(solvedState){
+                binding.quizMainTvGoQuiz.text = getString(R.string.quiz_main_tv_go_quiz)
             }
         }
-        viewModel.quizResponse.observe(viewLifecycleOwner, EventObserver{ quiz ->
-            quiz.let {
-                when (quiz.type) {
-                    QuizType.MULTI.type -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyMultiChoiceFragment)
-                    QuizType.OX.type -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyOXFragment)
-                }
+        viewModel.quizResponse.observe(viewLifecycleOwner, EventObserver { quiz ->
+            when (quiz.type) {
+                QuizType.MULTI.type -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyMultiChoiceFragment)
+                QuizType.OX.type -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyOXFragment)
             }
         })
+        viewModel.reviewResponse.observe(viewLifecycleOwner, EventObserver { reviewQuiz ->
+            when (reviewQuiz.content.first().type) {
+                QuizType.MULTI.type -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyMultiChoiceFragment)
+                QuizType.OX.type -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyOXFragment)
+            }
+        })
+
         viewModel.getAccessToken()
 
         binding.apply {
             val userName = "춘식이"
-            var solvedState = false
             Timber.tag("AC CALL").d(viewModel.tokens.value)
             quizMainTvName.setSpecificTextColor(
                 getString(R.string.quiz_main_user_name, userName),
@@ -60,7 +61,9 @@ class QuizMainFragment :
             setAdapter()
 
             quizMainBtnGoQuiz.setOnClickListener {
-                viewModel.requestQuiz()
+                if (viewModel.dailySubmit.value!!) {
+                    viewModel.requestReviewQuiz()
+                } else viewModel.requestQuiz()
             }
         }
     }

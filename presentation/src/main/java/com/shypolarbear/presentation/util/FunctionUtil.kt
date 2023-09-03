@@ -23,6 +23,7 @@ import androidx.navigation.findNavController
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
+import com.shypolarbear.presentation.ui.quiz.daily.dialog.BackDialog
 import com.shypolarbear.presentation.ui.quiz.daily.dialog.QuizDialog
 import com.skydoves.powermenu.PowerMenuItem
 import org.json.JSONObject
@@ -45,7 +46,8 @@ enum class InputState(val state: Int) {
 enum class DialogType(val point: String){
     CORRECT("PLUS"),
     INCORRECT("0"),
-    REVIEW("REVIEW")
+    REVIEW("REVIEW"),
+    DEFALUT("DEFAULT")
 }
 
 enum class QuizType(val type: String){
@@ -80,20 +82,22 @@ fun TextView.detectActivation(vararg choices: TextView){
     this.isActivated = this.isActivated.not()
 }
 
-fun ImageView.setReviewMode(type: DialogType, pages: TextView, dialog: QuizDialog, resId: Int){
+fun ImageView.setReviewMode(type: DialogType, pages: TextView, dialog: BackDialog, resId: Int){
     when(type){
         DialogType.REVIEW -> {
             pages.isVisible = true
             this.setOnClickListener {
-//                dialog.showDialog(DialogType.REVIEW)
+                dialog.showDialog()
                 dialog.alertDialog.setOnCancelListener {
                     findNavController().navigate(resId)
                 }
             }
         }
-        DialogType.CORRECT, DialogType.INCORRECT -> {
+
+        else -> {
             pages.isVisible = false
             this.setOnClickListener {
+                Timber.tag("BACK").d("BACK")
                 findNavController().navigate(resId)
             }
         }
