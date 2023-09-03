@@ -19,7 +19,7 @@ class FeedTotalViewModel @Inject constructor (
     private val feedTotalUseCase: FeedTotalUseCase,
     private val feedDeleteUseCase: FeedDeleteUseCase,
     private val feedLikeUseCase: FeedLikeUseCase,
-    private val feedDetailUseCase: FeedDetailUseCase        // 테스트 용
+    private val feedDetailUseCase: FeedDetailUseCase        // 테스트 용 TODO("전체 피드 조회 api 구현 시 제거")
 ): BaseViewModel() {
 
     private val _feed = MutableLiveData<List<Feed>>()
@@ -43,7 +43,7 @@ class FeedTotalViewModel @Inject constructor (
                         }
                         // 다음 페이지 로딩하는 경우
                         else -> {
-                            // 테스트 용
+                            // 테스트 용 TODO("전체 피드 조회 api 구현 시 수정")
                             feedDetailTestData
                                 .onSuccess { feedDetail ->
                                     val feedList = _feed.value as MutableList<Feed>
