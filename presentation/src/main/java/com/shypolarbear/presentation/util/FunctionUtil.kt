@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -24,10 +25,16 @@ import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
 import com.shypolarbear.presentation.ui.quiz.daily.dialog.BackDialog
-import com.shypolarbear.presentation.ui.quiz.daily.dialog.QuizDialog
 import com.skydoves.powermenu.PowerMenuItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import timber.log.Timber
+import kotlin.math.ceil
 
 
 val emailPattern = Regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
@@ -36,6 +43,7 @@ val phonePattern = Regex("[^0-9]")
 const val SIGNUP_NEED = 1006
 const val LOGIN_SUCCESS = 0
 const val LOGIN_FAIL = 1007
+
 enum class InputState(val state: Int) {
     ACCEPT(0),
     ERROR(1),
@@ -43,20 +51,40 @@ enum class InputState(val state: Int) {
     OFF(3)
 }
 
-enum class DialogType(val point: String){
+enum class DialogType(val point: String) {
     REVIEW("REVIEW"),
-    DEFALUT("DEFAULT")
+    DEFAULT("DEFAULT")
 }
 
-enum class QuizType(val type: String){
+enum class QuizType(val type: String) {
     MULTI("MULTIPLE_CHOICE"),
     OX("OX")
 }
 
-fun simpleHttpErrorCheck(error: Throwable){
+fun simpleHttpErrorCheck(error: Throwable) {
     if (error is HttpError) {
         val errorBodyData = JSONObject(error.errorBody)
         Timber.tag("ERROR").d("${errorBodyData.get("code")}")
+    }
+}
+
+fun ProgressBar.initProgressBar(detailText: TextView): Job {
+    var totalProgress = 1500
+
+    detailText.text = context.getString(R.string.quiz_daily_time, totalProgress / 100)
+    return  CoroutineScope(Dispatchers.IO).launch {
+        while (totalProgress > 0) {
+            delay(100)
+            totalProgress -= 10
+            withContext(Dispatchers.Main) {
+                progress = totalProgress
+
+                detailText.text = context.getString(
+                    R.string.quiz_daily_time,
+                    ceil(totalProgress.toDouble() / 100).toInt()
+                )
+            }
+        }
     }
 }
 
@@ -71,17 +99,17 @@ fun setVisibilityInvert(vararg views: View) {
     }
 }
 
-fun TextView.detectActivation(vararg choices: TextView){
-    for(choice in choices){
-        if(choice.isActivated){
+fun TextView.detectActivation(vararg choices: TextView) {
+    for (choice in choices) {
+        if (choice.isActivated) {
             choice.isActivated = choice.isActivated.not()
         }
     }
     this.isActivated = this.isActivated.not()
 }
 
-fun ImageView.setReviewMode(type: DialogType, pages: TextView, dialog: BackDialog, resId: Int){
-    when(type){
+fun ImageView.setReviewMode(type: DialogType, pages: TextView, dialog: BackDialog, resId: Int) {
+    when (type) {
         DialogType.REVIEW -> {
             pages.isVisible = true
             this.setOnClickListener {
@@ -96,7 +124,7 @@ fun ImageView.setReviewMode(type: DialogType, pages: TextView, dialog: BackDialo
             pages.isVisible = false
             this.setOnClickListener {
                 Timber.tag("BACK").d("BACK")
-                findNavController().navigate(resId)
+                findNavController().popBackStack()
             }
         }
     }
@@ -232,10 +260,10 @@ fun ImageView.setMenu(
         menuList
     ) { _, _ -> }
         .showAsDropDown(
-        view,
-        FeedTotalFragment.POWER_MENU_OFFSET_X,
-        FeedTotalFragment.POWER_MENU_OFFSET_Y
-    )
+            view,
+            FeedTotalFragment.POWER_MENU_OFFSET_X,
+            FeedTotalFragment.POWER_MENU_OFFSET_Y
+        )
 }
 
 fun TextView.setTextColorById(context: Context, colorId: Int) {

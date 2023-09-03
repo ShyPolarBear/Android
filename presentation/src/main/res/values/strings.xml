@@ -93,7 +93,7 @@
     <string name="quiz_daily_o">O</string>
     <string name="quiz_daily_x">X</string>
     <string name="quiz_daily_submit">제출</string>
-    <string name="quiz_daily_time">남은 시간 : %1$s초</string>
+    <string name="quiz_daily_time">남은 시간 : %1$d초</string>
 
     <string name="quiz_dialog_confirm">확인</string>
     <string name="quiz_dialog_point">+ %d P</string>

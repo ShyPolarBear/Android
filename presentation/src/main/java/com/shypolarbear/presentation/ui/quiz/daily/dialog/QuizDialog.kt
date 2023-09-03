@@ -24,7 +24,7 @@ class QuizDialog(
         isCorrect: Boolean,
         explain: String,
         point: Int,
-        isLast: Boolean
+        isLast: Boolean? = null
     ) {
         binding.tvQuizDialogExplain.text = explain
         binding.tvQuizDialogPoint.text =
@@ -36,13 +36,13 @@ class QuizDialog(
         when (dialogType) {
             DialogType.REVIEW -> {
                 binding.quizDailyTvSubmit.text = when(isLast) {
-                    true -> context.getString(R.string.quiz_dialog_confirm)
                     false -> context.getString(R.string.quiz_dialog_next)
+                    else -> {context.getString(R.string.quiz_dialog_confirm)}
                 }
                 binding.tvQuizDialogPoint.isVisible = false
             }
 
-            DialogType.DEFALUT -> {
+            DialogType.DEFAULT -> {
 
             }
         }

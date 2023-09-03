@@ -3,6 +3,7 @@ package com.shypolarbear.presentation.ui.quiz.daily
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.shypolarbear.domain.model.quiz.Choice
 import com.shypolarbear.presentation.R
@@ -15,7 +16,11 @@ import com.shypolarbear.presentation.util.DialogType
 import com.shypolarbear.presentation.util.EventObserver
 import com.shypolarbear.presentation.util.QuizType
 import com.shypolarbear.presentation.util.detectActivation
+import com.shypolarbear.presentation.util.initProgressBar
 import com.shypolarbear.presentation.util.setReviewMode
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class QuizDailyMultiChoiceFragment :
@@ -41,7 +46,7 @@ class QuizDailyMultiChoiceFragment :
             )
             DialogType.REVIEW
         } else {
-            DialogType.DEFALUT
+            DialogType.DEFAULT
         }
         val backBtn = BackDialog(requireContext())
         dialog = QuizDialog(requireContext(), state)
@@ -63,7 +68,7 @@ class QuizDailyMultiChoiceFragment :
                     }
                 }
 
-                DialogType.DEFALUT -> {
+                DialogType.DEFAULT -> {
                     findNavController().navigate(R.id.action_quizDailyMultiChoiceFragment_to_navigation_quiz_main)
                 }
             }
@@ -77,12 +82,25 @@ class QuizDailyMultiChoiceFragment :
         }
 
         viewModel.submitResponse.observe(viewLifecycleOwner, EventObserver { response ->
-            dialog.showDialog(
-                response.isCorrect,
-                response.explanation,
-                response.point.toInt(),
-                viewModel.reviewQuizPage.value!! + 1 == viewModel.reviewResponse.value!!.peekContent().count
-            )
+            when (state) {
+                DialogType.REVIEW -> {
+                    dialog.showDialog(
+                        response.isCorrect,
+                        response.explanation,
+                        response.point.toInt(),
+                        viewModel.reviewQuizPage.value!! + 1 == viewModel.reviewResponse.value!!.peekContent().count
+                    )
+                }
+
+                DialogType.DEFAULT -> {
+                    dialog.showDialog(
+                        response.isCorrect,
+                        response.explanation,
+                        response.point.toInt(),
+                    )
+                }
+            }
+
         })
 
         binding.apply {
@@ -110,8 +128,13 @@ class QuizDailyMultiChoiceFragment :
                 R.id.action_quizDailyMultiChoiceFragment_to_navigation_quiz_main
             )
 
+            val progressJob = quizDailyProgressBar.initProgressBar(quizDailyTvTime)
+
             quizDailyBtnSubmit.setOnClickListener {
-                viewModel.submitAnswer(QuizType.MULTI)
+                progressJob.cancel()
+                viewModel.answerId.value?.let {
+                    viewModel.submitAnswer(QuizType.MULTI)
+                }
             }
 
         }

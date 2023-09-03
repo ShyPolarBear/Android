@@ -13,6 +13,7 @@ import com.shypolarbear.presentation.util.DialogType
 import com.shypolarbear.presentation.util.EventObserver
 import com.shypolarbear.presentation.util.QuizType
 import com.shypolarbear.presentation.util.detectActivation
+import com.shypolarbear.presentation.util.initProgressBar
 import com.shypolarbear.presentation.util.setReviewMode
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,16 +32,17 @@ class QuizDailyOXFragment :
             )
             DialogType.REVIEW
         } else {
-            DialogType.DEFALUT
+            DialogType.DEFAULT
         }
         val backBtn = BackDialog(requireContext())
         dialog = QuizDialog(requireContext(), state)
+
         dialog.alertDialog.setOnDismissListener {
             when (state) {
                 DialogType.REVIEW -> {
                     viewModel.goNextPage()
                     if (viewModel.reviewQuizPage.value == viewModel.reviewResponse.value!!.peekContent().count) {
-                        findNavController().navigate(R.id.action_quizDailyMultiChoiceFragment_to_navigation_quiz_main)
+                        findNavController().navigate(R.id.action_quizDailyOXFragment_to_navigation_quiz_main)
                     } else {
                         viewModel.getQuizInstance()
                         when (viewModel.quizInstance.value!!.type) {
@@ -50,8 +52,8 @@ class QuizDailyOXFragment :
                     }
                 }
 
-                DialogType.DEFALUT -> {
-                    findNavController().navigate(R.id.action_quizDailyMultiChoiceFragment_to_navigation_quiz_main)
+                DialogType.DEFAULT -> {
+                    findNavController().navigate(R.id.action_quizDailyOXFragment_to_navigation_quiz_main)
                 }
             }
         }
@@ -66,12 +68,24 @@ class QuizDailyOXFragment :
         }
 
         viewModel.submitResponse.observe(viewLifecycleOwner, EventObserver { response ->
-            dialog.showDialog(
-                response.isCorrect,
-                response.explanation,
-                response.point.toInt(),
-                viewModel.reviewQuizPage.value!! + 1 == viewModel.reviewResponse.value!!.peekContent().count
-            )
+            when (state) {
+                DialogType.REVIEW -> {
+                    dialog.showDialog(
+                        response.isCorrect,
+                        response.explanation,
+                        response.point.toInt(),
+                        viewModel.reviewQuizPage.value!! + 1 == viewModel.reviewResponse.value!!.peekContent().count
+                    )
+                }
+
+                DialogType.DEFAULT -> {
+                    dialog.showDialog(
+                        response.isCorrect,
+                        response.explanation,
+                        response.point.toInt(),
+                    )
+                }
+            }
         })
 
         binding.apply {
@@ -96,7 +110,9 @@ class QuizDailyOXFragment :
                 backBtn,
                 R.id.action_quizDailyOXFragment_to_navigation_quiz_main
             )
+            val progressJob = quizDailyProgressBar.initProgressBar(quizDailyTvTime)
             quizDailyBtnSubmit.setOnClickListener {
+                progressJob.cancel()
                 viewModel.submitAnswer(QuizType.OX)
             }
         }
