@@ -14,9 +14,11 @@ import com.shypolarbear.presentation.ui.quiz.daily.dialog.BackDialog
 import com.shypolarbear.presentation.ui.quiz.daily.dialog.QuizDialog
 import com.shypolarbear.presentation.util.DialogType
 import com.shypolarbear.presentation.util.EventObserver
+import com.shypolarbear.presentation.util.QuizNavType
 import com.shypolarbear.presentation.util.QuizType
 import com.shypolarbear.presentation.util.detectActivation
 import com.shypolarbear.presentation.util.initProgressBar
+import com.shypolarbear.presentation.util.setQuizNavigation
 import com.shypolarbear.presentation.util.setReviewMode
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -61,10 +63,7 @@ class QuizDailyMultiChoiceFragment :
                         findNavController().navigate(R.id.action_quizDailyMultiChoiceFragment_to_navigation_quiz_main)
                     } else {
                         viewModel.getQuizInstance()
-                        when (viewModel.quizInstance.value!!.type) {
-                            QuizType.MULTI.type -> findNavController().navigate(R.id.action_quizDailyMultiChoiceFragment_self)
-                            QuizType.OX.type -> findNavController().navigate(R.id.action_quizDailyMultiChoiceFragment_to_quizDailyOXFragment)
-                        }
+                        setQuizNavigation(viewModel.quizInstance.value!!.type, QuizNavType.MULTI)
                     }
                 }
 

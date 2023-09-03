@@ -21,6 +21,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
@@ -61,10 +62,41 @@ enum class QuizType(val type: String) {
     OX("OX")
 }
 
+enum class QuizNavType(){
+    MULTI,
+    OX,
+    MAIN
+}
+
 fun simpleHttpErrorCheck(error: Throwable) {
     if (error is HttpError) {
         val errorBodyData = JSONObject(error.errorBody)
         Timber.tag("ERROR").d("${errorBodyData.get("code")}")
+    }
+}
+
+fun Fragment.setQuizNavigation(quizType: String, currentPosition: QuizNavType){
+    val navIdWithMulti: Int
+    val navIdWithOX: Int
+
+    when (currentPosition) {
+        QuizNavType.MULTI -> {
+            navIdWithMulti = R.id.action_quizDailyMultiChoiceFragment_self
+            navIdWithOX = R.id.action_quizDailyMultiChoiceFragment_to_quizDailyOXFragment
+        }
+        QuizNavType.OX -> {
+            navIdWithMulti = R.id.action_quizDailyOXFragment_to_quizDailyMultiChoiceFragment
+            navIdWithOX = R.id.action_quizDailyOXFragment_self
+        }
+        QuizNavType.MAIN -> {
+            navIdWithMulti = R.id.action_quizMainFragment_to_quizDailyMultiChoiceFragment
+            navIdWithOX = R.id.action_quizMainFragment_to_quizDailyOXFragment
+        }
+    }
+
+    when(quizType){
+        QuizType.MULTI.type -> findNavController().navigate(navIdWithMulti)
+        QuizType.OX.type -> findNavController().navigate(navIdWithOX)
     }
 }
 

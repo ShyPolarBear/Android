@@ -1,18 +1,16 @@
 package com.shypolarbear.presentation.ui.quiz.main
 
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentQuizMainBinding
 import com.shypolarbear.presentation.ui.quiz.QuizViewModel
 import com.shypolarbear.presentation.ui.quiz.main.QuizMainAdapter.Companion.initAdapter
 import com.shypolarbear.presentation.util.EventObserver
-import com.shypolarbear.presentation.util.QuizType
+import com.shypolarbear.presentation.util.QuizNavType
+import com.shypolarbear.presentation.util.setQuizNavigation
 import com.shypolarbear.presentation.util.setSpecificTextColor
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 const val QUIZ_TIME = 17
 
@@ -30,23 +28,14 @@ class QuizMainFragment :
             }
         }
         viewModel.quizResponse.observe(viewLifecycleOwner, EventObserver { quiz ->
-            when (quiz.type) {
-                QuizType.MULTI.type -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyMultiChoiceFragment)
-                QuizType.OX.type -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyOXFragment)
-            }
+            setQuizNavigation(quiz.type, QuizNavType.MAIN)
         })
         viewModel.reviewResponse.observe(viewLifecycleOwner, EventObserver { reviewQuiz ->
-            when (reviewQuiz.content.first().type) {
-                QuizType.MULTI.type -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyMultiChoiceFragment)
-                QuizType.OX.type -> findNavController().navigate(R.id.action_quizMainFragment_to_quizDailyOXFragment)
-            }
+            setQuizNavigation(reviewQuiz.content.first().type, QuizNavType.MAIN)
         })
-
-        viewModel.getAccessToken()
 
         binding.apply {
             val userName = "춘식이"
-            Timber.tag("AC CALL").d(viewModel.tokens.value)
             quizMainTvName.setSpecificTextColor(
                 getString(R.string.quiz_main_user_name, userName),
                 userName,

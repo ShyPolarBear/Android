@@ -30,17 +30,13 @@ class QuizViewModel @Inject constructor(
     private val reviewQuizUseCase: QuizReviewUseCase,
     private val submitOXUseCase: QuizSubmitOXUseCase,
     private val submitMultiUseCase: QuizSubmitMultiUseCase,
-    private val accessTokenUseCase: GetAccessTokenUseCase,
 ) : BaseViewModel() {
 
-    private val _tokens = MutableLiveData<String?>()
-    val tokens: LiveData<String?> = _tokens
     private val _quizResponse = MutableLiveData<Event<Quiz>>()
     val quizResponse: LiveData<Event<Quiz>> = _quizResponse
     private val _reviewResponse = MutableLiveData<Event<Review>>()
     val reviewResponse: LiveData<Event<Review>> = _reviewResponse
     private val _dailyQuizSolvedState = MutableLiveData<SolvedData>()
-    val dailyQuizSolvedState: LiveData<SolvedData> = _dailyQuizSolvedState
     private val _submitBtnState = MutableLiveData<Boolean>()
     val submitBtnState: LiveData<Boolean> = _submitBtnState
     private val _answerId = MutableLiveData<String>()
@@ -51,7 +47,6 @@ class QuizViewModel @Inject constructor(
     val dailySubmit: LiveData<Boolean> = _dailySubmit
     private val _reviewQuizPage = MutableLiveData<Int>()
     val reviewQuizPage: LiveData<Int> = _reviewQuizPage
-
     private val _quizInstance = MutableLiveData<Quiz>()
     val quizInstance: LiveData<Quiz> = _quizInstance
 
@@ -68,12 +63,6 @@ class QuizViewModel @Inject constructor(
             else -> {
                 _reviewResponse.value!!.peekContent().content[_reviewQuizPage.value!!]
             }
-        }
-    }
-
-    fun getAccessToken() {
-        viewModelScope.launch {
-            _tokens.value = accessTokenUseCase()
         }
     }
 
