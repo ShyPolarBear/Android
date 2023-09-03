@@ -8,17 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
 import com.shypolarbear.presentation.databinding.ItemFeedLoadingBinding
-import com.shypolarbear.presentation.ui.feed.feedDetail.FeedCommentViewType
-import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentDeleteViewHolder
-import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentNormalViewHolder
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalLikeBtnType
 import com.shypolarbear.presentation.ui.feed.feedTotal.viewholder.FeedLoadingViewHolder
 import com.shypolarbear.presentation.ui.feed.feedTotal.viewholder.FeedPostViewHolder
-import timber.log.Timber
 
 enum class FeedViewType(val viewType: Int) {
     LOADING(0),
@@ -77,7 +72,6 @@ class FeedPostAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        Timber.d("feedId: ${getItem(position).feedId}")
         return when(getItem(position).feedId) {
             0 -> {
                 FeedViewType.LOADING.viewType
