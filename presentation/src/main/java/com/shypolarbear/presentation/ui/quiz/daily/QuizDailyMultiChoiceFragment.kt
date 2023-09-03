@@ -3,6 +3,7 @@ package com.shypolarbear.presentation.ui.quiz.daily
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.shypolarbear.domain.model.quiz.Choice
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
@@ -11,15 +12,18 @@ import com.shypolarbear.presentation.ui.quiz.QuizViewModel
 import com.shypolarbear.presentation.ui.quiz.daily.dialog.BackDialog
 import com.shypolarbear.presentation.ui.quiz.daily.dialog.QuizDialog
 import com.shypolarbear.presentation.util.DialogType
+import com.shypolarbear.presentation.util.EventObserver
 import com.shypolarbear.presentation.util.QuizType
 import com.shypolarbear.presentation.util.detectActivation
 import com.shypolarbear.presentation.util.setReviewMode
+import timber.log.Timber
 
 class QuizDailyMultiChoiceFragment :
     BaseFragment<FragmentQuizDailyMultiBinding, QuizViewModel>(
         R.layout.fragment_quiz_daily_multi
     ) {
     override val viewModel: QuizViewModel by activityViewModels()
+    lateinit var dialog: QuizDialog
 
     /* TODO:
     *  손 봐야야 할 것
@@ -28,8 +32,6 @@ class QuizDailyMultiChoiceFragment :
     *  복습문제 다음문제로 넘어가기
     * */
     override fun initView() {
-        val dialog = QuizDialog(requireContext())
-        val backBtn = BackDialog(requireContext())
         val state = if (viewModel.dailySubmit.value == true) {
             binding.quizDailyPages.isVisible = true
             binding.quizDailyPages.text = getString(
@@ -41,8 +43,33 @@ class QuizDailyMultiChoiceFragment :
         } else {
             DialogType.DEFALUT
         }
+        val backBtn = BackDialog(requireContext())
+        dialog = QuizDialog(requireContext(), state)
+        Timber.tag("PAGE")
+            .d("page: ${viewModel.reviewQuizPage.value!! + 1}\n count: ${viewModel.reviewResponse.value!!.peekContent().count} isLast: ${viewModel.reviewQuizPage.value!! + 1 == viewModel.reviewResponse.value!!.peekContent().count}")
 
         viewModel.getQuizInstance()
+
+        dialog.alertDialog.setOnDismissListener {
+            when (state) {
+                DialogType.REVIEW -> {
+                    viewModel.goNextPage()
+                    if (viewModel.reviewQuizPage.value == viewModel.reviewResponse.value!!.peekContent().count) {
+                        findNavController().navigate(R.id.action_quizDailyMultiChoiceFragment_to_navigation_quiz_main)
+                    } else {
+                        viewModel.getQuizInstance()
+                        when (viewModel.quizInstance.value!!.type) {
+                            QuizType.MULTI.type -> findNavController().navigate(R.id.action_quizDailyMultiChoiceFragment_self)
+                            QuizType.OX.type -> findNavController().navigate(R.id.action_quizDailyMultiChoiceFragment_to_quizDailyOXFragment)
+                        }
+                    }
+                }
+
+                DialogType.DEFALUT -> {
+                    findNavController().navigate(R.id.action_quizDailyMultiChoiceFragment_to_navigation_quiz_main)
+                }
+            }
+        }
 
         viewModel.submitBtnState.observe(viewLifecycleOwner) { submitState ->
             submitState?.let {
@@ -51,16 +78,14 @@ class QuizDailyMultiChoiceFragment :
             }
         }
 
-        viewModel.submitResponse.observe(viewLifecycleOwner) { response ->
-            response?.let {
-                dialog.showDialog(
-                    response.isCorrect,
-                    response.explanation,
-                    response.point.toString(),
-                    viewModel.quizInstance.value!!.type
-                )
-            }
-        }
+        viewModel.submitResponse.observe(viewLifecycleOwner, EventObserver { response ->
+            dialog.showDialog(
+                response.isCorrect,
+                response.explanation,
+                response.point.toInt(),
+                viewModel.reviewQuizPage.value!! + 1 == viewModel.reviewResponse.value!!.peekContent().count
+            )
+        })
 
         binding.apply {
             val choiceList =
@@ -90,6 +115,7 @@ class QuizDailyMultiChoiceFragment :
             quizDailyBtnSubmit.setOnClickListener {
                 viewModel.submitAnswer(QuizType.MULTI)
             }
+
         }
     }
 

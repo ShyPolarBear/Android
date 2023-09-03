@@ -45,8 +45,8 @@ class QuizViewModel @Inject constructor(
     val submitBtnState: LiveData<Boolean> = _submitBtnState
     private val _answerId = MutableLiveData<String>()
     val answerId: LiveData<String> = _answerId
-    private val _submitResponse = MutableLiveData<Correction>()
-    val submitResponse: LiveData<Correction> = _submitResponse
+    private val _submitResponse = MutableLiveData<Event<Correction>>()
+    val submitResponse: LiveData<Event<Correction>> = _submitResponse
     private val _dailySubmit = MutableLiveData<Boolean>()
     val dailySubmit: LiveData<Boolean> = _dailySubmit
     private val _reviewQuizPage = MutableLiveData<Int>()
@@ -95,7 +95,7 @@ class QuizViewModel @Inject constructor(
     fun requestReviewQuiz() {
         viewModelScope.launch {
             val responseQuiz = reviewQuizUseCase()
-
+            _reviewQuizPage.value = 0
             responseQuiz.onSuccess { response ->
                 _reviewResponse.value = Event(response.data)
                 Timber.tag("REVIEW").d("${_reviewResponse.value}")
@@ -126,19 +126,18 @@ class QuizViewModel @Inject constructor(
 
     fun submitAnswer(type: QuizType) {
         viewModelScope.launch {
-            val quiz = _quizResponse.value!!.peekContent()
             val responseAnswer = when (type) {
                 QuizType.MULTI -> {
-                    submitMultiUseCase(quiz.quizId, _answerId.value!!.toLong())
+                    submitMultiUseCase(_quizInstance.value!!.quizId, _answerId.value!!.toLong())
                 }
 
                 QuizType.OX -> {
-                    submitOXUseCase(quiz.quizId, _answerId.value!!)
+                    submitOXUseCase(_quizInstance.value!!.quizId, _answerId.value!!)
                 }
             }
 
             responseAnswer.onSuccess { response ->
-                _submitResponse.value = response.data
+                _submitResponse.value = Event(response.data)
             }.onFailure { error ->
                 simpleHttpErrorCheck(error)
             }

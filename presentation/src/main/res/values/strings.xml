@@ -96,8 +96,9 @@
     <string name="quiz_daily_time">남은 시간 : %1$s초</string>
 
     <string name="quiz_dialog_confirm">확인</string>
-    <string name="quiz_dialog_point">+ %s P</string>
+    <string name="quiz_dialog_point">+ %d P</string>
     <string name="quiz_dialog_stop">복습 문제를\n그만 푸시겠어요?</string>
+    <string name="quiz_dialog_next">다음 문제</string>
     <string name="quiz_dialog_yes">네</string>
     <string name="quiz_dialog_no">아니오</string>
     <string name="quiz_main_polarbear">북극곰</string>

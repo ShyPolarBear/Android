@@ -44,8 +44,6 @@ enum class InputState(val state: Int) {
 }
 
 enum class DialogType(val point: String){
-    CORRECT("PLUS"),
-    INCORRECT("0"),
     REVIEW("REVIEW"),
     DEFALUT("DEFAULT")
 }
