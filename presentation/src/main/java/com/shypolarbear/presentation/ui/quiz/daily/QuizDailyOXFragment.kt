@@ -82,7 +82,7 @@ class QuizDailyOXFragment :
                 choice.setOnClickListener {
                     val answer = choice.text.toString()
                     viewModel.setAnswer(answer)
-
+                    quizDailyBtnSubmit.isActivated = choice.isActivated.not()
                     choice.detectActivation(*choiceList.filter { other ->
                         other != choice
                     }.toTypedArray())

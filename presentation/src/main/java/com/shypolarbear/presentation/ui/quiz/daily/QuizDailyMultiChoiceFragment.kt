@@ -45,8 +45,6 @@ class QuizDailyMultiChoiceFragment :
         }
         val backBtn = BackDialog(requireContext())
         dialog = QuizDialog(requireContext(), state)
-        Timber.tag("PAGE")
-            .d("page: ${viewModel.reviewQuizPage.value!! + 1}\n count: ${viewModel.reviewResponse.value!!.peekContent().count} isLast: ${viewModel.reviewQuizPage.value!! + 1 == viewModel.reviewResponse.value!!.peekContent().count}")
 
         viewModel.getQuizInstance()
 
@@ -95,7 +93,7 @@ class QuizDailyMultiChoiceFragment :
                 choice.setOnClickListener {
                     val id = viewModel.quizInstance.value!!.choices!![choiceList.indexOf(choice)].id
                     viewModel.setAnswer(id.toString())
-
+                    quizDailyBtnSubmit.isActivated = choice.isActivated.not()
                     choice.detectActivation(*choiceList.filter { other ->
                         other != choice
                     }.toTypedArray())
