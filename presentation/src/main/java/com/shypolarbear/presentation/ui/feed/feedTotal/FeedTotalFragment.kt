@@ -132,9 +132,6 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                 getString(R.string.feed_post_property_delete) -> {
                     viewModel.requestDeleteFeed(feedId)
                     viewModel.removeFeedList(position)
-                    viewModel.feed.observe(viewLifecycleOwner) {
-                        feedPostAdapter.submitList(it.toList())
-                    }
                 }
             }
         }.showAsDropDown(
