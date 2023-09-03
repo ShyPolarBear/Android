@@ -110,10 +110,12 @@ class QuizDailyOXFragment :
                 backBtn,
                 R.id.action_quizDailyOXFragment_to_navigation_quiz_main
             )
-            val progressJob = quizDailyProgressBar.initProgressBar(quizDailyTvTime)
+            val progressJob =
+                quizDailyProgressBar.initProgressBar(quizDailyTvTime) { viewModel.submitAnswer() }
+
             quizDailyBtnSubmit.setOnClickListener {
                 progressJob.cancel()
-                viewModel.submitAnswer(QuizType.OX)
+                viewModel.submitAnswer()
             }
         }
     }

@@ -124,7 +124,9 @@ class QuizViewModel @Inject constructor(
         }
     }
 
-    fun submitAnswer(type: QuizType) {
+    fun submitAnswer() {
+        val type =
+            if (_quizInstance.value!!.type == QuizType.MULTI.type) QuizType.MULTI else QuizType.OX
         viewModelScope.launch {
             val responseAnswer = when (type) {
                 QuizType.MULTI -> {

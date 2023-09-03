@@ -68,7 +68,7 @@ fun simpleHttpErrorCheck(error: Throwable) {
     }
 }
 
-fun ProgressBar.initProgressBar(detailText: TextView): Job {
+fun ProgressBar.initProgressBar(detailText: TextView, submitIncorrect: () -> Unit): Job {
     var totalProgress = 1500
 
     detailText.text = context.getString(R.string.quiz_daily_time, totalProgress / 100)
@@ -85,6 +85,7 @@ fun ProgressBar.initProgressBar(detailText: TextView): Job {
                 )
             }
         }
+        submitIncorrect()
     }
 }
 
