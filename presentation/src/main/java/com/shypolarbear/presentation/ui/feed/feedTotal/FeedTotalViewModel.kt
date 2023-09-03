@@ -52,7 +52,6 @@ class FeedTotalViewModel @Inject constructor (
                                     feedList.add(Feed())            // progress bar
 
                                     _feed.value = feedList
-                                    Timber.d("피드 리스트 개수: ${feedList.size}")
                                 }
                                 .onFailure {
 
@@ -61,6 +60,7 @@ class FeedTotalViewModel @Inject constructor (
 
                     }
 
+//                    TODO("전체 피드 조회 api 구현 시 이거로 데이터 받아서 처리할 예정")
 //                    val newDataList = it.data.feeds
 //                    val currentList = _feed.value ?: emptyList()
 //                    _feed.value = currentList + newDataList
