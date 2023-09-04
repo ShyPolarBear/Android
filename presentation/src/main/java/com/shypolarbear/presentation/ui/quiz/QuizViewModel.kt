@@ -36,9 +36,6 @@ class QuizViewModel @Inject constructor(
     val quizResponse: LiveData<Event<Quiz>> = _quizResponse
     private val _reviewResponse = MutableLiveData<Event<Review>>()
     val reviewResponse: LiveData<Event<Review>> = _reviewResponse
-    private val _dailyQuizSolvedState = MutableLiveData<SolvedData>()
-    private val _submitBtnState = MutableLiveData<Boolean>()
-    val submitBtnState: LiveData<Boolean> = _submitBtnState
     private val _answerId = MutableLiveData<String>()
     val answerId: LiveData<String> = _answerId
     private val _submitResponse = MutableLiveData<Event<Correction>>()
@@ -49,6 +46,7 @@ class QuizViewModel @Inject constructor(
     val reviewQuizPage: LiveData<Int> = _reviewQuizPage
     private val _quizInstance = MutableLiveData<Quiz>()
     val quizInstance: LiveData<Quiz> = _quizInstance
+    private val _dailyQuizSolvedState = MutableLiveData<SolvedData>()
 
     init {
         _reviewQuizPage.value = 0
@@ -105,8 +103,6 @@ class QuizViewModel @Inject constructor(
                     null -> false
                     else -> true
                 }
-                Timber.tag("STATE").d("${_dailySubmit.value}")
-
             }.onFailure { error ->
                 simpleHttpErrorCheck(error)
             }

@@ -3,7 +3,6 @@ package com.shypolarbear.presentation.ui.quiz.daily
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.shypolarbear.domain.model.quiz.Choice
 import com.shypolarbear.presentation.R
@@ -15,44 +14,22 @@ import com.shypolarbear.presentation.ui.quiz.daily.dialog.QuizDialog
 import com.shypolarbear.presentation.util.DialogType
 import com.shypolarbear.presentation.util.EventObserver
 import com.shypolarbear.presentation.util.QuizNavType
-import com.shypolarbear.presentation.util.QuizType
 import com.shypolarbear.presentation.util.detectActivation
 import com.shypolarbear.presentation.util.initProgressBar
 import com.shypolarbear.presentation.util.setQuizNavigation
 import com.shypolarbear.presentation.util.setReviewMode
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class QuizDailyMultiChoiceFragment :
     BaseFragment<FragmentQuizDailyMultiBinding, QuizViewModel>(
         R.layout.fragment_quiz_daily_multi
     ) {
     override val viewModel: QuizViewModel by activityViewModels()
-    lateinit var dialog: QuizDialog
+    private lateinit var dialog: QuizDialog
 
-    /* TODO:
-    *  손 봐야야 할 것
-    *  복습문제 조회, 채점,
-    *  리뷰모드 시 뒤로가기
-    *  복습문제 다음문제로 넘어가기
-    * */
     override fun initView() {
-        val state = if (viewModel.dailySubmit.value == true) {
-            binding.quizDailyPages.isVisible = true
-            binding.quizDailyPages.text = getString(
-                R.string.quiz_page_indicator,
-                viewModel.reviewQuizPage.value!! + 1,
-                viewModel.reviewResponse.value!!.peekContent().count
-            )
-            DialogType.REVIEW
-        } else {
-            DialogType.DEFAULT
-        }
+        val state = checkReviewMode()
         val backBtn = BackDialog(requireContext())
         dialog = QuizDialog(requireContext(), state)
-
         viewModel.getQuizInstance()
 
         dialog.alertDialog.setOnDismissListener {
@@ -70,13 +47,6 @@ class QuizDailyMultiChoiceFragment :
                 DialogType.DEFAULT -> {
                     findNavController().navigate(R.id.action_quizDailyMultiChoiceFragment_to_navigation_quiz_main)
                 }
-            }
-        }
-
-        viewModel.submitBtnState.observe(viewLifecycleOwner) { submitState ->
-            submitState?.let {
-                binding.quizDailyTvSubmit.isActivated = submitState
-                binding.quizDailyBtnSubmit.isActivated = submitState
             }
         }
 
@@ -99,26 +69,30 @@ class QuizDailyMultiChoiceFragment :
                     )
                 }
             }
-
         })
 
         binding.apply {
             val choiceList =
                 listOf(quizDailyChoice1, quizDailyChoice2, quizDailyChoice3, quizDailyChoice4)
+            val progressJob = quizDailyProgressBar.initProgressBar(
+                quizDailyTvTime
+            ) { viewModel.submitAnswer() }
 
-            choiceList.map { choice ->
-                choice.setOnClickListener {
-                    val id = viewModel.quizInstance.value!!.choices!![choiceList.indexOf(choice)].id
-                    viewModel.setAnswer(id.toString())
-                    quizDailyBtnSubmit.isActivated = choice.isActivated.not()
-                    choice.detectActivation(*choiceList.filter { other ->
-                        other != choice
-                    }.toTypedArray())
+            viewModel.quizInstance.value?.let { quizzes ->
+                choiceList.map { choice ->
+                    choice.setOnClickListener {
+                        val id = quizzes.choices!![choiceList.indexOf(choice)].id
+                        viewModel.setAnswer(id.toString())
+                        quizDailyBtnSubmit.isActivated = choice.isActivated.not()
+                        choice.detectActivation(*choiceList.filter { other ->
+                            other != choice
+                        }.toTypedArray())
+                    }
                 }
-            }
 
-            quizDailyProblem.text = viewModel.quizInstance.value!!.question
-            initChoices(choiceList, viewModel.quizInstance.value!!.choices!!)
+                quizDailyProblem.text = quizzes.question
+                initChoices(choiceList, quizzes.choices)
+            }
 
             quizDailyBtnBack.setReviewMode(
                 state,
@@ -127,16 +101,12 @@ class QuizDailyMultiChoiceFragment :
                 R.id.action_quizDailyMultiChoiceFragment_to_navigation_quiz_main
             )
 
-            val progressJob = quizDailyProgressBar.initProgressBar(quizDailyTvTime
-            ) { viewModel.submitAnswer() }
-
             quizDailyBtnSubmit.setOnClickListener {
                 progressJob.cancel()
                 viewModel.answerId.value?.let {
                     viewModel.submitAnswer()
                 }
             }
-
         }
     }
 
@@ -145,6 +115,20 @@ class QuizDailyMultiChoiceFragment :
             textList?.let {
                 choice.text = textList[answerText].text
             }
+        }
+    }
+
+    private fun checkReviewMode(): DialogType {
+        return if (viewModel.dailySubmit.value == true) {
+            binding.quizDailyPages.isVisible = true
+            binding.quizDailyPages.text = getString(
+                R.string.quiz_page_indicator,
+                viewModel.reviewQuizPage.value!! + 1,
+                viewModel.reviewResponse.value!!.peekContent().count
+            )
+            DialogType.REVIEW
+        } else {
+            DialogType.DEFAULT
         }
     }
 }
