@@ -12,7 +12,7 @@ import com.shypolarbear.presentation.util.setQuizNavigation
 import com.shypolarbear.presentation.util.setSpecificTextColor
 import dagger.hilt.android.AndroidEntryPoint
 
-const val QUIZ_TIME = 17
+const val MAX_PAGES = 5
 
 @AndroidEntryPoint
 class QuizMainFragment :

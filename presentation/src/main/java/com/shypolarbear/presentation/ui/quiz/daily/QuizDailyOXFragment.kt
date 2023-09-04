@@ -9,6 +9,7 @@ import com.shypolarbear.presentation.databinding.FragmentQuizDailyOxBinding
 import com.shypolarbear.presentation.ui.quiz.QuizViewModel
 import com.shypolarbear.presentation.ui.quiz.daily.dialog.BackDialog
 import com.shypolarbear.presentation.ui.quiz.daily.dialog.QuizDialog
+import com.shypolarbear.presentation.ui.quiz.main.MAX_PAGES
 import com.shypolarbear.presentation.util.DialogType
 import com.shypolarbear.presentation.util.EventObserver
 import com.shypolarbear.presentation.util.QuizNavType
@@ -17,23 +18,28 @@ import com.shypolarbear.presentation.util.initProgressBar
 import com.shypolarbear.presentation.util.setQuizNavigation
 import com.shypolarbear.presentation.util.setReviewMode
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class QuizDailyOXFragment :
     BaseFragment<FragmentQuizDailyOxBinding, QuizViewModel>(R.layout.fragment_quiz_daily_ox) {
     override val viewModel: QuizViewModel by activityViewModels()
     private lateinit var dialog: QuizDialog
+    private var pageEnd: Int = 0
+
     override fun initView() {
         val state = checkReviewMode()
         val backBtn = BackDialog(requireContext())
         dialog = QuizDialog(requireContext(), state)
         viewModel.getQuizInstance()
 
+        Timber.tag("PAGE").d("${ viewModel.reviewResponse.value!!.peekContent().count} , \n${viewModel.reviewQuizPage.value}")
+
         dialog.alertDialog.setOnDismissListener {
             when (state) {
                 DialogType.REVIEW -> {
                     viewModel.goNextPage()
-                    if (viewModel.reviewQuizPage.value == viewModel.reviewResponse.value!!.peekContent().count) {
+                    if (viewModel.reviewQuizPage.value == pageEnd) {
                         findNavController().navigate(R.id.action_quizDailyOXFragment_to_navigation_quiz_main)
                     } else {
                         viewModel.getQuizInstance()
@@ -54,7 +60,7 @@ class QuizDailyOXFragment :
                         response.isCorrect,
                         response.explanation,
                         response.point.toInt(),
-                        viewModel.reviewQuizPage.value!! + 1 == viewModel.reviewResponse.value!!.peekContent().count
+                        viewModel.reviewQuizPage.value!! + 1 == pageEnd
                     )
                 }
 
@@ -102,10 +108,15 @@ class QuizDailyOXFragment :
     private fun checkReviewMode(): DialogType{
         return if (viewModel.dailySubmit.value == true) {
             binding.quizDailyPages.isVisible = true
+            pageEnd = if(viewModel.reviewResponse.value!!.peekContent().count > 5){
+                MAX_PAGES
+            }else{
+                viewModel.reviewResponse.value!!.peekContent().count
+            }
             binding.quizDailyPages.text = getString(
                 R.string.quiz_page_indicator,
                 viewModel.reviewQuizPage.value!! + 1,
-                viewModel.reviewResponse.value!!.peekContent().count
+                pageEnd
             )
             DialogType.REVIEW
         } else {
