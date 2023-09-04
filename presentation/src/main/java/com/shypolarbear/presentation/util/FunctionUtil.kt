@@ -21,12 +21,15 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.RecyclerView
+import com.shypolarbear.domain.model.Tokens
 import androidx.navigation.fragment.findNavController
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
 import com.shypolarbear.presentation.ui.quiz.daily.dialog.BackDialog
 import com.skydoves.powermenu.PowerMenuItem
+import timber.log.Timber
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -34,7 +37,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
-import timber.log.Timber
 import kotlin.math.ceil
 
 
@@ -317,4 +319,18 @@ fun Fragment.hideKeyboard() {
             InputMethodManager.HIDE_NOT_ALWAYS
         )
     }
+}
+
+fun RecyclerView.infiniteScroll(method: () -> Unit) {
+    addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            when {
+                !canScrollVertically(1) -> {
+                    method()
+                }
+            }
+        }
+    })
 }

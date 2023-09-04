@@ -7,13 +7,21 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
+import com.shypolarbear.presentation.databinding.ItemFeedLoadingBinding
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalLikeBtnType
+import com.shypolarbear.presentation.ui.feed.feedTotal.viewholder.FeedLoadingViewHolder
 import com.shypolarbear.presentation.ui.feed.feedTotal.viewholder.FeedPostViewHolder
 
+enum class FeedViewType(val viewType: Int) {
+    LOADING(0),
+    ITEM(1)
+}
+
 class FeedPostAdapter(
-    private val onMyPostPropertyClick: (view: ImageView, feedId: Int) -> Unit = { _, _ -> },
+    private val onMyPostPropertyClick: (view: ImageView, feedId: Int, position: Int) -> Unit = { _, _, _ -> },
     private val onOtherPostPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onMyBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onOtherBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
@@ -26,25 +34,52 @@ class FeedPostAdapter(
         itemType: FeedTotalLikeBtnType
             ) -> Unit = { _, _, _, _, _, _ -> },
     private val onMoveToDetailClick: (feedId: Int) -> Unit = { }
-    ): ListAdapter<Feed, FeedPostViewHolder>(FeedPostDiffCallback()) {
+    ): ListAdapter<Feed, RecyclerView.ViewHolder>(FeedPostDiffCallback()) {
 
-    private lateinit var binding : ItemFeedBinding
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedPostViewHolder {
-        binding = ItemFeedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return FeedPostViewHolder(
-            binding,
-            onMyPostPropertyClick = onMyPostPropertyClick,
-            onOtherPostPropertyClick = onOtherPostPropertyClick,
-            onMyBestCommentPropertyClick = onMyBestCommentPropertyClick,
-            onOtherBestCommentPropertyClick = onOtherBestCommentPropertyClick,
-            onBtnLikeClick = onBtnLikeClick,
-            onMoveToDetailClick = onMoveToDetailClick
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        when(viewType) {
+            FeedViewType.LOADING.viewType -> {
+                return FeedLoadingViewHolder(
+                    ItemFeedLoadingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                )
+            }
+            FeedViewType.ITEM.viewType -> {
+                return FeedPostViewHolder(
+                    ItemFeedBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+                    onMyPostPropertyClick = onMyPostPropertyClick,
+                    onOtherPostPropertyClick = onOtherPostPropertyClick,
+                    onMyBestCommentPropertyClick = onMyBestCommentPropertyClick,
+                    onOtherBestCommentPropertyClick = onOtherBestCommentPropertyClick,
+                    onBtnLikeClick = onBtnLikeClick,
+                    onMoveToDetailClick = onMoveToDetailClick
+                )
+            }
+            else -> {
+                throw Exception()
+            }
+        }
     }
 
-    override fun onBindViewHolder(holder: FeedPostViewHolder, position: Int) {
-        holder.bind(getItem(position))
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when(getItem(position).feedId) {
+            0 -> {
+                (holder as FeedLoadingViewHolder).bind(getItem(position))
+            }
+            else -> {
+                (holder as FeedPostViewHolder).bind(getItem(position))
+            }
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return when(getItem(position).feedId) {
+            0 -> {
+                FeedViewType.LOADING.viewType
+            }
+            else -> {
+                FeedViewType.ITEM.viewType
+            }
+        }
     }
 }
 

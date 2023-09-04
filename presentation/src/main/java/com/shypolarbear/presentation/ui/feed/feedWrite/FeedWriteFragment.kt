@@ -71,7 +71,8 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
             }
 
             btnFeedWriteBack.setOnClickListener {
-                findNavController().navigate(R.id.action_feedWriteFragment_to_navigation_feed)
+                findNavController().popBackStack()
+
             }
 
             btnFeedWriteAddPhoto.setOnClickListener {
@@ -89,7 +90,12 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                     else -> {
                         when(feedWriteArgs.divider) {
                             WriteChangeDivider.WRITE -> {
-
+                                // TODO("피드 작성 시 동작")
+                                viewModel.writePost(
+                                    title = edtFeedWriteTitle.text.toString(),
+                                    content = edtFeedWriteContent.text.toString(),
+                                    feedImages = null
+                                )
                             }
                             WriteChangeDivider.CHANGE -> {
                                 viewModel.changePost(
@@ -100,7 +106,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                                 )
                             }
                         }
-                        findNavController().navigate(R.id.action_feedWriteFragment_to_navigation_feed)
+                        findNavController().popBackStack()
                     }
                 }
             }
