@@ -33,8 +33,6 @@ class QuizDailyOXFragment :
         dialog = QuizDialog(requireContext(), state)
         viewModel.getQuizInstance()
 
-        Timber.tag("PAGE").d("${ viewModel.reviewResponse.value!!.peekContent().count} , \n${viewModel.reviewQuizPage.value}")
-
         dialog.alertDialog.setOnDismissListener {
             when (state) {
                 DialogType.REVIEW -> {
@@ -105,12 +103,12 @@ class QuizDailyOXFragment :
         }
     }
 
-    private fun checkReviewMode(): DialogType{
+    private fun checkReviewMode(): DialogType {
         return if (viewModel.dailySubmit.value == true) {
             binding.quizDailyPages.isVisible = true
-            pageEnd = if(viewModel.reviewResponse.value!!.peekContent().count > 5){
+            pageEnd = if (viewModel.reviewResponse.value!!.peekContent().count > 5) {
                 MAX_PAGES
-            }else{
+            } else {
                 viewModel.reviewResponse.value!!.peekContent().count
             }
             binding.quizDailyPages.text = getString(
