@@ -64,7 +64,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             progressFeedDetailLoading.isVisible = true
 
             btnFeedDetailBack.setOnClickListener {
-                findNavController().navigate(R.id.action_feedDetailFragment_to_feedTotalFragment)
+                findNavController().popBackStack()
             }
 
             edtFeedDetailReply.setOnFocusChangeListener { _, isFocus ->

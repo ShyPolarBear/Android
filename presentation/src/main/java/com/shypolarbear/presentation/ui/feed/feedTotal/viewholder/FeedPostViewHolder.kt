@@ -18,7 +18,7 @@ import timber.log.Timber
 
 class FeedPostViewHolder(
     private val binding: ItemFeedBinding,
-    private val onMyPostPropertyClick: (view: ImageView, feedId: Int) -> Unit = { _, _ -> },
+    private val onMyPostPropertyClick: (view: ImageView, feedId: Int, position: Int) -> Unit = { _, _, _ -> },
     private val onOtherPostPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onMyBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onOtherBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
@@ -44,7 +44,7 @@ class FeedPostViewHolder(
         // 게시물 작성자 확인
         binding.ivFeedPostProperty.setOnClickListener {
             when(post.isAuthor) {
-                true -> onMyPostPropertyClick(binding.ivFeedPostProperty, post.feedId)
+                true -> onMyPostPropertyClick(binding.ivFeedPostProperty, post.feedId, adapterPosition)
                 false -> onOtherPostPropertyClick(binding.ivFeedPostProperty)
             }
         }

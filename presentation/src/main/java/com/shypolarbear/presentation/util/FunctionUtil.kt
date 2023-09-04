@@ -25,11 +25,13 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.shypolarbear.domain.model.Tokens
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
 import com.shypolarbear.presentation.ui.quiz.daily.dialog.QuizDialog
 import com.skydoves.powermenu.PowerMenuItem
+import timber.log.Timber
 
 
 val emailPattern = Regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
@@ -256,4 +258,18 @@ fun Fragment.hideKeyboard() {
             InputMethodManager.HIDE_NOT_ALWAYS
         )
     }
+}
+
+fun RecyclerView.infiniteScroll(method: () -> Unit) {
+    addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            when {
+                !canScrollVertically(1) -> {
+                    method()
+                }
+            }
+        }
+    })
 }

@@ -15,7 +15,6 @@
             android:id="@+id/progress_feed_total_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:indeterminate="true"
             app:indicatorColor="@color/Blue_02"
             app:indicatorSize="36dp"
@@ -81,20 +80,14 @@
 
             </com.google.android.material.appbar.AppBarLayout>
 
-            <androidx.core.widget.NestedScrollView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_feed_post"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="60dp"
                 android:layout_marginBottom="60dp"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_feed_post"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_feed" />
-
-            </androidx.core.widget.NestedScrollView>
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_feed" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_feed_post_write"
