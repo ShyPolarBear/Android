@@ -101,7 +101,8 @@ class QuizDailyMultiChoiceFragment :
                 state,
                 quizDailyPages,
                 backBtn,
-                R.id.action_quizDailyMultiChoiceFragment_to_navigation_quiz_main
+                R.id.action_quizDailyMultiChoiceFragment_to_navigation_quiz_main,
+                progressJob
             )
 
             quizDailyBtnSubmit.setOnClickListener {

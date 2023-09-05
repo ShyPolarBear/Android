@@ -143,13 +143,14 @@ fun TextView.detectActivation(vararg choices: TextView) {
     this.isActivated = this.isActivated.not()
 }
 
-fun ImageView.setReviewMode(type: DialogType, pages: TextView, dialog: BackDialog, resId: Int) {
+fun ImageView.setReviewMode(type: DialogType, pages: TextView, dialog: BackDialog, resId: Int, progressBar: Job) {
     when (type) {
         DialogType.REVIEW -> {
             pages.isVisible = true
             this.setOnClickListener {
                 dialog.showDialog()
                 dialog.alertDialog.setOnCancelListener {
+                    progressBar.cancel()
                     findNavController().navigate(resId)
                 }
             }
