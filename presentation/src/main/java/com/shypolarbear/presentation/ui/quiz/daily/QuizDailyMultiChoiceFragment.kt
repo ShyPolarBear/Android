@@ -19,7 +19,6 @@ import com.shypolarbear.presentation.util.detectActivation
 import com.shypolarbear.presentation.util.initProgressBar
 import com.shypolarbear.presentation.util.setQuizNavigation
 import com.shypolarbear.presentation.util.setReviewMode
-import timber.log.Timber
 
 class QuizDailyMultiChoiceFragment :
     BaseFragment<FragmentQuizDailyMultiBinding, QuizViewModel>(
@@ -34,6 +33,7 @@ class QuizDailyMultiChoiceFragment :
         val backBtn = BackDialog(requireContext())
         dialog = QuizDialog(requireContext(), state)
         viewModel.getQuizInstance()
+        viewModel.initAnswer()
 
         dialog.alertDialog.setOnDismissListener {
             when (state) {
@@ -79,7 +79,7 @@ class QuizDailyMultiChoiceFragment :
                 listOf(quizDailyChoice1, quizDailyChoice2, quizDailyChoice3, quizDailyChoice4)
             val progressJob = quizDailyProgressBar.initProgressBar(
                 quizDailyTvTime
-            ) { viewModel.submitAnswer() }
+            ) { viewModel.submitAnswer(isTimeOut = true) }
 
             viewModel.quizInstance.value?.let { quizzes ->
                 choiceList.map { choice ->

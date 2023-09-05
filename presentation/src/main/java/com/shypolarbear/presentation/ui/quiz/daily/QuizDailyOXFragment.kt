@@ -18,7 +18,6 @@ import com.shypolarbear.presentation.util.initProgressBar
 import com.shypolarbear.presentation.util.setQuizNavigation
 import com.shypolarbear.presentation.util.setReviewMode
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class QuizDailyOXFragment :
@@ -32,6 +31,7 @@ class QuizDailyOXFragment :
         val backBtn = BackDialog(requireContext())
         dialog = QuizDialog(requireContext(), state)
         viewModel.getQuizInstance()
+        viewModel.initAnswer()
 
         dialog.alertDialog.setOnDismissListener {
             when (state) {
@@ -77,7 +77,11 @@ class QuizDailyOXFragment :
             val choiceList = listOf(quizDailyO, quizDailyX)
 
             val progressJob =
-                quizDailyProgressBar.initProgressBar(quizDailyTvTime) { viewModel.submitAnswer() }
+                quizDailyProgressBar.initProgressBar(quizDailyTvTime) {
+                    viewModel.submitAnswer(
+                        isTimeOut = true
+                    )
+                }
             choiceList.map { choice ->
                 choice.setOnClickListener {
                     val answer = choice.text.toString()

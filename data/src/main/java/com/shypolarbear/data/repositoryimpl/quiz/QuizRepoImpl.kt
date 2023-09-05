@@ -5,6 +5,8 @@ import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.domain.model.quiz.DailyQuizResponse
 import com.shypolarbear.domain.model.quiz.ReviewQuizResponse
 import com.shypolarbear.domain.model.quiz.SolvedStateResponse
+import com.shypolarbear.domain.model.quiz.SubmitRequestMulti
+import com.shypolarbear.domain.model.quiz.SubmitRequestOX
 import com.shypolarbear.domain.model.quiz.SubmitResponse
 import com.shypolarbear.domain.repository.quiz.QuizRepo
 import javax.inject.Inject
@@ -60,7 +62,7 @@ class QuizRepoImpl @Inject constructor(
         }
     }
 
-    override suspend fun submitQuizOX(quizId: Int, answer: String): Result<SubmitResponse> {
+    override suspend fun submitQuizOX(quizId: Int, answer: SubmitRequestOX): Result<SubmitResponse> {
         return try {
             val response = api.submitQuizOX(quizId, answer)
             when {
@@ -76,7 +78,7 @@ class QuizRepoImpl @Inject constructor(
         }
     }
 
-    override suspend fun submitQuizMulti(quizId: Int, answer: Long): Result<SubmitResponse> {
+    override suspend fun submitQuizMulti(quizId: Int, answer: SubmitRequestMulti): Result<SubmitResponse> {
         return try {
             val response = api.submitQuizMulti(quizId, answer)
             when {

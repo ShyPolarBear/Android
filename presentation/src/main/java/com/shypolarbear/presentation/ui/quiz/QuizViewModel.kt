@@ -7,13 +7,13 @@ import com.shypolarbear.domain.model.quiz.Correction
 import com.shypolarbear.domain.model.quiz.Quiz
 import com.shypolarbear.domain.model.quiz.Review
 import com.shypolarbear.domain.model.quiz.SolvedData
-import com.shypolarbear.domain.model.quiz.SubmitResponse
+import com.shypolarbear.domain.model.quiz.SubmitRequestMulti
+import com.shypolarbear.domain.model.quiz.SubmitRequestOX
 import com.shypolarbear.domain.usecase.quiz.QuizReviewUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizSolvedUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizSubmitMultiUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizSubmitOXUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizUseCase
-import com.shypolarbear.domain.usecase.tokens.GetAccessTokenUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import com.shypolarbear.presentation.util.Event
 import com.shypolarbear.presentation.util.QuizType
@@ -36,8 +36,8 @@ class QuizViewModel @Inject constructor(
     val quizResponse: LiveData<Event<Quiz>> = _quizResponse
     private val _reviewResponse = MutableLiveData<Event<Review>>()
     val reviewResponse: LiveData<Event<Review>> = _reviewResponse
-    private val _answerId = MutableLiveData<String>()
-    val answerId: LiveData<String> = _answerId
+    private val _answerId = MutableLiveData<String?>()
+    val answerId: LiveData<String?> = _answerId
     private val _submitResponse = MutableLiveData<Event<Correction>>()
     val submitResponse: LiveData<Event<Correction>> = _submitResponse
     private val _dailySubmit = MutableLiveData<Boolean>()
@@ -109,17 +109,23 @@ class QuizViewModel @Inject constructor(
         }
     }
 
-    fun submitAnswer() {
+    fun submitAnswer(isTimeOut: Boolean = false) {
         val type =
             if (_quizInstance.value!!.type == QuizType.MULTI.type) QuizType.MULTI else QuizType.OX
         viewModelScope.launch {
             val responseAnswer = when (type) {
                 QuizType.MULTI -> {
-                    submitMultiUseCase(_quizInstance.value!!.quizId, _answerId.value!!.toLong())
+                    submitMultiUseCase(
+                        _quizInstance.value!!.quizId,
+                        SubmitRequestMulti(isTimeOut, _answerId.value?.toLong())
+                    )
                 }
 
                 QuizType.OX -> {
-                    submitOXUseCase(_quizInstance.value!!.quizId, _answerId.value!!)
+                    submitOXUseCase(
+                        _quizInstance.value!!.quizId,
+                        SubmitRequestOX(isTimeOut, _answerId.value?.toString())
+                    )
                 }
             }
 
@@ -138,6 +144,12 @@ class QuizViewModel @Inject constructor(
 
     fun setAnswer(answer: String) {
         _answerId.value = answer
+    }
+
+    fun initAnswer() {
+        if (!_answerId.value.isNullOrEmpty()) {
+            _answerId.value = null
+        }
     }
 
 }
