@@ -5,7 +5,7 @@ data class Feed(
     val title: String = "",
     val content: String = "",
     val likeCount: Int = 0,
-    val feedImage: List<String> = listOf(),
+    val feedImages: List<String> = listOf(),
     val author: String = "",
     val authorProfileImage: String = "",
     val createdDate: String = "",

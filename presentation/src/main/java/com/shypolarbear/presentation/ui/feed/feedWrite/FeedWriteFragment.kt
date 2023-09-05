@@ -7,13 +7,11 @@ import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.shypolarbear.domain.model.feed.FeedWriteImg
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedWriteBinding
 import com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 const val IMAGE_ADD_INDEX = 0
 const val IMAGE_MAX_COUNT = 5
@@ -59,7 +57,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                         edtFeedWriteTitle.setText(feed.title)
                         edtFeedWriteContent.setText(feed.content)
 
-                        val imgUriList = feed.feedImage.map { it.toUri() }
+                        val imgUriList = feed.feedImages.map { it.toUri() }
                         viewModel.addImgList(imgUriList)
                     }
                 }

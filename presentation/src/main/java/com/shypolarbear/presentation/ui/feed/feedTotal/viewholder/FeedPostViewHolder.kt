@@ -5,7 +5,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.R
@@ -14,7 +13,6 @@ import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalLikeBtnType
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
-import timber.log.Timber
 
 class FeedPostViewHolder(
     private val binding: ItemFeedBinding,
@@ -128,7 +126,7 @@ class FeedPostViewHolder(
         with(binding.viewpagerFeedPostImg) {
             adapter = ImageViewPagerAdapter().apply {
                 submitList(
-                    post.feedImage
+                    post.feedImages
                 )
             }
 

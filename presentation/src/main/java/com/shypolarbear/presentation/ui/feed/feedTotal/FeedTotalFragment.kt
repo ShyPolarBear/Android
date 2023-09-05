@@ -75,7 +75,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
             binding.progressFeedTotalLoading.isVisible = true
             binding.layoutFeed.isVisible = false
 
-            viewModel.loadFeedTotalData()
+            viewModel.loadFeedTotalData("recent")
             setFeedPost()
 
             ivFeedToolbarSort.setOnClickListener {
@@ -94,7 +94,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                 )
             }
 
-            rvFeedPost.infiniteScroll { viewModel.loadFeedTotalData() }
+            rvFeedPost.infiniteScroll { viewModel.loadFeedTotalData("recent") }
         }
     }
 

@@ -19,51 +19,21 @@ class FeedTotalViewModel @Inject constructor (
     private val feedTotalUseCase: FeedTotalUseCase,
     private val feedDeleteUseCase: FeedDeleteUseCase,
     private val feedLikeUseCase: FeedLikeUseCase,
-    private val feedDetailUseCase: FeedDetailUseCase        // 테스트 용 TODO("전체 피드 조회 api 구현 시 제거")
 ): BaseViewModel() {
 
     private val _feed = MutableLiveData<List<Feed>>()
     val feed: LiveData<List<Feed>> = _feed
 
-    fun loadFeedTotalData() {
+    fun loadFeedTotalData(sort: String) {
         viewModelScope.launch {
-            val feedData = feedTotalUseCase.loadFeedTotalData()
-            val feedDetailTestData = feedDetailUseCase.loadFeedDetailData(1)
+            val feedData = feedTotalUseCase.loadFeedTotalData(sort)
 
             feedData
                 .onSuccess {
-                    when {
-                        // 처음 로딩하는 경우
-                        _feed.value.isNullOrEmpty() -> {
-                            val feedList = mutableListOf<Feed>()
-                            feedList.addAll(it.data.feeds)
-                            feedList.add(Feed())            // progress bar
-
-                            _feed.value = feedList
-                        }
-                        // 다음 페이지 로딩하는 경우
-                        else -> {
-                            // 테스트 용 TODO("전체 피드 조회 api 구현 시 수정")
-                            feedDetailTestData
-                                .onSuccess { feedDetail ->
-                                    val feedList = _feed.value as MutableList<Feed>
-                                    feedList.removeLast()
-                                    feedList.addAll(listOf(feedDetail.data))
-                                    feedList.add(Feed())            // progress bar
-
-                                    _feed.value = feedList
-                                }
-                                .onFailure {
-
-                                }
-                        }
-
-                    }
-
-//                    TODO("전체 피드 조회 api 구현 시 이거로 데이터 받아서 처리할 예정")
-//                    val newDataList = it.data.feeds
-//                    val currentList = _feed.value ?: emptyList()
-//                    _feed.value = currentList + newDataList
+                    Timber.d(it.toString())
+                    val newDataList = it.data.content
+                    val currentList = _feed.value ?: emptyList()
+                    _feed.value = currentList + newDataList
                 }
                 .onFailure {
 
