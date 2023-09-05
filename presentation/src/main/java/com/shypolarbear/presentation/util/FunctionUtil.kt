@@ -108,7 +108,7 @@ fun ProgressBar.initProgressBar(detailText: TextView, submitIncorrect: () -> Uni
     detailText.text = context.getString(R.string.quiz_daily_time, totalProgress / 100)
     return  CoroutineScope(Dispatchers.IO).launch {
         while (totalProgress > 0) {
-            delay(100)
+            delay(95)
             totalProgress -= 10
             withContext(Dispatchers.Main) {
                 progress = totalProgress
