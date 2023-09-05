@@ -42,15 +42,11 @@ class QuizViewModel @Inject constructor(
     val submitResponse: LiveData<Event<Correction>> = _submitResponse
     private val _dailySubmit = MutableLiveData<Boolean>()
     val dailySubmit: LiveData<Boolean> = _dailySubmit
-    private val _reviewQuizPage = MutableLiveData<Int>()
+    private val _reviewQuizPage = MutableLiveData<Int>(0)
     val reviewQuizPage: LiveData<Int> = _reviewQuizPage
     private val _quizInstance = MutableLiveData<Quiz>()
     val quizInstance: LiveData<Quiz> = _quizInstance
     private val _dailyQuizSolvedState = MutableLiveData<SolvedData>()
-
-    init {
-        _reviewQuizPage.value = 0
-    }
 
     fun getQuizInstance() {
         _quizInstance.value = when (_dailySubmit.value) {
