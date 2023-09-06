@@ -104,7 +104,6 @@ fun Fragment.setQuizNavigation(quizType: String, currentPosition: QuizNavType){
 
 fun ProgressBar.initProgressBar(detailText: TextView, submitIncorrect: () -> Unit): Job {
     var totalProgress = 1500
-
     detailText.text = context.getString(R.string.quiz_daily_time, totalProgress / 100)
     return  CoroutineScope(Dispatchers.IO).launch {
         while (totalProgress > 0) {
@@ -112,7 +111,6 @@ fun ProgressBar.initProgressBar(detailText: TextView, submitIncorrect: () -> Uni
             totalProgress -= 10
             withContext(Dispatchers.Main) {
                 progress = totalProgress
-
                 detailText.text = context.getString(
                     R.string.quiz_daily_time,
                     ceil(totalProgress.toDouble() / 100).toInt()
