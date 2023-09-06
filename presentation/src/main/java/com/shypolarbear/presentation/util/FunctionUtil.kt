@@ -22,7 +22,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.shypolarbear.domain.model.Tokens
 import androidx.navigation.fragment.findNavController
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.presentation.R
@@ -30,12 +29,6 @@ import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
 import com.shypolarbear.presentation.ui.quiz.daily.dialog.BackDialog
 import com.skydoves.powermenu.PowerMenuItem
 import timber.log.Timber
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.util.Timer
 import java.util.TimerTask
@@ -45,6 +38,7 @@ import kotlin.math.ceil
 val emailPattern = Regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
 val phonePattern = Regex("[^0-9]")
 
+const val QUIZ_TIME = 15000L
 const val SIGNUP_NEED = 1006
 const val LOGIN_SUCCESS = 0
 const val LOGIN_FAIL = 1007
@@ -106,7 +100,6 @@ fun Fragment.setQuizNavigation(quizType: String, currentPosition: QuizNavType){
 
 fun ProgressBar.initProgressBar(detailText: TextView, submitIncorrect: () -> Unit): Timer {
     var totalProgress = 1500
-    val totalTime = 15000L
     val timer = Timer()
 
     detailText.text = context.getString(R.string.quiz_daily_time, totalProgress / 100)
@@ -128,7 +121,7 @@ fun ProgressBar.initProgressBar(detailText: TextView, submitIncorrect: () -> Uni
                 submitIncorrect()
             }
         }
-    }, 0, totalTime / totalProgress)
+    }, 0, QUIZ_TIME / totalProgress)
 
     return timer
 }
