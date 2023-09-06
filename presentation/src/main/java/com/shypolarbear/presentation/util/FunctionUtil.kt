@@ -37,6 +37,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import java.util.Timer
+import java.util.TimerTask
 import kotlin.math.ceil
 
 
@@ -102,23 +104,33 @@ fun Fragment.setQuizNavigation(quizType: String, currentPosition: QuizNavType){
     }
 }
 
-fun ProgressBar.initProgressBar(detailText: TextView, submitIncorrect: () -> Unit): Job {
+fun ProgressBar.initProgressBar(detailText: TextView, submitIncorrect: () -> Unit): Timer {
     var totalProgress = 1500
+    val totalTime = 15000L
+    val timer = Timer()
+
     detailText.text = context.getString(R.string.quiz_daily_time, totalProgress / 100)
-    return  CoroutineScope(Dispatchers.IO).launch {
-        while (totalProgress > 0) {
-            delay(95)
-            totalProgress -= 10
-            withContext(Dispatchers.Main) {
+
+    timer.scheduleAtFixedRate(object : TimerTask() {
+        override fun run() {
+            if (totalProgress > 0) {
+                totalProgress -= 1
                 progress = totalProgress
-                detailText.text = context.getString(
-                    R.string.quiz_daily_time,
-                    ceil(totalProgress.toDouble() / 100).toInt()
-                )
+
+                detailText.post {
+                    detailText.text = context.getString(
+                        R.string.quiz_daily_time,
+                        ceil(totalProgress.toDouble() / 100).toInt()
+                    )
+                }
+            } else {
+                timer.cancel()
+                submitIncorrect()
             }
         }
-        submitIncorrect()
-    }
+    }, 0, totalTime / totalProgress)
+
+    return timer
 }
 
 fun setVisibilityInvert(vararg views: View) {
@@ -141,7 +153,7 @@ fun TextView.detectActivation(vararg choices: TextView) {
     this.isActivated = this.isActivated.not()
 }
 
-fun ImageView.setReviewMode(type: DialogType, pages: TextView, dialog: BackDialog, resId: Int, progressBar: Job) {
+fun ImageView.setReviewMode(type: DialogType, pages: TextView, dialog: BackDialog, resId: Int, progressBar: Timer) {
     when (type) {
         DialogType.REVIEW -> {
             pages.isVisible = true
