@@ -38,7 +38,6 @@ import kotlin.math.ceil
 val emailPattern = Regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
 val phonePattern = Regex("[^0-9]")
 
-const val QUIZ_TIME = 15000L
 const val SIGNUP_NEED = 1006
 const val LOGIN_SUCCESS = 0
 const val LOGIN_FAIL = 1007
@@ -99,7 +98,7 @@ fun Fragment.setQuizNavigation(quizType: String, currentPosition: QuizNavType){
 }
 
 fun ProgressBar.initProgressBar(detailText: TextView, submitIncorrect: () -> Unit): Timer {
-    var totalProgress = 1500
+    var totalProgress = 15000
     val timer = Timer()
 
     detailText.text = context.getString(R.string.quiz_daily_time, totalProgress / 100)
@@ -108,12 +107,12 @@ fun ProgressBar.initProgressBar(detailText: TextView, submitIncorrect: () -> Uni
         override fun run() {
             if (totalProgress > 0) {
                 totalProgress -= 1
-                progress = totalProgress
+                progress = totalProgress/10
 
                 detailText.post {
                     detailText.text = context.getString(
                         R.string.quiz_daily_time,
-                        ceil(totalProgress.toDouble() / 100).toInt()
+                        ceil(totalProgress.toDouble() / 1000).toInt()
                     )
                 }
             } else {
@@ -121,7 +120,7 @@ fun ProgressBar.initProgressBar(detailText: TextView, submitIncorrect: () -> Uni
                 submitIncorrect()
             }
         }
-    }, 0, QUIZ_TIME / totalProgress)
+    }, 0, 1L)
 
     return timer
 }
@@ -162,7 +161,7 @@ fun ImageView.setReviewMode(type: DialogType, pages: TextView, dialog: BackDialo
         else -> {
             pages.isVisible = false
             this.setOnClickListener {
-                Timber.tag("BACK").d("BACK")
+                progressBar.cancel()
                 findNavController().popBackStack()
             }
         }
