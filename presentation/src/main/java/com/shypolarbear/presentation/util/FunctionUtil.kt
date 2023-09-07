@@ -13,25 +13,26 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.shypolarbear.domain.model.Tokens
+import androidx.navigation.fragment.findNavController
+import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
-import com.shypolarbear.presentation.ui.quiz.daily.dialog.QuizDialog
+import com.shypolarbear.presentation.ui.quiz.daily.dialog.BackDialog
 import com.skydoves.powermenu.PowerMenuItem
 import timber.log.Timber
+import org.json.JSONObject
+import java.util.Timer
+import java.util.TimerTask
+import kotlin.math.ceil
 
 
 val emailPattern = Regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
@@ -40,6 +41,7 @@ val phonePattern = Regex("[^0-9]")
 const val SIGNUP_NEED = 1006
 const val LOGIN_SUCCESS = 0
 const val LOGIN_FAIL = 1007
+
 enum class InputState(val state: Int) {
     ACCEPT(0),
     ERROR(1),
@@ -47,15 +49,80 @@ enum class InputState(val state: Int) {
     OFF(3)
 }
 
-enum class DialogType(val point: String){
-    CORRECT("PLUS"),
-    INCORRECT("0"),
-    REVIEW("REVIEW")
+enum class DialogType(val point: String) {
+    REVIEW("REVIEW"),
+    DEFAULT("DEFAULT")
 }
 
-enum class QuizType(val type: String){
+enum class QuizType(val type: String) {
     MULTI("MULTIPLE_CHOICE"),
-    OX("TRUE_FALSE")
+    OX("OX")
+}
+
+enum class QuizNavType(){
+    MULTI,
+    OX,
+    MAIN
+}
+
+fun simpleHttpErrorCheck(error: Throwable) {
+    if (error is HttpError) {
+        val errorBodyData = JSONObject(error.errorBody)
+        Timber.tag("ERROR").d("${errorBodyData.get("code")}")
+    }
+}
+
+fun Fragment.setQuizNavigation(quizType: String, currentPosition: QuizNavType){
+    val navIdWithMulti: Int
+    val navIdWithOX: Int
+
+    when (currentPosition) {
+        QuizNavType.MULTI -> {
+            navIdWithMulti = R.id.action_quizDailyMultiChoiceFragment_self
+            navIdWithOX = R.id.action_quizDailyMultiChoiceFragment_to_quizDailyOXFragment
+        }
+        QuizNavType.OX -> {
+            navIdWithMulti = R.id.action_quizDailyOXFragment_to_quizDailyMultiChoiceFragment
+            navIdWithOX = R.id.action_quizDailyOXFragment_self
+        }
+        QuizNavType.MAIN -> {
+            navIdWithMulti = R.id.action_quizMainFragment_to_quizDailyMultiChoiceFragment
+            navIdWithOX = R.id.action_quizMainFragment_to_quizDailyOXFragment
+        }
+    }
+
+    when(quizType){
+        QuizType.MULTI.type -> findNavController().navigate(navIdWithMulti)
+        QuizType.OX.type -> findNavController().navigate(navIdWithOX)
+    }
+}
+
+fun ProgressBar.initProgressBar(detailText: TextView, submitIncorrect: () -> Unit): Timer {
+    var totalProgress = 15000
+    val timer = Timer()
+
+    detailText.text = context.getString(R.string.quiz_daily_time, totalProgress / 100)
+
+    timer.scheduleAtFixedRate(object : TimerTask() {
+        override fun run() {
+            if (totalProgress > 0) {
+                totalProgress -= 1
+                progress = totalProgress/10
+
+                detailText.post {
+                    detailText.text = context.getString(
+                        R.string.quiz_daily_time,
+                        ceil(totalProgress.toDouble() / 1000).toInt()
+                    )
+                }
+            } else {
+                timer.cancel()
+                submitIncorrect()
+            }
+        }
+    }, 0, 1L)
+
+    return timer
 }
 
 fun setVisibilityInvert(vararg views: View) {
@@ -69,36 +136,33 @@ fun setVisibilityInvert(vararg views: View) {
     }
 }
 
-fun initChoices(choiceList: List<TextView>){
-    for(choice in choiceList){
-        choice.detectActivation(*choiceList.filter { it != choice }.toTypedArray())
-    }
-}
-fun TextView.detectActivation(vararg choices: TextView){
-    setOnClickListener {
-        for(choice in choices){
-            if(choice.isActivated){
-                choice.isActivated = choice.isActivated.not()
-            }
+fun TextView.detectActivation(vararg choices: TextView) {
+    for (choice in choices) {
+        if (choice.isActivated) {
+            choice.isActivated = choice.isActivated.not()
         }
-        this.isActivated = this.isActivated.not()
     }
+    this.isActivated = this.isActivated.not()
 }
-fun ImageView.setReviewMode(type: DialogType, pages: TextView, dialog: QuizDialog, resId: Int){
-    when(type){
+
+fun ImageView.setReviewMode(type: DialogType, pages: TextView, dialog: BackDialog, resId: Int, progressBar: Timer) {
+    when (type) {
         DialogType.REVIEW -> {
             pages.isVisible = true
             this.setOnClickListener {
-                dialog.showDialog(DialogType.REVIEW)
+                dialog.showDialog()
                 dialog.alertDialog.setOnCancelListener {
+                    progressBar.cancel()
                     findNavController().navigate(resId)
                 }
             }
         }
-        DialogType.CORRECT, DialogType.INCORRECT -> {
+
+        else -> {
             pages.isVisible = false
             this.setOnClickListener {
-                findNavController().navigate(resId)
+                progressBar.cancel()
+                findNavController().popBackStack()
             }
         }
     }
@@ -234,10 +298,10 @@ fun ImageView.setMenu(
         menuList
     ) { _, _ -> }
         .showAsDropDown(
-        view,
-        FeedTotalFragment.POWER_MENU_OFFSET_X,
-        FeedTotalFragment.POWER_MENU_OFFSET_Y
-    )
+            view,
+            FeedTotalFragment.POWER_MENU_OFFSET_X,
+            FeedTotalFragment.POWER_MENU_OFFSET_Y
+        )
 }
 
 fun TextView.setTextColorById(context: Context, colorId: Int) {

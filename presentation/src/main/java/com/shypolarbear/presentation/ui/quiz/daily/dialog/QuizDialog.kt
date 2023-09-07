@@ -5,56 +5,64 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
-import androidx.databinding.ViewDataBinding
+import androidx.core.view.isVisible
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.DialogQuizResultBinding
-import com.shypolarbear.presentation.databinding.DialogQuizStopBinding
 import com.shypolarbear.presentation.util.DialogType
 
-class QuizDialog(private val context: Context) {
+class QuizDialog(
+    private val context: Context, private val dialogType: DialogType,
+) {
     lateinit var alertDialog: AlertDialog
-    fun showDialog(
-        dialogType: DialogType,
-        explain: String? = null,
-        point: String = DialogType.INCORRECT.point,
-    ) {
-        when (dialogType) {
-            DialogType.REVIEW -> {
-                val binding =
-                    DialogQuizStopBinding.inflate(LayoutInflater.from(context), null, false)
-                initDialog(binding)
+    val binding = DialogQuizResultBinding.inflate(LayoutInflater.from(context), null, false)
 
-                binding.quizDialogBtnYes.setOnClickListener {
-                    alertDialog.cancel()
-                }
-                binding.quizDialogBtnNo.setOnClickListener {
-                    alertDialog.dismiss()
-                }
-            }
-
-            DialogType.CORRECT, DialogType.INCORRECT -> {
-                val binding =
-                    DialogQuizResultBinding.inflate(LayoutInflater.from(context), null, false)
-                initDialog(binding)
-                if (dialogType == DialogType.INCORRECT) {
-                    binding.ivQuizDialog.setImageResource(R.drawable.ic_quiz_incorrect)
-                }
-                binding.tvQuizDialogPoint.text =
-                    context.getString(R.string.quiz_dialog_point, point)
-                binding.quizDialogBtn.setOnClickListener {
-                    alertDialog.dismiss()
-                }
-            }
-        }
+    init {
+        initDialog()
     }
 
-    private fun initDialog(binding: ViewDataBinding) {
+    fun showDialog(
+        isCorrect: Boolean,
+        explain: String,
+        point: Int,
+        isLast: Boolean? = null
+    ) {
+        binding.tvQuizDialogExplain.text = explain
+        binding.tvQuizDialogPoint.text =
+            context.getString(R.string.quiz_dialog_point, point)
+
+        binding.quizDialogBtn.setOnClickListener {
+            alertDialog.dismiss()
+        }
+        when (dialogType) {
+            DialogType.REVIEW -> {
+                binding.quizDailyTvSubmit.text = when(isLast) {
+                    false -> context.getString(R.string.quiz_dialog_next)
+                    else -> {context.getString(R.string.quiz_dialog_confirm)}
+                }
+                binding.tvQuizDialogPoint.isVisible = false
+            }
+
+            DialogType.DEFAULT -> {
+
+            }
+        }
+        when (isCorrect) {
+            true -> {
+                binding.ivQuizDialog.setImageResource(R.drawable.ic_signup_success)
+            }
+
+            false -> {
+                binding.ivQuizDialog.setImageResource(R.drawable.ic_quiz_incorrect)
+            }
+        }
+        alertDialog.show()
+    }
+
+    private fun initDialog() {
         val dialogBuilder = AlertDialog.Builder(context)
             .setView(binding.root)
             .setCancelable(false)
-
         alertDialog = dialogBuilder.create()
         alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        alertDialog.show()
     }
 }

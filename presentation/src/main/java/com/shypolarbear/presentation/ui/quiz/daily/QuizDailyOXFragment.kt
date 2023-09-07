@@ -1,34 +1,129 @@
 package com.shypolarbear.presentation.ui.quiz.daily
 
-import androidx.fragment.app.viewModels
+import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentQuizDailyOxBinding
 import com.shypolarbear.presentation.ui.quiz.QuizViewModel
+import com.shypolarbear.presentation.ui.quiz.daily.dialog.BackDialog
 import com.shypolarbear.presentation.ui.quiz.daily.dialog.QuizDialog
+import com.shypolarbear.presentation.ui.quiz.main.MAX_PAGES
 import com.shypolarbear.presentation.util.DialogType
-import com.shypolarbear.presentation.util.initChoices
+import com.shypolarbear.presentation.util.EventObserver
+import com.shypolarbear.presentation.util.QuizNavType
+import com.shypolarbear.presentation.util.detectActivation
+import com.shypolarbear.presentation.util.initProgressBar
+import com.shypolarbear.presentation.util.setQuizNavigation
 import com.shypolarbear.presentation.util.setReviewMode
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class QuizDailyOXFragment :
     BaseFragment<FragmentQuizDailyOxBinding, QuizViewModel>(R.layout.fragment_quiz_daily_ox) {
-    override val viewModel: QuizViewModel by viewModels()
+    override val viewModel: QuizViewModel by activityViewModels()
     private lateinit var dialog: QuizDialog
+    private var pageEnd: Int = 0
+
     override fun initView() {
-        dialog = QuizDialog(requireContext())
-        val state: DialogType = DialogType.INCORRECT // viewModel로 갈 예정
+        val state = checkReviewMode()
+        val backBtn = BackDialog(requireContext())
+        dialog = QuizDialog(requireContext(), state)
+        viewModel.getQuizInstance()
+        viewModel.initAnswer()
+
+        dialog.alertDialog.setOnDismissListener {
+            when (state) {
+                DialogType.REVIEW -> {
+                    viewModel.goNextPage()
+                    if (viewModel.reviewQuizPage.value == pageEnd) {
+                        findNavController().navigate(R.id.action_quizDailyOXFragment_to_navigation_quiz_main)
+                    } else {
+                        viewModel.getQuizInstance()
+                        setQuizNavigation(viewModel.quizInstance.value!!.type, QuizNavType.OX)
+                    }
+                }
+
+                DialogType.DEFAULT -> {
+                    findNavController().navigate(R.id.action_quizDailyOXFragment_to_navigation_quiz_main)
+                }
+            }
+        }
+
+        viewModel.submitResponse.observe(viewLifecycleOwner, EventObserver { response ->
+            when (state) {
+                DialogType.REVIEW -> {
+                    dialog.showDialog(
+                        response.isCorrect,
+                        response.explanation,
+                        response.point.toInt(),
+                        viewModel.reviewQuizPage.value!! + 1 == pageEnd
+                    )
+                }
+
+                DialogType.DEFAULT -> {
+                    dialog.showDialog(
+                        response.isCorrect,
+                        response.explanation,
+                        response.point.toInt(),
+                    )
+                }
+            }
+        })
 
         binding.apply {
-            quizDailyBtnBack.setReviewMode(state, quizDailyPages, dialog, R.id.action_quizDailyOXFragment_to_quizMainFragment)
+            quizDailyProblem.text = viewModel.quizInstance.value!!.question
+            val choiceList = listOf(quizDailyO, quizDailyX)
 
-            quizDailyBtnSubmit.setOnClickListener {
-                dialog.showDialog(state)
+            val progressJob =
+                quizDailyProgressBar.initProgressBar(quizDailyTvTime) {
+                    viewModel.submitAnswer(
+                        isTimeOut = true
+                    )
+                }
+            choiceList.map { choice ->
+                choice.setOnClickListener {
+                    val answer = choice.text.toString()
+                    viewModel.setAnswer(answer)
+                    quizDailyBtnSubmit.isActivated = choice.isActivated.not()
+                    choice.detectActivation(*choiceList.filter { other ->
+                        other != choice
+                    }.toTypedArray())
+                }
             }
 
-            val choiceList = listOf(quizDailyO, quizDailyX)
-            initChoices(choiceList)
+            quizDailyBtnBack.setReviewMode(
+                state,
+                quizDailyPages,
+                backBtn,
+                R.id.action_quizDailyOXFragment_to_navigation_quiz_main,
+                progressJob
+            )
+
+            quizDailyBtnSubmit.setOnClickListener {
+                progressJob.cancel()
+                viewModel.submitAnswer()
+            }
+        }
+    }
+
+    private fun checkReviewMode(): DialogType {
+        return if (viewModel.dailySubmit.value == true) {
+            binding.quizDailyPages.isVisible = true
+            pageEnd = if (viewModel.reviewResponse.value!!.peekContent().count > 5) {
+                MAX_PAGES
+            } else {
+                viewModel.reviewResponse.value!!.peekContent().count
+            }
+            binding.quizDailyPages.text = getString(
+                R.string.quiz_page_indicator,
+                viewModel.reviewQuizPage.value!! + 1,
+                pageEnd
+            )
+            DialogType.REVIEW
+        } else {
+            DialogType.DEFAULT
         }
     }
 }

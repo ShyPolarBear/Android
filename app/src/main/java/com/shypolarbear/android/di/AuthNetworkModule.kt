@@ -36,8 +36,8 @@ object AuthNetworkModule {
     ): Retrofit {
 
         return Retrofit.Builder()
-//            .baseUrl(BASE_URL)
-            .baseUrl(MOCK_URL)
+            .baseUrl(BASE_URL)
+//            .baseUrl(MOCK_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

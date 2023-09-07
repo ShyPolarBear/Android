@@ -4,7 +4,6 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
 import com.google.gson.JsonSyntaxException
 import com.shypolarbear.android.util.BASE_URL
-import com.shypolarbear.android.util.MOCK_URL
 import com.shypolarbear.android.util.RETROFIT_TAG
 import com.shypolarbear.android.util.isJsonArray
 import com.shypolarbear.android.util.isJsonObject
