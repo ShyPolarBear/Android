@@ -6,7 +6,7 @@ import com.shypolarbear.domain.repository.quiz.QuizRepo
 class QuizUseCase(
     private val repo: QuizRepo
 ) {
-    fun requestQuiz(): Result<DailyQuizResponse>{
+    suspend operator fun invoke(): Result<DailyQuizResponse>{
         return repo.requestQuiz()
     }
 }

@@ -145,17 +145,31 @@
         android:name="com.shypolarbear.presentation.ui.quiz.daily.QuizDailyMultiChoiceFragment"
         android:label="QuizDailyMultiChoiceFragment"
         tools:layout="@layout/fragment_quiz_daily_multi" >
+
         <action
-            android:id="@+id/action_quizDailyMultiChoiceFragment_to_quizMainFragment"
+            android:id="@+id/action_quizDailyMultiChoiceFragment_to_navigation_quiz_main"
             app:destination="@id/navigation_quiz_main" />
+        <action
+            android:id="@+id/action_quizDailyMultiChoiceFragment_to_quizDailyOXFragment"
+            app:destination="@id/quizDailyOXFragment" />
+        <action
+            android:id="@+id/action_quizDailyMultiChoiceFragment_self"
+            app:destination="@id/quizDailyMultiChoiceFragment" />
     </fragment>
     <fragment
         android:id="@+id/quizDailyOXFragment"
         android:name="com.shypolarbear.presentation.ui.quiz.daily.QuizDailyOXFragment"
         android:label="QuizDailyOXFragment"
         tools:layout="@layout/fragment_quiz_daily_ox" >
+
         <action
-            android:id="@+id/action_quizDailyOXFragment_to_quizMainFragment"
+            android:id="@+id/action_quizDailyOXFragment_to_navigation_quiz_main"
             app:destination="@id/navigation_quiz_main" />
+        <action
+            android:id="@+id/action_quizDailyOXFragment_to_quizDailyMultiChoiceFragment"
+            app:destination="@id/quizDailyMultiChoiceFragment" />
+        <action
+            android:id="@+id/action_quizDailyOXFragment_self"
+            app:destination="@id/quizDailyOXFragment" />
     </fragment>
 </navigation>

@@ -85,8 +85,8 @@
             android:layout_height="24dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="4dp"
-            android:max="15"
-            android:progress="4"
+            android:max="1500"
+            android:progress="1500"
             app:layout_constraintBottom_toTopOf="@id/quiz_daily_tv_time"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

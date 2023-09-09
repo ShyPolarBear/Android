@@ -9,7 +9,6 @@ import com.shypolarbear.domain.repository.TokenRepo
 import com.shypolarbear.domain.repository.quiz.QuizRepo
 import com.shypolarbear.domain.usecase.tokens.GetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.ExampleUseCase
-import com.shypolarbear.domain.usecase.more.GetMyInfoUseCase
 import com.shypolarbear.domain.usecase.JoinUseCase
 import com.shypolarbear.domain.usecase.feed.FeedTotalUseCase
 import com.shypolarbear.domain.usecase.LoginUseCase
@@ -22,6 +21,11 @@ import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
 import com.shypolarbear.domain.usecase.feed.FeedLikeUseCase
 import com.shypolarbear.domain.usecase.feed.FeedWriteUseCase
 import com.shypolarbear.domain.usecase.more.ChangeMyInfoUseCase
+import com.shypolarbear.domain.usecase.more.GetMyInfoUseCase
+import com.shypolarbear.domain.usecase.quiz.QuizReviewUseCase
+import com.shypolarbear.domain.usecase.quiz.QuizSolvedUseCase
+import com.shypolarbear.domain.usecase.quiz.QuizSubmitMultiUseCase
+import com.shypolarbear.domain.usecase.quiz.QuizSubmitOXUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizUseCase
 import com.shypolarbear.domain.usecase.tokens.SetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.tokens.SetRefreshTokenUseCase
@@ -140,5 +144,29 @@ class UseCaseModule {
     @Provides
     fun provideFeedLikeUseCase(repo: FeedRepo): FeedLikeUseCase {
         return FeedLikeUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideQuizSolvedUseCase(repo: QuizRepo): QuizSolvedUseCase {
+        return QuizSolvedUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideQuizReviewUseCase(repo: QuizRepo): QuizReviewUseCase {
+        return QuizReviewUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideQuizSubmitOXUseCase(repo: QuizRepo): QuizSubmitOXUseCase {
+        return QuizSubmitOXUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideQuizSubmitMultiUseCase(repo:QuizRepo): QuizSubmitMultiUseCase {
+        return QuizSubmitMultiUseCase(repo)
     }
 }
