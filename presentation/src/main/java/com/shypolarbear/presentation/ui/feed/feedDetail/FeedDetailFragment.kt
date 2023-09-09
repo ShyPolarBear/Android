@@ -14,6 +14,8 @@ import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedDetailBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedCommentAdapter
+import com.shypolarbear.presentation.ui.feed.feedTotal.FragmentTotalStatus
+import com.shypolarbear.presentation.ui.feed.feedTotal.fragmentTotalStats
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
 import com.shypolarbear.presentation.util.setMenu
@@ -61,6 +63,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             progressFeedDetailLoading.isVisible = true
 
             btnFeedDetailBack.setOnClickListener {
+                fragmentTotalStats = FragmentTotalStatus.BACK_BTN_CLICK
                 findNavController().popBackStack()
             }
 

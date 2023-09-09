@@ -10,7 +10,9 @@ import androidx.navigation.fragment.navArgs
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedWriteBinding
+import com.shypolarbear.presentation.ui.feed.feedTotal.FragmentTotalStatus
 import com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider
+import com.shypolarbear.presentation.ui.feed.feedTotal.fragmentTotalStats
 import dagger.hilt.android.AndroidEntryPoint
 
 const val IMAGE_ADD_INDEX = 0
@@ -69,6 +71,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
             }
 
             btnFeedWriteBack.setOnClickListener {
+                fragmentTotalStats = FragmentTotalStatus.BACK_BTN_CLICK
                 findNavController().popBackStack()
 
             }
@@ -104,6 +107,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                                 )
                             }
                         }
+                        fragmentTotalStats = FragmentTotalStatus.POST_CHANGE
                         findNavController().popBackStack()
                     }
                 }

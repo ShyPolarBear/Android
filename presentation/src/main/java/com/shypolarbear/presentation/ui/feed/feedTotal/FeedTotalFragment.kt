@@ -7,11 +7,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedTotalBinding
 import com.shypolarbear.presentation.ui.feed.feedTotal.adapter.FeedPostAdapter
+import com.shypolarbear.presentation.ui.feed.feedWrite.FeedWriteFragmentArgs
 import com.shypolarbear.presentation.util.PowerMenuUtil
 import com.shypolarbear.presentation.util.infiniteScroll
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
@@ -26,6 +28,14 @@ enum class WriteChangeDivider(val fragmentType: Int) {
     CHANGE(1)
 }
 
+enum class FragmentTotalStatus(val status: Int) {
+    INIT(0),
+    BACK_BTN_CLICK(1),
+    POST_CHANGE(2)
+}
+
+var fragmentTotalStats = FragmentTotalStatus.INIT
+
 @AndroidEntryPoint
 class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewModel> (
     R.layout.fragment_feed_total
@@ -37,6 +47,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
     }
 
     override val viewModel: FeedTotalViewModel by viewModels()
+
     private val feedPostAdapter = FeedPostAdapter(
         onMyPostPropertyClick = { view: ImageView, feedId: Int, position: Int ->
             showMyPostPropertyMenu(view, feedId, position)
@@ -75,7 +86,13 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
             binding.progressFeedTotalLoading.isVisible = true
             binding.layoutFeed.isVisible = false
 
-            viewModel.loadFeedTotalData("recent")
+            when(fragmentTotalStats) {
+                FragmentTotalStatus.INIT, FragmentTotalStatus.POST_CHANGE -> {
+                    viewModel.clearFeedList()
+                    viewModel.loadFeedTotalData("recent")
+                }
+                FragmentTotalStatus.BACK_BTN_CLICK -> { }
+            }
             setFeedPost()
 
             ivFeedToolbarSort.setOnClickListener {
