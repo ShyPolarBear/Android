@@ -88,8 +88,13 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
 
     private fun setFeedPost(feedDetail: Feed) {
         var postPropertyItems: List<PowerMenuItem>
-        var isPostLike = feedDetail.isLike
-        var postLikeCnt: Int = feedDetail.likeCount
+        val isPostLike = feedDetail.isLike
+        val postLikeCnt: Int = feedDetail.likeCount
+
+        // 댓글 기능 미구현 상황이라 임시로 여기에 정의
+        // TODO("댓글 기능 구현되면 제거")
+        binding.layoutFeedDetail.isVisible = true
+        binding.progressFeedDetailLoading.isVisible = false
 
         binding.tvFeedDetailUserNickname.text = feedDetail.author
         binding.tvFeedDetailPostingTime.text = feedDetail.createdDate
