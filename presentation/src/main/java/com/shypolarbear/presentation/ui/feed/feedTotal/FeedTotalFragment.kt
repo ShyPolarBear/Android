@@ -79,10 +79,29 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
             setFeedPost()
 
             ivFeedToolbarSort.setOnClickListener {
-                ivFeedToolbarSort.setMenu(
+                PowerMenuUtil.getPowerMenu(
+                    requireContext(),
+                    viewLifecycleOwner,
+                    feedSortItems
+                ) { _, item ->
+                    when(item.title) {
+                        getString(R.string.feed_post_property_recent) -> {
+                            viewModel.clearFeedList()
+                            viewModel.loadFeedTotalData("recent")
+                        }
+                        getString(R.string.feed_post_property_recent_best) -> {
+                            viewModel.clearFeedList()
+                            viewModel.loadFeedTotalData("recentBest")
+                        }
+                        getString(R.string.feed_post_property_best) -> {
+                            viewModel.clearFeedList()
+                            viewModel.loadFeedTotalData("best")
+                        }
+                    }
+                }.showAsDropDown(
                     ivFeedToolbarSort,
-                    feedSortItems,
-                    viewLifecycleOwner
+                    POWER_MENU_OFFSET_X,
+                    POWER_MENU_OFFSET_Y
                 )
             }
 
@@ -94,7 +113,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                 )
             }
 
-            rvFeedPost.infiniteScroll { viewModel.loadFeedTotalData("recent") }
+//            rvFeedPost.infiniteScroll { viewModel.loadFeedTotalData("recent") }
         }
     }
 

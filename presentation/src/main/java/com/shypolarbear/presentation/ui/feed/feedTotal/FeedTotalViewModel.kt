@@ -30,7 +30,6 @@ class FeedTotalViewModel @Inject constructor (
 
             feedData
                 .onSuccess {
-                    Timber.d(it.toString())
                     val newDataList = it.data.content
                     val currentList = _feed.value ?: emptyList()
                     _feed.value = currentList + newDataList
@@ -82,6 +81,12 @@ class FeedTotalViewModel @Inject constructor (
         feedList.addAll(0, _feed.value!!)
 
         feedList.removeAt(position)
+        _feed.value = feedList
+    }
+
+    fun clearFeedList() {
+        val feedList: MutableList<Feed> = mutableListOf()
+
         _feed.value = feedList
     }
 }
