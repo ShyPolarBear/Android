@@ -91,18 +91,18 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                     else -> {
                         when(feedWriteArgs.divider) {
                             WriteChangeDivider.WRITE -> {
-                                // TODO("피드 작성 시 동작")
+                                // TODO("이미지 api 구현 되면 feedImages에 viewModel의 _liveImgList.value 넣기)
                                 viewModel.writePost(
                                     title = edtFeedWriteTitle.text.toString(),
                                     content = edtFeedWriteContent.text.toString(),
-                                    feedImages = null
+                                    feedImages = listOf()
                                 )
                             }
                             WriteChangeDivider.CHANGE -> {
                                 viewModel.changePost(
                                     feedId = feedWriteArgs.feedId,
                                     content = edtFeedWriteContent.text.toString(),
-                                    feedImages = null,
+                                    feedImages = listOf(),
                                     title = edtFeedWriteTitle.text.toString()
                                 )
                             }
