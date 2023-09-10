@@ -48,6 +48,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
 
     override val viewModel: FeedTotalViewModel by viewModels()
 
+    private var feedSort: String = "recent"
     private val feedPostAdapter = FeedPostAdapter(
         onMyPostPropertyClick = { view: ImageView, feedId: Int, position: Int ->
             showMyPostPropertyMenu(view, feedId, position)
@@ -89,7 +90,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
             when(fragmentTotalStats) {
                 FragmentTotalStatus.INIT, FragmentTotalStatus.POST_CHANGE -> {
                     viewModel.clearFeedList()
-                    viewModel.loadFeedTotalData("recent")
+                    viewModel.loadFeedTotalData(feedSort)
                 }
                 FragmentTotalStatus.BACK_BTN_CLICK -> { }
             }
@@ -103,16 +104,13 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                 ) { _, item ->
                     when(item.title) {
                         getString(R.string.feed_post_property_recent) -> {
-                            viewModel.clearFeedList()
-                            viewModel.loadFeedTotalData("recent")
+                            loadSortedFeed("recent")
                         }
                         getString(R.string.feed_post_property_recent_best) -> {
-                            viewModel.clearFeedList()
-                            viewModel.loadFeedTotalData("recentBest")
+                            loadSortedFeed("recentBest")
                         }
                         getString(R.string.feed_post_property_best) -> {
-                            viewModel.clearFeedList()
-                            viewModel.loadFeedTotalData("best")
+                            loadSortedFeed("best")
                         }
                     }
                 }.showAsDropDown(
@@ -130,7 +128,12 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                 )
             }
 
-//            rvFeedPost.infiniteScroll { viewModel.loadFeedTotalData("recent") }
+            rvFeedPost.infiniteScroll {
+                when(viewModel.feedIsLast) {
+                    true -> { }
+                    false -> { viewModel.loadFeedTotalData(feedSort) }
+                }
+            }
         }
     }
 
@@ -253,5 +256,11 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         findNavController().navigate(
             FeedTotalFragmentDirections.actionFeedTotalFragmentToFeedDetailFragment(feedId)
         )
+    }
+
+    private fun loadSortedFeed(sort: String) {
+        feedSort = sort
+        viewModel.clearFeedList()
+        viewModel.loadFeedTotalData(sort)
     }
 }

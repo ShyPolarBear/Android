@@ -6,7 +6,7 @@ import com.shypolarbear.domain.repository.feed.FeedRepo
 class FeedTotalUseCase(
     private val repo: FeedRepo
 ) {
-    suspend fun loadFeedTotalData(sort: String): Result<FeedTotal> {
-        return repo.getFeedTotalData(sort)
+    suspend fun loadFeedTotalData(sort: String, lastFeedId: Int?): Result<FeedTotal> {
+        return repo.getFeedTotalData(sort, lastFeedId)
     }
 }

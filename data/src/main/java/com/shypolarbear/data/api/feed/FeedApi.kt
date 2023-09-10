@@ -18,7 +18,8 @@ import retrofit2.http.Query
 interface FeedApi {
     @GET("api/feeds")
     suspend fun getFeedTotal(
-        @Query("sort") sort: String
+        @Query("sort") sort: String,
+        @Query("lastFeedId") lastFeedId: Int?
     ): Response<FeedTotal>
 
     @GET("api/feeds/{feedId}")

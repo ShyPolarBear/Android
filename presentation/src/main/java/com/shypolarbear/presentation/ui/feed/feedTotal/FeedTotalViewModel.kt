@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.feed.Feed
+import com.shypolarbear.domain.model.feed.FeedTotal
 import com.shypolarbear.domain.usecase.feed.FeedDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
 import com.shypolarbear.domain.usecase.feed.FeedLikeUseCase
@@ -24,14 +25,25 @@ class FeedTotalViewModel @Inject constructor (
     private val _feed = MutableLiveData<List<Feed>>()
     val feed: LiveData<List<Feed>> = _feed
 
+    var feedIsLast = false
+
     fun loadFeedTotalData(sort: String) {
+        var feedData: Result<FeedTotal>
+
         viewModelScope.launch {
-            val feedData = feedTotalUseCase.loadFeedTotalData(sort)
+            feedData = when {
+                _feed.value.isNullOrEmpty() -> { feedTotalUseCase.loadFeedTotalData(sort, lastFeedId = null) }
+
+                else -> { feedTotalUseCase.loadFeedTotalData(sort, _feed.value!![_feed.value!!.lastIndex].feedId) }
+            }
+
 
             feedData
                 .onSuccess {
                     val newDataList = it.data.content
                     val currentList = _feed.value ?: emptyList()
+                    feedIsLast = it.data.last
+
                     _feed.value = currentList + newDataList
                 }
                 .onFailure {

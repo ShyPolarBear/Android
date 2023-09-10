@@ -14,9 +14,9 @@ import javax.inject.Inject
 class FeedRepoImpl @Inject constructor(
     private val api: FeedApi
 ): FeedRepo {
-    override suspend fun getFeedTotalData(sort: String): Result<FeedTotal> {
+    override suspend fun getFeedTotalData(sort: String, lastFeedId: Int?): Result<FeedTotal> {
         return try {
-            val response = api.getFeedTotal(sort)
+            val response = api.getFeedTotal(sort, lastFeedId)
             when {
                 response.isSuccessful -> {
                     Result.success(response.body()!!)
