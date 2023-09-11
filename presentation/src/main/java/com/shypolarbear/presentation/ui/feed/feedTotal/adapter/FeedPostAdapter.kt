@@ -11,13 +11,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
 import com.shypolarbear.presentation.databinding.ItemFeedLoadingBinding
+import com.shypolarbear.presentation.databinding.ItemFeedNoImageBinding
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalLikeBtnType
 import com.shypolarbear.presentation.ui.feed.feedTotal.viewholder.FeedLoadingViewHolder
+import com.shypolarbear.presentation.ui.feed.feedTotal.viewholder.FeedPostNoImageViewHolder
 import com.shypolarbear.presentation.ui.feed.feedTotal.viewholder.FeedPostViewHolder
+import timber.log.Timber
 
 enum class FeedViewType(val viewType: Int) {
     LOADING(0),
-    ITEM(1)
+    ITEM_HAS_IMAGES(1),
+    ITEM_HAS_NO_IMAGES(2)
 }
 
 class FeedPostAdapter(
@@ -43,9 +47,20 @@ class FeedPostAdapter(
                     ItemFeedLoadingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 )
             }
-            FeedViewType.ITEM.viewType -> {
+            FeedViewType.ITEM_HAS_IMAGES.viewType -> {
                 return FeedPostViewHolder(
                     ItemFeedBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+                    onMyPostPropertyClick = onMyPostPropertyClick,
+                    onOtherPostPropertyClick = onOtherPostPropertyClick,
+                    onMyBestCommentPropertyClick = onMyBestCommentPropertyClick,
+                    onOtherBestCommentPropertyClick = onOtherBestCommentPropertyClick,
+                    onBtnLikeClick = onBtnLikeClick,
+                    onMoveToDetailClick = onMoveToDetailClick
+                )
+            }
+            FeedViewType.ITEM_HAS_NO_IMAGES.viewType -> {
+                return FeedPostNoImageViewHolder(
+                    ItemFeedNoImageBinding.inflate(LayoutInflater.from(parent.context), parent, false),
                     onMyPostPropertyClick = onMyPostPropertyClick,
                     onOtherPostPropertyClick = onOtherPostPropertyClick,
                     onMyBestCommentPropertyClick = onMyBestCommentPropertyClick,
@@ -61,9 +76,12 @@ class FeedPostAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(getItem(position).feedId) {
-            0 -> {
+        when {
+            getItem(position).feedId == 0 -> {
                 (holder as FeedLoadingViewHolder).bind(getItem(position))
+            }
+            getItem(position).feedImages.isNullOrEmpty() -> {
+                (holder as FeedPostNoImageViewHolder).bind(getItem(position))
             }
             else -> {
                 (holder as FeedPostViewHolder).bind(getItem(position))
@@ -72,12 +90,16 @@ class FeedPostAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when(getItem(position).feedId) {
-            0 -> {
+        Timber.d("${getItem(position).feedImages.isNullOrEmpty() }")
+        return when {
+            getItem(position).feedId == 0 -> {
                 FeedViewType.LOADING.viewType
             }
+            getItem(position).feedImages.isNullOrEmpty() == true -> {
+                FeedViewType.ITEM_HAS_NO_IMAGES.viewType
+            }
             else -> {
-                FeedViewType.ITEM.viewType
+                FeedViewType.ITEM_HAS_IMAGES.viewType
             }
         }
     }

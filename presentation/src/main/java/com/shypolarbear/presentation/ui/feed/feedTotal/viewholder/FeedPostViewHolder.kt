@@ -13,6 +13,7 @@ import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalLikeBtnType
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
+import timber.log.Timber
 
 class FeedPostViewHolder(
     private val binding: ItemFeedBinding,

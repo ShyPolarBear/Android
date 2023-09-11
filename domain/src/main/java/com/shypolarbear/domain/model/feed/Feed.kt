@@ -12,5 +12,5 @@ data class Feed(
     val isLike: Boolean = false,
     val isAuthor: Boolean = false,
     val commentCount: Int = 0,
-    val comment: Comment = Comment(),
+    val comment: Comment = Comment()
 )
