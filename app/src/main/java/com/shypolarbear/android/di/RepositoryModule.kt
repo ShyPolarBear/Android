@@ -7,6 +7,7 @@ import com.shypolarbear.data.repositoryimpl.JoinRepoImpl
 import com.shypolarbear.data.repositoryimpl.LoginRepoImpl
 import com.shypolarbear.data.repositoryimpl.TokenRepoImpl
 import com.shypolarbear.data.repositoryimpl.feed.FeedRepoImpl
+import com.shypolarbear.data.repositoryimpl.image.ImageUploadRepoImpl
 import com.shypolarbear.data.repositoryimpl.quiz.QuizRepoImpl
 import com.shypolarbear.domain.repository.ExampleRepo
 import com.shypolarbear.domain.repository.ImageRepo
@@ -51,5 +52,5 @@ abstract class RepositoryModule {
     abstract fun bindImageRepo(repoImp: ImageRepoImpl): ImageRepo
 
     @Binds
-    abstract fun bindImageUploadRepo(repoImp: ImageUploadRepo): ImageUploadRepo
+    abstract fun bindImageUploadRepo(repoImp: ImageUploadRepoImpl): ImageUploadRepo
 }

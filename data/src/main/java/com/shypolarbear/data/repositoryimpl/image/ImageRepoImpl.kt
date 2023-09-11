@@ -7,8 +7,9 @@ import com.shypolarbear.domain.model.image.ImageDeleteResponse
 import com.shypolarbear.domain.model.image.ImageModifyRequest
 import com.shypolarbear.domain.model.image.ImageModifyResponse
 import com.shypolarbear.domain.repository.ImageRepo
+import javax.inject.Inject
 
-class ImageRepoImpl(private val api: ImageApi) : ImageRepo {
+class ImageRepoImpl @Inject constructor(private val api: ImageApi) : ImageRepo {
     override suspend fun imageModifyRequest(imageModifyRequest: ImageModifyRequest): Result<ImageModifyResponse> {
         return try {
             val response = api.imageModify(imageModifyRequest)

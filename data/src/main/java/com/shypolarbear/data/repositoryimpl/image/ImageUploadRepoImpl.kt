@@ -5,8 +5,9 @@ import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.domain.model.image.ImageUploadRequest
 import com.shypolarbear.domain.model.image.ImageUploadResponse
 import com.shypolarbear.domain.repository.image.ImageUploadRepo
+import javax.inject.Inject
 
-class ImageUploadRepoImpl(private val api: ImageUploadApi):ImageUploadRepo {
+class ImageUploadRepoImpl @Inject constructor(private val api: ImageUploadApi):ImageUploadRepo {
     override suspend fun imageUploadRequest(imageUploadRequest: ImageUploadRequest): Result<ImageUploadResponse> {
         return try {
             val response = api.imageUpload(imageUploadRequest)

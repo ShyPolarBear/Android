@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_signup_name_profile"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="65dp"
+            android:contentDescription="@string/profile_icon"
+            android:src="@drawable/ic_user_base_profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_signup_img_edit"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:adjustViewBounds="false"
+            android:clickable="true"
+            android:contentDescription="@string/profile_icon"
+            android:src="@drawable/ic_signup_name_edit"
+            app:layout_constraintBottom_toBottomOf="@id/iv_signup_name_profile"
+            app:layout_constraintEnd_toEndOf="@+id/iv_signup_name_profile" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/imageTestFragment">
 
     <fragment
         android:id="@+id/navigation_feed"
@@ -172,4 +172,8 @@
             android:id="@+id/action_quizDailyOXFragment_self"
             app:destination="@id/quizDailyOXFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/imageTestFragment"
+        android:name="com.shypolarbear.presentation.ui.imageTest.ImageTestFragment"
+        android:label="ImageTestFragment" />
 </navigation>
