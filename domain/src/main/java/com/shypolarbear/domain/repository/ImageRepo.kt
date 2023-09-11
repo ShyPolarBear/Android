@@ -8,7 +8,6 @@ import com.shypolarbear.domain.model.image.ImageUploadRequest
 import com.shypolarbear.domain.model.image.ImageUploadResponse
 
 interface ImageRepo {
-    suspend fun imageUploadRequest(imageUploadRequest: ImageUploadRequest): Result<ImageUploadResponse>
     suspend fun imageModifyRequest(imageModifyRequest: ImageModifyRequest): Result<ImageModifyResponse>
     suspend fun imageDeleteRequest(imageDeleteRequest: ImageDeleteRequest): Result<ImageDeleteResponse>
 }

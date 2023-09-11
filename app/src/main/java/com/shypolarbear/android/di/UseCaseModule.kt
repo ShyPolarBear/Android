@@ -7,6 +7,7 @@ import com.shypolarbear.domain.repository.JoinRepo
 import com.shypolarbear.domain.repository.feed.FeedRepo
 import com.shypolarbear.domain.repository.LoginRepo
 import com.shypolarbear.domain.repository.TokenRepo
+import com.shypolarbear.domain.repository.image.ImageUploadRepo
 import com.shypolarbear.domain.repository.quiz.QuizRepo
 import com.shypolarbear.domain.usecase.tokens.GetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.ExampleUseCase
@@ -176,7 +177,7 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideImageUpload(repo: ImageRepo): ImageUploadUseCase {
+    fun provideImageUpload(repo: ImageUploadRepo): ImageUploadUseCase {
         return ImageUploadUseCase(repo)
     }
 

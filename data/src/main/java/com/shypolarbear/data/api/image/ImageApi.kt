@@ -1,4 +1,4 @@
-package com.shypolarbear.data.api
+package com.shypolarbear.data.api.image
 
 import com.shypolarbear.domain.model.image.ImageDeleteRequest
 import com.shypolarbear.domain.model.image.ImageDeleteResponse
@@ -14,13 +14,6 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 
 interface ImageApi {
-
-    @Multipart
-    @POST("/api/images")
-    suspend fun imageUpload(
-        @Body
-        imageUploadRequest: ImageUploadRequest,
-    ): Response<ImageUploadResponse>
 
     @Multipart
     @PUT("/api/images")
