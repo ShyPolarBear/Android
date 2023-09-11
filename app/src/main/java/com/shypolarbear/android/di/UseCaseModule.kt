@@ -1,6 +1,7 @@
 package com.shypolarbear.android.di
 
 import com.shypolarbear.domain.repository.ExampleRepo
+import com.shypolarbear.domain.repository.ImageRepo
 import com.shypolarbear.domain.repository.InfoRepo
 import com.shypolarbear.domain.repository.JoinRepo
 import com.shypolarbear.domain.repository.feed.FeedRepo
@@ -20,6 +21,9 @@ import com.shypolarbear.domain.usecase.feed.FeedDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
 import com.shypolarbear.domain.usecase.feed.FeedLikeUseCase
 import com.shypolarbear.domain.usecase.feed.FeedWriteUseCase
+import com.shypolarbear.domain.usecase.image.ImageDeleteUseCase
+import com.shypolarbear.domain.usecase.image.ImageModifyUseCase
+import com.shypolarbear.domain.usecase.image.ImageUploadUseCase
 import com.shypolarbear.domain.usecase.more.ChangeMyInfoUseCase
 import com.shypolarbear.domain.usecase.more.GetMyInfoUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizReviewUseCase
@@ -40,13 +44,13 @@ import javax.inject.Singleton
 class UseCaseModule {
     @Singleton
     @Provides
-    fun provideLoginUseCase(repo: LoginRepo): LoginUseCase{
+    fun provideLoginUseCase(repo: LoginRepo): LoginUseCase {
         return LoginUseCase(repo)
     }
 
     @Singleton
     @Provides
-    fun provideJoinUseCase(repo: JoinRepo): JoinUseCase{
+    fun provideJoinUseCase(repo: JoinRepo): JoinUseCase {
         return JoinUseCase(repo)
     }
 
@@ -118,7 +122,7 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideQuizUseCase(repo: QuizRepo): QuizUseCase{
+    fun provideQuizUseCase(repo: QuizRepo): QuizUseCase {
         return QuizUseCase(repo)
     }
 
@@ -166,7 +170,25 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideQuizSubmitMultiUseCase(repo:QuizRepo): QuizSubmitMultiUseCase {
+    fun provideQuizSubmitMultiUseCase(repo: QuizRepo): QuizSubmitMultiUseCase {
         return QuizSubmitMultiUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideImageUpload(repo: ImageRepo): ImageUploadUseCase {
+        return ImageUploadUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideImageModify(repo: ImageRepo): ImageModifyUseCase {
+        return ImageModifyUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideImageDelete(repo: ImageRepo): ImageDeleteUseCase {
+        return ImageDeleteUseCase(repo)
     }
 }

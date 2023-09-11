@@ -1,6 +1,7 @@
 package com.shypolarbear.android.di
 
 import com.shypolarbear.data.api.ExampleApi
+import com.shypolarbear.data.api.ImageApi
 import com.shypolarbear.data.api.InfoApi
 import com.shypolarbear.data.api.JoinApi
 import com.shypolarbear.data.api.LoginApi
@@ -61,5 +62,11 @@ object ApiModule {
     @Provides
     fun provideInfoApi(@AuthRetrofit retrofit: Retrofit): InfoApi {
         return retrofit.create(InfoApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideImageApi(@AuthRetrofit retrofit: Retrofit): ImageApi{
+        return retrofit.create(ImageApi::class.java)
     }
 }

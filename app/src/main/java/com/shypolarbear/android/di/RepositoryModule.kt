@@ -1,6 +1,7 @@
 package com.shypolarbear.android.di
 
 import com.shypolarbear.data.repositoryimpl.ExampleRepoImpl
+import com.shypolarbear.data.repositoryimpl.ImageRepoImpl
 import com.shypolarbear.data.repositoryimpl.InfoRepoImpl
 import com.shypolarbear.data.repositoryimpl.JoinRepoImpl
 import com.shypolarbear.data.repositoryimpl.LoginRepoImpl
@@ -8,6 +9,7 @@ import com.shypolarbear.data.repositoryimpl.TokenRepoImpl
 import com.shypolarbear.data.repositoryimpl.feed.FeedRepoImpl
 import com.shypolarbear.data.repositoryimpl.quiz.QuizRepoImpl
 import com.shypolarbear.domain.repository.ExampleRepo
+import com.shypolarbear.domain.repository.ImageRepo
 import com.shypolarbear.domain.repository.InfoRepo
 import com.shypolarbear.domain.repository.JoinRepo
 import com.shypolarbear.domain.repository.LoginRepo
@@ -43,4 +45,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindQuizRepo(repoImp: QuizRepoImpl): QuizRepo
+
+    @Binds
+    abstract fun bindImageRepo(repoImp: ImageRepoImpl): ImageRepo
 }
