@@ -33,18 +33,27 @@ class FeedTotalViewModel @Inject constructor (
         viewModelScope.launch {
             feedData = when {
                 _feed.value.isNullOrEmpty() -> { feedTotalUseCase.loadFeedTotalData(sort, lastFeedId = null) }
-
-                else -> { feedTotalUseCase.loadFeedTotalData(sort, _feed.value!![_feed.value!!.lastIndex].feedId) }
+                else -> { feedTotalUseCase.loadFeedTotalData(sort, _feed.value!![_feed.value!!.lastIndex - 1].feedId) }
             }
-
 
             feedData
                 .onSuccess {
                     val newDataList = it.data.content
                     val currentList = _feed.value ?: emptyList()
+
+                    if (!currentList.isNullOrEmpty()) {
+                        val removeProgressList = currentList as MutableList
+                        removeProgressList.removeLast()
+
+                        _feed.value = removeProgressList
+                    }
+
                     feedIsLast = it.data.last
 
-                    _feed.value = currentList + newDataList
+                    when(feedIsLast) {
+                        true -> { _feed.value = currentList + newDataList }
+                        false -> { _feed.value = currentList + newDataList + listOf(Feed()) }
+                    }
                 }
                 .onFailure {
 
