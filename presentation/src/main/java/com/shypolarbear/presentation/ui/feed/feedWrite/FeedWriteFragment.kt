@@ -12,7 +12,7 @@ import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedWriteBinding
 import com.shypolarbear.presentation.ui.feed.feedTotal.FragmentTotalStatus
 import com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider
-import com.shypolarbear.presentation.ui.feed.feedTotal.fragmentTotalStats
+import com.shypolarbear.presentation.ui.feed.feedTotal.fragmentTotalStatus
 import dagger.hilt.android.AndroidEntryPoint
 
 const val IMAGE_ADD_INDEX = 0
@@ -71,7 +71,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
             }
 
             btnFeedWriteBack.setOnClickListener {
-                fragmentTotalStats = FragmentTotalStatus.BACK_BTN_CLICK
+                fragmentTotalStatus = FragmentTotalStatus.WRITE_BACK_BTN_CLICK
                 findNavController().popBackStack()
 
             }
@@ -107,7 +107,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                                 )
                             }
                         }
-                        fragmentTotalStats = FragmentTotalStatus.POST_CHANGE
+                        fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
                         findNavController().popBackStack()
                     }
                 }

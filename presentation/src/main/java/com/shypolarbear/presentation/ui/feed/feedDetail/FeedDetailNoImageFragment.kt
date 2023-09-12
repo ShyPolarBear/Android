@@ -7,17 +7,17 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
-import com.shypolarbear.presentation.databinding.FragmentFeedDetailBinding
 import com.shypolarbear.presentation.databinding.FragmentFeedDetailNoImageBinding
-import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedCommentAdapter
+import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
 import com.shypolarbear.presentation.ui.feed.feedTotal.FragmentTotalStatus
-import com.shypolarbear.presentation.ui.feed.feedTotal.fragmentTotalStats
+import com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider
+import com.shypolarbear.presentation.ui.feed.feedTotal.fragmentTotalStatus
 import com.shypolarbear.presentation.util.GlideUtil
+import com.shypolarbear.presentation.util.PowerMenuUtil
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
@@ -64,7 +64,7 @@ class FeedDetailNoImageFragment : BaseFragment<FragmentFeedDetailNoImageBinding,
             progressFeedDetailLoading.isVisible = true
 
             btnFeedDetailNoImageBack.setOnClickListener {
-                fragmentTotalStats = FragmentTotalStatus.BACK_BTN_CLICK
+                fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
                 findNavController().popBackStack()
             }
 
@@ -145,10 +145,29 @@ class FeedDetailNoImageFragment : BaseFragment<FragmentFeedDetailNoImageBinding,
                 }
             }
 
-            binding.ivFeedDetailNoImageProperty.setMenu(
+            PowerMenuUtil.getPowerMenu(
+                requireContext(),
+                viewLifecycleOwner,
+                postPropertyItems
+            ) { _, item ->
+                when(item.title) {
+                    getString(R.string.feed_post_property_revise) -> {
+                        findNavController().navigate(
+                            FeedDetailNoImageFragmentDirections.actionFeedDetailNoImageFragmentToFeedWriteFragment(
+                                WriteChangeDivider.CHANGE, feedDetailNoImageArgs.feedId
+                            )
+                        )
+                    }
+                    getString(R.string.feed_post_property_delete) -> {
+                        viewModel.requestDeleteFeed(feedDetailNoImageArgs.feedId)
+                        fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
+                        findNavController().popBackStack()
+                    }
+                }
+            }.showAsDropDown(
                 binding.ivFeedDetailNoImageProperty,
-                postPropertyItems,
-                viewLifecycleOwner
+                FeedTotalFragment.POWER_MENU_OFFSET_X,
+                FeedTotalFragment.POWER_MENU_OFFSET_Y
             )
         }
     }

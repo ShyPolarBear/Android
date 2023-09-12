@@ -100,4 +100,10 @@ class FeedDetailViewModel @Inject constructor(
         }
         _feedComment.value = updatedCommentList
     }
+
+    fun requestDeleteFeed(feedId: Int) {
+        viewModelScope.launch {
+            feedDeleteUseCase.requestDeleteFeed(feedId)
+        }
+    }
 }

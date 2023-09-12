@@ -7,14 +7,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.RecyclerView
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedTotalBinding
 import com.shypolarbear.presentation.ui.feed.feedTotal.adapter.FeedPostAdapter
-import com.shypolarbear.presentation.ui.feed.feedWrite.FeedWriteFragmentArgs
 import com.shypolarbear.presentation.util.PowerMenuUtil
 import com.shypolarbear.presentation.util.infiniteScroll
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
@@ -22,7 +19,6 @@ import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 enum class WriteChangeDivider(val fragmentType: Int) {
     WRITE(0),
@@ -31,11 +27,11 @@ enum class WriteChangeDivider(val fragmentType: Int) {
 
 enum class FragmentTotalStatus(val status: Int) {
     INIT(0),
-    BACK_BTN_CLICK(1),
-    POST_CHANGE(2)
+    WRITE_BACK_BTN_CLICK(1),
+    POST_CHANGE_OR_DETAIL_BACK(2)
 }
 
-var fragmentTotalStats = FragmentTotalStatus.INIT
+var fragmentTotalStatus = FragmentTotalStatus.INIT
 
 @AndroidEntryPoint
 class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewModel> (
@@ -88,12 +84,12 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
             binding.progressFeedTotalLoading.isVisible = true
             binding.layoutFeed.isVisible = false
 
-            when(fragmentTotalStats) {
-                FragmentTotalStatus.INIT, FragmentTotalStatus.POST_CHANGE -> {
+            when(fragmentTotalStatus) {
+                FragmentTotalStatus.INIT, FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK -> {
                     viewModel.clearFeedList()
                     viewModel.loadFeedTotalData(feedSort)
                 }
-                FragmentTotalStatus.BACK_BTN_CLICK -> { }
+                FragmentTotalStatus.WRITE_BACK_BTN_CLICK -> { }
             }
             setFeedPost()
 
