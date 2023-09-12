@@ -18,6 +18,8 @@ object AndroidX {
     const val NAVIGATION_UI_KTX = "androidx.navigation:navigation-ui-ktx:${Versions.NAVIGATION}"
     const val PREFERENCES_DATASTORE = "androidx.datastore:datastore-preferences:${Versions.DATA_STORE}"
     const val PROTO_DATASTORE = "androidx.datastore:datastore:${Versions.DATA_STORE}"
+
+    const val SWIPE_REFRESH_LAYOUT = "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.SWIPE_REFRESH_LAYOUT}"
 }
 
 object Google {

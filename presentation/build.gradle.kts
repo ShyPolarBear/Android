@@ -57,6 +57,7 @@ dependencies {
     implementation(AndroidX.NAVIGATION_UI_KTX)
     implementation(AndroidX.PREFERENCES_DATASTORE)
     implementation(AndroidX.PROTO_DATASTORE)
+    implementation(AndroidX.SWIPE_REFRESH_LAYOUT)
 
     implementation(Google.HILT_ANDROID)
     kapt(Google.HILT_ANDROID_COMPILER)
