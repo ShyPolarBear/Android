@@ -96,6 +96,12 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
             }
             setFeedPost()
 
+            swipeLayoutFeedPost.setOnRefreshListener {
+                viewModel.clearFeedList()
+                viewModel.loadFeedTotalData(feedSort)
+                swipeLayoutFeedPost.isRefreshing = false
+            }
+
             ivFeedToolbarSort.setOnClickListener {
                 PowerMenuUtil.getPowerMenu(
                     requireContext(),
