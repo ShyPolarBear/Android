@@ -23,6 +23,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
@@ -329,11 +330,11 @@ fun RecyclerView.infiniteScroll(method: () -> Unit) {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
 
-            when {
-                !canScrollVertically(1) -> {
-                    method()
-                }
-            }
+            val lastVisiblePosition = (layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+            val isBottom = lastVisiblePosition + 1 == adapter?.itemCount
+            val isDownScroll = dy > 0
+
+            if (isBottom and isDownScroll) { method() }
         }
     })
 }
