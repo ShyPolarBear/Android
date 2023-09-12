@@ -30,7 +30,7 @@ class FeedPostNoImageViewHolder(
         feedId: Int,
         itemType: FeedTotalLikeBtnType
     ) -> Unit = { _, _, _, _, _, _ -> },
-    private val onMoveToDetailClick: (feedId: Int) -> Unit = { }
+    private val onMoveToDetailClick: (feed: Feed, feedId: Int) -> Unit = { _, _ -> }
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private var post: Feed = Feed()
@@ -38,7 +38,7 @@ class FeedPostNoImageViewHolder(
     init {
 
         binding.layoutNoImageMoveToDetailArea.setOnClickListener {
-            onMoveToDetailClick(post.feedId)
+            onMoveToDetailClick(post, post.feedId)
         }
 
         // 게시물 작성자 확인

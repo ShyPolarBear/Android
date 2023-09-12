@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
+import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedTotalBinding
@@ -71,7 +72,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                 itemType: FeedTotalLikeBtnType ->
             changeLikeBtn(btn, isLiked, likeCnt, textView, feedId, itemType)
         },
-        onMoveToDetailClick = { feedId: Int -> showFeedPostDetail(feedId) }
+        onMoveToDetailClick = { feed: Feed, feedId: Int -> showFeedPostDetail(feed, feedId) }
     )
     private val feedSortItems: List<PowerMenuItem> by lazy {
         listOf(
@@ -258,10 +259,11 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         likeCntText.text = likeCount.toString()
     }
 
-    private fun showFeedPostDetail(feedId: Int) {
-        findNavController().navigate(
-            FeedTotalFragmentDirections.actionFeedTotalFragmentToFeedDetailFragment(feedId)
-        )
+    private fun showFeedPostDetail(feed: Feed, feedId: Int) {
+        when {
+            feed.feedImages.isNullOrEmpty() -> { findNavController().navigate(FeedTotalFragmentDirections.actionNavigationFeedToFeedDetailNoImageFragment(feedId)) }
+            else -> { findNavController().navigate(FeedTotalFragmentDirections.actionFeedTotalFragmentToFeedDetailFragment(feedId)) }
+        }
     }
 
     private fun loadSortedFeed(sort: String) {

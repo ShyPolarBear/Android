@@ -16,12 +16,24 @@
         <action
             android:id="@+id/action_navigation_feed_to_feedWriteFragment"
             app:destination="@id/feedWriteFragment" />
+        <action
+            android:id="@+id/action_navigation_feed_to_feedDetailNoImageFragment"
+            app:destination="@id/feedDetailNoImageFragment" />
     </fragment>
     <fragment
         android:id="@+id/feedDetailFragment"
         android:name="com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailFragment"
         android:label="FeedDetailFragment"
         tools:layout="@layout/fragment_feed_detail">
+        <argument
+            android:name="feedId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedDetailNoImageFragment"
+        android:name="com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailNoImageFragment"
+        android:label="FeedDetailFragment"
+        tools:layout="@layout/fragment_feed_detail_no_image">
         <argument
             android:name="feedId"
             app:argType="integer" />
