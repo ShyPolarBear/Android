@@ -245,7 +245,8 @@ class FeedDetailNoImageFragment : BaseFragment<FragmentFeedDetailNoImageBinding,
             FeedDetailLikeBtnType.POST_LIKE_BTN ->
                 viewModel.clickFeedPostLikeBtn(
                     isLiked = isLike,
-                    likeCnt = likeCount
+                    likeCnt = likeCount,
+                    feedId = feedDetailNoImageArgs.feedId
                 )
 
             FeedDetailLikeBtnType.COMMENT_LIKE_BTN ->

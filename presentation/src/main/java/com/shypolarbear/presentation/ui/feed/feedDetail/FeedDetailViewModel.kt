@@ -6,7 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.domain.usecase.feed.FeedCommentUseCase
+import com.shypolarbear.domain.usecase.feed.FeedDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
+import com.shypolarbear.domain.usecase.feed.FeedLikeUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,7 +18,9 @@ import javax.inject.Inject
 @HiltViewModel
 class FeedDetailViewModel @Inject constructor(
     private val feedDetailUseCase: FeedDetailUseCase,
-    private val feedCommentUseCase: FeedCommentUseCase
+    private val feedCommentUseCase: FeedCommentUseCase,
+    private val feedDeleteUseCase: FeedDeleteUseCase,
+    private val feedLikeUseCase: FeedLikeUseCase
 ): BaseViewModel() {
 
     private val _feed = MutableLiveData<Feed>()
@@ -55,9 +59,11 @@ class FeedDetailViewModel @Inject constructor(
         }
     }
 
-    fun clickFeedPostLikeBtn(isLiked: Boolean, likeCnt: Int) {
+    fun clickFeedPostLikeBtn(isLiked: Boolean, likeCnt: Int, feedId: Int) {
         val currentFeed = _feed.value?: return
         val updatedFeed = currentFeed.copy(isLike = isLiked, likeCount = likeCnt)
+
+        viewModelScope.launch { feedLikeUseCase.requestLikeFeed(feedId) }
         _feed.value = updatedFeed
     }
 

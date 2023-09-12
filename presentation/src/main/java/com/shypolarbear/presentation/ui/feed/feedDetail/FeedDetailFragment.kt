@@ -63,7 +63,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             progressFeedDetailLoading.isVisible = true
 
             btnFeedDetailBack.setOnClickListener {
-                fragmentTotalStats = FragmentTotalStatus.BACK_BTN_CLICK
+                fragmentTotalStats = FragmentTotalStatus.POST_CHANGE
                 findNavController().popBackStack()
             }
 
@@ -256,7 +256,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             FeedDetailLikeBtnType.POST_LIKE_BTN ->
                 viewModel.clickFeedPostLikeBtn(
                     isLiked = isLike,
-                    likeCnt = likeCount
+                    likeCnt = likeCount,
+                    feedId = feedDetailArgs.feedId
                 )
 
             FeedDetailLikeBtnType.COMMENT_LIKE_BTN ->
