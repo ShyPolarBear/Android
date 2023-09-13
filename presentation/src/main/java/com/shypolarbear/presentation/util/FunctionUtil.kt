@@ -1,6 +1,8 @@
 package com.shypolarbear.presentation.util
 
 import android.content.Context
+import android.net.Uri
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableString
@@ -63,6 +65,21 @@ enum class QuizNavType(){
     MULTI,
     OX,
     MAIN
+}
+
+enum class ImageType(val type: String){
+    PROFILE("profile"),
+    FEED("feed")
+}
+
+fun Uri.convertUriToPath(context: Context): String{
+    val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+    val cursor = context.contentResolver.query(this, proj, null, null, null)
+    val index = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+    cursor?.moveToFirst()
+    val result = cursor?.getString(index!!)
+    cursor?.close()
+    return result!!
 }
 
 fun simpleHttpErrorCheck(error: Throwable) {

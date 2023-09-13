@@ -4,5 +4,5 @@ import java.io.File
 
 data class ImageUploadRequest(
     val type: String,
-    val imageFiles: ImageFiles
+    val imageFiles: List<File>
 )
