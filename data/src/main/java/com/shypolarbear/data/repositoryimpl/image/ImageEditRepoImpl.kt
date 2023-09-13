@@ -16,16 +16,16 @@ import javax.inject.Inject
 class ImageEditRepoImpl @Inject constructor(private val api: ImageEditApi) : ImageEditRepo {
     override suspend fun imageModifyRequest(imageModifyRequest: ImageModifyRequest): Result<ImageModifyResponse> {
         return try {
+            val typePart = imageModifyRequest.type.toRequestBody("text/plain".toMediaTypeOrNull())
             val newImageFiles: List<MultipartBody.Part> = imageModifyRequest.newImageFiles.map { file ->
                 val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
                 MultipartBody.Part.createFormData("newImageFiles", file.name, requestFile)
             }
-            val typePart = imageModifyRequest.type.toRequestBody("text/plain".toMediaTypeOrNull())
-            val oldImageFiles: List<RequestBody> = imageModifyRequest.oldImageFiles.map { urls->
-                urls.toRequestBody("text/plain".toMediaTypeOrNull())
+            val oldImageUrls: List<MultipartBody.Part> = imageModifyRequest.oldImageFiles.map { urls->
+                MultipartBody.Part.createFormData("oldImageUrls", urls)
             }
 
-            val response = api.imageModify(typePart, newImageFiles, oldImageFiles)
+            val response = api.imageModify(typePart, newImageFiles, oldImageUrls)
             when {
                 response.isSuccessful -> {
                     Result.success(response.body()!!)

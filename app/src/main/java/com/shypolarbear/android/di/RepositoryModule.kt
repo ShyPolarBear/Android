@@ -49,7 +49,7 @@ abstract class RepositoryModule {
     abstract fun bindQuizRepo(repoImp: QuizRepoImpl): QuizRepo
 
     @Binds
-    abstract fun bindImageRepo(repoImp: ImageEditRepoImpl): ImageEditRepo
+    abstract fun bindImageEditRepo(repoImp: ImageEditRepoImpl): ImageEditRepo
 
     @Binds
     abstract fun bindImageUploadRepo(repoImp: ImageUploadRepoImpl): ImageUploadRepo

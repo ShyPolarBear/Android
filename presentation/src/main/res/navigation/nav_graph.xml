@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/imageTestFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/navigation_feed"
@@ -127,6 +127,9 @@
                 android:name="acToken"
                 app:argType="string"/>
         </action>
+        <action
+            android:id="@+id/action_loginFragment_to_imageTestFragment"
+            app:destination="@id/imageTestFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_quiz_main"

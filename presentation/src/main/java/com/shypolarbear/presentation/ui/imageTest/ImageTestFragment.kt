@@ -32,17 +32,25 @@ class ImageTestFragment :
             uri?.let {
                 Timber.tag("IMG").d("${uri.convertUriToFile(requireContext())}")
                 Timber.tag("IMG TYPE").d("${(File(uri.convertUriToPath(requireContext())))}")
-
-                viewModel.requestUpload(ImageType.FEED.type, listOf(File(uri.convertUriToPath(requireContext())),File(uri.convertUriToPath(requireContext())),File(uri.convertUriToPath(requireContext()))))
+                viewModel.requestModify(ImageType.PROFILE.type, listOf(File(uri.convertUriToPath(requireContext()))), listOf("https://shypolarbear-s3-bucket.s3.ap-northeast-2.amazonaws.com/feed/1000000018_a0cd8025-ea75-441e-9cc9-cc247c269e7f.jpg"))
                 GlideUtil.loadCircleImage(requireContext(), uri, binding.ivSignupNameProfile)
             }
         }
-    // 절대경로 변환
 
     override fun initView() {
         binding.apply {
             ivSignupImgEdit.setOnClickListener {
                 pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
+
+//            ivDel.setOnClickListener {
+//                viewModel.requestDelete(listOf("https://shypolarbear-s3-bucket.s3.ap-northeast-2.amazonaws.com/feed/1000000018_a0cd8025-ea75-441e-9cc9-cc247c269e7f.jpg"))
+//            }
+
+            ivDel.setOnClickListener {
+                //new Image
+                pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+
             }
         }
 

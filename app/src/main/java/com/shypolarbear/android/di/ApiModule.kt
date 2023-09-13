@@ -66,7 +66,7 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun provideImageApi(@AuthRetrofit retrofit: Retrofit): ImageEditApi {
+    fun provideImageEditApi(@AuthRetrofit retrofit: Retrofit): ImageEditApi {
         return retrofit.create(ImageEditApi::class.java)
     }
 

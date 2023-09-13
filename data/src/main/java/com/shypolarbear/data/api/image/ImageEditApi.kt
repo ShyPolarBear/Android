@@ -6,6 +6,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.DELETE
+import retrofit2.http.Headers
 import retrofit2.http.Multipart
 import retrofit2.http.PUT
 import retrofit2.http.Part
@@ -18,8 +19,8 @@ interface ImageEditApi {
         @Part("type") type: RequestBody,
         @Part
         newImageFiles: List<MultipartBody.Part>,
-        @Part("oldImageUrls")
-        oldImageUrls: List<RequestBody>,
+        @Part
+        oldImageUrls: List<MultipartBody.Part>,
     ): Response<ImageModifyResponse>
 
     @DELETE("/api/images")
