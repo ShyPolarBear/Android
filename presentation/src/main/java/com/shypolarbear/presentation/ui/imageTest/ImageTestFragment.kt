@@ -43,15 +43,15 @@ class ImageTestFragment :
                 pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             }
 
-//            ivDel.setOnClickListener {
-//                viewModel.requestDelete(listOf("https://shypolarbear-s3-bucket.s3.ap-northeast-2.amazonaws.com/feed/1000000018_a0cd8025-ea75-441e-9cc9-cc247c269e7f.jpg"))
-//            }
-
             ivDel.setOnClickListener {
-                //new Image
-                pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-
+                viewModel.requestDelete(listOf("https://shypolarbear-s3-bucket.s3.ap-northeast-2.amazonaws.com/profile/1000000018_e6d395a9-4730-456a-a21d-0dc6df8c4912.jpg"))
             }
+
+//            ivDel.setOnClickListener {
+//                //new Image
+//                pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+//
+//            }
         }
 
     }
