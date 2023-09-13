@@ -1,7 +1,7 @@
 package com.shypolarbear.android.di
 
 import com.shypolarbear.domain.repository.ExampleRepo
-import com.shypolarbear.domain.repository.ImageRepo
+import com.shypolarbear.domain.repository.ImageEditRepo
 import com.shypolarbear.domain.repository.InfoRepo
 import com.shypolarbear.domain.repository.JoinRepo
 import com.shypolarbear.domain.repository.feed.FeedRepo
@@ -183,13 +183,13 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideImageModify(repo: ImageRepo): ImageModifyUseCase {
+    fun provideImageModify(repo: ImageEditRepo): ImageModifyUseCase {
         return ImageModifyUseCase(repo)
     }
 
     @Singleton
     @Provides
-    fun provideImageDelete(repo: ImageRepo): ImageDeleteUseCase {
+    fun provideImageDelete(repo: ImageEditRepo): ImageDeleteUseCase {
         return ImageDeleteUseCase(repo)
     }
 }

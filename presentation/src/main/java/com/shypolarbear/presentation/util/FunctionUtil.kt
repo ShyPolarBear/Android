@@ -32,6 +32,7 @@ import com.shypolarbear.presentation.ui.quiz.daily.dialog.BackDialog
 import com.skydoves.powermenu.PowerMenuItem
 import org.json.JSONObject
 import timber.log.Timber
+import java.io.File
 import java.util.Timer
 import java.util.TimerTask
 import kotlin.math.ceil
@@ -61,18 +62,18 @@ enum class QuizType(val type: String) {
     OX("OX")
 }
 
-enum class QuizNavType(){
+enum class QuizNavType() {
     MULTI,
     OX,
     MAIN
 }
 
-enum class ImageType(val type: String){
+enum class ImageType(val type: String) {
     PROFILE("profile"),
     FEED("feed")
 }
 
-fun Uri.convertUriToPath(context: Context): String{
+fun Uri.convertUriToPath(context: Context): String {
     val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
     val cursor = context.contentResolver.query(this, proj, null, null, null)
     val index = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
@@ -82,6 +83,17 @@ fun Uri.convertUriToPath(context: Context): String{
     return result!!
 }
 
+fun Uri.convertUriToFile(context: Context): File {
+    val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+    val cursor = context.contentResolver.query(this, proj, null, null, null)
+    val index = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+    cursor?.moveToFirst()
+    val path = cursor?.getString(index!!)
+    cursor?.close()
+
+    return File(path!!)
+}
+
 fun simpleHttpErrorCheck(error: Throwable) {
     if (error is HttpError) {
         val errorBodyData = JSONObject(error.errorBody)
@@ -89,7 +101,7 @@ fun simpleHttpErrorCheck(error: Throwable) {
     }
 }
 
-fun Fragment.setQuizNavigation(quizType: String, currentPosition: QuizNavType){
+fun Fragment.setQuizNavigation(quizType: String, currentPosition: QuizNavType) {
     val navIdWithMulti: Int
     val navIdWithOX: Int
 
@@ -98,17 +110,19 @@ fun Fragment.setQuizNavigation(quizType: String, currentPosition: QuizNavType){
             navIdWithMulti = R.id.action_quizDailyMultiChoiceFragment_self
             navIdWithOX = R.id.action_quizDailyMultiChoiceFragment_to_quizDailyOXFragment
         }
+
         QuizNavType.OX -> {
             navIdWithMulti = R.id.action_quizDailyOXFragment_to_quizDailyMultiChoiceFragment
             navIdWithOX = R.id.action_quizDailyOXFragment_self
         }
+
         QuizNavType.MAIN -> {
             navIdWithMulti = R.id.action_quizMainFragment_to_quizDailyMultiChoiceFragment
             navIdWithOX = R.id.action_quizMainFragment_to_quizDailyOXFragment
         }
     }
 
-    when(quizType){
+    when (quizType) {
         QuizType.MULTI.type -> findNavController().navigate(navIdWithMulti)
         QuizType.OX.type -> findNavController().navigate(navIdWithOX)
     }
@@ -124,7 +138,7 @@ fun ProgressBar.initProgressBar(detailText: TextView, submitIncorrect: () -> Uni
         override fun run() {
             if (totalProgress > 0) {
                 totalProgress -= 1
-                progress = totalProgress/10
+                progress = totalProgress / 10
 
                 detailText.post {
                     detailText.text = context.getString(
@@ -162,7 +176,13 @@ fun TextView.detectActivation(vararg choices: TextView) {
     this.isActivated = this.isActivated.not()
 }
 
-fun ImageView.setReviewMode(type: DialogType, pages: TextView, dialog: BackDialog, resId: Int, progressBar: Timer) {
+fun ImageView.setReviewMode(
+    type: DialogType,
+    pages: TextView,
+    dialog: BackDialog,
+    resId: Int,
+    progressBar: Timer,
+) {
     when (type) {
         DialogType.REVIEW -> {
             pages.isVisible = true

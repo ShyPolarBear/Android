@@ -1,13 +1,12 @@
 package com.shypolarbear.domain.usecase.image
 
-import com.shypolarbear.domain.model.image.ImageDeleteRequest
 import com.shypolarbear.domain.model.image.ImageDeleteResponse
-import com.shypolarbear.domain.repository.ImageRepo
+import com.shypolarbear.domain.repository.ImageEditRepo
 
 class ImageDeleteUseCase (
-    private val repo: ImageRepo
+    private val repo: ImageEditRepo
 ) {
-    suspend operator fun invoke(imageDeleteRequest: ImageDeleteRequest): Result<ImageDeleteResponse>{
-        return repo.imageDeleteRequest(imageDeleteRequest)
+    suspend operator fun invoke(imageUrls: List<String>): Result<ImageDeleteResponse>{
+        return repo.imageDeleteRequest(imageUrls)
     }
 }

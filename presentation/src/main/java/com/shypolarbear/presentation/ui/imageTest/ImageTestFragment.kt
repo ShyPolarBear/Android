@@ -14,6 +14,7 @@ import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentImageTestBinding
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.ImageType
+import com.shypolarbear.presentation.util.convertUriToFile
 import com.shypolarbear.presentation.util.convertUriToPath
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType
@@ -29,10 +30,10 @@ class ImageTestFragment :
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             uri?.let {
-                Timber.tag("IMG").d("${File(uri.convertUriToPath(requireContext()))}")
+                Timber.tag("IMG").d("${uri.convertUriToFile(requireContext())}")
                 Timber.tag("IMG TYPE").d("${(File(uri.convertUriToPath(requireContext())))}")
 
-                viewModel.requestUpload(ImageType.PROFILE.type, listOf(File(uri.convertUriToPath(requireContext()))))
+                viewModel.requestUpload(ImageType.FEED.type, listOf(File(uri.convertUriToPath(requireContext())),File(uri.convertUriToPath(requireContext())),File(uri.convertUriToPath(requireContext()))))
                 GlideUtil.loadCircleImage(requireContext(), uri, binding.ivSignupNameProfile)
             }
         }
