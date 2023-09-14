@@ -1,28 +1,27 @@
 package com.shypolarbear.data.repositoryimpl.image
 
 import com.shypolarbear.data.api.image.ImageEditApi
+import com.shypolarbear.data.util.FormDataConverterUtil
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.domain.model.image.ImageDeleteResponse
 import com.shypolarbear.domain.model.image.ImageModifyRequest
 import com.shypolarbear.domain.model.image.ImageModifyResponse
+import com.shypolarbear.domain.model.image.ImageUrls
 import com.shypolarbear.domain.repository.ImageEditRepo
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
+const val NEW_IMAGES = "newImageFiles"
+const val OLD_IMAGES = "oldImageUrls"
 class ImageEditRepoImpl @Inject constructor(private val api: ImageEditApi) : ImageEditRepo {
     override suspend fun imageModifyRequest(imageModifyRequest: ImageModifyRequest): Result<ImageModifyResponse> {
         return try {
-            val typePart = imageModifyRequest.type.toRequestBody("text/plain".toMediaTypeOrNull())
+            val typePart = FormDataConverterUtil.getRequestBody(imageModifyRequest.type)
             val newImageFiles: List<MultipartBody.Part> = imageModifyRequest.newImageFiles.map { file ->
-                val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-                MultipartBody.Part.createFormData("newImageFiles", file.name, requestFile)
+                FormDataConverterUtil.getMultiPartBody(NEW_IMAGES, file)
             }
             val oldImageUrls: List<MultipartBody.Part> = imageModifyRequest.oldImageFiles.map { urls->
-                MultipartBody.Part.createFormData("oldImageUrls", urls)
+                FormDataConverterUtil.getMultiPartBody(OLD_IMAGES, urls)
             }
 
             val response = api.imageModify(typePart, newImageFiles, oldImageUrls)
@@ -42,7 +41,7 @@ class ImageEditRepoImpl @Inject constructor(private val api: ImageEditApi) : Ima
 
     override suspend fun imageDeleteRequest(imageUrls: List<String>): Result<ImageDeleteResponse> {
         return try {
-            val response = api.imageDelete(imageUrls)
+            val response = api.imageDelete(ImageUrls(imageUrls))
             when {
                 response.isSuccessful -> {
                     Result.success(response.body()!!)

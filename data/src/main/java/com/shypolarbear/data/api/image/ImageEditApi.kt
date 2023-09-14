@@ -2,6 +2,7 @@ package com.shypolarbear.data.api.image
 
 import com.shypolarbear.domain.model.image.ImageDeleteResponse
 import com.shypolarbear.domain.model.image.ImageModifyResponse
+import com.shypolarbear.domain.model.image.ImageUrls
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -28,7 +29,7 @@ interface ImageEditApi {
     @HTTP(method = "DELETE", path = "/api/images", hasBody = true)
     suspend fun imageDelete(
         @Body
-        imageUrls: List<String>,
+        imageUrls: ImageUrls,
     ): Response<ImageDeleteResponse>
 
 }
