@@ -1,7 +1,7 @@
 package com.shypolarbear.domain.usecase.image
 
 import com.shypolarbear.domain.model.image.ImageDeleteResponse
-import com.shypolarbear.domain.repository.ImageEditRepo
+import com.shypolarbear.domain.repository.image.ImageEditRepo
 
 class ImageDeleteUseCase (
     private val repo: ImageEditRepo

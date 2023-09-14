@@ -1,4 +1,4 @@
-package com.shypolarbear.domain.repository
+package com.shypolarbear.domain.repository.image
 
 import com.shypolarbear.domain.model.image.ImageDeleteResponse
 import com.shypolarbear.domain.model.image.ImageModifyRequest

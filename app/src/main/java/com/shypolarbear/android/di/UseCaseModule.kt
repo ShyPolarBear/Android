@@ -1,7 +1,7 @@
 package com.shypolarbear.android.di
 
 import com.shypolarbear.domain.repository.ExampleRepo
-import com.shypolarbear.domain.repository.ImageEditRepo
+import com.shypolarbear.domain.repository.image.ImageEditRepo
 import com.shypolarbear.domain.repository.InfoRepo
 import com.shypolarbear.domain.repository.JoinRepo
 import com.shypolarbear.domain.repository.feed.FeedRepo

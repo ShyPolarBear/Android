@@ -10,7 +10,7 @@ import com.shypolarbear.data.repositoryimpl.feed.FeedRepoImpl
 import com.shypolarbear.data.repositoryimpl.image.ImageUploadRepoImpl
 import com.shypolarbear.data.repositoryimpl.quiz.QuizRepoImpl
 import com.shypolarbear.domain.repository.ExampleRepo
-import com.shypolarbear.domain.repository.ImageEditRepo
+import com.shypolarbear.domain.repository.image.ImageEditRepo
 import com.shypolarbear.domain.repository.InfoRepo
 import com.shypolarbear.domain.repository.JoinRepo
 import com.shypolarbear.domain.repository.LoginRepo

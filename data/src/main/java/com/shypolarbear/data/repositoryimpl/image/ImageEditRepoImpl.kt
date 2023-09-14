@@ -7,7 +7,7 @@ import com.shypolarbear.domain.model.image.ImageDeleteResponse
 import com.shypolarbear.domain.model.image.ImageModifyRequest
 import com.shypolarbear.domain.model.image.ImageModifyResponse
 import com.shypolarbear.domain.model.image.ImageUrls
-import com.shypolarbear.domain.repository.ImageEditRepo
+import com.shypolarbear.domain.repository.image.ImageEditRepo
 import okhttp3.MultipartBody
 import javax.inject.Inject
 

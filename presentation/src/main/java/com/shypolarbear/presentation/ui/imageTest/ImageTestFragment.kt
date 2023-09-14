@@ -23,7 +23,6 @@ class ImageTestFragment :
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             uri?.let {
                 Timber.tag("IMG").d("${uri.convertUriToFile(requireContext())}")
-                Timber.tag("IMG TYPE").d("${(File(uri.convertUriToPath(requireContext())))}")
                 viewModel.requestUpload(ImageType.PROFILE.type, listOf(File(uri.convertUriToPath(requireContext()))))
                 GlideUtil.loadCircleImage(requireContext(), uri, binding.ivSignupNameProfile)
             }
@@ -31,6 +30,10 @@ class ImageTestFragment :
 
     override fun initView() {
         binding.apply {
+            ivSignupNameProfile.setOnClickListener {
+
+            }
+
             ivSignupImgEdit.setOnClickListener {
                 pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             }
