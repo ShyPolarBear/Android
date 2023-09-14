@@ -1,18 +1,19 @@
 package com.shypolarbear.android.di
 
 import com.shypolarbear.data.api.ExampleApi
+import com.shypolarbear.data.api.image.ImageEditApi
 import com.shypolarbear.data.api.InfoApi
 import com.shypolarbear.data.api.JoinApi
 import com.shypolarbear.data.api.LoginApi
 import com.shypolarbear.data.api.TokenApi
 import com.shypolarbear.data.api.feed.FeedApi
+import com.shypolarbear.data.api.image.ImageUploadApi
 import com.shypolarbear.data.api.quiz.QuizApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -61,5 +62,17 @@ object ApiModule {
     @Provides
     fun provideInfoApi(@AuthRetrofit retrofit: Retrofit): InfoApi {
         return retrofit.create(InfoApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideImageEditApi(@AuthRetrofit retrofit: Retrofit): ImageEditApi {
+        return retrofit.create(ImageEditApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideImageUploadApi(@NormalRetrofit retrofit: Retrofit): ImageUploadApi {
+        return retrofit.create(ImageUploadApi::class.java)
     }
 }
