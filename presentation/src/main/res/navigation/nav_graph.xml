@@ -127,9 +127,6 @@
                 android:name="acToken"
                 app:argType="string"/>
         </action>
-        <action
-            android:id="@+id/action_loginFragment_to_imageTestFragment"
-            app:destination="@id/imageTestFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_quiz_main"
@@ -175,8 +172,4 @@
             android:id="@+id/action_quizDailyOXFragment_self"
             app:destination="@id/quizDailyOXFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/imageTestFragment"
-        android:name="com.shypolarbear.presentation.ui.imageTest.ImageTestFragment"
-        android:label="ImageTestFragment" />
 </navigation>

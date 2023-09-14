@@ -45,8 +45,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
             code?.let {
                 when (it) {
                     SIGNUP_NEED -> findNavController().navigate(sendTokenToJoin)
-//                    LOGIN_SUCCESS -> findNavController().navigate(R.id.action_loginFragment_to_quizMainFragment)
-                    LOGIN_SUCCESS -> findNavController().navigate(R.id.action_loginFragment_to_imageTestFragment)
+                    LOGIN_SUCCESS -> findNavController().navigate(R.id.action_loginFragment_to_quizMainFragment)
                     LOGIN_FAIL -> {
                         setVisibilityInvert(
                             binding.btnClickedLogin,
