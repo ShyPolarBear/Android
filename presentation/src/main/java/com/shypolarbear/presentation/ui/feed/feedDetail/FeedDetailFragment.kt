@@ -3,6 +3,7 @@ package com.shypolarbear.presentation.ui.feed.feedDetail
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -176,6 +177,9 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                         viewModel.requestDeleteFeed(feedDetailArgs.feedId)
                         fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
                         findNavController().popBackStack()
+                    }
+                    getString(R.string.feed_post_property_report), getString(R.string.feed_post_property_block) -> {
+                        Toast.makeText(requireContext(), getString(R.string.features_in_preparation), Toast.LENGTH_SHORT).show()
                     }
                 }
             }.showAsDropDown(
