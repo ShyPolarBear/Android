@@ -1,6 +1,8 @@
 package com.shypolarbear.presentation.util
 
 import android.content.Context
+import android.net.Uri
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableString
@@ -21,7 +23,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shypolarbear.domain.model.HttpError
@@ -31,6 +32,7 @@ import com.shypolarbear.presentation.ui.quiz.daily.dialog.BackDialog
 import com.skydoves.powermenu.PowerMenuItem
 import timber.log.Timber
 import org.json.JSONObject
+import java.io.File
 import java.util.Timer
 import java.util.TimerTask
 import kotlin.math.ceil
@@ -60,10 +62,36 @@ enum class QuizType(val type: String) {
     OX("OX")
 }
 
-enum class QuizNavType(){
+enum class QuizNavType() {
     MULTI,
     OX,
     MAIN
+}
+
+enum class ImageType(val type: String) {
+    PROFILE("profile"),
+    FEED("feed")
+}
+
+fun Uri.convertUriToPath(context: Context): String {
+    val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+    val cursor = context.contentResolver.query(this, proj, null, null, null)
+    val index = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+    cursor?.moveToFirst()
+    val result = cursor?.getString(index!!)
+    cursor?.close()
+    return result!!
+}
+
+fun Uri.convertUriToFile(context: Context): File {
+    val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+    val cursor = context.contentResolver.query(this, proj, null, null, null)
+    val index = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+    cursor?.moveToFirst()
+    val path = cursor?.getString(index!!)
+    cursor?.close()
+
+    return File(path!!)
 }
 
 fun simpleHttpErrorCheck(error: Throwable) {
@@ -73,7 +101,7 @@ fun simpleHttpErrorCheck(error: Throwable) {
     }
 }
 
-fun Fragment.setQuizNavigation(quizType: String, currentPosition: QuizNavType){
+fun Fragment.setQuizNavigation(quizType: String, currentPosition: QuizNavType) {
     val navIdWithMulti: Int
     val navIdWithOX: Int
 
@@ -82,17 +110,19 @@ fun Fragment.setQuizNavigation(quizType: String, currentPosition: QuizNavType){
             navIdWithMulti = R.id.action_quizDailyMultiChoiceFragment_self
             navIdWithOX = R.id.action_quizDailyMultiChoiceFragment_to_quizDailyOXFragment
         }
+
         QuizNavType.OX -> {
             navIdWithMulti = R.id.action_quizDailyOXFragment_to_quizDailyMultiChoiceFragment
             navIdWithOX = R.id.action_quizDailyOXFragment_self
         }
+
         QuizNavType.MAIN -> {
             navIdWithMulti = R.id.action_quizMainFragment_to_quizDailyMultiChoiceFragment
             navIdWithOX = R.id.action_quizMainFragment_to_quizDailyOXFragment
         }
     }
 
-    when(quizType){
+    when (quizType) {
         QuizType.MULTI.type -> findNavController().navigate(navIdWithMulti)
         QuizType.OX.type -> findNavController().navigate(navIdWithOX)
     }
@@ -108,7 +138,7 @@ fun ProgressBar.initProgressBar(detailText: TextView, submitIncorrect: () -> Uni
         override fun run() {
             if (totalProgress > 0) {
                 totalProgress -= 1
-                progress = totalProgress/10
+                progress = totalProgress / 10
 
                 detailText.post {
                     detailText.text = context.getString(
@@ -146,7 +176,13 @@ fun TextView.detectActivation(vararg choices: TextView) {
     this.isActivated = this.isActivated.not()
 }
 
-fun ImageView.setReviewMode(type: DialogType, pages: TextView, dialog: BackDialog, resId: Int, progressBar: Timer) {
+fun ImageView.setReviewMode(
+    type: DialogType,
+    pages: TextView,
+    dialog: BackDialog,
+    resId: Int,
+    progressBar: Timer,
+) {
     when (type) {
         DialogType.REVIEW -> {
             pages.isVisible = true
