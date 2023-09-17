@@ -196,7 +196,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
             viewLifecycleOwner,
             myCommentPropertyItems
         ) { _, _ ->
-            Toast.makeText(requireContext(), "준비 중인 기능입니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.features_in_preparation), Toast.LENGTH_SHORT).show()
         }.showAsDropDown(
             view,
             POWER_MENU_OFFSET_X,
