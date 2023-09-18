@@ -32,8 +32,8 @@ class FeedTotalViewModel @Inject constructor (
 
         viewModelScope.launch {
             feedData = when {
-                _feed.value.isNullOrEmpty() -> { feedTotalUseCase.loadFeedTotalData(sort, lastFeedId = null) }
-                else -> { feedTotalUseCase.loadFeedTotalData(sort, _feed.value!![_feed.value!!.lastIndex - 1].feedId) }
+                _feed.value.isNullOrEmpty() -> { feedTotalUseCase(sort, lastFeedId = null) }
+                else -> { feedTotalUseCase(sort, _feed.value!![_feed.value!!.lastIndex - 1].feedId) }
             }
 
             feedData
@@ -63,7 +63,7 @@ class FeedTotalViewModel @Inject constructor (
 
     fun requestDeleteFeed(feedId: Int) {
         viewModelScope.launch {
-            feedDeleteUseCase.requestDeleteFeed(feedId)
+            feedDeleteUseCase(feedId)
         }
     }
 
@@ -77,7 +77,7 @@ class FeedTotalViewModel @Inject constructor (
                 feed
         }
         viewModelScope.launch {
-            feedLikeUseCase.requestLikeFeed(feedId)
+            feedLikeUseCase(feedId)
         }
         _feed.value = updatedFeed
     }

@@ -6,7 +6,7 @@ import com.shypolarbear.domain.repository.InfoRepo
 class ChangeMyInfoUseCase  (
     private val repo: InfoRepo
 ) {
-    suspend fun requestChangeMyInfo(
+    suspend operator fun invoke(
         nickName: String,
         profileImage: String?,
         email: String,

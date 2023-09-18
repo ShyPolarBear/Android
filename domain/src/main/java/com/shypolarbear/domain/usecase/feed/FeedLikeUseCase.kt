@@ -6,7 +6,7 @@ import com.shypolarbear.domain.repository.feed.FeedRepo
 class FeedLikeUseCase (
     private val repo: FeedRepo
 ) {
-    suspend fun requestLikeFeed(feedId: Int): Result<FeedLikeResponse> {
+    suspend operator fun invoke(feedId: Int): Result<FeedLikeResponse> {
         return repo.requestLikeFeedData(feedId)
     }
 }

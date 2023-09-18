@@ -33,7 +33,7 @@ class FeedDetailViewModel @Inject constructor(
 
     fun loadFeedDetail(feedId: Int) {
         viewModelScope.launch {
-            val feedDetailTestData = feedDetailUseCase.loadFeedDetailData(feedId)
+            val feedDetailTestData = feedDetailUseCase(feedId)
 
             feedDetailTestData
                 .onSuccess {
@@ -47,7 +47,7 @@ class FeedDetailViewModel @Inject constructor(
 
     fun loadFeedComment(feedId: Int) {
         viewModelScope.launch {
-            val feedCommentMockData = feedCommentUseCase.loadFeedCommentData(feedId)
+            val feedCommentMockData = feedCommentUseCase(feedId)
 
             feedCommentMockData
                 .onSuccess {
@@ -63,7 +63,7 @@ class FeedDetailViewModel @Inject constructor(
         val currentFeed = _feed.value?: return
         val updatedFeed = currentFeed.copy(isLike = isLiked, likeCount = likeCnt)
 
-        viewModelScope.launch { feedLikeUseCase.requestLikeFeed(feedId) }
+        viewModelScope.launch { feedLikeUseCase(feedId) }
         _feed.value = updatedFeed
     }
 
@@ -103,7 +103,7 @@ class FeedDetailViewModel @Inject constructor(
 
     fun requestDeleteFeed(feedId: Int) {
         viewModelScope.launch {
-            feedDeleteUseCase.requestDeleteFeed(feedId)
+            feedDeleteUseCase(feedId)
         }
     }
 }

@@ -6,7 +6,7 @@ import com.shypolarbear.domain.repository.InfoRepo
 class GetMyInfoUseCase (
     private val repo: InfoRepo
 ){
-    suspend fun loadMyInfo(): Result<InfoResponse> {
+    suspend operator fun invoke(): Result<InfoResponse> {
         return repo.getMyInfo()
     }
 }

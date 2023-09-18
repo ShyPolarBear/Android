@@ -28,7 +28,7 @@ class FeedWriteViewModel @Inject constructor(
 
     fun loadFeedDetail(feedId: Int) {
         viewModelScope.launch {
-            val feedDetailData = feedDetailUseCase.loadFeedDetailData(feedId)
+            val feedDetailData = feedDetailUseCase(feedId)
 
             feedDetailData
                 .onSuccess {
@@ -42,13 +42,13 @@ class FeedWriteViewModel @Inject constructor(
 
     fun changePost(feedId: Int, content: String, feedImages: List<String>?, title: String) {
         viewModelScope.launch {
-            changePostUseCase.requestChangePost(feedId, content, feedImages, title)
+            changePostUseCase(feedId, content, feedImages, title)
         }
     }
 
     fun writePost(title: String, content: String, feedImages: List<String>?) {
         viewModelScope.launch {
-            feedWriteUseCase.requestWriteFeed(title, content, feedImages)
+            feedWriteUseCase(title, content, feedImages)
         }
     }
 

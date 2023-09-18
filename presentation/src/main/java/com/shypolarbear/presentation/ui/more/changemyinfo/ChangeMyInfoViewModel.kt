@@ -21,7 +21,7 @@ class ChangeMyInfoViewModel @Inject constructor(
 
     fun getMyInfo() {
         viewModelScope.launch {
-            val info = getMyInfoUseCase.loadMyInfo()
+            val info = getMyInfoUseCase()
 
             info
                 .onSuccess {
@@ -41,7 +41,7 @@ class ChangeMyInfoViewModel @Inject constructor(
         phoneNumber: String
     ) {
         viewModelScope.launch {
-            val response = changeMyInfoUseCase.requestChangeMyInfo(nickName, profileImage, email, phoneNumber)
+            val response = changeMyInfoUseCase(nickName, profileImage, email, phoneNumber)
 
             response
                 .onSuccess {

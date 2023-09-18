@@ -7,7 +7,7 @@ import com.shypolarbear.domain.repository.feed.FeedRepo
 class FeedWriteUseCase(
     private val repo: FeedRepo
 ) {
-    suspend fun requestWriteFeed(
+    suspend operator fun invoke(
         title: String,
         content: String,
         feedImages: List<String>?

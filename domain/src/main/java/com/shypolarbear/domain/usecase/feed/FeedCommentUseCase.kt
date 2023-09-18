@@ -6,7 +6,7 @@ import com.shypolarbear.domain.repository.feed.FeedRepo
 class FeedCommentUseCase(
     private val repo: FeedRepo
 ) {
-    suspend fun loadFeedCommentData(feedId: Int): Result<FeedComment> {
+    suspend operator fun invoke(feedId: Int): Result<FeedComment> {
         return repo.getFeedCommentData(feedId)
     }
 }
