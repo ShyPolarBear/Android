@@ -3,10 +3,10 @@ package com.shypolarbear.domain.usecase.feed
 import com.shypolarbear.domain.model.feed.feedChange.FeedChangeResponse
 import com.shypolarbear.domain.repository.feed.FeedRepo
 
-class FeedChangeUseCase (
+class RequestFeedChangeUseCase (
     private val repo: FeedRepo
 ) {
-    suspend fun requestChangePost(
+    suspend operator fun invoke(
         feedId: Int,
         content: String,
         feedImages: List<String>?,

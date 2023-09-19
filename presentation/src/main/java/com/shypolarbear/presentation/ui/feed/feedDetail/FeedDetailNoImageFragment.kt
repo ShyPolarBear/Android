@@ -8,12 +8,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
-import com.shypolarbear.presentation.databinding.FragmentFeedDetailBinding
-import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
+import com.shypolarbear.presentation.databinding.FragmentFeedDetailNoImageBinding
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedCommentAdapter
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
 import com.shypolarbear.presentation.ui.feed.feedTotal.FragmentTotalStatus
@@ -27,12 +25,12 @@ import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailViewModel>(
-    R.layout.fragment_feed_detail
+class FeedDetailNoImageFragment : BaseFragment<FragmentFeedDetailNoImageBinding, FeedDetailViewModel>(
+    R.layout.fragment_feed_detail_no_image
 ) {
 
     override val viewModel: FeedDetailViewModel by viewModels()
-    private val feedDetailArgs: FeedDetailFragmentArgs by navArgs()
+    private val feedDetailNoImageArgs: FeedDetailNoImageFragmentArgs by navArgs()
     private val feedCommentAdapter: FeedCommentAdapter by lazy {
         FeedCommentAdapter(
             onMyCommentPropertyClick = { view: ImageView ->
@@ -66,27 +64,27 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             layoutFeedDetail.isVisible = false
             progressFeedDetailLoading.isVisible = true
 
-            btnFeedDetailBack.setOnClickListener {
+            btnFeedDetailNoImageBack.setOnClickListener {
                 fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
                 findNavController().popBackStack()
             }
 
-            edtFeedDetailReply.setOnFocusChangeListener { _, isFocus ->
-                binding.cardviewFeedCommentWritingMsg.isVisible = isFocus
+            edtFeedDetailNoImageReply.setOnFocusChangeListener { _, isFocus ->
+                binding.cardviewFeedNoImageCommentWritingMsg.isVisible = isFocus
             }
 
             layoutFeedDetail.setOnClickListener {
-                binding.edtFeedDetailReply.clearFocus()
+                binding.edtFeedDetailNoImageReply.clearFocus()
             }
 
-            btnFeedCommentWritingClose.setOnClickListener {
-                binding.cardviewFeedCommentWritingMsg.isVisible = false
+            btnFeedNoImageCommentWritingClose.setOnClickListener {
+                binding.cardviewFeedNoImageCommentWritingMsg.isVisible = false
             }
 
-            viewModel.loadFeedDetail(feedDetailArgs.feedId)
-            viewModel.loadFeedComment(feedDetailArgs.feedId)
+            viewModel.loadFeedDetail(feedDetailNoImageArgs.feedId)
+            viewModel.loadFeedComment(feedDetailNoImageArgs.feedId)
 
-            viewModel.feed.observe(viewLifecycleOwner) {feed ->
+            viewModel.feed.observe(viewLifecycleOwner) { feed ->
                 setFeedPost(feed)
             }
             setFeedComment()
@@ -98,51 +96,39 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         val isPostLike = feedDetail.isLike
         val postLikeCnt: Int = feedDetail.likeCount
 
-        // 댓글 기능 미구현 상황이라 임시로 여기에 정의
+        // 댓글 기능 미구현 상황이라 임시로 여기에 정의 (상세 정보 받아오는 동안 progress bar 보여주는 동작)
         // TODO("댓글 기능 구현되면 제거")
         binding.layoutFeedDetail.isVisible = true
         binding.progressFeedDetailLoading.isVisible = false
 
-        binding.tvFeedDetailUserNickname.text = feedDetail.author
-        binding.tvFeedDetailPostingTime.text = feedDetail.createdDate
-        binding.tvFeedDetailLikeCnt.text = feedDetail.likeCount.toString()
-        binding.tvFeedDetailTitle.text = feedDetail.title
-        binding.tvFeedDetailContent.text = feedDetail.content
-        binding.tvFeedDetailReplyCnt.text = feedDetail.commentCount.toString()
+        binding.tvFeedDetailNoImageUserNickname.text = feedDetail.author
+        binding.tvFeedDetailNoImagePostingTime.text = feedDetail.createdDate
+        binding.tvFeedDetailNoImageLikeCnt.text = feedDetail.likeCount.toString()
+        binding.tvFeedDetailNoImageTitle.text = feedDetail.title
+        binding.tvFeedDetailNoImageContent.text = feedDetail.content
+        binding.tvFeedDetailNoImageReplyCnt.text = feedDetail.commentCount.toString()
 
-        binding.btnFeedDetailLike.showLikeBtnIsLike(feedDetail.isLike, binding.btnFeedDetailLike)
-        binding.btnFeedDetailLike.setOnClickListener {
+        binding.btnFeedDetailNoImageLike.showLikeBtnIsLike(feedDetail.isLike, binding.btnFeedDetailNoImageLike)
+        binding.btnFeedDetailNoImageLike.setOnClickListener {
             changeLikeBtn(
-                button = binding.btnFeedDetailLike,
+                button = binding.btnFeedDetailNoImageLike,
                 isLiked = isPostLike,
                 likeCnt = postLikeCnt,
-                likeCntText = binding.tvFeedDetailLikeCnt,
+                likeCntText = binding.tvFeedDetailNoImageLikeCnt,
                 itemType = FeedDetailLikeBtnType.POST_LIKE_BTN
             )
         }
 
         if (!feedDetail.authorProfileImage.isNullOrBlank()) {
-            GlideUtil.loadImage(requireContext(), feedDetail.authorProfileImage, binding.ivFeedDetailUserProfile)
+            GlideUtil.loadImage(requireContext(), feedDetail.authorProfileImage, binding.ivFeedDetailNoImageUserProfile)
         } else {
-            GlideUtil.loadImage(requireContext(), url = null, view = binding.ivFeedDetailUserProfile, placeHolder = R.drawable.ic_user_base_profile)
+            GlideUtil.loadImage(requireContext(), url = null, view = binding.ivFeedDetailNoImageUserProfile, placeHolder = R.drawable.ic_user_base_profile)
         }
 
         if (feedDetail.commentCount == 0)
-            binding.rvFeedDetailReply.isVisible = false
+            binding.rvFeedDetailNoImageReply.isVisible = false
 
-        with(binding.viewpagerFeedDetailImg) {
-            adapter = ImageViewPagerAdapter().apply {
-                submitList(feedDetail.feedImages)
-            }
-
-            TabLayoutMediator(binding.tablayoutFeedDetailIndicator, this
-            ) { _, _ ->
-
-            }.attach()
-        }
-
-
-        binding.ivFeedDetailProperty.setOnClickListener {
+        binding.ivFeedDetailNoImageProperty.setOnClickListener {
             when (feedDetail.isAuthor) {
                 true -> {
                     postPropertyItems =
@@ -168,13 +154,13 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 when(item.title) {
                     getString(R.string.feed_post_property_revise) -> {
                         findNavController().navigate(
-                            FeedDetailFragmentDirections.actionFeedDetailFragmentToFeedWriteFragment(
-                                WriteChangeDivider.CHANGE, feedDetailArgs.feedId
+                            FeedDetailNoImageFragmentDirections.actionFeedDetailNoImageFragmentToFeedWriteFragment(
+                                WriteChangeDivider.CHANGE, feedDetailNoImageArgs.feedId
                             )
                         )
                     }
                     getString(R.string.feed_post_property_delete) -> {
-                        viewModel.requestDeleteFeed(feedDetailArgs.feedId)
+                        viewModel.requestDeleteFeed(feedDetailNoImageArgs.feedId)
                         fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
                         findNavController().popBackStack()
                     }
@@ -183,7 +169,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                     }
                 }
             }.showAsDropDown(
-                binding.ivFeedDetailProperty,
+                binding.ivFeedDetailNoImageProperty,
                 FeedTotalFragment.POWER_MENU_OFFSET_X,
                 FeedTotalFragment.POWER_MENU_OFFSET_Y
             )
@@ -191,7 +177,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     }
 
     private fun setFeedComment() {
-        binding.rvFeedDetailReply.adapter = feedCommentAdapter
+        binding.rvFeedDetailNoImageReply.adapter = feedCommentAdapter
         viewModel.feedComment.observe(viewLifecycleOwner) {
             feedCommentAdapter.submitList(it)
             binding.layoutFeedDetail.isVisible = true
@@ -283,7 +269,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 viewModel.clickFeedPostLikeBtn(
                     isLiked = isLike,
                     likeCnt = likeCount,
-                    feedId = feedDetailArgs.feedId
+                    feedId = feedDetailNoImageArgs.feedId
                 )
 
             FeedDetailLikeBtnType.COMMENT_LIKE_BTN ->

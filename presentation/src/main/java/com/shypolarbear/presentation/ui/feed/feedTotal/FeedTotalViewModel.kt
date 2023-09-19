@@ -4,66 +4,54 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.feed.Feed
-import com.shypolarbear.domain.usecase.feed.FeedDeleteUseCase
-import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
-import com.shypolarbear.domain.usecase.feed.FeedLikeUseCase
-import com.shypolarbear.domain.usecase.feed.FeedTotalUseCase
+import com.shypolarbear.domain.model.feed.FeedTotal
+import com.shypolarbear.domain.usecase.feed.RequestFeedDeleteUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedLikeUseCase
+import com.shypolarbear.domain.usecase.feed.LoadFeedTotalUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class FeedTotalViewModel @Inject constructor (
-    private val feedTotalUseCase: FeedTotalUseCase,
-    private val feedDeleteUseCase: FeedDeleteUseCase,
-    private val feedLikeUseCase: FeedLikeUseCase,
-    private val feedDetailUseCase: FeedDetailUseCase        // 테스트 용 TODO("전체 피드 조회 api 구현 시 제거")
+    private val feedTotalUseCase: LoadFeedTotalUseCase,
+    private val feedDeleteUseCase: RequestFeedDeleteUseCase,
+    private val feedLikeUseCase: RequestFeedLikeUseCase,
 ): BaseViewModel() {
 
     private val _feed = MutableLiveData<List<Feed>>()
     val feed: LiveData<List<Feed>> = _feed
 
-    fun loadFeedTotalData() {
+    var feedIsLast = false
+
+    fun loadFeedTotalData(sort: String) {
+        var feedData: Result<FeedTotal>
+
         viewModelScope.launch {
-            val feedData = feedTotalUseCase.loadFeedTotalData()
-            val feedDetailTestData = feedDetailUseCase.loadFeedDetailData(1)
+            feedData = when {
+                _feed.value.isNullOrEmpty() -> { feedTotalUseCase(sort, lastFeedId = null) }
+                else -> { feedTotalUseCase(sort, _feed.value!![_feed.value!!.lastIndex - 1].feedId) }
+            }
 
             feedData
                 .onSuccess {
-                    when {
-                        // 처음 로딩하는 경우
-                        _feed.value.isNullOrEmpty() -> {
-                            val feedList = mutableListOf<Feed>()
-                            feedList.addAll(it.data.feeds)
-                            feedList.add(Feed())            // progress bar
+                    val newDataList = it.data.content
+                    val currentList = _feed.value ?: emptyList()
 
-                            _feed.value = feedList
-                        }
-                        // 다음 페이지 로딩하는 경우
-                        else -> {
-                            // 테스트 용 TODO("전체 피드 조회 api 구현 시 수정")
-                            feedDetailTestData
-                                .onSuccess { feedDetail ->
-                                    val feedList = _feed.value as MutableList<Feed>
-                                    feedList.removeLast()
-                                    feedList.addAll(listOf(feedDetail.data))
-                                    feedList.add(Feed())            // progress bar
+                    if (!currentList.isNullOrEmpty()) {
+                        val removeProgressList = currentList as MutableList
+                        removeProgressList.removeLast()
 
-                                    _feed.value = feedList
-                                }
-                                .onFailure {
-
-                                }
-                        }
-
+                        _feed.value = removeProgressList
                     }
 
-//                    TODO("전체 피드 조회 api 구현 시 이거로 데이터 받아서 처리할 예정")
-//                    val newDataList = it.data.feeds
-//                    val currentList = _feed.value ?: emptyList()
-//                    _feed.value = currentList + newDataList
+                    feedIsLast = it.data.last
+
+                    when(feedIsLast) {
+                        true -> { _feed.value = currentList + newDataList }
+                        false -> { _feed.value = currentList + newDataList + listOf(Feed()) }
+                    }
                 }
                 .onFailure {
 
@@ -73,7 +61,7 @@ class FeedTotalViewModel @Inject constructor (
 
     fun requestDeleteFeed(feedId: Int) {
         viewModelScope.launch {
-            feedDeleteUseCase.requestDeleteFeed(feedId)
+            feedDeleteUseCase(feedId)
         }
     }
 
@@ -87,7 +75,7 @@ class FeedTotalViewModel @Inject constructor (
                 feed
         }
         viewModelScope.launch {
-            feedLikeUseCase.requestLikeFeed(feedId)
+            feedLikeUseCase(feedId)
         }
         _feed.value = updatedFeed
     }
@@ -112,6 +100,12 @@ class FeedTotalViewModel @Inject constructor (
         feedList.addAll(0, _feed.value!!)
 
         feedList.removeAt(position)
+        _feed.value = feedList
+    }
+
+    fun clearFeedList() {
+        val feedList: MutableList<Feed> = mutableListOf()
+
         _feed.value = feedList
     }
 }

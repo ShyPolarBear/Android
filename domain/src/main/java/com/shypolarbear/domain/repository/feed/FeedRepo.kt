@@ -7,7 +7,7 @@ import com.shypolarbear.domain.model.feed.feedDetail.FeedDetail
 import com.shypolarbear.domain.model.feed.feedLike.FeedLikeResponse
 
 interface FeedRepo {
-    suspend fun getFeedTotalData(): Result<FeedTotal>
+    suspend fun getFeedTotalData(sort: String, lastFeedId: Int?): Result<FeedTotal>
 
     suspend fun getFeedDetailData(feedId: Int): Result<FeedDetail>
 

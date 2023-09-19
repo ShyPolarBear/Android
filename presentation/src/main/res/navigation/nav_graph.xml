@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_navigation_feed_to_feedWriteFragment"
             app:destination="@id/feedWriteFragment" />
+        <action
+            android:id="@+id/action_navigation_feed_to_feedDetailNoImageFragment"
+            app:destination="@id/feedDetailNoImageFragment" />
     </fragment>
     <fragment
         android:id="@+id/feedDetailFragment"
@@ -25,6 +28,21 @@
         <argument
             android:name="feedId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_feedDetailFragment_to_feedWriteFragment"
+            app:destination="@id/feedWriteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedDetailNoImageFragment"
+        android:name="com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailNoImageFragment"
+        android:label="FeedDetailNoImageFragment"
+        tools:layout="@layout/fragment_feed_detail_no_image">
+        <argument
+            android:name="feedId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_feedDetailNoImageFragment_to_feedWriteFragment"
+            app:destination="@id/feedWriteFragment" />
     </fragment>
     <fragment
         android:id="@+id/feedWriteFragment"

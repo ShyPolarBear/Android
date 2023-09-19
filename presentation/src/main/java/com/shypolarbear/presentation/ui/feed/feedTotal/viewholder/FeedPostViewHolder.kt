@@ -5,7 +5,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.R
@@ -30,7 +29,7 @@ class FeedPostViewHolder(
         feedId: Int,
         itemType: FeedTotalLikeBtnType
     ) -> Unit = { _, _, _, _, _, _ -> },
-    private val onMoveToDetailClick: (feedId: Int) -> Unit = { }
+    private val onMoveToDetailClick: (feed: Feed, feedId: Int) -> Unit = { _, _ -> }
     ) : RecyclerView.ViewHolder(binding.root) {
 
     private var post: Feed = Feed()
@@ -38,7 +37,7 @@ class FeedPostViewHolder(
     init {
 
         binding.layoutMoveToDetailArea.setOnClickListener {
-            onMoveToDetailClick(post.feedId)
+            onMoveToDetailClick(post, post.feedId)
         }
 
         // 게시물 작성자 확인
@@ -128,7 +127,7 @@ class FeedPostViewHolder(
         with(binding.viewpagerFeedPostImg) {
             adapter = ImageViewPagerAdapter().apply {
                 submitList(
-                    post.feedImage
+                    post.feedImages
                 )
             }
 
