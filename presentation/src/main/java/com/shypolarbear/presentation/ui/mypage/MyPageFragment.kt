@@ -3,12 +3,12 @@ package com.shypolarbear.presentation.ui.mypage
 import androidx.fragment.app.viewModels
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
-import com.shypolarbear.presentation.databinding.FragmentMyPostBinding
+import com.shypolarbear.presentation.databinding.FragmentMyPageBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MyPostFragment: BaseFragment<FragmentMyPostBinding, MyPostViewModel>(R.layout.fragment_my_post) {
-    override val viewModel: MyPostViewModel by viewModels()
+class MyPageFragment: BaseFragment<FragmentMyPageBinding, MyPageViewModel>(R.layout.fragment_my_page) {
+    override val viewModel: MyPageViewModel by viewModels()
 
     override fun initView() {
 

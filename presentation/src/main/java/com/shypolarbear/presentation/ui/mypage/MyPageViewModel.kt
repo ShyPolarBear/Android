@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class MyPostViewModel @Inject constructor(
+class MyPageViewModel @Inject constructor(
     private val getMyPostUseCase: GetMyPostUseCase,
 ) : BaseViewModel() {
 

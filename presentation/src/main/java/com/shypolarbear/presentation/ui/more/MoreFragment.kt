@@ -23,7 +23,7 @@ class MoreFragment: BaseFragment<FragmentMoreBinding, MoreViewModel> (
             }
 
             layoutMoreMyPostAndComment.setOnClickListener {
-                findNavController().navigate(R.id.action_navigation_more_to_myPostFragment)
+                findNavController().navigate(R.id.action_navigation_more_to_myPageFragment)
             }
         }
     }

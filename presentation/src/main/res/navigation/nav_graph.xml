@@ -107,8 +107,8 @@
             android:id="@+id/action_navigation_more_to_changeMyInfoFragment"
             app:destination="@id/changeMyInfoFragment" />
         <action
-            android:id="@+id/action_navigation_more_to_myPostFragment"
-            app:destination="@id/myPostFragment" />
+            android:id="@+id/action_navigation_more_to_myPageFragment"
+            app:destination="@id/myPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/changeMyInfoFragment"
@@ -176,7 +176,7 @@
             app:destination="@id/quizDailyOXFragment" />
     </fragment>
     <fragment
-        android:id="@+id/myPostFragment"
-        android:name="com.shypolarbear.presentation.ui.mypage.MyPostFragment"
-        android:label="MyPostFragment" />
+        android:id="@+id/myPageFragment"
+        android:name="com.shypolarbear.presentation.ui.mypage.MyPageFragment"
+        android:label="MyPageFragment" />
 </navigation>
