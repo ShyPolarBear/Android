@@ -1,18 +1,16 @@
 package com.shypolarbear.domain.usecase.feed
 
-import com.shypolarbear.domain.model.TokenRenew
 import com.shypolarbear.domain.model.feed.feedChange.FeedChangeResponse
 import com.shypolarbear.domain.repository.feed.FeedRepo
 
-class FeedChangeUseCase (
+class RequestFeedWriteUseCase(
     private val repo: FeedRepo
 ) {
     suspend operator fun invoke(
-        feedId: Int,
+        title: String,
         content: String,
-        feedImages: List<String>?,
-        title: String
+        feedImages: List<String>?
     ): Result<FeedChangeResponse> {
-        return repo.requestChangePostData(feedId, content, feedImages, title)
+        return repo.writeFeedData(title, content, feedImages)
     }
 }

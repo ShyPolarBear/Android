@@ -4,7 +4,7 @@ import com.shypolarbear.domain.model.image.ImageModifyRequest
 import com.shypolarbear.domain.model.image.ImageModifyResponse
 import com.shypolarbear.domain.repository.image.ImageEditRepo
 
-class ImageModifyUseCase(
+class RequestImageModifyUseCase(
     private val repo: ImageEditRepo
 ) {
     suspend operator fun invoke(imageModifyRequest: ImageModifyRequest): Result<ImageModifyResponse>{

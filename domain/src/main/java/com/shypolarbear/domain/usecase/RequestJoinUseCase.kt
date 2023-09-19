@@ -4,7 +4,7 @@ import com.shypolarbear.domain.model.join.JoinRequest
 import com.shypolarbear.domain.model.join.JoinResponse
 import com.shypolarbear.domain.repository.JoinRepo
 
-class JoinUseCase(
+class RequestJoinUseCase(
     private val repo: JoinRepo
 ) {
     suspend operator fun invoke(joinRequest: JoinRequest): Result<JoinResponse> {

@@ -5,21 +5,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.domain.model.feed.FeedTotal
-import com.shypolarbear.domain.usecase.feed.FeedDeleteUseCase
-import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
-import com.shypolarbear.domain.usecase.feed.FeedLikeUseCase
-import com.shypolarbear.domain.usecase.feed.FeedTotalUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedDeleteUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedLikeUseCase
+import com.shypolarbear.domain.usecase.feed.LoadFeedTotalUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class FeedTotalViewModel @Inject constructor (
-    private val feedTotalUseCase: FeedTotalUseCase,
-    private val feedDeleteUseCase: FeedDeleteUseCase,
-    private val feedLikeUseCase: FeedLikeUseCase,
+    private val feedTotalUseCase: LoadFeedTotalUseCase,
+    private val feedDeleteUseCase: RequestFeedDeleteUseCase,
+    private val feedLikeUseCase: RequestFeedLikeUseCase,
 ): BaseViewModel() {
 
     private val _feed = MutableLiveData<List<Feed>>()

@@ -5,22 +5,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.domain.model.feed.Feed
-import com.shypolarbear.domain.usecase.feed.FeedCommentUseCase
-import com.shypolarbear.domain.usecase.feed.FeedDeleteUseCase
-import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
-import com.shypolarbear.domain.usecase.feed.FeedLikeUseCase
+import com.shypolarbear.domain.usecase.feed.LoadCommentUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedDeleteUseCase
+import com.shypolarbear.domain.usecase.feed.LoadFeedDetailUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedLikeUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class FeedDetailViewModel @Inject constructor(
-    private val feedDetailUseCase: FeedDetailUseCase,
-    private val feedCommentUseCase: FeedCommentUseCase,
-    private val feedDeleteUseCase: FeedDeleteUseCase,
-    private val feedLikeUseCase: FeedLikeUseCase
+    private val feedDetailUseCase: LoadFeedDetailUseCase,
+    private val feedCommentUseCase: LoadCommentUseCase,
+    private val feedDeleteUseCase: RequestFeedDeleteUseCase,
+    private val feedLikeUseCase: RequestFeedLikeUseCase
 ): BaseViewModel() {
 
     private val _feed = MutableLiveData<Feed>()

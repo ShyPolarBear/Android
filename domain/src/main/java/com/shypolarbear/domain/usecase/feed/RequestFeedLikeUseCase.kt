@@ -3,7 +3,7 @@ package com.shypolarbear.domain.usecase.feed
 import com.shypolarbear.domain.model.feed.feedLike.FeedLikeResponse
 import com.shypolarbear.domain.repository.feed.FeedRepo
 
-class FeedLikeUseCase (
+class RequestFeedLikeUseCase (
     private val repo: FeedRepo
 ) {
     suspend operator fun invoke(feedId: Int): Result<FeedLikeResponse> {
