@@ -1,5 +1,6 @@
 package com.shypolarbear.presentation.ui.feed.feedWrite
 
+import android.net.Uri
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,7 +14,12 @@ import com.shypolarbear.presentation.databinding.FragmentFeedWriteBinding
 import com.shypolarbear.presentation.ui.feed.feedTotal.FragmentTotalStatus
 import com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider
 import com.shypolarbear.presentation.ui.feed.feedTotal.fragmentTotalStatus
+import com.shypolarbear.presentation.util.ImageType
+import com.shypolarbear.presentation.util.convertUriToFile
+import com.shypolarbear.presentation.util.convertUriToPath
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
+import java.io.File
 
 const val IMAGE_ADD_INDEX = 0
 const val IMAGE_MAX_COUNT = 5
@@ -26,6 +32,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
 
     override val viewModel: FeedWriteViewModel by viewModels()
     private val feedWriteArgs: FeedWriteFragmentArgs by navArgs()
+    private val imageUriList: MutableList<Uri> = mutableListOf()
 
     private val feedWriteImgAdapter = FeedWriteImgAdapter(
         onRemoveImgClick = { position: Int -> removeImg(position) }
@@ -38,6 +45,8 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                         Toast.makeText(requireContext(), getString(R.string.feed_write_image_count_msg), Toast.LENGTH_SHORT).show()
                     }
                     else -> {
+                        imageUriList.addAll(0, uris)
+                        Timber.d("$imageUriList")
                         viewModel.addImgList(uris)
                         binding.rvFeedWriteUploadImg.scrollToPosition(IMAGE_ADD_INDEX)
                     }
@@ -92,17 +101,28 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                         when(feedWriteArgs.divider) {
                             WriteChangeDivider.WRITE -> {
                                 // TODO("이미지 api 구현 되면 feedImages에 viewModel의 _liveImgList.value 넣기)
-                                viewModel.writePost(
-                                    title = edtFeedWriteTitle.text.toString(),
-                                    content = edtFeedWriteContent.text.toString(),
-                                    feedImages = listOf()
-                                )
+
+//                                viewModel.requestUploadImages(ImageType.PROFILE.type, listOf(File(uri.convertUriToPath(requireContext()))))
+
+                                val imageFileList: List<File> = imageUriList.map { it ->
+                                    Timber.d("$it")
+                                    it.convertUriToFile(requireContext())
+                                }
+                                viewModel.requestUploadImages(ImageType.PROFILE.type, imageFileList)
+
+                                viewModel.uploadImageList.observe(viewLifecycleOwner) {
+                                    viewModel.writePost(
+                                        title = edtFeedWriteTitle.text.toString(),
+                                        content = edtFeedWriteContent.text.toString(),
+                                        feedImages = viewModel.uploadImageList.value
+                                    )
+                                }
                             }
                             WriteChangeDivider.CHANGE -> {
                                 viewModel.changePost(
                                     feedId = feedWriteArgs.feedId,
                                     content = edtFeedWriteContent.text.toString(),
-                                    feedImages = listOf(),
+                                    feedImages = viewModel.uploadImageList.value,
                                     title = edtFeedWriteTitle.text.toString()
                                 )
                             }
@@ -127,6 +147,8 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
     }
 
     private fun removeImg(position: Int) {
+        imageUriList.removeAt(position)
+        Timber.d("$imageUriList")
         viewModel.removeImgList(position)
     }
 }
