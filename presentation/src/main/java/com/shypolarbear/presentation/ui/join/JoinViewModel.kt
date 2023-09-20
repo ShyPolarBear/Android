@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.domain.model.Tokens
 import com.shypolarbear.domain.model.join.JoinRequest
-import com.shypolarbear.domain.usecase.JoinUseCase
+import com.shypolarbear.domain.usecase.RequestJoinUseCase
 import com.shypolarbear.domain.usecase.tokens.SetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.tokens.SetRefreshTokenUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class JoinViewModel @Inject constructor(
-    private val joinUseCase: JoinUseCase,
+    private val joinUseCase: RequestJoinUseCase,
     private val setAccessTokenUseCase: SetAccessTokenUseCase,
     private val setRefreshTokenUseCase: SetRefreshTokenUseCase
 ) : BaseViewModel() {

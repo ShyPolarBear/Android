@@ -2,7 +2,7 @@ package com.shypolarbear.android.di
 
 import com.shypolarbear.domain.usecase.tokens.GetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.tokens.GetRefreshTokenUseCase
-import com.shypolarbear.domain.usecase.TokenRenewUseCase
+import com.shypolarbear.domain.usecase.RequestTokenRenewUseCase
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 class AuthInterceptor @Inject constructor(
     private val accessTokenUseCase: GetAccessTokenUseCase,
     private val refreshTokenUseCase: GetRefreshTokenUseCase,
-    private val tokenRenewUseCase: TokenRenewUseCase
+    private val tokenRenewUseCase: RequestTokenRenewUseCase
 ): Interceptor {
 
     private lateinit var accessToken: String

@@ -7,13 +7,13 @@ import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.shypolarbear.domain.model.feed.FeedWriteImg
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedWriteBinding
+import com.shypolarbear.presentation.ui.feed.feedTotal.FragmentTotalStatus
 import com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider
+import com.shypolarbear.presentation.ui.feed.feedTotal.fragmentTotalStatus
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 const val IMAGE_ADD_INDEX = 0
 const val IMAGE_MAX_COUNT = 5
@@ -59,7 +59,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                         edtFeedWriteTitle.setText(feed.title)
                         edtFeedWriteContent.setText(feed.content)
 
-                        val imgUriList = feed.feedImage.map { it.toUri() }
+                        val imgUriList = feed.feedImages.map { it.toUri() }
                         viewModel.addImgList(imgUriList)
                     }
                 }
@@ -71,6 +71,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
             }
 
             btnFeedWriteBack.setOnClickListener {
+                fragmentTotalStatus = FragmentTotalStatus.WRITE_BACK_BTN_CLICK
                 findNavController().popBackStack()
 
             }
@@ -90,22 +91,23 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                     else -> {
                         when(feedWriteArgs.divider) {
                             WriteChangeDivider.WRITE -> {
-                                // TODO("피드 작성 시 동작")
+                                // TODO("이미지 api 구현 되면 feedImages에 viewModel의 _liveImgList.value 넣기)
                                 viewModel.writePost(
                                     title = edtFeedWriteTitle.text.toString(),
                                     content = edtFeedWriteContent.text.toString(),
-                                    feedImages = null
+                                    feedImages = listOf()
                                 )
                             }
                             WriteChangeDivider.CHANGE -> {
                                 viewModel.changePost(
                                     feedId = feedWriteArgs.feedId,
                                     content = edtFeedWriteContent.text.toString(),
-                                    feedImages = null,
+                                    feedImages = listOf(),
                                     title = edtFeedWriteTitle.text.toString()
                                 )
                             }
                         }
+                        fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
                         findNavController().popBackStack()
                     }
                 }

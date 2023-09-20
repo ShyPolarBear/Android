@@ -1,7 +1,7 @@
 package com.shypolarbear.domain.model.feed
 
 data class Data(
-    val feedCount: Int,
-    val feeds: List<Feed>,
-    val isLast: Boolean
+    val count: Int,
+    val content: List<Feed>,
+    val last: Boolean
 )

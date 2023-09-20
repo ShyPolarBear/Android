@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.domain.model.login.LoginRequest
-import com.shypolarbear.domain.usecase.LoginUseCase
+import com.shypolarbear.domain.usecase.RequestLoginUseCase
 import com.shypolarbear.domain.usecase.tokens.SetAccessTokenUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import com.shypolarbear.presentation.util.LOGIN_FAIL
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase,
+    private val loginUseCase: RequestLoginUseCase,
     private val setAccessTokenUseCase: SetAccessTokenUseCase
 ) : BaseViewModel() {
     private val _tokens = MutableLiveData<String>()

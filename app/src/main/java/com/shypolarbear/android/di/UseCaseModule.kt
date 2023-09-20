@@ -27,6 +27,22 @@ import com.shypolarbear.domain.usecase.image.ImageUploadUseCase
 import com.shypolarbear.domain.usecase.more.ChangeMyInfoUseCase
 import com.shypolarbear.domain.usecase.more.GetMyInfoUseCase
 import com.shypolarbear.domain.usecase.mypage.GetMyPostUseCase
+import com.shypolarbear.domain.usecase.RequestJoinUseCase
+import com.shypolarbear.domain.usecase.feed.LoadFeedTotalUseCase
+import com.shypolarbear.domain.usecase.RequestLoginUseCase
+import com.shypolarbear.domain.usecase.tokens.GetRefreshTokenUseCase
+import com.shypolarbear.domain.usecase.RequestTokenRenewUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedChangeUseCase
+import com.shypolarbear.domain.usecase.feed.LoadCommentUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedDeleteUseCase
+import com.shypolarbear.domain.usecase.feed.LoadFeedDetailUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedLikeUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedWriteUseCase
+import com.shypolarbear.domain.usecase.image.RequestImageDeleteUseCase
+import com.shypolarbear.domain.usecase.image.RequestImageModifyUseCase
+import com.shypolarbear.domain.usecase.image.RequestImageUploadUseCase
+import com.shypolarbear.domain.usecase.more.RequestMyInfoChangeUseCase
+import com.shypolarbear.domain.usecase.more.LoadMyInfoUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizReviewUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizSolvedUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizSubmitMultiUseCase
@@ -47,14 +63,14 @@ import javax.inject.Singleton
 class UseCaseModule {
     @Singleton
     @Provides
-    fun provideLoginUseCase(repo: LoginRepo): LoginUseCase {
-        return LoginUseCase(repo)
+    fun provideLoginUseCase(repo: LoginRepo): RequestLoginUseCase {
+        return RequestLoginUseCase(repo)
     }
 
     @Singleton
     @Provides
-    fun provideJoinUseCase(repo: JoinRepo): JoinUseCase {
-        return JoinUseCase(repo)
+    fun provideJoinUseCase(repo: JoinRepo): RequestJoinUseCase {
+        return RequestJoinUseCase(repo)
     }
 
     @Singleton
@@ -65,20 +81,20 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideFeedTotalUseCase(repo: FeedRepo): FeedTotalUseCase {
-        return FeedTotalUseCase(repo)
+    fun provideFeedTotalUseCase(repo: FeedRepo): LoadFeedTotalUseCase {
+        return LoadFeedTotalUseCase(repo)
     }
 
     @Singleton
     @Provides
-    fun provideFeedDetailUseCase(repo: FeedRepo): FeedDetailUseCase {
-        return FeedDetailUseCase(repo)
+    fun provideFeedDetailUseCase(repo: FeedRepo): LoadFeedDetailUseCase {
+        return LoadFeedDetailUseCase(repo)
     }
 
     @Singleton
     @Provides
-    fun provideFeedCommentUseCase(repo: FeedRepo): FeedCommentUseCase {
-        return FeedCommentUseCase(repo)
+    fun provideFeedCommentUseCase(repo: FeedRepo): LoadCommentUseCase {
+        return LoadCommentUseCase(repo)
     }
 
     @Singleton
@@ -107,20 +123,20 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideTokenRenewUseCase(repo: TokenRepo): TokenRenewUseCase {
-        return TokenRenewUseCase(repo)
+    fun provideTokenRenewUseCase(repo: TokenRepo): RequestTokenRenewUseCase {
+        return RequestTokenRenewUseCase(repo)
     }
 
     @Singleton
     @Provides
-    fun provideGetMyInfoUseCase(repo: InfoRepo): GetMyInfoUseCase {
-        return GetMyInfoUseCase(repo)
+    fun provideGetMyInfoUseCase(repo: InfoRepo): LoadMyInfoUseCase {
+        return LoadMyInfoUseCase(repo)
     }
 
     @Singleton
     @Provides
-    fun provideChangeMyInfoUseCase(repo: InfoRepo): ChangeMyInfoUseCase {
-        return ChangeMyInfoUseCase(repo)
+    fun provideChangeMyInfoUseCase(repo: InfoRepo): RequestMyInfoChangeUseCase {
+        return RequestMyInfoChangeUseCase(repo)
     }
 
     @Singleton
@@ -131,26 +147,26 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideChangePostUseCase(repo: FeedRepo): FeedChangeUseCase {
-        return FeedChangeUseCase(repo)
+    fun provideChangePostUseCase(repo: FeedRepo): RequestFeedChangeUseCase {
+        return RequestFeedChangeUseCase(repo)
     }
 
     @Singleton
     @Provides
-    fun provideFeedDeleteUseCase(repo: FeedRepo): FeedDeleteUseCase {
-        return FeedDeleteUseCase(repo)
+    fun provideFeedDeleteUseCase(repo: FeedRepo): RequestFeedDeleteUseCase {
+        return RequestFeedDeleteUseCase(repo)
     }
 
     @Singleton
     @Provides
-    fun provideFeedWriteUseCase(repo: FeedRepo): FeedWriteUseCase {
-        return FeedWriteUseCase(repo)
+    fun provideFeedWriteUseCase(repo: FeedRepo): RequestFeedWriteUseCase {
+        return RequestFeedWriteUseCase(repo)
     }
 
     @Singleton
     @Provides
-    fun provideFeedLikeUseCase(repo: FeedRepo): FeedLikeUseCase {
-        return FeedLikeUseCase(repo)
+    fun provideFeedLikeUseCase(repo: FeedRepo): RequestFeedLikeUseCase {
+        return RequestFeedLikeUseCase(repo)
     }
 
     @Singleton
@@ -179,20 +195,20 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideImageUpload(repo: ImageUploadRepo): ImageUploadUseCase {
-        return ImageUploadUseCase(repo)
+    fun provideImageUpload(repo: ImageUploadRepo): RequestImageUploadUseCase {
+        return RequestImageUploadUseCase(repo)
     }
 
     @Singleton
     @Provides
-    fun provideImageModify(repo: ImageEditRepo): ImageModifyUseCase {
-        return ImageModifyUseCase(repo)
+    fun provideImageModify(repo: ImageEditRepo): RequestImageModifyUseCase {
+        return RequestImageModifyUseCase(repo)
     }
 
     @Singleton
     @Provides
-    fun provideImageDelete(repo: ImageEditRepo): ImageDeleteUseCase {
-        return ImageDeleteUseCase(repo)
+    fun provideImageDelete(repo: ImageEditRepo): RequestImageDeleteUseCase {
+        return RequestImageDeleteUseCase(repo)
     }
 
     @Singleton

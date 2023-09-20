@@ -14,9 +14,9 @@ import javax.inject.Inject
 class FeedRepoImpl @Inject constructor(
     private val api: FeedApi
 ): FeedRepo {
-    override suspend fun getFeedTotalData(): Result<FeedTotal> {
+    override suspend fun getFeedTotalData(sort: String, lastFeedId: Int?): Result<FeedTotal> {
         return try {
-            val response = api.getFeedTotal()
+            val response = api.getFeedTotal(sort, lastFeedId)
             when {
                 response.isSuccessful -> {
                     Result.success(response.body()!!)
@@ -74,7 +74,7 @@ class FeedRepoImpl @Inject constructor(
                 WriteFeedForm(
                     content = content,
                     feedId = feedId,
-                    feedImages = listOf("NULL"),  // TODO("이미지 작업 완료되면 수정할 예정")
+                    feedImages = feedImages,
                     title = title
                 )
             )
@@ -117,7 +117,7 @@ class FeedRepoImpl @Inject constructor(
                 WriteFeedForm(
                     title = title,
                     content = content,
-                    feedImages = listOf("NULL"),  // TODO("이미지 작업 완료되면 수정할 예정"
+                    feedImages = feedImages,
                 )
             )
             when {

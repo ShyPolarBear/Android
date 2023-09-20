@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.domain.model.feed.FeedWriteImg
-import com.shypolarbear.domain.usecase.feed.FeedChangeUseCase
-import com.shypolarbear.domain.usecase.feed.FeedDetailUseCase
-import com.shypolarbear.domain.usecase.feed.FeedWriteUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedChangeUseCase
+import com.shypolarbear.domain.usecase.feed.LoadFeedDetailUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedWriteUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,9 +16,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FeedWriteViewModel @Inject constructor(
-    private val feedDetailUseCase: FeedDetailUseCase,
-    private val changePostUseCase: FeedChangeUseCase,
-    private val feedWriteUseCase: FeedWriteUseCase
+    private val feedDetailUseCase: LoadFeedDetailUseCase,
+    private val changePostUseCase: RequestFeedChangeUseCase,
+    private val feedWriteUseCase: RequestFeedWriteUseCase
 ): BaseViewModel(){
     private val _feed = MutableLiveData<Feed>()
     val feed: LiveData<Feed> = _feed
@@ -28,7 +28,7 @@ class FeedWriteViewModel @Inject constructor(
 
     fun loadFeedDetail(feedId: Int) {
         viewModelScope.launch {
-            val feedDetailData = feedDetailUseCase.loadFeedDetailData(feedId)
+            val feedDetailData = feedDetailUseCase(feedId)
 
             feedDetailData
                 .onSuccess {
@@ -42,13 +42,13 @@ class FeedWriteViewModel @Inject constructor(
 
     fun changePost(feedId: Int, content: String, feedImages: List<String>?, title: String) {
         viewModelScope.launch {
-            changePostUseCase.requestChangePost(feedId, content, feedImages, title)
+            changePostUseCase(feedId, content, feedImages, title)
         }
     }
 
     fun writePost(title: String, content: String, feedImages: List<String>?) {
         viewModelScope.launch {
-            feedWriteUseCase.requestWriteFeed(title, content, feedImages)
+            feedWriteUseCase(title, content, feedImages)
         }
     }
 

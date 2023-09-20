@@ -34,4 +34,6 @@ object Versions {
     const val KAKAO = "2.14.0"
 
     const val DATA_STORE = "1.0.0"
+
+    const val SWIPE_REFRESH_LAYOUT = "1.1.0"
 }
