@@ -98,40 +98,41 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                         Toast.makeText(requireContext(), getString(R.string.feed_write_content_msg), Toast.LENGTH_SHORT).show()
                     }
                     else -> {
-                        when(feedWriteArgs.divider) {
-                            WriteChangeDivider.WRITE -> {
-                                // TODO("이미지 api 구현 되면 feedImages에 viewModel의 _liveImgList.value 넣기)
-
-//                                viewModel.requestUploadImages(ImageType.PROFILE.type, listOf(File(uri.convertUriToPath(requireContext()))))
-
-                                val imageFileList: List<File> = imageUriList.map { it ->
-                                    Timber.d("$it")
-                                    it.convertUriToFile(requireContext())
-                                }
-                                viewModel.requestUploadImages(ImageType.PROFILE.type, imageFileList)
-
-                                viewModel.uploadImageList.observe(viewLifecycleOwner) {
-                                    viewModel.writePost(
-                                        title = edtFeedWriteTitle.text.toString(),
-                                        content = edtFeedWriteContent.text.toString(),
-                                        feedImages = viewModel.uploadImageList.value
-                                    )
-                                }
-                            }
-                            WriteChangeDivider.CHANGE -> {
-                                viewModel.changePost(
-                                    feedId = feedWriteArgs.feedId,
-                                    content = edtFeedWriteContent.text.toString(),
-                                    feedImages = viewModel.uploadImageList.value,
-                                    title = edtFeedWriteTitle.text.toString()
-                                )
-                            }
-                        }
-                        fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
-                        findNavController().popBackStack()
+                        uploadPost()
                     }
                 }
             }
+        }
+    }
+
+    private fun uploadPost() {
+        val imageFileList: List<File> = imageUriList.map { it ->
+            it.convertUriToFile(requireContext())
+        }
+
+        viewModel.requestUploadImages(ImageType.FEED.type, imageFileList)       // 이미지 업로드
+
+        viewModel.uploadImageList.observe(viewLifecycleOwner) {     // 이미지 업로드 되면 실행
+            when(feedWriteArgs.divider) {
+                WriteChangeDivider.WRITE -> {
+                    viewModel.writePost(
+                        title = binding.edtFeedWriteTitle.text.toString(),
+                        content = binding.edtFeedWriteContent.text.toString(),
+                        feedImages = viewModel.uploadImageList.value
+                    )
+                }
+                WriteChangeDivider.CHANGE -> {
+                    viewModel.changePost(
+                        feedId = feedWriteArgs.feedId,
+                        content = binding.edtFeedWriteContent.text.toString(),
+                        feedImages = viewModel.uploadImageList.value,
+                        title = binding.edtFeedWriteTitle.text.toString()
+                    )
+                }
+            }
+
+            fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
+            findNavController().popBackStack()
         }
     }
 

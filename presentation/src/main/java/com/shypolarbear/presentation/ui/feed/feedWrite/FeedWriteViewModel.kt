@@ -68,7 +68,7 @@ class FeedWriteViewModel @Inject constructor(
 
             uploadImages
                 .onSuccess {
-                    _uploadImageList.value = it.data.imageUrls
+                    _uploadImageList.value = it.data.imageLinks
                     Timber.d("${_uploadImageList.value}")
                 }
                 .onFailure {

@@ -86,16 +86,12 @@ fun Uri.convertUriToPath(context: Context): String {
 
 fun Uri.convertUriToFile(context: Context): File {
     val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
-    Timber.d("$proj")
     val cursor = context.contentResolver.query(this, proj, null, null, null)
     val index = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-    Timber.d("$index")
     cursor?.moveToFirst()
-    Timber.d("$cursor")
     val path = cursor?.getString(index!!)
     cursor?.close()
 
-    Timber.d("$path")
     return File(path!!)
 }
 
