@@ -14,8 +14,12 @@ import com.shypolarbear.domain.usecase.image.RequestImageUploadUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
+
+const val UPLOADING = 0
+const val UPLOADED = 1
 
 @HiltViewModel
 class FeedWriteViewModel @Inject constructor(
@@ -33,6 +37,9 @@ class FeedWriteViewModel @Inject constructor(
     private val _uploadImageList = MutableLiveData<List<String>>()
     val uploadImageList: LiveData<List<String>> = _uploadImageList
 
+    private val _uploadState = MutableLiveData<Int>(UPLOADING)
+    val uploadState: LiveData<Int> = _uploadState
+
     fun loadFeedDetail(feedId: Int) {
         viewModelScope.launch {
             val feedDetailData = feedDetailUseCase(feedId)
@@ -49,23 +56,43 @@ class FeedWriteViewModel @Inject constructor(
 
     fun changePost(feedId: Int, content: String, feedImages: List<String>?, title: String) {
         viewModelScope.launch {
-            changePostUseCase(feedId, content, feedImages, title)
+            val feedChangeResult = changePostUseCase(feedId, content, feedImages, title)
+
+            feedChangeResult
+                .onSuccess {
+                    _uploadState.value = UPLOADED
+                }
+                .onFailure {
+
+                }
         }
     }
 
-    fun writePost(title: String, content: String, feedImages: List<String>?) {
+    fun writeNoImagePost(title: String, content: String) {
         viewModelScope.launch {
-            feedWriteUseCase(title, content, feedImages)
+            val feedWriteResult = feedWriteUseCase(title, content, listOf())
+
+            feedWriteResult
+                .onSuccess {
+                    _uploadState.value = UPLOADED
+                }
+                .onFailure {
+
+                }
         }
+
     }
 
-    fun requestUploadImages(imageType: String, imageFiles: List<File>) {
+    fun writeImagePost(imageType: String, imageFiles: List<File>, title: String, content: String) {
         viewModelScope.launch {
             val uploadImages = imageUploadUseCase(ImageUploadRequest(imageType, imageFiles))
 
             uploadImages
                 .onSuccess {
                     _uploadImageList.value = it.data.imageLinks
+                    feedWriteUseCase(title, content, _uploadImageList.value)
+
+                    _uploadState.value = UPLOADED
                 }
                 .onFailure {
 

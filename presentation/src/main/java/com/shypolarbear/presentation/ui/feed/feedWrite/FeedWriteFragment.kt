@@ -104,14 +104,30 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
     }
 
     private fun uploadPost() {
-
         when(feedWriteArgs.divider) {
             WriteChangeDivider.WRITE -> {
-                val imageFileList: List<File> = imageUriList.map { it.convertUriToFile(requireContext()) }
-                viewModel.requestUploadImages(ImageType.FEED.type, imageFileList)       // 이미지 업로드
+                when {
+                    // 이미지 없는 게시물
+                    imageUriList.isEmpty() -> {
+                        viewModel.writeNoImagePost(
+                            title = binding.edtFeedWriteTitle.text.toString(),
+                            content = binding.edtFeedWriteContent.text.toString()
+                        )
+                    }
+                    // 이미지 있는 게시물
+                    else -> {
+                        val imageFileList: List<File> = imageUriList.map { it.convertUriToFile(requireContext()) }
+
+                        viewModel.writeImagePost(
+                            imageType = ImageType.FEED.type,
+                            imageFiles = imageFileList,
+                            title = binding.edtFeedWriteTitle.text.toString(),
+                            content = binding.edtFeedWriteContent.text.toString()
+                        )
+                    }
+                }
             }
             WriteChangeDivider.CHANGE -> {
-                Timber.d("viewModel.uploadImageList: ${viewModel.uploadImageList.value}")
                 viewModel.changePost(
                     feedId = feedWriteArgs.feedId,
                     content = binding.edtFeedWriteContent.text.toString(),
@@ -121,15 +137,19 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
             }
         }
 
-        viewModel.uploadImageList.observe(viewLifecycleOwner) {     // 이미지 업로드 되면 실행
-            viewModel.writePost(
-                title = binding.edtFeedWriteTitle.text.toString(),
-                content = binding.edtFeedWriteContent.text.toString(),
-                feedImages = viewModel.uploadImageList.value
-            )
+        // 이미지, 게시물 모두 업로드 된 경우
+        viewModel.uploadState.observe(viewLifecycleOwner) {
+            Timber.d("viewModel.uploadState: ${viewModel.uploadState}")
+            when(viewModel.uploadState.value) {
+                UPLOADING -> {
 
-            fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
-            findNavController().popBackStack()
+                }
+                UPLOADED -> {
+                    Timber.d("viewModel.uploadState: ${viewModel.uploadState}")
+                    fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
+                    findNavController().popBackStack()
+                }
+            }
         }
     }
 
