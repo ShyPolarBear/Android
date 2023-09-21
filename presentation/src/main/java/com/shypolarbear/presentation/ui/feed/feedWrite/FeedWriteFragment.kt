@@ -16,7 +16,6 @@ import com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider
 import com.shypolarbear.presentation.ui.feed.feedTotal.fragmentTotalStatus
 import com.shypolarbear.presentation.util.ImageType
 import com.shypolarbear.presentation.util.convertUriToFile
-import com.shypolarbear.presentation.util.convertUriToPath
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.io.File
@@ -32,7 +31,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
 
     override val viewModel: FeedWriteViewModel by viewModels()
     private val feedWriteArgs: FeedWriteFragmentArgs by navArgs()
-    private val imageUriList: MutableList<Uri> = mutableListOf()
+    private var imageUriList: MutableList<Uri> = mutableListOf()
 
     private val feedWriteImgAdapter = FeedWriteImgAdapter(
         onRemoveImgClick = { position: Int -> removeImg(position) }
@@ -40,18 +39,16 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(IMAGE_MAX_COUNT)) { uris ->
             uris?.let {
-                when(viewModel.liveImgList.value!!.size + uris.size) {
+                when(viewModel.selectedLiveImgList.value!!.size + uris.size) {
                     in IMAGE_ADD_MAX..Int.MAX_VALUE -> {
                         Toast.makeText(requireContext(), getString(R.string.feed_write_image_count_msg), Toast.LENGTH_SHORT).show()
                     }
                     else -> {
                         imageUriList.addAll(0, uris)
-                        Timber.d("$imageUriList")
                         viewModel.addImgList(uris)
                         binding.rvFeedWriteUploadImg.scrollToPosition(IMAGE_ADD_INDEX)
                     }
                 }
-
             }
         }
 
@@ -68,14 +65,15 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                         edtFeedWriteTitle.setText(feed.title)
                         edtFeedWriteContent.setText(feed.content)
 
-                        val imgUriList = feed.feedImages.map { it.toUri() }
-                        viewModel.addImgList(imgUriList)
+                        imageUriList = feed.feedImages.map { it.toUri() }.toMutableList()
+                        viewModel.addImgList(imageUriList)
+                        viewModel.setUploadImageList(feed.feedImages)
                     }
                 }
             }
 
             rvFeedWriteUploadImg.adapter = feedWriteImgAdapter
-            viewModel.liveImgList.observe(viewLifecycleOwner) {
+            viewModel.selectedLiveImgList.observe(viewLifecycleOwner) {
                 feedWriteImgAdapter.submitList(it.toList())
             }
 
@@ -106,30 +104,29 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
     }
 
     private fun uploadPost() {
-        val imageFileList: List<File> = imageUriList.map { it ->
-            it.convertUriToFile(requireContext())
+
+        when(feedWriteArgs.divider) {
+            WriteChangeDivider.WRITE -> {
+                val imageFileList: List<File> = imageUriList.map { it.convertUriToFile(requireContext()) }
+                viewModel.requestUploadImages(ImageType.FEED.type, imageFileList)       // 이미지 업로드
+            }
+            WriteChangeDivider.CHANGE -> {
+                Timber.d("viewModel.uploadImageList: ${viewModel.uploadImageList.value}")
+                viewModel.changePost(
+                    feedId = feedWriteArgs.feedId,
+                    content = binding.edtFeedWriteContent.text.toString(),
+                    feedImages = viewModel.uploadImageList.value,
+                    title = binding.edtFeedWriteTitle.text.toString()
+                )
+            }
         }
 
-        viewModel.requestUploadImages(ImageType.FEED.type, imageFileList)       // 이미지 업로드
-
         viewModel.uploadImageList.observe(viewLifecycleOwner) {     // 이미지 업로드 되면 실행
-            when(feedWriteArgs.divider) {
-                WriteChangeDivider.WRITE -> {
-                    viewModel.writePost(
-                        title = binding.edtFeedWriteTitle.text.toString(),
-                        content = binding.edtFeedWriteContent.text.toString(),
-                        feedImages = viewModel.uploadImageList.value
-                    )
-                }
-                WriteChangeDivider.CHANGE -> {
-                    viewModel.changePost(
-                        feedId = feedWriteArgs.feedId,
-                        content = binding.edtFeedWriteContent.text.toString(),
-                        feedImages = viewModel.uploadImageList.value,
-                        title = binding.edtFeedWriteTitle.text.toString()
-                    )
-                }
-            }
+            viewModel.writePost(
+                title = binding.edtFeedWriteTitle.text.toString(),
+                content = binding.edtFeedWriteContent.text.toString(),
+                feedImages = viewModel.uploadImageList.value
+            )
 
             fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
             findNavController().popBackStack()
@@ -137,7 +134,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
     }
 
     private fun addImg() {
-        when(viewModel.liveImgList.value!!.size) {
+        when(viewModel.selectedLiveImgList.value!!.size) {
             in IMAGE_MAX_COUNT..Int.MAX_VALUE -> {
                 Toast.makeText(requireContext(), getString(R.string.feed_write_image_count_msg), Toast.LENGTH_SHORT).show()
             }
@@ -148,8 +145,9 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
     }
 
     private fun removeImg(position: Int) {
+        Timber.d("imageUriList: $imageUriList")
         imageUriList.removeAt(position)
-        Timber.d("$imageUriList")
+        Timber.d("imageUriList: $imageUriList")
         viewModel.removeImgList(position)
     }
 }
