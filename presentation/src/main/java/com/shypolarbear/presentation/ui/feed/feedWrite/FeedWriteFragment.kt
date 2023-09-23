@@ -145,7 +145,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                         )
                     }
                     // 이미지 추가만 된 경우
-                    (originalImageUriList.size < imageUriList.size) -> {
+                    (originalImageUriList.size < (imageUriList.size + addedImageUriList.size)) -> {
                         val imageFileList: List<File> = addedImageUriList.map { it.convertUriToFile(requireContext()) }
                         viewModel.changeImagePost(
                             feedId = feedWriteArgs.feedId,
