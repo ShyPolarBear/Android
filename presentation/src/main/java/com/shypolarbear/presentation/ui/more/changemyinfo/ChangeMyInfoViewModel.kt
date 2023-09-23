@@ -26,9 +26,6 @@ class ChangeMyInfoViewModel @Inject constructor(
     private val _myInfo = MutableLiveData<Info>()
     val myInfo: LiveData<Info> = _myInfo
 
-    private val _uploadImageList = MutableLiveData<List<String>>(listOf())
-    val uploadImageList: LiveData<List<String>> = _uploadImageList
-
     private val _uploadState = MutableLiveData(UPLOADING)
     val uploadState: LiveData<Int> = _uploadState
 
@@ -47,26 +44,6 @@ class ChangeMyInfoViewModel @Inject constructor(
         }
     }
 
-//    fun requestChangeMyInfo(
-//        nickName: String,
-//        profileImage: String?,
-//        email: String,
-//        phoneNumber: String
-//    ) {
-//        viewModelScope.launch {
-//            val response = changeMyInfoUseCase(nickName, profileImage, email, phoneNumber)
-//
-//            response
-//                .onSuccess {
-//                    _myInfo.value = it.data
-//                }
-//                .onFailure {
-//
-//                }
-//
-//        }
-//    }
-
     fun requestChangeMyInfo(
         nickName: String,
         email: String,
@@ -78,9 +55,7 @@ class ChangeMyInfoViewModel @Inject constructor(
 
             uploadImages
                 .onSuccess {
-                    _uploadImageList.value = it.data.imageLinks
-                    changeMyInfoUseCase(nickName, _uploadImageList.value!![0], email, phoneNumber)
-
+                    changeMyInfoUseCase(nickName, it.data.imageLinks[0], email, phoneNumber)
                     _uploadState.value = UPLOADED
                 }
                 .onFailure {

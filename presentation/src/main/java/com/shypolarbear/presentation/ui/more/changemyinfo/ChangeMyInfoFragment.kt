@@ -44,8 +44,10 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
 
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            uri?.let { profileImageUri = uri }
-
+            uri?.let {
+                profileImageUri = uri
+                GlideUtil.loadCircleImage(requireContext(), uri, binding.ivChangeMyInfoProfile)
+            }
         }
 
     override fun initView() {
