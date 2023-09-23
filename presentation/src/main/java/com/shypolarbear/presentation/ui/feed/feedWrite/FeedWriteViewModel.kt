@@ -12,6 +12,7 @@ import com.shypolarbear.domain.usecase.feed.LoadFeedDetailUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedWriteUseCase
 import com.shypolarbear.domain.usecase.image.RequestImageUploadUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
+import com.shypolarbear.presentation.util.ImageType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -34,10 +35,10 @@ class FeedWriteViewModel @Inject constructor(
     private val _selectedLiveImgList = MutableLiveData<MutableList<FeedWriteImg>>(mutableListOf())
     val selectedLiveImgList: LiveData<MutableList<FeedWriteImg>> = _selectedLiveImgList
 
-    private val _uploadImageList = MutableLiveData<List<String>>()
+    private val _uploadImageList = MutableLiveData<List<String>>(listOf())
     val uploadImageList: LiveData<List<String>> = _uploadImageList
 
-    private val _uploadState = MutableLiveData<Int>(UPLOADING)
+    private val _uploadState = MutableLiveData(UPLOADING)
     val uploadState: LiveData<Int> = _uploadState
 
     fun loadFeedDetail(feedId: Int) {
@@ -68,6 +69,24 @@ class FeedWriteViewModel @Inject constructor(
         }
     }
 
+    fun changeImagePost(feedId: Int, content: String, originalImages: List<String>?, addedImageFiles: List<File>, title: String) {
+
+        viewModelScope.launch {
+            val uploadImages = imageUploadUseCase(ImageUploadRequest(ImageType.FEED.type, addedImageFiles))
+
+            uploadImages
+                .onSuccess {
+                    _uploadImageList.value = originalImages!! + it.data.imageLinks
+                    changePostUseCase(feedId, content, _uploadImageList.value, title)
+
+                    _uploadState.value = UPLOADED
+                }
+                .onFailure {
+
+                }
+        }
+    }
+
     fun writeNoImagePost(title: String, content: String) {
         viewModelScope.launch {
             val feedWriteResult = feedWriteUseCase(title, content, listOf())
@@ -83,9 +102,9 @@ class FeedWriteViewModel @Inject constructor(
 
     }
 
-    fun writeImagePost(imageType: String, imageFiles: List<File>, title: String, content: String) {
+    fun writeImagePost(imageFiles: List<File>, title: String, content: String) {
         viewModelScope.launch {
-            val uploadImages = imageUploadUseCase(ImageUploadRequest(imageType, imageFiles))
+            val uploadImages = imageUploadUseCase(ImageUploadRequest(ImageType.FEED.type, imageFiles))
 
             uploadImages
                 .onSuccess {
@@ -102,9 +121,16 @@ class FeedWriteViewModel @Inject constructor(
 
     fun addImgList(imgUri: List<Uri>) {
         val selectedImgList: MutableList<FeedWriteImg> = _selectedLiveImgList.value!!
-        val imgUriToStringList = imgUri.map { FeedWriteImg(it.toString()) }
+        val selectedImgUriToFeedWriteImgStringList = imgUri.map { FeedWriteImg(it.toString()) }
+        val imgUploadList: MutableList<String> = _uploadImageList.value!!.toMutableList()
+        val imgStringUploadList = imgUri.map { it.toString() }
 
-        selectedImgList.addAll(0, imgUriToStringList)
+        imgUploadList.addAll(imgStringUploadList)
+        selectedImgList.addAll(0, selectedImgUriToFeedWriteImgStringList)
+
+        _uploadImageList.value = imgUploadList
+
+        // 선택된 이미지 리사이클러뷰 업데이트를 위한 라이브 데이터 설정
         _selectedLiveImgList.value = selectedImgList
     }
 
@@ -116,6 +142,8 @@ class FeedWriteViewModel @Inject constructor(
         selectedImgList.removeAt(position)
 
         _uploadImageList.value = imgUploadList
+
+        // 선택된 이미지 리사이클러뷰 업데이트를 위한 라이브 데이터 설정
         _selectedLiveImgList.value = selectedImgList
     }
 
