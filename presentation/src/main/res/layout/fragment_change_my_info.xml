@@ -11,205 +11,225 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_change_my_info_back"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/ic_back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/iv_change_my_info_profile"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="32dp"
-            android:contentDescription="@string/profile_icon"
-            android:src="@drawable/ic_user_base_profile"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_change_my_info_back" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_change_my_info_img_edit"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:background="@drawable/ic_signup_name_edit"
-            app:layout_constraintBottom_toBottomOf="@id/iv_change_my_info_profile"
-            app:layout_constraintEnd_toEndOf="@+id/iv_change_my_info_profile" />
-
-        <EditText
-            android:id="@+id/edt_change_my_info_nickname"
-            style="@style/b1"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/selector_signup_nickname"
-            android:hint="@string/hint_signup_nickname"
-            android:inputType="text"
-            android:padding="10dp"
-            android:textColorHint="@color/Gray_05"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_change_my_info_profile" />
-
-        <ImageView
-            android:id="@+id/iv_change_my_info_name_check"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginVertical="12dp"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_signup_success"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/edt_change_my_info_nickname"
-            app:layout_constraintEnd_toEndOf="@id/edt_change_my_info_nickname"
-            app:layout_constraintTop_toTopOf="@id/edt_change_my_info_nickname" />
-
-        <ProgressBar
-            android:id="@+id/pg_change_my_info_name_check"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginVertical="12dp"
-            android:layout_marginEnd="10dp"
-            android:indeterminateTint="@color/Blue_02"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/edt_change_my_info_nickname"
-            app:layout_constraintEnd_toEndOf="@id/edt_change_my_info_nickname"
-            app:layout_constraintTop_toTopOf="@id/edt_change_my_info_nickname" />
-
-        <TextView
-            android:id="@+id/tv_change_my_info_name_rule"
-            style="@style/l2"
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress_change_my_info_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="@string/signup_name_rule"
-            android:textColor="@color/selector_signup_name_text_color"
-            app:layout_constraintStart_toStartOf="@id/edt_change_my_info_nickname"
-            app:layout_constraintTop_toBottomOf="@+id/edt_change_my_info_nickname" />
-
-        <EditText
-            android:id="@+id/edt_change_my_info_phone_number"
-            style="@style/b1"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/selector_signup_nickname"
-            android:hint="@string/signup_phone_hint"
-            android:inputType="phone"
-            android:padding="10dp"
-            android:textColorHint="@color/Gray_05"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_change_my_info_name_rule" />
-
-        <ImageView
-            android:id="@+id/iv_change_my_info_phone_number_check"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginVertical="12dp"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_signup_success"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/edt_change_my_info_phone_number"
-            app:layout_constraintEnd_toEndOf="@id/edt_change_my_info_phone_number"
-            app:layout_constraintTop_toTopOf="@id/edt_change_my_info_phone_number" />
-
-        <ProgressBar
-            android:id="@+id/pg_change_my_info_phone_number_check"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginVertical="12dp"
-            android:layout_marginEnd="10dp"
-            android:indeterminateTint="@color/Blue_02"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/edt_change_my_info_phone_number"
-            app:layout_constraintEnd_toEndOf="@id/edt_change_my_info_phone_number"
-            app:layout_constraintTop_toTopOf="@id/edt_change_my_info_phone_number" />
-
-        <TextView
-            android:id="@+id/tv_change_my_info_phone_number_rule"
-            style="@style/l2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="@string/signup_phone_hint_detail"
-            android:textColor="@color/selector_signup_name_text_color"
-            app:layout_constraintStart_toStartOf="@id/edt_change_my_info_phone_number"
-            app:layout_constraintTop_toBottomOf="@+id/edt_change_my_info_phone_number" />
-
-        <EditText
-            android:id="@+id/edt_change_my_info_email"
-            style="@style/b1"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/selector_signup_nickname"
-            android:hint="@string/signup_mail_hint"
-            android:inputType="textEmailAddress"
-            android:padding="10dp"
-            android:textColorHint="@color/Gray_05"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_change_my_info_phone_number_rule" />
-
-        <ImageView
-            android:id="@+id/iv_change_my_info_email_check"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginVertical="12dp"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_signup_success"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/edt_change_my_info_email"
-            app:layout_constraintEnd_toEndOf="@id/edt_change_my_info_email"
-            app:layout_constraintTop_toTopOf="@id/edt_change_my_info_email" />
-
-        <ProgressBar
-            android:id="@+id/pg_change_my_info_email_check"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginVertical="12dp"
-            android:layout_marginEnd="10dp"
-            android:indeterminateTint="@color/Blue_02"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/edt_change_my_info_email"
-            app:layout_constraintEnd_toEndOf="@id/edt_change_my_info_email"
-            app:layout_constraintTop_toTopOf="@id/edt_change_my_info_email" />
-
-        <TextView
-            android:id="@+id/tv_change_my_info_email_rule"
-            style="@style/l2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:textColor="@color/selector_signup_name_text_color"
-            app:layout_constraintStart_toStartOf="@id/edt_change_my_info_email"
-            app:layout_constraintTop_toBottomOf="@+id/edt_change_my_info_email"
-            tools:text="Email 힌트" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_change_my_info_revise"
-            style="@style/Button1"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="40dp"
-            android:background="@drawable/background_solid_blue_01_radius_15"
-            android:text="@string/more_change_my_info_complete"
-            android:textColor="@color/White_01"
+            android:indeterminate="true"
+            app:indicatorColor="@color/Blue_02"
+            app:indicatorSize="36dp"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:trackThickness="5dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_change_my_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_change_my_info_back"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/ic_back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_change_my_info_profile"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="32dp"
+                android:contentDescription="@string/profile_icon"
+                android:src="@drawable/ic_user_base_profile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_change_my_info_back" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_change_my_info_img_edit"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/ic_signup_name_edit"
+                app:layout_constraintBottom_toBottomOf="@id/iv_change_my_info_profile"
+                app:layout_constraintEnd_toEndOf="@+id/iv_change_my_info_profile" />
+
+            <EditText
+                android:id="@+id/edt_change_my_info_nickname"
+                style="@style/b1"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/selector_signup_nickname"
+                android:hint="@string/hint_signup_nickname"
+                android:inputType="text"
+                android:padding="10dp"
+                android:textColorHint="@color/Gray_05"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_change_my_info_profile" />
+
+            <ImageView
+                android:id="@+id/iv_change_my_info_name_check"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginVertical="12dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_signup_success"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/edt_change_my_info_nickname"
+                app:layout_constraintEnd_toEndOf="@id/edt_change_my_info_nickname"
+                app:layout_constraintTop_toTopOf="@id/edt_change_my_info_nickname" />
+
+            <ProgressBar
+                android:id="@+id/pg_change_my_info_name_check"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginVertical="12dp"
+                android:layout_marginEnd="10dp"
+                android:indeterminateTint="@color/Blue_02"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/edt_change_my_info_nickname"
+                app:layout_constraintEnd_toEndOf="@id/edt_change_my_info_nickname"
+                app:layout_constraintTop_toTopOf="@id/edt_change_my_info_nickname" />
+
+            <TextView
+                android:id="@+id/tv_change_my_info_name_rule"
+                style="@style/l2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/signup_name_rule"
+                android:textColor="@color/selector_signup_name_text_color"
+                app:layout_constraintStart_toStartOf="@id/edt_change_my_info_nickname"
+                app:layout_constraintTop_toBottomOf="@+id/edt_change_my_info_nickname" />
+
+            <EditText
+                android:id="@+id/edt_change_my_info_phone_number"
+                style="@style/b1"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/selector_signup_nickname"
+                android:hint="@string/signup_phone_hint"
+                android:inputType="phone"
+                android:padding="10dp"
+                android:textColorHint="@color/Gray_05"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_change_my_info_name_rule" />
+
+            <ImageView
+                android:id="@+id/iv_change_my_info_phone_number_check"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginVertical="12dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_signup_success"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/edt_change_my_info_phone_number"
+                app:layout_constraintEnd_toEndOf="@id/edt_change_my_info_phone_number"
+                app:layout_constraintTop_toTopOf="@id/edt_change_my_info_phone_number" />
+
+            <ProgressBar
+                android:id="@+id/pg_change_my_info_phone_number_check"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginVertical="12dp"
+                android:layout_marginEnd="10dp"
+                android:indeterminateTint="@color/Blue_02"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/edt_change_my_info_phone_number"
+                app:layout_constraintEnd_toEndOf="@id/edt_change_my_info_phone_number"
+                app:layout_constraintTop_toTopOf="@id/edt_change_my_info_phone_number" />
+
+            <TextView
+                android:id="@+id/tv_change_my_info_phone_number_rule"
+                style="@style/l2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/signup_phone_hint_detail"
+                android:textColor="@color/selector_signup_name_text_color"
+                app:layout_constraintStart_toStartOf="@id/edt_change_my_info_phone_number"
+                app:layout_constraintTop_toBottomOf="@+id/edt_change_my_info_phone_number" />
+
+            <EditText
+                android:id="@+id/edt_change_my_info_email"
+                style="@style/b1"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/selector_signup_nickname"
+                android:hint="@string/signup_mail_hint"
+                android:inputType="textEmailAddress"
+                android:padding="10dp"
+                android:textColorHint="@color/Gray_05"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_change_my_info_phone_number_rule" />
+
+            <ImageView
+                android:id="@+id/iv_change_my_info_email_check"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginVertical="12dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_signup_success"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/edt_change_my_info_email"
+                app:layout_constraintEnd_toEndOf="@id/edt_change_my_info_email"
+                app:layout_constraintTop_toTopOf="@id/edt_change_my_info_email" />
+
+            <ProgressBar
+                android:id="@+id/pg_change_my_info_email_check"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginVertical="12dp"
+                android:layout_marginEnd="10dp"
+                android:indeterminateTint="@color/Blue_02"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/edt_change_my_info_email"
+                app:layout_constraintEnd_toEndOf="@id/edt_change_my_info_email"
+                app:layout_constraintTop_toTopOf="@id/edt_change_my_info_email" />
+
+            <TextView
+                android:id="@+id/tv_change_my_info_email_rule"
+                style="@style/l2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/selector_signup_name_text_color"
+                app:layout_constraintStart_toStartOf="@id/edt_change_my_info_email"
+                app:layout_constraintTop_toBottomOf="@+id/edt_change_my_info_email"
+                tools:text="Email 힌트" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_change_my_info_revise"
+                style="@style/Button1"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="40dp"
+                android:background="@drawable/background_solid_blue_01_radius_15"
+                android:text="@string/more_change_my_info_complete"
+                android:textColor="@color/White_01"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

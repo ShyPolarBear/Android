@@ -53,6 +53,9 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
     override fun initView() {
 
         binding.apply {
+            progressChangeMyInfoLoading.isVisible = true
+            layoutChangeMyInfo.isVisible = false
+
             viewModel.getMyInfo()
             viewModel.myInfo.observe(viewLifecycleOwner) { info ->
                 edtChangeMyInfoNickname.setText(info.nickName)
@@ -65,6 +68,9 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                 } else {
                     GlideUtil.loadImage(requireContext(), url = null, view = binding.ivChangeMyInfoProfile, placeHolder = R.drawable.ic_user_base_profile)
                 }
+
+                progressChangeMyInfoLoading.isVisible = false
+                layoutChangeMyInfo.isVisible = true
             }
 
             btnChangeMyInfoBack.setOnClickListener {
