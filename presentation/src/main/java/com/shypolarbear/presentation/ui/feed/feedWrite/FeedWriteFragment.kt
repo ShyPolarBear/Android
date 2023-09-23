@@ -46,7 +46,6 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                         Toast.makeText(requireContext(), getString(R.string.feed_write_image_count_msg), Toast.LENGTH_SHORT).show()
                     }
                     else -> {
-//                        imageUriList.addAll(0, uris)
                         addedImageUriList.addAll(0, uris)
                         viewModel.addImgList(uris)
                         binding.rvFeedWriteUploadImg.scrollToPosition(IMAGE_ADD_INDEX)
