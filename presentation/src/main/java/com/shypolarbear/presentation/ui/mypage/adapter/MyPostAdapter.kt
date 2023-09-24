@@ -12,7 +12,7 @@ class MyPostAdapter (private val items: List<String?>) : RecyclerView.Adapter<Re
     private lateinit var postBinding: ItemPagePostBinding
 
     companion object{
-        fun initPostAdapter(items: List<String>) =
+        fun initPostAdapter(items: List<String?>) =
             MyPostAdapter(items)
     }
 
