@@ -196,5 +196,9 @@
     <fragment
         android:id="@+id/myPageFragment"
         android:name="com.shypolarbear.presentation.ui.mypage.MyPageFragment"
-        android:label="MyPageFragment" />
+        android:label="MyPageFragment" >
+        <action
+            android:id="@+id/action_myPageFragment_to_navigation_more"
+            app:destination="@id/navigation_more" />
+    </fragment>
 </navigation>

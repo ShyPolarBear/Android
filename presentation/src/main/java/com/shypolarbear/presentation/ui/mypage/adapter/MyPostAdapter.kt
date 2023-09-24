@@ -1,14 +1,10 @@
 package com.shypolarbear.presentation.ui.mypage.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedLoadingBinding
 import com.shypolarbear.presentation.databinding.ItemPagePostBinding
-import com.shypolarbear.presentation.databinding.ItemQuizMainRecentFeedBinding
-import com.shypolarbear.presentation.ui.quiz.main.QuizMainAdapter
 import com.shypolarbear.presentation.util.MyFeedType
 
 class MyPostAdapter (private val items: List<String?>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -23,7 +19,7 @@ class MyPostAdapter (private val items: List<String?>) : RecyclerView.Adapter<Re
     inner class ItemPostViewHolder(private val binding: ItemPagePostBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bindItems(item: String) {
             binding.apply {
-
+                tvItemPageTitle.text = item
             }
         }
     }

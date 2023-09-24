@@ -1,6 +1,7 @@
 package com.shypolarbear.presentation.ui.mypage
 
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentMyPageBinding
@@ -24,6 +25,10 @@ class MyPageFragment :
                         other != choice
                     }.toTypedArray())
                 }
+            }
+
+            myPostBtnBack.setOnClickListener {
+                findNavController().navigate(R.id.action_myPageFragment_to_navigation_more)
             }
 
 
