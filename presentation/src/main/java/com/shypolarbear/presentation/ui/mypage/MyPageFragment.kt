@@ -71,8 +71,9 @@ class MyPageFragment :
                 )
                 loadJob.join()
                 if (adapter is MyPostAdapter) adapter.updateList(viewModel.myPostResponse.value!!.content)
+
+                viewModel.scrollStateInverter()
             }
         }
-        viewModel.scrollStateInverter()
     }
 }
