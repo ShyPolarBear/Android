@@ -26,7 +26,7 @@ import com.shypolarbear.domain.usecase.image.RequestImageModifyUseCase
 import com.shypolarbear.domain.usecase.image.RequestImageUploadUseCase
 import com.shypolarbear.domain.usecase.more.LoadMyInfoUseCase
 import com.shypolarbear.domain.usecase.more.RequestMyInfoChangeUseCase
-import com.shypolarbear.domain.usecase.mypage.GetMyPostUseCase
+import com.shypolarbear.domain.usecase.mypage.LoadMyPostUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizReviewUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizSolvedUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizSubmitMultiUseCase
@@ -197,7 +197,7 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideMyPost(repo: MyPostRepo): GetMyPostUseCase {
-        return GetMyPostUseCase(repo)
+    fun provideMyPost(repo: MyPostRepo): LoadMyPostUseCase {
+        return LoadMyPostUseCase(repo)
     }
 }

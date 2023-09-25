@@ -5,6 +5,4 @@ import com.shypolarbear.presentation.databinding.ItemFeedLoadingBinding
 
 class LoadingViewHolder(loadingBinding: ItemFeedLoadingBinding) :
     RecyclerView.ViewHolder(loadingBinding.root) {
-
-    val progressBar = loadingBinding.progressFeedTotalLoading
 }
