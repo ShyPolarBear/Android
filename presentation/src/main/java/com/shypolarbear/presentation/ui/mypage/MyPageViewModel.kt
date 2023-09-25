@@ -5,10 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.mypage.MyPost
 import com.shypolarbear.domain.model.mypage.MyPostRequest
-import com.shypolarbear.domain.model.mypage.MyPostResponse
 import com.shypolarbear.domain.usecase.mypage.LoadMyPostUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
-import com.shypolarbear.presentation.util.Event
 import com.shypolarbear.presentation.util.simpleHttpErrorCheck
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -21,6 +19,9 @@ import javax.inject.Inject
 class MyPageViewModel @Inject constructor(
     private val loadMyPostUseCase: LoadMyPostUseCase,
 ) : BaseViewModel() {
+
+    private val _scrollState = MutableLiveData<Boolean>(false)
+    val scrollState: LiveData<Boolean> = _scrollState
     private val _myPostResponse = MutableLiveData<MyPost>()
     val myPostResponse: LiveData<MyPost> = _myPostResponse
     fun loadMyPost(lastFeedId: Int? = null): Job{
@@ -36,5 +37,9 @@ class MyPageViewModel @Inject constructor(
                 }
         }
         return loadJob
+    }
+
+    fun scrollStateInverter(){
+        _scrollState.value = !_scrollState.value!!
     }
 }

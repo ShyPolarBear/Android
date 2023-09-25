@@ -5,60 +5,19 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
-import androidx.recyclerview.widget.RecyclerView.Recycler
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.shypolarbear.domain.model.mypage.MyFeed
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentMyPageBinding
 import com.shypolarbear.presentation.ui.mypage.adapter.MyPostAdapter
-import com.shypolarbear.presentation.util.detectActivation
 import com.shypolarbear.presentation.util.invertActivation
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.apache.commons.lang3.ObjectUtils.Null
 
 @AndroidEntryPoint
 class MyPageFragment :
     BaseFragment<FragmentMyPageBinding, MyPageViewModel>(R.layout.fragment_my_page) {
     override val viewModel: MyPageViewModel by viewModels()
-    var isLoading = false // viewModel로 이동
-
-    val mockList = mutableListOf<MyFeed?>(
-        MyFeed(
-            2,
-            "환경을 지키자2",
-            ""
-        ),
-        MyFeed(
-            3,
-            "환경을 지키자2",
-            ""
-        ),
-        MyFeed(
-            4,
-            "환경을 지키자2",
-            ""
-        ),
-        MyFeed(
-            5,
-            "환경을 지키자2",
-            ""
-        ),
-        MyFeed(
-            6,
-            "환경을 지키자2",
-            ""
-        ),
-        MyFeed(
-            7,
-            "환경을 지키자2",
-            ""
-        ),
-    )
 
     override fun initView() {
         binding.apply {
@@ -77,8 +36,7 @@ class MyPageFragment :
 
             tvMyPostComment.setOnClickListener {
                 invertActivation(tvMyPostComment, tvMyPostPost)
-                setAdapter(postAdapter)
-
+//                setAdapter(commentAdapter)
             }
 
             myPostBtnBack.setOnClickListener {
@@ -90,9 +48,9 @@ class MyPageFragment :
             rvMyPost.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    if (!isLoading) {
+                    if (!viewModel.scrollState.value!!) {
                         if (!rvMyPost.canScrollVertically(1)) {
-                            isLoading = true
+                            viewModel.scrollStateInverter()
                             getMoreData(postAdapter)
                         }
                     }
@@ -115,7 +73,6 @@ class MyPageFragment :
                 if (adapter is MyPostAdapter) adapter.updateList(viewModel.myPostResponse.value!!.content)
             }
         }
-
-        isLoading = false
+        viewModel.scrollStateInverter()
     }
 }
