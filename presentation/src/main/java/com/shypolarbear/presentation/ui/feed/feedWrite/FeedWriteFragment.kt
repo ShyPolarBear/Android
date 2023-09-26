@@ -31,8 +31,6 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
 
     override val viewModel: FeedWriteViewModel by viewModels()
     private val feedWriteArgs: FeedWriteFragmentArgs by navArgs()
-    private var imageUriList: MutableList<Uri> = mutableListOf()
-    private val addedImageUriList: MutableList<Uri> = mutableListOf()
     private var originalImageUriList: MutableList<Uri> = mutableListOf()
     private var originalFeedImages: List<String> = listOf()
     private val imageUtil = ImageUtil
@@ -48,7 +46,6 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                         Toast.makeText(requireContext(), getString(R.string.feed_write_image_count_msg), Toast.LENGTH_SHORT).show()
                     }
                     else -> {
-                        addedImageUriList.addAll(0, uris)
                         viewModel.addImgList(uris)
                         binding.rvFeedWriteUploadImg.scrollToPosition(IMAGE_ADD_INDEX)
                     }
@@ -69,11 +66,9 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                         edtFeedWriteTitle.setText(feed.title)
                         edtFeedWriteContent.setText(feed.content)
 
-                        imageUriList = feed.feedImages.map { it.toUri() }.toMutableList()
                         originalImageUriList = feed.feedImages.map { it.toUri() }.toMutableList()
                         originalFeedImages = feed.feedImages
-                        viewModel.addImgList(imageUriList)
-                        viewModel.setUploadImageList(feed.feedImages)
+                        viewModel.addImgList(originalImageUriList)
                     }
                 }
             }
@@ -108,7 +103,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
             WriteChangeDivider.WRITE -> {
                 when {
                     // 이미지 없는 게시물
-                    imageUriList.isEmpty() -> {
+                    viewModel.selectedLiveImgList.value.isNullOrEmpty() -> {
                         viewModel.writeNoImagePost(
                             title = binding.edtFeedWriteTitle.text.toString(),
                             content = binding.edtFeedWriteContent.text.toString()
@@ -116,7 +111,8 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                     }
                     // 이미지 있는 게시물
                     else -> {
-                        val imageFileList: List<File> = uploadImage()
+                        val addedImageUriList = viewModel.selectedLiveImgList.value!!.map { it.toUri() } - originalImageUriList
+                        val imageFileList: List<File> = uploadImage(addedImageUriList)
 
                         viewModel.writeImagePost(
                             imageFiles = imageFileList,
@@ -128,9 +124,20 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
             }
             WriteChangeDivider.CHANGE -> {
                 when {
-                    // 이미지 추가 안된 경우 (이미지 제거 OR 제목이나 내용 수정)
-                    (originalImageUriList == imageUriList) and addedImageUriList.isNullOrEmpty() -> {
-                        Timber.d("이미지 추가 안된 경우 (이미지 제거 OR 제목이나 내용 수정)")
+                    // 선택된 이미지가 없는 경우
+                    viewModel.selectedLiveImgList.value.isNullOrEmpty() -> {
+                        Timber.d("선택된 이미지 없음")
+                        viewModel.changePost(
+                            feedId = feedWriteArgs.feedId,
+                            content = binding.edtFeedWriteContent.text.toString(),
+                            feedImages = viewModel.selectedLiveImgList.value,
+                            title = binding.edtFeedWriteTitle.text.toString()
+                        )
+                    }
+
+                    // 이미지 리스트에 변화가 없는 경우
+                    viewModel.selectedLiveImgList.value!!.map { it.toUri() } == originalImageUriList -> {
+                        Timber.d("변화 없음")
                         viewModel.changePost(
                             feedId = feedWriteArgs.feedId,
                             content = binding.edtFeedWriteContent.text.toString(),
@@ -138,54 +145,32 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                             title = binding.edtFeedWriteTitle.text.toString()
                         )
                     }
-                    // 이미지 삭제만 된 경우
-                    (originalImageUriList.size > imageUriList.size) -> {
-                        Timber.d("이미지 삭제만 된 경우")
-                        viewModel.changePost(
-                            feedId = feedWriteArgs.feedId,
-                            content = binding.edtFeedWriteContent.text.toString(),
-                            feedImages = viewModel.uploadImageList.value,
-                            title = binding.edtFeedWriteTitle.text.toString()
-                        )
-                    }
-                    // 이미지 추가만 된 경우
-                    (originalImageUriList.size < (imageUriList.size + addedImageUriList.size)) -> {
-                        Timber.d("이미지 추가만 된 경우")
-                        val imageFileList: List<File> = uploadImage()
 
-                        viewModel.changeImagePost(
-                            feedId = feedWriteArgs.feedId,
-                            content = binding.edtFeedWriteContent.text.toString(),
-                            originalImages = originalFeedImages,
-                            addedImageFiles = imageFileList,
-                            title = binding.edtFeedWriteTitle.text.toString()
-                        )
-                    }
-                    // 이미지 리스트에 수정이 있지만 기존 리스트와 개수가 같은 경우
-                    (originalImageUriList.size == imageUriList.size) and (originalImageUriList != imageUriList) -> {
-                        Timber.d("이미지 리스트에 수정이 있지만 기존 리스트와 개수가 같은 경우")
-                        val imageFileList: List<File> = uploadImage()
+                    // 이미지 리스트에 변화가 생긴 경우
+                    viewModel.selectedLiveImgList.value!!.map { it.toUri() } != originalImageUriList -> {
+                        val addedImageUriList = viewModel.selectedLiveImgList.value!!.map { it.toUri() } - originalImageUriList   // 새로 추가 된 거 (선택된 이미지 리스트 - 기존 이미지 리스트)
+                        val deletedImagesUriList = originalImageUriList - viewModel.selectedLiveImgList.value!!.map { it.toUri()} // 삭제 된 거 (기존 이미지 리스트- 선택된 이미지 리스트)
+                        val remainImageUriList = originalImageUriList - deletedImagesUriList                                      // 남아 있는 거 (기존 이미지 리스트- 삭제된 이미지 리스트)
 
-                        viewModel.changeImagePost(
-                            feedId = feedWriteArgs.feedId,
-                            content = binding.edtFeedWriteContent.text.toString(),
-                            originalImages = imageUriList.map { it.toString() },
-                            addedImageFiles = imageFileList,
-                            title = binding.edtFeedWriteTitle.text.toString()
-                        )
-                    }
-                    // 이미지가 없는 게시물에서 이미지를 추가하는 경우
-                    (originalImageUriList.size == 0) and (addedImageUriList.size > 0) -> {
-                        Timber.d("이미지가 없는 게시물에서 이미지를 추가하는 경우")
-                        val imageFileList: List<File> = uploadImage()
-
-                        viewModel.changeImagePost(
-                            feedId = feedWriteArgs.feedId,
-                            content = binding.edtFeedWriteContent.text.toString(),
-                            originalImages = listOf(),
-                            addedImageFiles = imageFileList,
-                            title = binding.edtFeedWriteTitle.text.toString()
-                        )
+                        when {
+                            addedImageUriList.isNullOrEmpty() -> {
+                                viewModel.changePost(
+                                    feedId = feedWriteArgs.feedId,
+                                    content = binding.edtFeedWriteContent.text.toString(),
+                                    feedImages = remainImageUriList.map { it.toString() },
+                                    title = binding.edtFeedWriteTitle.text.toString()
+                                )
+                            }
+                            else -> {
+                                viewModel.changeImagePost(
+                                    feedId = feedWriteArgs.feedId,
+                                    content = binding.edtFeedWriteContent.text.toString(),
+                                    originalImages = remainImageUriList.map { it.toString() },
+                                    addedImageFiles = uploadImage(addedImageUriList)!!,
+                                    title = binding.edtFeedWriteTitle.text.toString()
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -211,19 +196,14 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
         }
     }
 
-    private fun removeImg(position: Int) {
-        imageUriList.removeAt(position)
-        viewModel.removeImgList(position)
-    }
+    private fun removeImg(position: Int) { viewModel.removeImgList(position) }
 
     private fun moveToBack(moveState: FragmentTotalStatus) {
         fragmentTotalStatus = moveState
         findNavController().popBackStack()
     }
 
-    private fun uploadImage(): List<File>{
-        val imageFileList: List<File> = addedImageUriList.map { imageUtil.uriToOptimizeImageFile(requireContext(), it)!! }
-        for (element in imageFileList) { Timber.d("파일 크기: ${element.length()}MB") }
-        return imageFileList
+    private fun uploadImage(addedImageUriList: List<Uri>): List<File>{
+        return addedImageUriList.map { imageUtil.uriToOptimizeImageFile(requireContext(), it)!! }
     }
 }

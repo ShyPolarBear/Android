@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.feed.Feed
-import com.shypolarbear.domain.model.feed.FeedWriteImg
 import com.shypolarbear.domain.model.image.ImageUploadRequest
 import com.shypolarbear.domain.usecase.feed.RequestFeedChangeUseCase
 import com.shypolarbear.domain.usecase.feed.LoadFeedDetailUseCase
@@ -32,11 +31,8 @@ class FeedWriteViewModel @Inject constructor(
     private val _feed = MutableLiveData<Feed>()
     val feed: LiveData<Feed> = _feed
 
-    private val _selectedLiveImgList = MutableLiveData<MutableList<FeedWriteImg>>(mutableListOf())
-    val selectedLiveImgList: LiveData<MutableList<FeedWriteImg>> = _selectedLiveImgList
-
-    private val _uploadImageList = MutableLiveData<List<String>>(listOf())
-    val uploadImageList: LiveData<List<String>> = _uploadImageList
+    private val _selectedLiveImgList = MutableLiveData<MutableList<String>>(mutableListOf())
+    val selectedLiveImgList: LiveData<MutableList<String>> = _selectedLiveImgList
 
     private val _uploadState = MutableLiveData(UPLOADING)
     val uploadState: LiveData<Int> = _uploadState
@@ -76,8 +72,8 @@ class FeedWriteViewModel @Inject constructor(
 
             uploadImages
                 .onSuccess {
-                    _uploadImageList.value = originalImages!! + it.data.imageLinks
-                    changePostUseCase(feedId, content, _uploadImageList.value, title)
+                    _selectedLiveImgList.value = (originalImages!! + it.data.imageLinks).toMutableList()
+                    changePostUseCase(feedId, content, _selectedLiveImgList.value, title)
 
                     _uploadState.value = UPLOADED
                 }
@@ -108,8 +104,8 @@ class FeedWriteViewModel @Inject constructor(
 
             uploadImages
                 .onSuccess {
-                    _uploadImageList.value = it.data.imageLinks
-                    feedWriteUseCase(title, content, _uploadImageList.value)
+                    _selectedLiveImgList.value = it.data.imageLinks.toMutableList()
+                    feedWriteUseCase(title, content, _selectedLiveImgList.value)
 
                     _uploadState.value = UPLOADED
                 }
@@ -120,34 +116,21 @@ class FeedWriteViewModel @Inject constructor(
     }
 
     fun addImgList(imgUri: List<Uri>) {
-        val selectedImgList: MutableList<FeedWriteImg> = _selectedLiveImgList.value!!
-        val selectedImgUriToFeedWriteImgStringList = imgUri.map { FeedWriteImg(it.toString()) }
-        val imgUploadList: MutableList<String> = _uploadImageList.value!!.toMutableList()
-        val imgStringUploadList = imgUri.map { it.toString() }
+        val selectedImgList: MutableList<String> = _selectedLiveImgList.value!!                 // 기존에 선택된 이미지 리스트
+        val selectedImgUriToStringList = imgUri.map { it.toString() }
 
-        imgUploadList.addAll(imgStringUploadList)
-        selectedImgList.addAll(0, selectedImgUriToFeedWriteImgStringList)
+        selectedImgList.addAll(0, selectedImgUriToStringList)                              // 기존에 선택된 이미지 리스트에 선택된 이미지 리스트 추가
+        _selectedLiveImgList.value = selectedImgList                                            // 선택된 이미지 리사이클러뷰 업데이트를 위한 라이브 데이터 설정
 
-        _uploadImageList.value = imgUploadList
-
-        // 선택된 이미지 리사이클러뷰 업데이트를 위한 라이브 데이터 설정
-        _selectedLiveImgList.value = selectedImgList
+        Timber.d("추가 후 선택된 이미지 리스트: ${_selectedLiveImgList.value}")
     }
 
     fun removeImgList(position: Int) {
-        val selectedImgList: MutableList<FeedWriteImg> = _selectedLiveImgList.value!!
-        val imgUploadList: MutableList<String> = _uploadImageList.value!!.toMutableList()
+        val selectedImgList: MutableList<String> = _selectedLiveImgList.value!!                 // 기존에 선택된 이미지 리스트
 
-        imgUploadList.removeAt(position)
-        selectedImgList.removeAt(position)
+        selectedImgList.removeAt(position)                                                      // 기존의 선택된 이미지 리스트에서 position 위치의 요소 제거
+        _selectedLiveImgList.value = selectedImgList                                            // 선택된 이미지 리사이클러뷰 업데이트를 위한 라이브 데이터 설정
 
-        _uploadImageList.value = imgUploadList
-
-        // 선택된 이미지 리사이클러뷰 업데이트를 위한 라이브 데이터 설정
-        _selectedLiveImgList.value = selectedImgList
-    }
-
-    fun setUploadImageList(images: List<String>) {
-        _uploadImageList.value = images
+        Timber.d("삭제 후 선택된 이미지 리스트: ${_selectedLiveImgList.value}")
     }
 }
