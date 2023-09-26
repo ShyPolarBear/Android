@@ -14,6 +14,7 @@ import com.shypolarbear.presentation.databinding.FragmentFeedWriteBinding
 import com.shypolarbear.presentation.ui.feed.feedTotal.FragmentTotalStatus
 import com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider
 import com.shypolarbear.presentation.ui.feed.feedTotal.fragmentTotalStatus
+import com.shypolarbear.presentation.util.ImageUtil
 import com.shypolarbear.presentation.util.convertUriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -34,6 +35,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
     private val addedImageUriList: MutableList<Uri> = mutableListOf()
     private var originalImageUriList: MutableList<Uri> = mutableListOf()
     private var originalFeedImages: List<String> = listOf()
+    private val imageUtil = ImageUtil
 
     private val feedWriteImgAdapter = FeedWriteImgAdapter(
         onRemoveImgClick = { position: Int -> removeImg(position) }
@@ -114,7 +116,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                     }
                     // 이미지 있는 게시물
                     else -> {
-                        val imageFileList: List<File> = addedImageUriList.map { it.convertUriToFile(requireContext()) }
+                        val imageFileList: List<File> = uploadImage()
 
                         viewModel.writeImagePost(
                             imageFiles = imageFileList,
@@ -128,6 +130,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                 when {
                     // 이미지 추가 안된 경우 (이미지 제거 OR 제목이나 내용 수정)
                     (originalImageUriList == imageUriList) and addedImageUriList.isNullOrEmpty() -> {
+                        Timber.d("이미지 추가 안된 경우 (이미지 제거 OR 제목이나 내용 수정)")
                         viewModel.changePost(
                             feedId = feedWriteArgs.feedId,
                             content = binding.edtFeedWriteContent.text.toString(),
@@ -137,6 +140,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                     }
                     // 이미지 삭제만 된 경우
                     (originalImageUriList.size > imageUriList.size) -> {
+                        Timber.d("이미지 삭제만 된 경우")
                         viewModel.changePost(
                             feedId = feedWriteArgs.feedId,
                             content = binding.edtFeedWriteContent.text.toString(),
@@ -146,7 +150,9 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                     }
                     // 이미지 추가만 된 경우
                     (originalImageUriList.size < (imageUriList.size + addedImageUriList.size)) -> {
-                        val imageFileList: List<File> = addedImageUriList.map { it.convertUriToFile(requireContext()) }
+                        Timber.d("이미지 추가만 된 경우")
+                        val imageFileList: List<File> = uploadImage()
+
                         viewModel.changeImagePost(
                             feedId = feedWriteArgs.feedId,
                             content = binding.edtFeedWriteContent.text.toString(),
@@ -157,7 +163,9 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                     }
                     // 이미지 리스트에 수정이 있지만 기존 리스트와 개수가 같은 경우
                     (originalImageUriList.size == imageUriList.size) and (originalImageUriList != imageUriList) -> {
-                        val imageFileList: List<File> = addedImageUriList.map { it.convertUriToFile(requireContext()) }
+                        Timber.d("이미지 리스트에 수정이 있지만 기존 리스트와 개수가 같은 경우")
+                        val imageFileList: List<File> = uploadImage()
+
                         viewModel.changeImagePost(
                             feedId = feedWriteArgs.feedId,
                             content = binding.edtFeedWriteContent.text.toString(),
@@ -168,7 +176,8 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                     }
                     // 이미지가 없는 게시물에서 이미지를 추가하는 경우
                     (originalImageUriList.size == 0) and (addedImageUriList.size > 0) -> {
-                        val imageFileList: List<File> = addedImageUriList.map { it.convertUriToFile(requireContext()) }
+                        Timber.d("이미지가 없는 게시물에서 이미지를 추가하는 경우")
+                        val imageFileList: List<File> = uploadImage()
 
                         viewModel.changeImagePost(
                             feedId = feedWriteArgs.feedId,
@@ -210,5 +219,11 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
     private fun moveToBack(moveState: FragmentTotalStatus) {
         fragmentTotalStatus = moveState
         findNavController().popBackStack()
+    }
+
+    private fun uploadImage(): List<File>{
+        val imageFileList: List<File> = addedImageUriList.map { imageUtil.uriToOptimizeImageFile(requireContext(), it)!! }
+        for (element in imageFileList) { Timber.d("파일 크기: ${element.length()}MB") }
+        return imageFileList
     }
 }

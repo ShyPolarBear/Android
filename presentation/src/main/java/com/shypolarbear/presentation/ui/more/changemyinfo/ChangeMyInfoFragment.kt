@@ -20,6 +20,7 @@ import com.shypolarbear.presentation.ui.feed.feedWrite.UPLOADING
 import com.shypolarbear.presentation.ui.join.NAME_RANGE
 import com.shypolarbear.presentation.ui.join.pages.PHONE_NUMBER_DASH_INCLUDE
 import com.shypolarbear.presentation.util.GlideUtil
+import com.shypolarbear.presentation.util.ImageUtil
 import com.shypolarbear.presentation.util.InputState
 import com.shypolarbear.presentation.util.afterTextChanged
 import com.shypolarbear.presentation.util.convertUriToFile
@@ -40,6 +41,7 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
     private var nameState: InputState = InputState.OFF
     private var phoneNumberState: InputState = InputState.OFF
     private var emailState: InputState = InputState.OFF
+    private val imageUtil = ImageUtil
     private lateinit var profileImageUri: Uri
 
     private val pickMedia =
@@ -95,7 +97,8 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                     }
 
                     else -> {
-                        val imageFileList: File = profileImageUri.convertUriToFile(requireContext())
+                        val imageFileList: File? = uploadImage()
+
                         viewModel.requestChangeMyInfo(
                             nickName = edtChangeMyInfoNickname.text.toString(),
                             phoneNumber = edtChangeMyInfoPhoneNumber.text.toString(),
@@ -233,4 +236,6 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
             }
         }
     }
+
+    private fun uploadImage(): File? { return imageUtil.uriToOptimizeImageFile(requireContext(), profileImageUri) }
 }

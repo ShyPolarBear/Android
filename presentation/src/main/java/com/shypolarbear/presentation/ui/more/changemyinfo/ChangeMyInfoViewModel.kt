@@ -48,19 +48,33 @@ class ChangeMyInfoViewModel @Inject constructor(
         nickName: String,
         email: String,
         phoneNumber: String,
-        profileImageFile: File
+        profileImageFile: File?
     ) {
         viewModelScope.launch {
-            val uploadImages = imageUploadUseCase(ImageUploadRequest(ImageType.PROFILE.type, listOf(profileImageFile)))
-
-            uploadImages
-                .onSuccess {
-                    changeMyInfoUseCase(nickName, it.data.imageLinks[0], email, phoneNumber)
-                    _uploadState.value = UPLOADED
+            // 프로필 사진 없는 경우
+            when(profileImageFile) {
+                null -> {
+                    changeMyInfoUseCase(
+                        nickName = nickName,
+                        profileImage = null,
+                        email = email,
+                        phoneNumber = phoneNumber
+                    )
                 }
-                .onFailure {
+                // 프로필 사진 있는 경우
+                else -> {
+                    val uploadImages = imageUploadUseCase(ImageUploadRequest(ImageType.PROFILE.type, listOf(profileImageFile)))
 
+                    uploadImages
+                        .onSuccess {
+                            changeMyInfoUseCase(nickName, it.data.imageLinks[0], email, phoneNumber)
+                            _uploadState.value = UPLOADED
+                        }
+                        .onFailure {
+
+                        }
                 }
+            }
         }
     }
 }
