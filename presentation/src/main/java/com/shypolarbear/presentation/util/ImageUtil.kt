@@ -31,14 +31,12 @@ object ImageUtil{
             val fos = FileOutputStream(tempFile)
 
             decodeOptimizeBitmapFromUri(context, uri)?.apply {
-                compress(Bitmap.CompressFormat.JPEG, 100, fos)
+                compress(Bitmap.CompressFormat.JPEG, 90, fos)
                 recycle()
             } ?: throw NullPointerException()
 
             fos.flush()
             fos.close()
-
-            Timber.d("압축된 파일 크기: ${tempFile.length()/ (1024.0 * 1024.0)}MB")
 
             return tempFile
         } catch (e: Exception) {
