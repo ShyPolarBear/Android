@@ -35,7 +35,7 @@ class InfoRepoImpl @Inject constructor(
         return try {
             val response = api.changeMyInfo(ChangeInfoRequest(
                 nickName = nickName,
-                profileImage = "NULL",  // TODO("이미지 작업 완료되면 수정할 예정")
+                profileImage = profileImage,
                 email = email,
                 phoneNumber = phoneNumber)
             )

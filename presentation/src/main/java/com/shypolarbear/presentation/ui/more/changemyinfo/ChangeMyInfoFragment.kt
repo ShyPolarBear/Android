@@ -1,9 +1,13 @@
 package com.shypolarbear.presentation.ui.more.changemyinfo
 
+import android.net.Uri
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -11,15 +15,21 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentChangeMyInfoBinding
+import com.shypolarbear.presentation.ui.feed.feedWrite.UPLOADED
+import com.shypolarbear.presentation.ui.feed.feedWrite.UPLOADING
 import com.shypolarbear.presentation.ui.join.NAME_RANGE
 import com.shypolarbear.presentation.ui.join.pages.PHONE_NUMBER_DASH_INCLUDE
+import com.shypolarbear.presentation.util.GlideUtil
+import com.shypolarbear.presentation.util.ImageUtil
 import com.shypolarbear.presentation.util.InputState
 import com.shypolarbear.presentation.util.afterTextChanged
+import com.shypolarbear.presentation.util.convertUriToFile
 import com.shypolarbear.presentation.util.emailPattern
 import com.shypolarbear.presentation.util.keyboardDown
 import com.shypolarbear.presentation.util.phonePattern
 import com.shypolarbear.presentation.util.setColorStateWithInput
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
 
 @AndroidEntryPoint
 class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyInfoViewModel> (
@@ -31,19 +41,46 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
     private var nameState: InputState = InputState.OFF
     private var phoneNumberState: InputState = InputState.OFF
     private var emailState: InputState = InputState.OFF
+    private val imageUtil = ImageUtil
+    private lateinit var profileImageUri: Uri
+
+    private val pickMedia =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            uri?.let {
+                profileImageUri = uri
+                GlideUtil.loadCircleImage(requireContext(), uri, binding.ivChangeMyInfoProfile)
+            }
+        }
 
     override fun initView() {
 
         binding.apply {
+            progressChangeMyInfoLoading.isVisible = true
+            layoutChangeMyInfo.isVisible = false
+
             viewModel.getMyInfo()
             viewModel.myInfo.observe(viewLifecycleOwner) { info ->
                 edtChangeMyInfoNickname.setText(info.nickName)
                 edtChangeMyInfoPhoneNumber.setText(info.phoneNumber)
                 edtChangeMyInfoEmail.setText(info.email)
+                profileImageUri = info.profileImage.toUri()
+
+                if (!info.profileImage.isNullOrBlank()) {
+                    GlideUtil.loadCircleImage(requireContext(), info.profileImage.toUri(), binding.ivChangeMyInfoProfile)
+                } else {
+                    GlideUtil.loadCircleImage(requireContext(), url = null, view = binding.ivChangeMyInfoProfile, placeHolder = R.drawable.ic_user_base_profile)
+                }
+
+                progressChangeMyInfoLoading.isVisible = false
+                layoutChangeMyInfo.isVisible = true
             }
 
             btnChangeMyInfoBack.setOnClickListener {
                 findNavController().popBackStack()
+            }
+
+            btnChangeMyInfoImgEdit.setOnClickListener {
+                pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             }
 
             btnChangeMyInfoRevise.setOnClickListener {
@@ -60,14 +97,24 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                     }
 
                     else -> {
+                        val imageFileList: File? = uploadImage()
+
                         viewModel.requestChangeMyInfo(
                             nickName = edtChangeMyInfoNickname.text.toString(),
                             phoneNumber = edtChangeMyInfoPhoneNumber.text.toString(),
                             email = edtChangeMyInfoEmail.text.toString(),
-                            profileImage = null
+                            profileImageFile = imageFileList
                         )
-                        Toast.makeText(requireContext(), getString(R.string.check_my_info_success), Toast.LENGTH_SHORT).show()
-                        findNavController().popBackStack()
+                    }
+                }
+
+                viewModel.uploadState.observe(viewLifecycleOwner) {
+                    when(viewModel.uploadState.value) {
+                        UPLOADING -> { }
+                        UPLOADED -> {
+                            Toast.makeText(requireContext(), getString(R.string.check_my_info_success), Toast.LENGTH_SHORT).show()
+                            findNavController().popBackStack()
+                        }
                     }
                 }
             }
@@ -189,4 +236,6 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
             }
         }
     }
+
+    private fun uploadImage(): File? { return imageUtil.uriToOptimizeImageFile(requireContext(), profileImageUri) }
 }
