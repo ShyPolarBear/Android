@@ -66,9 +66,9 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                 profileImageUri = info.profileImage.toUri()
 
                 if (!info.profileImage.isNullOrBlank()) {
-                    GlideUtil.loadImage(requireContext(), info.profileImage, binding.ivChangeMyInfoProfile)
+                    GlideUtil.loadCircleImage(requireContext(), info.profileImage.toUri(), binding.ivChangeMyInfoProfile)
                 } else {
-                    GlideUtil.loadImage(requireContext(), url = null, view = binding.ivChangeMyInfoProfile, placeHolder = R.drawable.ic_user_base_profile)
+                    GlideUtil.loadCircleImage(requireContext(), url = null, view = binding.ivChangeMyInfoProfile, placeHolder = R.drawable.ic_user_base_profile)
                 }
 
                 progressChangeMyInfoLoading.isVisible = false

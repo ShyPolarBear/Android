@@ -34,6 +34,10 @@ object GlideUtil {
         loadGlide(context, uri = uri).centerCrop().circleCrop().into(view)
     }
 
+    fun loadCircleImage(context: Context, url: String?, view: ImageView, placeHolder: Int) {
+        loadGlide(context, url = url).centerCrop().circleCrop().placeholder(placeHolder).into(view)
+    }
+
     private fun loadGlide(context: Context, url: String? = null) = run {
         Glide.with(context).load(url)
     }
