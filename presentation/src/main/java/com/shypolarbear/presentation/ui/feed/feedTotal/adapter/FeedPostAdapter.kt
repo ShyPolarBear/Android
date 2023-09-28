@@ -90,7 +90,6 @@ class FeedPostAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        Timber.d("${getItem(position).feedImages.isNullOrEmpty() }")
         return when {
             getItem(position).feedId == 0 -> {
                 FeedViewType.LOADING.viewType

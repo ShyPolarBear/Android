@@ -1,5 +1,6 @@
 package com.shypolarbear.presentation.ui.feed.feedWrite
 
+import android.net.Uri
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,7 +14,11 @@ import com.shypolarbear.presentation.databinding.FragmentFeedWriteBinding
 import com.shypolarbear.presentation.ui.feed.feedTotal.FragmentTotalStatus
 import com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider
 import com.shypolarbear.presentation.ui.feed.feedTotal.fragmentTotalStatus
+import com.shypolarbear.presentation.util.ImageUtil
+import com.shypolarbear.presentation.util.convertUriToFile
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
+import java.io.File
 
 const val IMAGE_ADD_INDEX = 0
 const val IMAGE_MAX_COUNT = 5
@@ -26,6 +31,9 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
 
     override val viewModel: FeedWriteViewModel by viewModels()
     private val feedWriteArgs: FeedWriteFragmentArgs by navArgs()
+    private var originalImageUriList: MutableList<Uri> = mutableListOf()
+    private var originalFeedImages: List<String> = listOf()
+    private val imageUtil = ImageUtil
 
     private val feedWriteImgAdapter = FeedWriteImgAdapter(
         onRemoveImgClick = { position: Int -> removeImg(position) }
@@ -33,7 +41,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(IMAGE_MAX_COUNT)) { uris ->
             uris?.let {
-                when(viewModel.liveImgList.value!!.size + uris.size) {
+                when(viewModel.selectedLiveImgList.value!!.size + uris.size) {
                     in IMAGE_ADD_MAX..Int.MAX_VALUE -> {
                         Toast.makeText(requireContext(), getString(R.string.feed_write_image_count_msg), Toast.LENGTH_SHORT).show()
                     }
@@ -42,7 +50,6 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                         binding.rvFeedWriteUploadImg.scrollToPosition(IMAGE_ADD_INDEX)
                     }
                 }
-
             }
         }
 
@@ -59,26 +66,21 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                         edtFeedWriteTitle.setText(feed.title)
                         edtFeedWriteContent.setText(feed.content)
 
-                        val imgUriList = feed.feedImages.map { it.toUri() }
-                        viewModel.addImgList(imgUriList)
+                        originalImageUriList = feed.feedImages.map { it.toUri() }.toMutableList()
+                        originalFeedImages = feed.feedImages
+                        viewModel.addImgList(originalImageUriList)
                     }
                 }
             }
 
             rvFeedWriteUploadImg.adapter = feedWriteImgAdapter
-            viewModel.liveImgList.observe(viewLifecycleOwner) {
+            viewModel.selectedLiveImgList.observe(viewLifecycleOwner) {
                 feedWriteImgAdapter.submitList(it.toList())
             }
 
-            btnFeedWriteBack.setOnClickListener {
-                fragmentTotalStatus = FragmentTotalStatus.WRITE_BACK_BTN_CLICK
-                findNavController().popBackStack()
+            btnFeedWriteBack.setOnClickListener { moveToBack(FragmentTotalStatus.WRITE_BACK_BTN_CLICK) }
 
-            }
-
-            btnFeedWriteAddPhoto.setOnClickListener {
-                addImg()
-            }
+            btnFeedWriteAddPhoto.setOnClickListener { addImg() }
 
             btnFeedWriteConfirm.setOnClickListener {
                 when {
@@ -89,34 +91,102 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                         Toast.makeText(requireContext(), getString(R.string.feed_write_content_msg), Toast.LENGTH_SHORT).show()
                     }
                     else -> {
-                        when(feedWriteArgs.divider) {
-                            WriteChangeDivider.WRITE -> {
-                                // TODO("이미지 api 구현 되면 feedImages에 viewModel의 _liveImgList.value 넣기)
-                                viewModel.writePost(
-                                    title = edtFeedWriteTitle.text.toString(),
-                                    content = edtFeedWriteContent.text.toString(),
-                                    feedImages = listOf()
-                                )
-                            }
-                            WriteChangeDivider.CHANGE -> {
-                                viewModel.changePost(
-                                    feedId = feedWriteArgs.feedId,
-                                    content = edtFeedWriteContent.text.toString(),
-                                    feedImages = listOf(),
-                                    title = edtFeedWriteTitle.text.toString()
-                                )
-                            }
-                        }
-                        fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
-                        findNavController().popBackStack()
+                        uploadPost()
                     }
                 }
             }
         }
     }
 
+    private fun uploadPost() {
+        when(feedWriteArgs.divider) {
+            WriteChangeDivider.WRITE -> {
+                when {
+                    // 이미지 없는 게시물
+                    viewModel.selectedLiveImgList.value.isNullOrEmpty() -> {
+                        viewModel.writeNoImagePost(
+                            title = binding.edtFeedWriteTitle.text.toString(),
+                            content = binding.edtFeedWriteContent.text.toString()
+                        )
+                    }
+                    // 이미지 있는 게시물
+                    else -> {
+                        val addedImageUriList = viewModel.selectedLiveImgList.value!!.map { it.toUri() } - originalImageUriList
+                        val imageFileList: List<File> = uploadImage(addedImageUriList)
+
+                        viewModel.writeImagePost(
+                            imageFiles = imageFileList,
+                            title = binding.edtFeedWriteTitle.text.toString(),
+                            content = binding.edtFeedWriteContent.text.toString()
+                        )
+                    }
+                }
+            }
+            WriteChangeDivider.CHANGE -> {
+                when {
+                    // 선택된 이미지가 없는 경우
+                    viewModel.selectedLiveImgList.value.isNullOrEmpty() -> {
+                        Timber.d("선택된 이미지 없음")
+                        viewModel.changePost(
+                            feedId = feedWriteArgs.feedId,
+                            content = binding.edtFeedWriteContent.text.toString(),
+                            feedImages = viewModel.selectedLiveImgList.value,
+                            title = binding.edtFeedWriteTitle.text.toString()
+                        )
+                    }
+
+                    // 이미지 리스트에 변화가 없는 경우
+                    viewModel.selectedLiveImgList.value!!.map { it.toUri() } == originalImageUriList -> {
+                        Timber.d("변화 없음")
+                        viewModel.changePost(
+                            feedId = feedWriteArgs.feedId,
+                            content = binding.edtFeedWriteContent.text.toString(),
+                            feedImages = originalFeedImages,
+                            title = binding.edtFeedWriteTitle.text.toString()
+                        )
+                    }
+
+                    // 이미지 리스트에 변화가 생긴 경우
+                    viewModel.selectedLiveImgList.value!!.map { it.toUri() } != originalImageUriList -> {
+                        val addedImageUriList = viewModel.selectedLiveImgList.value!!.map { it.toUri() } - originalImageUriList   // 새로 추가 된 거 (선택된 이미지 리스트 - 기존 이미지 리스트)
+                        val deletedImagesUriList = originalImageUriList - viewModel.selectedLiveImgList.value!!.map { it.toUri()} // 삭제 된 거 (기존 이미지 리스트- 선택된 이미지 리스트)
+                        val remainImageUriList = originalImageUriList - deletedImagesUriList                                      // 남아 있는 거 (기존 이미지 리스트- 삭제된 이미지 리스트)
+
+                        when {
+                            addedImageUriList.isNullOrEmpty() -> {
+                                viewModel.changePost(
+                                    feedId = feedWriteArgs.feedId,
+                                    content = binding.edtFeedWriteContent.text.toString(),
+                                    feedImages = remainImageUriList.map { it.toString() },
+                                    title = binding.edtFeedWriteTitle.text.toString()
+                                )
+                            }
+                            else -> {
+                                viewModel.changeImagePost(
+                                    feedId = feedWriteArgs.feedId,
+                                    content = binding.edtFeedWriteContent.text.toString(),
+                                    originalImages = remainImageUriList.map { it.toString() },
+                                    addedImageFiles = uploadImage(addedImageUriList)!!,
+                                    title = binding.edtFeedWriteTitle.text.toString()
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // 이미지, 게시물 모두 업로드 된 경우
+        viewModel.uploadState.observe(viewLifecycleOwner) {
+            when(viewModel.uploadState.value) {
+                UPLOADING -> { }
+                UPLOADED -> { moveToBack(FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK) }
+            }
+        }
+    }
+
     private fun addImg() {
-        when(viewModel.liveImgList.value!!.size) {
+        when(viewModel.selectedLiveImgList.value!!.size) {
             in IMAGE_MAX_COUNT..Int.MAX_VALUE -> {
                 Toast.makeText(requireContext(), getString(R.string.feed_write_image_count_msg), Toast.LENGTH_SHORT).show()
             }
@@ -126,7 +196,14 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
         }
     }
 
-    private fun removeImg(position: Int) {
-        viewModel.removeImgList(position)
+    private fun removeImg(position: Int) { viewModel.removeImgList(position) }
+
+    private fun moveToBack(moveState: FragmentTotalStatus) {
+        fragmentTotalStatus = moveState
+        findNavController().popBackStack()
+    }
+
+    private fun uploadImage(addedImageUriList: List<Uri>): List<File>{
+        return addedImageUriList.map { imageUtil.uriToOptimizeImageFile(requireContext(), it)!! }
     }
 }

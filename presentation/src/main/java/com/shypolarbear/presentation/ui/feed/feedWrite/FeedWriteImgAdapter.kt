@@ -2,16 +2,13 @@ package com.shypolarbear.presentation.ui.feed.feedWrite
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.shypolarbear.domain.model.feed.FeedWriteImg
 import com.shypolarbear.presentation.databinding.ItemFeedWriteImgBinding
-import timber.log.Timber
 
 class FeedWriteImgAdapter(
     private val onRemoveImgClick: (position: Int) -> Unit = { _ -> }
-): ListAdapter<FeedWriteImg, FeedWriteImgViewHolder>(FeedWriteImgDiffCallback()) {
+): ListAdapter<String, FeedWriteImgViewHolder>(FeedWriteImgDiffCallback()) {
 
     private lateinit var binding : ItemFeedWriteImgBinding
 
@@ -28,13 +25,13 @@ class FeedWriteImgAdapter(
     }
 }
 
-class FeedWriteImgDiffCallback : DiffUtil.ItemCallback<FeedWriteImg>() {
+class FeedWriteImgDiffCallback : DiffUtil.ItemCallback<String>() {
 
-    override fun areItemsTheSame(oldItem: FeedWriteImg, newItem: FeedWriteImg): Boolean {
-        return oldItem.imgUrl == newItem.imgUrl
+    override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
+        return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: FeedWriteImg, newItem: FeedWriteImg): Boolean {
+    override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
         return oldItem == newItem
     }
 }
