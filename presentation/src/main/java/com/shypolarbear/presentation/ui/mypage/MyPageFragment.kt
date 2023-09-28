@@ -1,5 +1,6 @@
 package com.shypolarbear.presentation.ui.mypage
 
+import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -10,7 +11,6 @@ import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentMyPageBinding
 import com.shypolarbear.presentation.ui.mypage.adapter.MyPostAdapter
-import com.shypolarbear.presentation.util.invertActivation
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -61,6 +61,11 @@ class MyPageFragment :
 
     private fun setAdapter(adapter: Adapter<ViewHolder>) {
         binding.rvMyPost.adapter = adapter
+    }
+
+    private fun invertActivation(onSelected: View, offSelection: View){
+        onSelected.isActivated = true
+        offSelection.isActivated = false
     }
 
     fun getMoreData(adapter: Adapter<ViewHolder>) {

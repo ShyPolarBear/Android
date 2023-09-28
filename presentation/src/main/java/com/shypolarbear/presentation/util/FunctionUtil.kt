@@ -182,10 +182,7 @@ fun TextView.detectActivation(vararg choices: TextView) {
     this.isActivated = this.isActivated.not()
 }
 
-fun invertActivation(onSelected: View, offSelection: View){
-    onSelected.isActivated = true
-    offSelection.isActivated = false
-}
+
 
 fun ImageView.setReviewMode(
     type: DialogType,
