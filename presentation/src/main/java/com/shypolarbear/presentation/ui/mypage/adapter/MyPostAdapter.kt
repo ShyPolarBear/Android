@@ -13,22 +13,17 @@ import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.MyFeedType
 import java.util.Collections.addAll
 
-class MyPostAdapter(private val _items: List<MyFeed?>, private val context: Context) :
+class MyPostAdapter(private val _items: List<MyFeed?>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private lateinit var postBinding: ItemPagePostBinding
-
-    companion object {
-        fun initPostAdapter(items: List<MyFeed?>, context: Context) =
-            MyPostAdapter(items, context)
-    }
 
     inner class ItemPostViewHolder(private val binding: ItemPagePostBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bindItems(item: MyFeed) {
             binding.apply {
                 tvItemPageTitle.text = item.title
-                GlideUtil.loadImage(context, item.feedImage, ivItemPage)
+                GlideUtil.loadImage(binding.root.context, item.feedImage, ivItemPage)
             }
         }
     }

@@ -11,8 +11,15 @@ import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentMyPageBinding
 import com.shypolarbear.presentation.ui.mypage.adapter.MyPostAdapter
+import com.shypolarbear.presentation.util.infiniteScroll
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+
+
+enum class FeedContentType(val state: Int){
+    POST(0),
+    COMMENT(1)
+}
 
 @AndroidEntryPoint
 class MyPageFragment :
@@ -21,64 +28,41 @@ class MyPageFragment :
 
     override fun initView() {
         binding.apply {
-            tvMyPostPost.isActivated = true
-            viewModel.loadMyPost()
-            val postAdapter = MyPostAdapter.initPostAdapter(
-                viewModel.myPostResponse.value!!.content,
-                requireContext()
-            )
+            val postAdapter = MyPostAdapter(viewModel.myPostResponse.value!!.content)
+            initAdapter(postAdapter)
 
             tvMyPostPost.setOnClickListener {
-                invertActivation(tvMyPostPost, tvMyPostComment)
-                setAdapter(postAdapter)
-
+                invertActivation(it, tvMyPostComment)
+                setAdapter(postAdapter, FeedContentType.POST)
             }
 
             tvMyPostComment.setOnClickListener {
-                invertActivation(tvMyPostComment, tvMyPostPost)
-//                setAdapter(commentAdapter)
+                invertActivation(it, tvMyPostPost)
+//                setAdapter(commentAdapter, FeedContentType.COMMENT)
             }
 
             myPostBtnBack.setOnClickListener {
-                findNavController().navigate(R.id.action_myPageFragment_to_navigation_more)
+                findNavController().popBackStack()
             }
 
-            setAdapter(postAdapter)
-
-            rvMyPost.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    if (!viewModel.scrollState.value!!) {
-                        if (!rvMyPost.canScrollVertically(1)) {
-                            viewModel.scrollStateInverter()
-                            getMoreData(postAdapter)
-                        }
-                    }
-                }
-            })
         }
     }
 
-    private fun setAdapter(adapter: Adapter<ViewHolder>) {
-        binding.rvMyPost.adapter = adapter
+    private fun initAdapter(adapter: Adapter<ViewHolder>){
+        binding.tvMyPostPost.isActivated = true
+        viewModel.loadMyPost()
+        setAdapter(adapter, FeedContentType.POST)
     }
 
-    private fun invertActivation(onSelected: View, offSelection: View){
+    private fun setAdapter(adapter: Adapter<ViewHolder>, contentType: FeedContentType) {
+        binding.rvMyPost.adapter = adapter
+        binding.rvMyPost.infiniteScroll {
+            viewModel.loadMoreMyPost(contentType)
+        }
+    }
+
+    private fun invertActivation(onSelected: View, offSelection: View) {
         onSelected.isActivated = true
         offSelection.isActivated = false
-    }
-
-    fun getMoreData(adapter: Adapter<ViewHolder>) {
-        lifecycleScope.launch {
-            if (!viewModel.myPostResponse.value!!.isLast) {
-                val loadJob = viewModel.loadMyPost(
-                    viewModel.myPostResponse.value!!.content.last().feedId
-                )
-                loadJob.join()
-                if (adapter is MyPostAdapter) adapter.updateList(viewModel.myPostResponse.value!!.content)
-
-                viewModel.scrollStateInverter()
-            }
-        }
     }
 }
