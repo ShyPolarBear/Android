@@ -5,16 +5,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.R
-import com.shypolarbear.presentation.databinding.ItemFeedBinding
 import com.shypolarbear.presentation.databinding.ItemFeedNoImageBinding
-import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalLikeBtnType
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
-import timber.log.Timber
 
 class FeedPostNoImageViewHolder(
     private val binding: ItemFeedNoImageBinding,
@@ -107,7 +103,7 @@ class FeedPostNoImageViewHolder(
         binding.btnFeedPostNoImageLike.showLikeBtnIsLike(item.isLike, binding.btnFeedPostNoImageLike)
         binding.btnFeedPostNoImageBestCommentLike.showLikeBtnIsLike(item.comment.isLike, binding.btnFeedPostNoImageBestCommentLike)
 
-        binding.tvFeedPostNoImageCommentUserNickname.text = item.comment.author
+        binding.tvFeedPostNoImageCommentUserNickname.text = item.comment.authorNickname
         binding.tvFeedPostNoImageBestCommentContent.text = item.comment.content
 
         if (!item.authorProfileImage.isNullOrBlank()) {

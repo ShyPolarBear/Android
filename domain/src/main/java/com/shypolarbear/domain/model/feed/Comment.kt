@@ -4,7 +4,7 @@ import com.shypolarbear.domain.model.feed.feedDetail.ChildComment
 
 data class Comment(
     val commentId: Int = 0,
-    val author: String = "",
+    val authorNickname: String = "",
     val authorProfileImage: String = "",
     val content: String = "",
     val likeCount: Int = 0,

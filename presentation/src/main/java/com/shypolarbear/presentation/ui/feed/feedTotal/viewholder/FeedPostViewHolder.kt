@@ -14,7 +14,6 @@ import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalLikeBtnType
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
-import timber.log.Timber
 
 class FeedPostViewHolder(
     private val binding: ItemFeedBinding,
@@ -108,7 +107,7 @@ class FeedPostViewHolder(
         binding.btnFeedPostLike.showLikeBtnIsLike(item.isLike, binding.btnFeedPostLike)
         binding.btnFeedPostBestCommentLike.showLikeBtnIsLike(item.comment.isLike, binding.btnFeedPostBestCommentLike)
 
-        binding.tvFeedPostCommentUserNickname.text = item.comment.author
+        binding.tvFeedPostCommentUserNickname.text = item.comment.authorNickname
         binding.tvFeedPostBestCommentContent.text = item.comment.content
 
         if (!item.authorProfileImage.isNullOrBlank()) {

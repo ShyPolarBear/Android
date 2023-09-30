@@ -25,6 +25,7 @@ import com.shypolarbear.presentation.util.showLikeBtnIsLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailViewModel>(
@@ -83,6 +84,11 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 binding.cardviewFeedCommentWritingMsg.isVisible = false
             }
 
+            btnFeedCommentWrite.setOnClickListener {
+                Timber.d("댓글 작성 버튼 클릭!")
+                viewModel.requestFeedCommentWrite(feedDetailArgs.feedId, null, edtFeedDetailReply.text.toString())
+            }
+
             viewModel.loadFeedDetail(feedDetailArgs.feedId)
             viewModel.loadFeedComment(feedDetailArgs.feedId)
 
@@ -97,11 +103,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         var postPropertyItems: List<PowerMenuItem>
         val isPostLike = feedDetail.isLike
         val postLikeCnt: Int = feedDetail.likeCount
-
-        // 댓글 기능 미구현 상황이라 임시로 여기에 정의
-        // TODO("댓글 기능 구현되면 제거")
-        binding.layoutFeedDetail.isVisible = true
-        binding.progressFeedDetailLoading.isVisible = false
 
         binding.tvFeedDetailUserNickname.text = feedDetail.author
         binding.tvFeedDetailPostingTime.text = feedDetail.createdDate

@@ -4,7 +4,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedCommentNormalBinding
@@ -74,7 +73,7 @@ class FeedCommentNormalViewHolder (
         binding.rvFeedCommentReply.adapter = feedReplyAdapter
         feedReplyAdapter.submitList(item.childComments)
 
-        binding.tvFeedCommentNormalNickname.text = item.author
+        binding.tvFeedCommentNormalNickname.text = item.authorNickname
         binding.tvFeedCommentNormalContent.text = item.content
         binding.tvFeedCommentNormalTime.text = item.createdDate
 

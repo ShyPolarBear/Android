@@ -8,10 +8,12 @@ import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.domain.usecase.feed.LoadCommentUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.LoadFeedDetailUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedCommentWriteUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedLikeUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,7 +21,8 @@ class FeedDetailViewModel @Inject constructor(
     private val feedDetailUseCase: LoadFeedDetailUseCase,
     private val feedCommentUseCase: LoadCommentUseCase,
     private val feedDeleteUseCase: RequestFeedDeleteUseCase,
-    private val feedLikeUseCase: RequestFeedLikeUseCase
+    private val feedLikeUseCase: RequestFeedLikeUseCase,
+    private val feedCommentWriteUseCase: RequestFeedCommentWriteUseCase
 ): BaseViewModel() {
 
     private val _feed = MutableLiveData<Feed>()
@@ -32,9 +35,9 @@ class FeedDetailViewModel @Inject constructor(
 
     fun loadFeedDetail(feedId: Int) {
         viewModelScope.launch {
-            val feedDetailTestData = feedDetailUseCase(feedId)
+            val feedDetailData = feedDetailUseCase(feedId)
 
-            feedDetailTestData
+            feedDetailData
                 .onSuccess {
                     _feed.value = it.data
                 }
@@ -46,11 +49,11 @@ class FeedDetailViewModel @Inject constructor(
 
     fun loadFeedComment(feedId: Int) {
         viewModelScope.launch {
-            val feedCommentMockData = feedCommentUseCase(feedId)
+            val feedCommentData = feedCommentUseCase(feedId)
 
-            feedCommentMockData
+            feedCommentData
                 .onSuccess {
-                    _feedComment.value = it.data.comments
+                    _feedComment.value = it.data.content
                 }
                 .onFailure {
 
@@ -104,5 +107,21 @@ class FeedDetailViewModel @Inject constructor(
         viewModelScope.launch {
             feedDeleteUseCase(feedId)
         }
+    }
+
+    fun requestFeedCommentWrite(feedId: Int, parentId: Int?, content: String) {
+        Timber.d("댓글 작성 api 시작?")
+        viewModelScope.launch {
+            val feedCommentWriteResult = feedCommentWriteUseCase(feedId, parentId, content)
+
+            feedCommentWriteResult
+                .onSuccess {
+
+                }
+                .onFailure {
+
+                }
+        }
+
     }
 }

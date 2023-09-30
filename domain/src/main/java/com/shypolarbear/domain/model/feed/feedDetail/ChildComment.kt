@@ -1,7 +1,7 @@
 package com.shypolarbear.domain.model.feed.feedDetail
 
 data class ChildComment(
-    val author: String = "",
+    val authorNickname: String = "",
     val authorProfileImage: String = "",
     val commentId: Int = 0,
     val content: String = "",
