@@ -4,13 +4,15 @@ import com.shypolarbear.domain.model.mypage.MyPostRequest
 import com.shypolarbear.domain.model.mypage.MyPostResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.HTTP
+import retrofit2.http.Query
 
 interface MyPostApi {
 
-    @HTTP(method = "GET", path = "/api/user/feeds", hasBody = true)
+    @GET("/api/user/feeds")
     suspend fun getMyPost(
-        @Body
-        request: MyPostRequest = MyPostRequest(null, null)
+        @Query("lastFeedId") lastFeedId: Int?,
+        @Query("limit") limit: Int?
     ): Response<MyPostResponse>
 }

@@ -10,7 +10,7 @@ import javax.inject.Inject
 class MyPostRepoImpl @Inject constructor(private val api: MyPostApi): MyPostRepo {
     override suspend fun getMyPostResponse(myPostRequest: MyPostRequest): Result<MyPostResponse> {
         return try {
-            val response = api.getMyPost(myPostRequest)
+            val response = api.getMyPost(myPostRequest.lastFeedId, myPostRequest.limit)
             when {
                 response.isSuccessful -> {
                     Result.success(response.body()!!)
