@@ -28,6 +28,7 @@ class MyPageViewModel @Inject constructor(
     fun loadMyPost(lastFeedId: Int? = null): Job{
         val loadJob = viewModelScope.launch {
             val responseMyPost = loadMyPostUseCase(getMyPostRequest = MyPostRequest(lastFeedId, null))
+            Timber.tag("MY_PAGE").d("${responseMyPost}")
 
             responseMyPost.onSuccess { response ->
                 _myPostResponse.value = response.data

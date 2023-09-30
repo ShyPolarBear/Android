@@ -1,10 +1,9 @@
 package com.shypolarbear.presentation.ui.mypage
 
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.shypolarbear.presentation.R
@@ -13,7 +12,6 @@ import com.shypolarbear.presentation.databinding.FragmentMyPageBinding
 import com.shypolarbear.presentation.ui.mypage.adapter.MyPostAdapter
 import com.shypolarbear.presentation.util.infiniteScroll
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 
 enum class FeedContentType(val state: Int){
@@ -25,11 +23,23 @@ enum class FeedContentType(val state: Int){
 class MyPageFragment :
     BaseFragment<FragmentMyPageBinding, MyPageViewModel>(R.layout.fragment_my_page) {
     override val viewModel: MyPageViewModel by viewModels()
+    lateinit var postAdapter: Adapter<ViewHolder>
 
     override fun initView() {
+
+        viewModel.myPostResponse.observe(viewLifecycleOwner){ postFeed ->
+            postFeed?.let {
+                binding.myFeedProgressbar.isVisible = false
+                postAdapter = MyPostAdapter(postFeed.content)
+                setAdapter(postAdapter, FeedContentType.POST)
+            }
+        }
+
+
         binding.apply {
-            val postAdapter = MyPostAdapter(viewModel.myPostResponse.value!!.content)
-            initAdapter(postAdapter)
+            myFeedProgressbar.isVisible = true
+            binding.tvMyPostPost.isActivated = true
+            viewModel.loadMyPost()
 
             tvMyPostPost.setOnClickListener {
                 invertActivation(it, tvMyPostComment)
@@ -46,12 +56,6 @@ class MyPageFragment :
             }
 
         }
-    }
-
-    private fun initAdapter(adapter: Adapter<ViewHolder>){
-        binding.tvMyPostPost.isActivated = true
-        viewModel.loadMyPost()
-        setAdapter(adapter, FeedContentType.POST)
     }
 
     private fun setAdapter(adapter: Adapter<ViewHolder>, contentType: FeedContentType) {

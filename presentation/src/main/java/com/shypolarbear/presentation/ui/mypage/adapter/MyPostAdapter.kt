@@ -1,20 +1,18 @@
 package com.shypolarbear.presentation.ui.mypage.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.shypolarbear.domain.model.mypage.MyFeed
 import com.shypolarbear.presentation.databinding.ItemFeedLoadingBinding
 import com.shypolarbear.presentation.databinding.ItemPagePostBinding
-import com.shypolarbear.presentation.ui.mypage.diffutil.MyPostDiffUtilCallback
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.MyFeedType
-import java.util.Collections.addAll
 
 class MyPostAdapter(private val _items: List<MyFeed?>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    ListAdapter<MyFeed, RecyclerView.ViewHolder>(MyFeedDiffCallback()) {
 
     private lateinit var postBinding: ItemPagePostBinding
 
@@ -57,16 +55,15 @@ class MyPostAdapter(private val _items: List<MyFeed?>) :
     override fun getItemCount(): Int {
         return _items.size
     }
+}
 
-    fun updateList(items: List<MyFeed?>) {
-        items.let {
-            val diffCallback = MyPostDiffUtilCallback(_items, items)
-            val diffResult = DiffUtil.calculateDiff(diffCallback)
-            _items.toMutableList().run {
-                clear()
-                addAll(items)
-                diffResult.dispatchUpdatesTo(this@MyPostAdapter)
-            }
-        }
+class MyFeedDiffCallback : DiffUtil.ItemCallback<MyFeed>() {
+
+    override fun areItemsTheSame(oldItem: MyFeed, newItem: MyFeed): Boolean {
+        return oldItem.feedId == newItem.feedId
+    }
+
+    override fun areContentsTheSame(oldItem: MyFeed, newItem: MyFeed): Boolean {
+        return oldItem == newItem
     }
 }
