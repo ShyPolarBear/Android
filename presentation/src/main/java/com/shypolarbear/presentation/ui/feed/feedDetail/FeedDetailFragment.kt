@@ -27,6 +27,11 @@ import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+enum class commentType(val type: Int) {
+    COMMENT(0),
+    REPLY(1)
+}
+
 @AndroidEntryPoint
 class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailViewModel>(
     R.layout.fragment_feed_detail

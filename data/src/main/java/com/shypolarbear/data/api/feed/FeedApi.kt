@@ -3,6 +3,7 @@ package com.shypolarbear.data.api.feed
 import com.shypolarbear.domain.model.feed.CommentWriteRequest
 import com.shypolarbear.domain.model.feed.CommentWriteResponse
 import com.shypolarbear.domain.model.feed.FeedTotal
+import com.shypolarbear.domain.model.feed.commentLike.CommentLikeResponse
 import com.shypolarbear.domain.model.feed.feedChange.FeedChangeResponse
 import com.shypolarbear.domain.model.feed.feedChange.WriteFeedForm
 import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
@@ -58,9 +59,14 @@ interface FeedApi {
     ): Response<FeedLikeResponse>
 
     @POST("api/comments/{feedId}")
-    suspend fun requestWriteFeedComment(
+    suspend fun writeFeedComment(
         @Path("feedId") feedID: Int,
         @Body
         commentWriteRequest: CommentWriteRequest
     ): Response<CommentWriteResponse>
+
+    @PUT("api/comments/{commentId}/like")
+    suspend fun likeComment(
+        @Path("commentId") commentID: Int
+    ): Response<CommentLikeResponse>
 }

@@ -2,6 +2,7 @@ package com.shypolarbear.domain.repository.feed
 
 import com.shypolarbear.domain.model.feed.CommentWriteResponse
 import com.shypolarbear.domain.model.feed.FeedTotal
+import com.shypolarbear.domain.model.feed.commentLike.CommentLikeResponse
 import com.shypolarbear.domain.model.feed.feedChange.FeedChangeResponse
 import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
 import com.shypolarbear.domain.model.feed.feedDetail.FeedDetail
@@ -36,4 +37,6 @@ interface FeedRepo {
         parentId: Int?,
         content: String
     ): Result<CommentWriteResponse>
+
+    suspend fun requestLikeFeedComment(commentId: Int): Result<CommentLikeResponse>
 }

@@ -8,6 +8,7 @@ import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.domain.usecase.feed.LoadCommentUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.LoadFeedDetailUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedCommentLikeUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedCommentWriteUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedLikeUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
@@ -22,7 +23,8 @@ class FeedDetailViewModel @Inject constructor(
     private val feedCommentUseCase: LoadCommentUseCase,
     private val feedDeleteUseCase: RequestFeedDeleteUseCase,
     private val feedLikeUseCase: RequestFeedLikeUseCase,
-    private val feedCommentWriteUseCase: RequestFeedCommentWriteUseCase
+    private val feedCommentWriteUseCase: RequestFeedCommentWriteUseCase,
+    private val feedCommentLikeUseCase: RequestFeedCommentLikeUseCase
 ): BaseViewModel() {
 
     private val _feed = MutableLiveData<Feed>()
@@ -79,7 +81,15 @@ class FeedDetailViewModel @Inject constructor(
             else
                 comment
         }
-        _feedComment.value = updatedCommentList
+        viewModelScope.launch {
+            val result = feedCommentLikeUseCase(commentId)
+
+            result
+                .onSuccess {
+                    _feedComment.value = updatedCommentList
+                }
+                .onFailure {  }
+        }
     }
 
     fun clickReplyLikeBtn(isLiked: Boolean, likeCnt: Int, parentCommentId: Int, replyId: Int) {
@@ -100,7 +110,15 @@ class FeedDetailViewModel @Inject constructor(
             else
                 comment
         }
-        _feedComment.value = updatedCommentList
+        viewModelScope.launch {
+            val result = feedCommentLikeUseCase(replyId)
+
+            result
+                .onSuccess {
+                    _feedComment.value = updatedCommentList
+                }
+                .onFailure {  }
+        }
     }
 
     fun requestDeleteFeed(feedId: Int) {

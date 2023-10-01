@@ -8,6 +8,7 @@ import com.shypolarbear.domain.model.feed.FeedTotal
 import com.shypolarbear.domain.usecase.feed.RequestFeedDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedLikeUseCase
 import com.shypolarbear.domain.usecase.feed.LoadFeedTotalUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedCommentLikeUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,6 +19,7 @@ class FeedTotalViewModel @Inject constructor (
     private val feedTotalUseCase: LoadFeedTotalUseCase,
     private val feedDeleteUseCase: RequestFeedDeleteUseCase,
     private val feedLikeUseCase: RequestFeedLikeUseCase,
+    private val feedCommentLikeUseCase: RequestFeedCommentLikeUseCase
 ): BaseViewModel() {
 
     private val _feed = MutableLiveData<List<Feed>>()
@@ -75,9 +77,14 @@ class FeedTotalViewModel @Inject constructor (
                 feed
         }
         viewModelScope.launch {
-            feedLikeUseCase(feedId)
+            val result = feedLikeUseCase(feedId)
+
+            result
+                .onSuccess {
+                    _feed.value = updatedFeed
+                }
+                .onFailure {  }
         }
-        _feed.value = updatedFeed
     }
 
     fun clickFeedBestCommentLikeBtn(isLiked: Boolean, likeCnt: Int, feedId: Int) {
@@ -91,7 +98,15 @@ class FeedTotalViewModel @Inject constructor (
             else
                 feed
         }
-        _feed.value = updatedFeed
+        viewModelScope.launch {
+            val result = feedCommentLikeUseCase(feedId)
+
+            result
+                .onSuccess {
+                    _feed.value = updatedFeed
+                }
+                .onFailure {  }
+        }
     }
 
     fun removeFeedList(position: Int) {

@@ -2,17 +2,16 @@ package com.shypolarbear.data.repositoryimpl.feed
 
 import com.shypolarbear.data.api.feed.FeedApi
 import com.shypolarbear.domain.model.HttpError
-import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.domain.model.feed.CommentWriteRequest
 import com.shypolarbear.domain.model.feed.CommentWriteResponse
 import com.shypolarbear.domain.model.feed.FeedTotal
+import com.shypolarbear.domain.model.feed.commentLike.CommentLikeResponse
 import com.shypolarbear.domain.model.feed.feedChange.FeedChangeResponse
 import com.shypolarbear.domain.model.feed.feedChange.WriteFeedForm
 import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
 import com.shypolarbear.domain.model.feed.feedDetail.FeedDetail
 import com.shypolarbear.domain.model.feed.feedLike.FeedLikeResponse
 import com.shypolarbear.domain.repository.feed.FeedRepo
-import timber.log.Timber
 import javax.inject.Inject
 
 class FeedRepoImpl @Inject constructor(
@@ -160,10 +159,26 @@ class FeedRepoImpl @Inject constructor(
         content: String,
     ): Result<CommentWriteResponse> {
         return try {
-            val response = api.requestWriteFeedComment(
+            val response = api.writeFeedComment(
                 feedID = feedId,
                 commentWriteRequest = CommentWriteRequest(parentId, content)
             )
+            when {
+                response.isSuccessful -> {
+                    Result.success(response.body()!!)
+                }
+                else -> {
+                    Result.failure(HttpError(response.code(), response.errorBody()?.string() ?: ""))
+                }
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun requestLikeFeedComment(commentId: Int): Result<CommentLikeResponse> {
+        return try {
+            val response = api.likeComment(commentId)
             when {
                 response.isSuccessful -> {
                     Result.success(response.body()!!)

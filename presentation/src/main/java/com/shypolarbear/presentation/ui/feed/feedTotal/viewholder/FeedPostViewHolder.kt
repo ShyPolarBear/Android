@@ -27,8 +27,9 @@ class FeedPostViewHolder(
         likeCnt: Int,
         textView: TextView,
         feedId: Int,
+        commentId: Int?,
         itemType: FeedTotalLikeBtnType
-    ) -> Unit = { _, _, _, _, _, _ -> },
+    ) -> Unit = { _, _, _, _, _, _, _ -> },
     private val onMoveToDetailClick: (feed: Feed, feedId: Int) -> Unit = { _, _ -> }
     ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -63,6 +64,7 @@ class FeedPostViewHolder(
                 post.likeCount,
                 binding.tvFeedPostLikeCnt,
                 post.feedId,
+                null,
                 FeedTotalLikeBtnType.POST_LIKE_BTN
             )
         }
@@ -74,6 +76,7 @@ class FeedPostViewHolder(
                 post.comment.likeCount,
                 binding.tvFeedPostBestCommentLikeCnt,
                 post.feedId,
+                post.comment.commentId,
                 FeedTotalLikeBtnType.BEST_COMMENT_LIKE_BTN
             )
         }
@@ -103,6 +106,7 @@ class FeedPostViewHolder(
         binding.tvFeedPostTitle.text = item.title
         binding.tvFeedPostContent.text = item.content
         binding.tvFeedPostCommentCnt.text = item.commentCount.toString()
+        binding.tvFeedPostCommentCommentingTime.text = item.comment.createdDate
 
         binding.btnFeedPostLike.showLikeBtnIsLike(item.isLike, binding.btnFeedPostLike)
         binding.btnFeedPostBestCommentLike.showLikeBtnIsLike(item.comment.isLike, binding.btnFeedPostBestCommentLike)

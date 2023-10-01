@@ -66,8 +66,9 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                 likeCnt: Int,
                 textView: TextView,
                 feedId: Int,
+                commentId: Int?,
                 itemType: FeedTotalLikeBtnType ->
-            changeLikeBtn(btn, isLiked, likeCnt, textView, feedId, itemType)
+            changeLikeBtn(btn, isLiked, likeCnt, textView, feedId, commentId, itemType)
         },
         onMoveToDetailClick = { feed: Feed, feedId: Int -> showFeedPostDetail(feed, feedId) }
     )
@@ -244,6 +245,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         likeCnt: Int,
         likeCntText: TextView,
         feedId: Int,
+        commentId: Int?,
         itemType: FeedTotalLikeBtnType
         ) {
         var isLike = isLiked
@@ -261,7 +263,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                 viewModel.clickFeedLikeBtn(isLike, likeCount, feedId)
 
             FeedTotalLikeBtnType.BEST_COMMENT_LIKE_BTN ->
-                viewModel.clickFeedBestCommentLikeBtn(isLike, likeCount, feedId)
+                viewModel.clickFeedBestCommentLikeBtn(isLike, likeCount, commentId!!)
         }
 
         button.showLikeBtnIsLike(isLike, button)
