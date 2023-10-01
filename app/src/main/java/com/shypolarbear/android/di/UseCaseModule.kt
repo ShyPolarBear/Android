@@ -1,37 +1,39 @@
 package com.shypolarbear.android.di
 
 import com.shypolarbear.domain.repository.ExampleRepo
-import com.shypolarbear.domain.repository.image.ImageEditRepo
 import com.shypolarbear.domain.repository.InfoRepo
 import com.shypolarbear.domain.repository.JoinRepo
-import com.shypolarbear.domain.repository.feed.FeedRepo
 import com.shypolarbear.domain.repository.LoginRepo
 import com.shypolarbear.domain.repository.TokenRepo
+import com.shypolarbear.domain.repository.feed.FeedRepo
+import com.shypolarbear.domain.repository.image.ImageEditRepo
 import com.shypolarbear.domain.repository.image.ImageUploadRepo
+import com.shypolarbear.domain.repository.mypage.MyPostRepo
 import com.shypolarbear.domain.repository.quiz.QuizRepo
-import com.shypolarbear.domain.usecase.tokens.GetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.ExampleUseCase
 import com.shypolarbear.domain.usecase.RequestJoinUseCase
-import com.shypolarbear.domain.usecase.feed.LoadFeedTotalUseCase
 import com.shypolarbear.domain.usecase.RequestLoginUseCase
-import com.shypolarbear.domain.usecase.tokens.GetRefreshTokenUseCase
 import com.shypolarbear.domain.usecase.RequestTokenRenewUseCase
-import com.shypolarbear.domain.usecase.feed.RequestFeedChangeUseCase
 import com.shypolarbear.domain.usecase.feed.LoadCommentUseCase
-import com.shypolarbear.domain.usecase.feed.RequestFeedDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.LoadFeedDetailUseCase
+import com.shypolarbear.domain.usecase.feed.LoadFeedTotalUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedChangeUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedLikeUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedWriteUseCase
 import com.shypolarbear.domain.usecase.image.RequestImageDeleteUseCase
 import com.shypolarbear.domain.usecase.image.RequestImageModifyUseCase
 import com.shypolarbear.domain.usecase.image.RequestImageUploadUseCase
-import com.shypolarbear.domain.usecase.more.RequestMyInfoChangeUseCase
 import com.shypolarbear.domain.usecase.more.LoadMyInfoUseCase
+import com.shypolarbear.domain.usecase.more.RequestMyInfoChangeUseCase
+import com.shypolarbear.domain.usecase.mypage.LoadMyPostUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizReviewUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizSolvedUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizSubmitMultiUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizSubmitOXUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizUseCase
+import com.shypolarbear.domain.usecase.tokens.GetAccessTokenUseCase
+import com.shypolarbear.domain.usecase.tokens.GetRefreshTokenUseCase
 import com.shypolarbear.domain.usecase.tokens.SetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.tokens.SetRefreshTokenUseCase
 import dagger.Module
@@ -191,5 +193,11 @@ class UseCaseModule {
     @Provides
     fun provideImageDelete(repo: ImageEditRepo): RequestImageDeleteUseCase {
         return RequestImageDeleteUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideMyPost(repo: MyPostRepo): LoadMyPostUseCase {
+        return LoadMyPostUseCase(repo)
     }
 }
