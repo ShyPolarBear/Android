@@ -85,8 +85,11 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             }
 
             btnFeedCommentWrite.setOnClickListener {
-                Timber.d("댓글 작성 버튼 클릭!")
                 viewModel.requestFeedCommentWrite(feedDetailArgs.feedId, null, edtFeedDetailReply.text.toString())
+                binding.edtFeedDetailReply.clearFocus()
+                binding.edtFeedDetailReply.setText("")
+                binding.cardviewFeedCommentWritingMsg.isVisible = false
+                binding.rvFeedDetailReply.scrollToPosition(viewModel.feedComment.value!!.size)
             }
 
             viewModel.loadFeedDetail(feedDetailArgs.feedId)

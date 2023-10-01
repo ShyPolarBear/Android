@@ -110,13 +110,12 @@ class FeedDetailViewModel @Inject constructor(
     }
 
     fun requestFeedCommentWrite(feedId: Int, parentId: Int?, content: String) {
-        Timber.d("댓글 작성 api 시작?")
         viewModelScope.launch {
             val feedCommentWriteResult = feedCommentWriteUseCase(feedId, parentId, content)
 
             feedCommentWriteResult
                 .onSuccess {
-
+                    loadFeedComment(feedId)
                 }
                 .onFailure {
 

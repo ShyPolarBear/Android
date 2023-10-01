@@ -1,6 +1,6 @@
 package com.shypolarbear.data.api.feed
 
-import com.shypolarbear.domain.model.feed.Comment
+import com.shypolarbear.domain.model.feed.CommentWriteRequest
 import com.shypolarbear.domain.model.feed.CommentWriteResponse
 import com.shypolarbear.domain.model.feed.FeedTotal
 import com.shypolarbear.domain.model.feed.feedChange.FeedChangeResponse
@@ -36,7 +36,7 @@ interface FeedApi {
         writeFeedForm: WriteFeedForm
     ): Response<FeedChangeResponse>
 
-    @GET("/api/comments/{feedId}")
+    @GET("api/comments/{feedId}")
     suspend fun getFeedComment(
         @Path("feedId") feedID: Int
     ): Response<FeedComment>
@@ -61,7 +61,6 @@ interface FeedApi {
     suspend fun requestWriteFeedComment(
         @Path("feedId") feedID: Int,
         @Body
-        parentID: Int?,
-        content: String
+        commentWriteRequest: CommentWriteRequest
     ): Response<CommentWriteResponse>
 }

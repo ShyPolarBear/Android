@@ -281,7 +281,7 @@
                         style="@style/B2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="26dp"
+                        android:layout_marginStart="20dp"
                         android:layout_marginEnd="35dp"
                         android:background="@color/White_01"
                         android:hint="@string/feed_detail_comment_msg"

@@ -3,6 +3,7 @@ package com.shypolarbear.data.repositoryimpl.feed
 import com.shypolarbear.data.api.feed.FeedApi
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.domain.model.feed.Comment
+import com.shypolarbear.domain.model.feed.CommentWriteRequest
 import com.shypolarbear.domain.model.feed.CommentWriteResponse
 import com.shypolarbear.domain.model.feed.FeedTotal
 import com.shypolarbear.domain.model.feed.feedChange.FeedChangeResponse
@@ -39,6 +40,7 @@ class FeedRepoImpl @Inject constructor(
             when {
                 response.isSuccessful -> {
                     Result.success(response.body()!!)
+
                 }
                 else -> {
                     Result.failure(HttpError(response.code(), response.errorBody()?.string() ?: ""))
@@ -155,16 +157,13 @@ class FeedRepoImpl @Inject constructor(
     override suspend fun requestWriteFeedCommentData(
         feedId: Int,
         parentId: Int?,
-        content: String
+        content: String,
     ): Result<CommentWriteResponse> {
         return try {
-            Timber.d("댓글 작성 api")
             val response = api.requestWriteFeedComment(
                 feedID = feedId,
-                parentID = parentId,
-                content = content
+                commentWriteRequest = CommentWriteRequest(parentId, content)
             )
-            Timber.d("댓글 작성 api")
             when {
                 response.isSuccessful -> {
                     Result.success(response.body()!!)
