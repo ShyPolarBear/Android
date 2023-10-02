@@ -69,6 +69,11 @@ enum class QuizNavType() {
     MAIN
 }
 
+enum class MyFeedType(val state: Int){
+    ITEM(1),
+    LOADING(0)
+}
+
 enum class ImageType(val type: String) {
     PROFILE("profile"),
     FEED("feed")
@@ -176,6 +181,8 @@ fun TextView.detectActivation(vararg choices: TextView) {
     }
     this.isActivated = this.isActivated.not()
 }
+
+
 
 fun ImageView.setReviewMode(
     type: DialogType,

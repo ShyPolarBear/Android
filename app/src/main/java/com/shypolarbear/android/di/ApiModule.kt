@@ -8,19 +8,21 @@ import com.shypolarbear.data.api.LoginApi
 import com.shypolarbear.data.api.TokenApi
 import com.shypolarbear.data.api.feed.FeedApi
 import com.shypolarbear.data.api.image.ImageUploadApi
+import com.shypolarbear.data.api.mypage.MyPostApi
 import com.shypolarbear.data.api.quiz.QuizApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import retrofit2.create
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiModule {
 
-// NetworkModule로 retrofit 객체를 생성하고 여기에서 각 Api에 맞게 create 하여 사용
+    // NetworkModule로 retrofit 객체를 생성하고 여기에서 각 Api에 맞게 create 하여 사용
 // 이런 형식으로 사용할 예정
     @Singleton
     @Provides
@@ -30,13 +32,13 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun provideJoinApi(@NormalRetrofit retrofit: Retrofit): JoinApi{
+    fun provideJoinApi(@NormalRetrofit retrofit: Retrofit): JoinApi {
         return retrofit.create(JoinApi::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideQuizApi(@AuthRetrofit retrofit: Retrofit): QuizApi{
+    fun provideQuizApi(@AuthRetrofit retrofit: Retrofit): QuizApi {
         return retrofit.create(QuizApi::class.java)
     }
 
@@ -74,5 +76,11 @@ object ApiModule {
     @Provides
     fun provideImageUploadApi(@NormalRetrofit retrofit: Retrofit): ImageUploadApi {
         return retrofit.create(ImageUploadApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideMyPostApi(@AuthRetrofit retrofit: Retrofit): MyPostApi {
+        return retrofit.create(MyPostApi::class.java)
     }
 }

@@ -8,6 +8,7 @@ import com.shypolarbear.domain.repository.feed.FeedRepo
 import com.shypolarbear.domain.repository.LoginRepo
 import com.shypolarbear.domain.repository.TokenRepo
 import com.shypolarbear.domain.repository.image.ImageUploadRepo
+import com.shypolarbear.domain.repository.mypage.MyPostRepo
 import com.shypolarbear.domain.repository.quiz.QuizRepo
 import com.shypolarbear.domain.usecase.tokens.GetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.ExampleUseCase
@@ -194,6 +195,12 @@ class UseCaseModule {
     @Provides
     fun provideImageDelete(repo: ImageEditRepo): RequestImageDeleteUseCase {
         return RequestImageDeleteUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideMyPost(repo: MyPostRepo): LoadMyPostUseCase {
+        return LoadMyPostUseCase(repo)
     }
 
     @Singleton
