@@ -14,9 +14,9 @@ import com.shypolarbear.presentation.util.showLikeBtnIsLike
 
 class FeedCommentNormalViewHolder (
     private val binding: ItemFeedCommentNormalBinding,
-    private val onMyCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onMyCommentPropertyClick: (view: ImageView, commentId: Int, position: Int) -> Unit = { _, _, _ -> },
     private val onOtherCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
-    private val onMyReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onMyReplyPropertyClick: (view: ImageView, commentId: Int, position: Int) -> Unit = { _, _, _ -> },
     private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onBtnLikeClick: (
         view: Button,
@@ -47,7 +47,7 @@ class FeedCommentNormalViewHolder (
         binding.ivFeedCommentNormalProperty.setOnClickListener {
             when(comment.isAuthor) {
                 true ->
-                    onMyCommentPropertyClick(binding.ivFeedCommentNormalProperty)
+                    onMyCommentPropertyClick(binding.ivFeedCommentNormalProperty, comment.commentId, adapterPosition)
                 false ->
                     onOtherCommentPropertyClick(binding.ivFeedCommentNormalProperty)
             }

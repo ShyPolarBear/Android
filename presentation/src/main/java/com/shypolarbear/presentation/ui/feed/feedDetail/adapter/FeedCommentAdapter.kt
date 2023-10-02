@@ -17,9 +17,9 @@ import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentDe
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentNormalViewHolder
 
 class FeedCommentAdapter(
-    private val onMyCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onMyCommentPropertyClick: (view: ImageView, commentId: Int, position: Int) -> Unit = { _, _, _ -> },
     private val onOtherCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
-    private val onMyReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onMyReplyPropertyClick: (view: ImageView, commentId: Int, position: Int) -> Unit = { _, _, _ -> },
     private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onBtnLikeClick: (
         view: Button,
@@ -68,24 +68,23 @@ class FeedCommentAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        when(getItem(position)) {
+        when(getItem(position).isDeleted) {
 
-            null -> {
+            true -> {
                 (holder as FeedCommentDeleteViewHolder).bind(getItem(position))
             }
-            else -> {
+            false -> {
                 (holder as FeedCommentNormalViewHolder).bind(getItem(position))
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        val comment: Comment? = getItem(position)
-        // 추후에 isDeleted가 추가되면 이에 따라 판단할 예정
-        return if (comment != null)
-            FeedCommentViewType.NORMAL.commentType
-        else
+        val comment: Comment = getItem(position)
+        return if (comment.isDeleted)
             FeedCommentViewType.DELETE.commentType
+        else
+            FeedCommentViewType.NORMAL.commentType
     }
 }
 

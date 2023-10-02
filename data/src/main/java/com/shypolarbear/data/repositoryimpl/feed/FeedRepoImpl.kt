@@ -3,7 +3,7 @@ package com.shypolarbear.data.repositoryimpl.feed
 import com.shypolarbear.data.api.feed.FeedApi
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.domain.model.feed.CommentWriteRequest
-import com.shypolarbear.domain.model.feed.CommentWriteResponse
+import com.shypolarbear.domain.model.feed.CommentChangeResponse
 import com.shypolarbear.domain.model.feed.FeedTotal
 import com.shypolarbear.domain.model.feed.commentLike.CommentLikeResponse
 import com.shypolarbear.domain.model.feed.feedChange.FeedChangeResponse
@@ -157,7 +157,7 @@ class FeedRepoImpl @Inject constructor(
         feedId: Int,
         parentId: Int?,
         content: String,
-    ): Result<CommentWriteResponse> {
+    ): Result<CommentChangeResponse> {
         return try {
             val response = api.writeFeedComment(
                 feedID = feedId,
@@ -179,6 +179,22 @@ class FeedRepoImpl @Inject constructor(
     override suspend fun requestLikeFeedComment(commentId: Int): Result<CommentLikeResponse> {
         return try {
             val response = api.likeComment(commentId)
+            when {
+                response.isSuccessful -> {
+                    Result.success(response.body()!!)
+                }
+                else -> {
+                    Result.failure(HttpError(response.code(), response.errorBody()?.string() ?: ""))
+                }
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun deleteFeedCommentData(commentId: Int): Result<CommentChangeResponse> {
+        return try {
+            val response = api.deleteFeedComment(commentId)
             when {
                 response.isSuccessful -> {
                     Result.success(response.body()!!)

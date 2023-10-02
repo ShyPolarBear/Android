@@ -1,6 +1,6 @@
 package com.shypolarbear.domain.model.feed
 
-data class CommentData(
+data class CommentId(
     val commentId: Int,
     val parentId: Int
 )

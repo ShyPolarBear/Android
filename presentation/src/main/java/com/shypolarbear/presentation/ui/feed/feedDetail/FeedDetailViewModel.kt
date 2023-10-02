@@ -8,13 +8,13 @@ import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.domain.usecase.feed.LoadCommentUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.LoadFeedDetailUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedCommentDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedCommentLikeUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedCommentWriteUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedLikeUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,7 +24,8 @@ class FeedDetailViewModel @Inject constructor(
     private val feedDeleteUseCase: RequestFeedDeleteUseCase,
     private val feedLikeUseCase: RequestFeedLikeUseCase,
     private val feedCommentWriteUseCase: RequestFeedCommentWriteUseCase,
-    private val feedCommentLikeUseCase: RequestFeedCommentLikeUseCase
+    private val feedCommentLikeUseCase: RequestFeedCommentLikeUseCase,
+    private val feedCommentDeleteUseCase: RequestFeedCommentDeleteUseCase
 ): BaseViewModel() {
 
     private val _feed = MutableLiveData<Feed>()
@@ -127,7 +128,7 @@ class FeedDetailViewModel @Inject constructor(
         }
     }
 
-    fun requestFeedCommentWrite(feedId: Int, parentId: Int?, content: String) {
+    fun requestWriteFeedComment(feedId: Int, parentId: Int?, content: String) {
         viewModelScope.launch {
             val feedCommentWriteResult = feedCommentWriteUseCase(feedId, parentId, content)
 
@@ -140,5 +141,9 @@ class FeedDetailViewModel @Inject constructor(
                 }
         }
 
+    }
+
+    fun requestDeleteFeedComment(commentId: Int, position: Int) {
+        viewModelScope.launch { feedCommentDeleteUseCase(commentId) }
     }
 }

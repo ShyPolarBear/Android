@@ -25,7 +25,6 @@ import com.shypolarbear.presentation.util.showLikeBtnIsLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 enum class commentType(val type: Int) {
     COMMENT(0),
@@ -41,14 +40,14 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     private val feedDetailArgs: FeedDetailFragmentArgs by navArgs()
     private val feedCommentAdapter: FeedCommentAdapter by lazy {
         FeedCommentAdapter(
-            onMyCommentPropertyClick = { view: ImageView ->
-                showMyCommentPropertyMenu(view)
+            onMyCommentPropertyClick = { view: ImageView, commentId: Int, position: Int ->
+                showMyCommentPropertyMenu(view, commentId, position)
             },
             onOtherCommentPropertyClick = { view: ImageView ->
                 showOtherCommentPropertyMenu(view)
             },
-            onMyReplyPropertyClick = { view: ImageView ->
-                showMyReplyPropertyMenu(view)
+            onMyReplyPropertyClick = { view: ImageView, commentId: Int, position: Int ->
+                showMyReplyPropertyMenu(view, commentId, position)
             },
             onOtherReplyPropertyClick = { view: ImageView ->
                 showOtherReplyPropertyMenu(view)
@@ -90,7 +89,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             }
 
             btnFeedCommentWrite.setOnClickListener {
-                viewModel.requestFeedCommentWrite(feedDetailArgs.feedId, null, edtFeedDetailReply.text.toString())
+                viewModel.requestWriteFeedComment(feedDetailArgs.feedId, null, edtFeedDetailReply.text.toString())
                 binding.edtFeedDetailReply.clearFocus()
                 binding.edtFeedDetailReply.setText("")
                 binding.cardviewFeedCommentWritingMsg.isVisible = false
@@ -208,7 +207,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         }
     }
 
-    private fun showMyCommentPropertyMenu(view: ImageView) {
+    private fun showMyCommentPropertyMenu(view: ImageView, commentId: Int, position: Int) {
         val myCommentPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
@@ -216,10 +215,23 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 PowerMenuItem(requireContext().getString(R.string.feed_comment_reply))
             )
 
-        view.setMenu(
+        PowerMenuUtil.getPowerMenu(
+            requireContext(),
+            viewLifecycleOwner,
+            myCommentPropertyItems
+        ) { _, item ->
+            when(item.title) {
+                getString(R.string.feed_post_property_revise) -> {
+
+                }
+                getString(R.string.feed_post_property_delete) -> {
+                    viewModel.requestDeleteFeedComment(commentId, position)
+                }
+            }
+        }.showAsDropDown(
             view,
-            myCommentPropertyItems,
-            viewLifecycleOwner
+            FeedTotalFragment.POWER_MENU_OFFSET_X,
+            FeedTotalFragment.POWER_MENU_OFFSET_Y
         )
     }
 
@@ -238,13 +250,33 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         )
     }
 
-    private fun showMyReplyPropertyMenu(view: ImageView) {
+    private fun showMyReplyPropertyMenu(view: ImageView, commentId: Int, position: Int) {
         val myReplyPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete)),
                 PowerMenuItem(requireContext().getString(R.string.feed_comment_reply))
             )
+
+//        PowerMenuUtil.getPowerMenu(
+//            requireContext(),
+//            viewLifecycleOwner,
+//            myCommentPropertyItems
+//        ) { _, item ->
+//            when(item.title) {
+//                getString(R.string.feed_post_property_revise) -> {
+//
+//                }
+//                getString(R.string.feed_post_property_delete) -> {
+//                    viewModel.requestDeleteFeed(feedId)
+//                    viewModel.removeFeedList(position)
+//                }
+//            }
+//        }.showAsDropDown(
+//            view,
+//            FeedTotalFragment.POWER_MENU_OFFSET_X,
+//            FeedTotalFragment.POWER_MENU_OFFSET_Y
+//        )
 
         view.setMenu(
             view,

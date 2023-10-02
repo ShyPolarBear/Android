@@ -1,6 +1,6 @@
 package com.shypolarbear.domain.usecase.feed
 
-import com.shypolarbear.domain.model.feed.CommentWriteResponse
+import com.shypolarbear.domain.model.feed.CommentChangeResponse
 import com.shypolarbear.domain.repository.feed.FeedRepo
 
 class RequestFeedCommentWriteUseCase (
@@ -10,7 +10,7 @@ class RequestFeedCommentWriteUseCase (
         feedId: Int,
         parentId: Int?,
         content: String
-    ): Result<CommentWriteResponse> {
+    ): Result<CommentChangeResponse> {
         return repo.requestWriteFeedCommentData(feedId, parentId, content)
     }
 }

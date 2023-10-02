@@ -20,6 +20,7 @@ import com.shypolarbear.domain.usecase.feed.RequestFeedChangeUseCase
 import com.shypolarbear.domain.usecase.feed.LoadCommentUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.LoadFeedDetailUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedCommentDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedCommentLikeUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedCommentWriteUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedLikeUseCase
@@ -205,5 +206,11 @@ class UseCaseModule {
     @Provides
     fun provideFeedCommentLikeUseCase(repo: FeedRepo): RequestFeedCommentLikeUseCase {
         return RequestFeedCommentLikeUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideFeedCommentDeleteUseCase(repo: FeedRepo): RequestFeedCommentDeleteUseCase {
+        return RequestFeedCommentDeleteUseCase(repo)
     }
 }

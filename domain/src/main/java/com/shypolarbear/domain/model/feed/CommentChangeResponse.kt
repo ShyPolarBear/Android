@@ -1,7 +1,7 @@
 package com.shypolarbear.domain.model.feed
 
-data class CommentWriteResponse(
+data class CommentChangeResponse(
     val code: Int,
-    val data: CommentData,
+    val data: CommentId,
     val message: String
 )

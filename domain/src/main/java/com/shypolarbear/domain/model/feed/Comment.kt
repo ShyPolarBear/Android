@@ -10,6 +10,7 @@ data class Comment(
     val likeCount: Int = 0,
     val isAuthor: Boolean = false,
     val isLike: Boolean = false,
+    val isDeleted: Boolean = false,
     val createdDate: String = "",
     val childComments: List<ChildComment> = listOf()
 )
