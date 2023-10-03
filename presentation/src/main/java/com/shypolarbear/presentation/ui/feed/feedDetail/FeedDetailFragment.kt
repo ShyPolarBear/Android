@@ -135,8 +135,11 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             GlideUtil.loadImage(requireContext(), url = null, view = binding.ivFeedDetailUserProfile, placeHolder = R.drawable.ic_user_base_profile)
         }
 
-        if (feedDetail.commentCount == 0)
-            binding.rvFeedDetailReply.isVisible = false
+        viewModel.feedComment.observe(viewLifecycleOwner) {
+            binding.rvFeedDetailReply.isVisible = true
+            binding.tvFeedDetailReplyCnt.text = it.size.toString()
+        }
+
 
         with(binding.viewpagerFeedDetailImg) {
             adapter = ImageViewPagerAdapter().apply {
