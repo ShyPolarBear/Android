@@ -81,6 +81,14 @@ class FeedDetailNoImageFragment : BaseFragment<FragmentFeedDetailNoImageBinding,
                 binding.cardviewFeedNoImageCommentWritingMsg.isVisible = false
             }
 
+            btnFeedNoImageCommentWrite.setOnClickListener {
+                viewModel.requestWriteFeedComment(feedDetailNoImageArgs.feedId, null, edtFeedDetailNoImageReply.text.toString())
+                binding.edtFeedDetailNoImageReply.clearFocus()
+                binding.edtFeedDetailNoImageReply.setText("")
+                binding.cardviewFeedNoImageCommentWritingMsg.isVisible = false
+                binding.rvFeedDetailNoImageReply.scrollToPosition(viewModel.feedComment.value!!.size)
+            }
+
             viewModel.loadFeedDetail(feedDetailNoImageArgs.feedId)
             viewModel.loadFeedComment(feedDetailNoImageArgs.feedId)
 
@@ -95,11 +103,6 @@ class FeedDetailNoImageFragment : BaseFragment<FragmentFeedDetailNoImageBinding,
         var postPropertyItems: List<PowerMenuItem>
         val isPostLike = feedDetail.isLike
         val postLikeCnt: Int = feedDetail.likeCount
-
-        // 댓글 기능 미구현 상황이라 임시로 여기에 정의 (상세 정보 받아오는 동안 progress bar 보여주는 동작)
-        // TODO("댓글 기능 구현되면 제거")
-        binding.layoutFeedDetail.isVisible = true
-        binding.progressFeedDetailLoading.isVisible = false
 
         binding.tvFeedDetailNoImageUserNickname.text = feedDetail.author
         binding.tvFeedDetailNoImagePostingTime.text = feedDetail.createdDate
@@ -125,8 +128,10 @@ class FeedDetailNoImageFragment : BaseFragment<FragmentFeedDetailNoImageBinding,
             GlideUtil.loadImage(requireContext(), url = null, view = binding.ivFeedDetailNoImageUserProfile, placeHolder = R.drawable.ic_user_base_profile)
         }
 
-        if (feedDetail.commentCount == 0)
-            binding.rvFeedDetailNoImageReply.isVisible = false
+        viewModel.feedComment.observe(viewLifecycleOwner) {
+            binding.rvFeedDetailNoImageReply.isVisible = true
+            binding.tvFeedDetailNoImageReplyCnt.text = it.size.toString()
+        }
 
         binding.ivFeedDetailNoImageProperty.setOnClickListener {
             when (feedDetail.isAuthor) {

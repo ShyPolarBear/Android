@@ -265,6 +265,7 @@
                         android:textColorHint="@color/Gray_05" />
 
                     <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_feed_no_image_comment_write"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginTop="15dp"
