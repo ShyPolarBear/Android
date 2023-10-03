@@ -8,7 +8,7 @@ import com.shypolarbear.domain.repository.TokenRepo
 import com.shypolarbear.domain.repository.feed.FeedRepo
 import com.shypolarbear.domain.repository.image.ImageEditRepo
 import com.shypolarbear.domain.repository.image.ImageUploadRepo
-import com.shypolarbear.domain.repository.mypage.MyPostRepo
+import com.shypolarbear.domain.repository.mypage.MyFeedRepo
 import com.shypolarbear.domain.repository.quiz.QuizRepo
 import com.shypolarbear.domain.usecase.ExampleUseCase
 import com.shypolarbear.domain.usecase.RequestJoinUseCase
@@ -26,6 +26,7 @@ import com.shypolarbear.domain.usecase.image.RequestImageModifyUseCase
 import com.shypolarbear.domain.usecase.image.RequestImageUploadUseCase
 import com.shypolarbear.domain.usecase.more.LoadMyInfoUseCase
 import com.shypolarbear.domain.usecase.more.RequestMyInfoChangeUseCase
+import com.shypolarbear.domain.usecase.mypage.LoadMyCommentUseCase
 import com.shypolarbear.domain.usecase.mypage.LoadMyPostUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizReviewUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizSolvedUseCase
@@ -197,7 +198,13 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideMyPost(repo: MyPostRepo): LoadMyPostUseCase {
+    fun provideMyPost(repo: MyFeedRepo): LoadMyPostUseCase {
         return LoadMyPostUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideMyComment(repo: MyFeedRepo): LoadMyCommentUseCase{
+        return LoadMyCommentUseCase(repo)
     }
 }
