@@ -82,13 +82,14 @@ class FeedDetailNoImageFragment : BaseFragment<FragmentFeedDetailNoImageBinding,
             }
 
             btnFeedNoImageCommentWrite.setOnClickListener {
-                viewModel.requestWriteFeedComment(feedDetailNoImageArgs.feedId, null, edtFeedDetailNoImageReply.text.toString())
+                viewModel.requestWriteFeedComment(feedDetailNoImageArgs.feedId, null, edtFeedDetailNoImageReply.text.toString(), requireContext().getString(R.string.time_format))
                 binding.edtFeedDetailNoImageReply.clearFocus()
                 binding.edtFeedDetailNoImageReply.setText("")
                 binding.cardviewFeedNoImageCommentWritingMsg.isVisible = false
                 binding.rvFeedDetailNoImageReply.scrollToPosition(viewModel.feedComment.value!!.size)
             }
 
+            viewModel.getMyInfo()
             viewModel.loadFeedDetail(feedDetailNoImageArgs.feedId)
             viewModel.loadFeedComment(feedDetailNoImageArgs.feedId)
 
@@ -126,11 +127,6 @@ class FeedDetailNoImageFragment : BaseFragment<FragmentFeedDetailNoImageBinding,
             GlideUtil.loadImage(requireContext(), feedDetail.authorProfileImage, binding.ivFeedDetailNoImageUserProfile)
         } else {
             GlideUtil.loadImage(requireContext(), url = null, view = binding.ivFeedDetailNoImageUserProfile, placeHolder = R.drawable.ic_user_base_profile)
-        }
-
-        viewModel.feedComment.observe(viewLifecycleOwner) {
-            binding.rvFeedDetailNoImageReply.isVisible = true
-            binding.tvFeedDetailNoImageReplyCnt.text = it.size.toString()
         }
 
         binding.ivFeedDetailNoImageProperty.setOnClickListener {
@@ -184,6 +180,9 @@ class FeedDetailNoImageFragment : BaseFragment<FragmentFeedDetailNoImageBinding,
     private fun setFeedComment() {
         binding.rvFeedDetailNoImageReply.adapter = feedCommentAdapter
         viewModel.feedComment.observe(viewLifecycleOwner) {
+            binding.rvFeedDetailNoImageReply.isVisible = true
+            binding.tvFeedDetailNoImageReplyCnt.text = it.size.toString()
+
             feedCommentAdapter.submitList(it)
             binding.layoutFeedDetail.isVisible = true
             binding.progressFeedDetailLoading.isVisible = false

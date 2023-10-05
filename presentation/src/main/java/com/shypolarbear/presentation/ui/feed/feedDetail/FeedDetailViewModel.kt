@@ -5,16 +5,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.domain.model.feed.Feed
+import com.shypolarbear.domain.model.more.Info
 import com.shypolarbear.domain.usecase.feed.LoadCommentUseCase
-import com.shypolarbear.domain.usecase.feed.RequestFeedDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.LoadFeedDetailUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedCommentDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedCommentLikeUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedCommentWriteUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedLikeUseCase
+import com.shypolarbear.domain.usecase.more.LoadMyInfoUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,7 +30,8 @@ class FeedDetailViewModel @Inject constructor(
     private val feedLikeUseCase: RequestFeedLikeUseCase,
     private val feedCommentWriteUseCase: RequestFeedCommentWriteUseCase,
     private val feedCommentLikeUseCase: RequestFeedCommentLikeUseCase,
-    private val feedCommentDeleteUseCase: RequestFeedCommentDeleteUseCase
+    private val feedCommentDeleteUseCase: RequestFeedCommentDeleteUseCase,
+    private val getMyInfoUseCase: LoadMyInfoUseCase,
 ): BaseViewModel() {
 
     private val _feed = MutableLiveData<Feed>()
@@ -35,6 +41,18 @@ class FeedDetailViewModel @Inject constructor(
     val feedComment: LiveData<List<Comment>> = _feedComment
 
     private lateinit var currentCommentList: List<Comment>
+    private lateinit var myInfo: Info
+
+    fun getMyInfo() {
+        viewModelScope.launch {
+            val info = getMyInfoUseCase()
+
+            info
+                .onSuccess { myInfo = it.data }
+                .onFailure {  }
+
+        }
+    }
 
     fun loadFeedDetail(feedId: Int) {
         viewModelScope.launch {
@@ -128,13 +146,27 @@ class FeedDetailViewModel @Inject constructor(
         }
     }
 
-    fun requestWriteFeedComment(feedId: Int, parentId: Int?, content: String) {
+    fun requestWriteFeedComment(feedId: Int, parentId: Int?, content: String, timeFormat: String) {
+        val feedCommentList: MutableList<Comment> = mutableListOf()
+        feedCommentList.addAll(0, _feedComment.value!!)
+
+        val realTime = System.currentTimeMillis()
+        val commentCreatedDateFormat = SimpleDateFormat(timeFormat, Locale.US)
+
         viewModelScope.launch {
             val feedCommentWriteResult = feedCommentWriteUseCase(feedId, parentId, content)
 
             feedCommentWriteResult
                 .onSuccess {
-                    loadFeedComment(feedId)
+                    feedCommentList.add(Comment(
+                        commentId = it.data.commentId,
+                        authorNickname = myInfo.nickName,
+                        authorProfileImage = myInfo.profileImage,
+                        content = content,
+                        createdDate = commentCreatedDateFormat.format(realTime)
+                    ))
+                    _feedComment.value = feedCommentList
+//                    loadFeedComment(feedId)
                 }
                 .onFailure {
 

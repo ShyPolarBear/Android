@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
+import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
@@ -89,13 +90,14 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             }
 
             btnFeedCommentWrite.setOnClickListener {
-                viewModel.requestWriteFeedComment(feedDetailArgs.feedId, null, edtFeedDetailReply.text.toString())
+                viewModel.requestWriteFeedComment(feedDetailArgs.feedId, null, edtFeedDetailReply.text.toString(),requireContext().getString(R.string.time_format))
                 binding.edtFeedDetailReply.clearFocus()
                 binding.edtFeedDetailReply.setText("")
                 binding.cardviewFeedCommentWritingMsg.isVisible = false
                 binding.rvFeedDetailReply.scrollToPosition(viewModel.feedComment.value!!.size)
             }
 
+            viewModel.getMyInfo()
             viewModel.loadFeedDetail(feedDetailArgs.feedId)
             viewModel.loadFeedComment(feedDetailArgs.feedId)
 
@@ -134,12 +136,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         } else {
             GlideUtil.loadImage(requireContext(), url = null, view = binding.ivFeedDetailUserProfile, placeHolder = R.drawable.ic_user_base_profile)
         }
-
-        viewModel.feedComment.observe(viewLifecycleOwner) {
-            binding.rvFeedDetailReply.isVisible = true
-            binding.tvFeedDetailReplyCnt.text = it.size.toString()
-        }
-
 
         with(binding.viewpagerFeedDetailImg) {
             adapter = ImageViewPagerAdapter().apply {
@@ -204,6 +200,9 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     private fun setFeedComment() {
         binding.rvFeedDetailReply.adapter = feedCommentAdapter
         viewModel.feedComment.observe(viewLifecycleOwner) {
+            binding.rvFeedDetailReply.isVisible = true
+            binding.tvFeedDetailReplyCnt.text = it.size.toString()
+
             feedCommentAdapter.submitList(it)
             binding.layoutFeedDetail.isVisible = true
             binding.progressFeedDetailLoading.isVisible = false
