@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.domain.model.feed.Feed
+import com.shypolarbear.domain.model.feed.feedDetail.ChildComment
 import com.shypolarbear.domain.model.more.Info
 import com.shypolarbear.domain.usecase.feed.LoadCommentUseCase
 import com.shypolarbear.domain.usecase.feed.LoadFeedDetailUseCase
@@ -176,6 +177,19 @@ class FeedDetailViewModel @Inject constructor(
     }
 
     fun requestDeleteFeedComment(commentId: Int, position: Int) {
-        viewModelScope.launch { feedCommentDeleteUseCase(commentId) }
+        val feedCommentList: MutableList<Comment> = mutableListOf()
+        feedCommentList.addAll(0, _feedComment.value!!)
+
+        viewModelScope.launch {
+            val feedCommentDeleteresult = feedCommentDeleteUseCase(commentId)
+
+            feedCommentDeleteresult
+                .onSuccess {
+                    feedCommentList[position] =
+                        Comment(isDeleted = true)
+                    _feedComment.value = feedCommentList
+                }
+                .onFailure {  }
+        }
     }
 }
