@@ -8,6 +8,7 @@ import com.shypolarbear.domain.model.mypage.MyComment
 import com.shypolarbear.domain.model.mypage.MyCommentRequest
 import com.shypolarbear.domain.model.mypage.MyPost
 import com.shypolarbear.domain.model.mypage.MyPostRequest
+import com.shypolarbear.domain.usecase.feed.RequestFeedDeleteUseCase
 import com.shypolarbear.domain.usecase.mypage.LoadMyCommentUseCase
 import com.shypolarbear.domain.usecase.mypage.LoadMyPostUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
@@ -24,7 +25,9 @@ import javax.inject.Inject
 class MyPageViewModel @Inject constructor(
     private val loadMyPostUseCase: LoadMyPostUseCase,
     private val loadMyCommentUseCase: LoadMyCommentUseCase,
-) : BaseViewModel() {
+    private val feedDeleteUseCase: RequestFeedDeleteUseCase,
+
+    ) : BaseViewModel() {
 
     private val _myPostResponse = MutableLiveData<MyPost>()
     val myPostResponse: LiveData<MyPost> = _myPostResponse
@@ -99,4 +102,9 @@ class MyPageViewModel @Inject constructor(
         return loadJob
     }
 
+    fun requestDeleteFeed(feedId: Int) {
+        viewModelScope.launch {
+            feedDeleteUseCase(feedId)
+        }
+    }
 }

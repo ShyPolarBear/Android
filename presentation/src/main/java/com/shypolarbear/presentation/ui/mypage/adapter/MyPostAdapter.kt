@@ -2,6 +2,7 @@ package com.shypolarbear.presentation.ui.mypage.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +12,10 @@ import com.shypolarbear.presentation.databinding.ItemPagePostBinding
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.MyFeedType
 
-class MyPostAdapter(private val _items: List<MyFeed?>) :
+class MyPostAdapter(
+    private val _items: List<MyFeed?>,
+    private val onMyFeedPropertyClick: (feedId: Int, view: ImageView) -> Unit = { _,_ -> },
+) :
     ListAdapter<MyFeed, RecyclerView.ViewHolder>(MyFeedDiffCallback()) {
 
     private lateinit var postBinding: ItemPagePostBinding
@@ -22,6 +26,9 @@ class MyPostAdapter(private val _items: List<MyFeed?>) :
             binding.apply {
                 tvItemPageTitle.text = item.title
                 GlideUtil.loadImage(binding.root.context, item.feedImage, ivItemPage)
+                ivItemPostProperty.setOnClickListener {
+                    onMyFeedPropertyClick(item.feedId, ivItemPostProperty)
+                }
             }
         }
     }
