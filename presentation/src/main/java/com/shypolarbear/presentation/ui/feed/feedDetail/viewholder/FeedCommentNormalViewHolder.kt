@@ -1,5 +1,6 @@
 package com.shypolarbear.presentation.ui.feed.feedDetail.viewholder
 
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -11,10 +12,11 @@ import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailLikeBtnType
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedReplyAdapter
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
+import timber.log.Timber
 
 class FeedCommentNormalViewHolder (
     private val binding: ItemFeedCommentNormalBinding,
-    private val onMyCommentPropertyClick: (view: ImageView, commentId: Int, position: Int) -> Unit = { _, _, _ -> },
+    private val onMyCommentPropertyClick: (view: ImageView, commentId: Int, position: Int, commentView: View) -> Unit = { _, _, _, _ -> },
     private val onOtherCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onMyReplyPropertyClick: (view: ImageView, commentId: Int, position: Int) -> Unit = { _, _, _ -> },
     private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
@@ -47,7 +49,7 @@ class FeedCommentNormalViewHolder (
         binding.ivFeedCommentNormalProperty.setOnClickListener {
             when(comment.isAuthor) {
                 true ->
-                    onMyCommentPropertyClick(binding.ivFeedCommentNormalProperty, comment.commentId, adapterPosition)
+                    onMyCommentPropertyClick(binding.ivFeedCommentNormalProperty, comment.commentId, adapterPosition, binding.layoutFeedCommentNormal)
                 false ->
                     onOtherCommentPropertyClick(binding.ivFeedCommentNormalProperty)
             }

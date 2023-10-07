@@ -1,6 +1,7 @@
 package com.shypolarbear.presentation.ui.feed.feedDetail.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
@@ -15,9 +16,10 @@ import com.shypolarbear.presentation.ui.feed.feedDetail.FeedCommentViewType
 import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailLikeBtnType
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentDeleteViewHolder
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentNormalViewHolder
+import timber.log.Timber
 
 class FeedCommentAdapter(
-    private val onMyCommentPropertyClick: (view: ImageView, commentId: Int, position: Int) -> Unit = { _, _, _ -> },
+    private val onMyCommentPropertyClick: (view: ImageView, commentId: Int, position: Int, commentView: View) -> Unit = { _, _, _, _ -> },
     private val onOtherCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onMyReplyPropertyClick: (view: ImageView, commentId: Int, position: Int) -> Unit = { _, _, _ -> },
     private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },

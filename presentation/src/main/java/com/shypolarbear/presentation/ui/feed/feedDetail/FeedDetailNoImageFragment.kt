@@ -1,9 +1,11 @@
 package com.shypolarbear.presentation.ui.feed.feedDetail
 
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -30,11 +32,14 @@ class FeedDetailNoImageFragment : BaseFragment<FragmentFeedDetailNoImageBinding,
 ) {
 
     override val viewModel: FeedDetailViewModel by viewModels()
+    private var commentType = CommentType.COMMENT
+    private var commentParentId = 0
+    private var commentPosition = 0
     private val feedDetailNoImageArgs: FeedDetailNoImageFragmentArgs by navArgs()
     private val feedCommentAdapter: FeedCommentAdapter by lazy {
         FeedCommentAdapter(
-            onMyCommentPropertyClick = { view: ImageView, commentId: Int, position: Int ->
-                showMyCommentPropertyMenu(view, commentId, position)
+            onMyCommentPropertyClick = { view: ImageView, commentId: Int, position: Int, commentView: View ->
+                showMyCommentPropertyMenu(view, commentId, position, commentView)
             },
             onOtherCommentPropertyClick = { view: ImageView ->
                 showOtherCommentPropertyMenu(view)
@@ -82,7 +87,12 @@ class FeedDetailNoImageFragment : BaseFragment<FragmentFeedDetailNoImageBinding,
             }
 
             btnFeedNoImageCommentWrite.setOnClickListener {
-                viewModel.requestWriteFeedComment(feedDetailNoImageArgs.feedId, null, edtFeedDetailNoImageReply.text.toString(), requireContext().getString(R.string.time_format))
+                when(commentType) {
+                    CommentType.COMMENT -> { viewModel.requestWriteFeedComment(feedDetailNoImageArgs.feedId, edtFeedDetailNoImageReply.text.toString(),requireContext().getString(R.string.time_format)) }
+                    CommentType.REPLY -> {
+                        viewModel.requestWriteFeedReply(feedDetailNoImageArgs.feedId, commentParentId, edtFeedDetailNoImageReply.text.toString(), requireContext().getString(R.string.time_format), commentPosition)
+                    }
+                }
                 binding.edtFeedDetailNoImageReply.clearFocus()
                 binding.edtFeedDetailNoImageReply.setText("")
                 binding.cardviewFeedNoImageCommentWritingMsg.isVisible = false
@@ -189,7 +199,7 @@ class FeedDetailNoImageFragment : BaseFragment<FragmentFeedDetailNoImageBinding,
         }
     }
 
-    private fun showMyCommentPropertyMenu(view: ImageView, commentId: Int, position: Int) {
+    private fun showMyCommentPropertyMenu(view: ImageView, commentId: Int, position: Int, commentView: View) {
         val myCommentPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
@@ -208,6 +218,12 @@ class FeedDetailNoImageFragment : BaseFragment<FragmentFeedDetailNoImageBinding,
                 }
                 getString(R.string.feed_post_property_delete) -> {
                     viewModel.requestDeleteFeedComment(commentId, position)
+                }
+                getString(R.string.feed_comment_reply) -> {
+                    clickReplyProperty(commentView)
+                    commentType = CommentType.REPLY
+                    commentParentId = commentId
+                    commentPosition = position
                 }
             }
         }.showAsDropDown(
@@ -307,5 +323,10 @@ class FeedDetailNoImageFragment : BaseFragment<FragmentFeedDetailNoImageBinding,
 
         button.showLikeBtnIsLike(isLike, button)
         likeCntText.text = likeCount.toString()
+    }
+
+    private fun clickReplyProperty(view: View) {
+        val newBackgroundColor = ContextCompat.getColor(requireContext(), R.color.Blue_05)
+        view.setBackgroundColor(newBackgroundColor)
     }
 }

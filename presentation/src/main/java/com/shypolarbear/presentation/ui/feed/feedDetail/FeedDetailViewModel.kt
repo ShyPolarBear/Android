@@ -147,15 +147,16 @@ class FeedDetailViewModel @Inject constructor(
         }
     }
 
-    fun requestWriteFeedComment(feedId: Int, parentId: Int?, content: String, timeFormat: String) {
+    fun requestWriteFeedComment(feedId: Int, content: String, timeFormat: String) {
         val feedCommentList: MutableList<Comment> = mutableListOf()
+
         feedCommentList.addAll(0, _feedComment.value!!)
 
         val realTime = System.currentTimeMillis()
         val commentCreatedDateFormat = SimpleDateFormat(timeFormat, Locale.US)
 
         viewModelScope.launch {
-            val feedCommentWriteResult = feedCommentWriteUseCase(feedId, parentId, content)
+            val feedCommentWriteResult = feedCommentWriteUseCase(feedId, null, content)
 
             feedCommentWriteResult
                 .onSuccess {
@@ -167,7 +168,6 @@ class FeedDetailViewModel @Inject constructor(
                         createdDate = commentCreatedDateFormat.format(realTime)
                     ))
                     _feedComment.value = feedCommentList
-//                    loadFeedComment(feedId)
                 }
                 .onFailure {
 
@@ -191,5 +191,48 @@ class FeedDetailViewModel @Inject constructor(
                 }
                 .onFailure {  }
         }
+    }
+
+    fun requestWriteFeedReply(feedId: Int, parentId: Int, content: String, timeFormat: String, position: Int) {
+        val feedCommentList: MutableList<Comment> = mutableListOf()
+        val feedReplyList: MutableList<ChildComment> = mutableListOf()
+
+        feedCommentList.addAll(0, _feedComment.value!!)
+        feedReplyList.addAll(_feedComment.value!![position].childComments)
+
+        val realTime = System.currentTimeMillis()
+        val commentCreatedDateFormat = SimpleDateFormat(timeFormat, Locale.US)
+
+        viewModelScope.launch {
+            val feedCommentWriteResult = feedCommentWriteUseCase(feedId, parentId, content)
+
+            feedCommentWriteResult
+                .onSuccess {
+                    // 추후 아이템만 추가하는 방식으로 변경할 예정
+                    val feedCommentData = feedCommentUseCase(feedId)
+
+                    feedCommentData
+                        .onSuccess {
+                            _feedComment.value = it.data.content
+                        }
+                        .onFailure {
+
+                        }
+                }
+                .onFailure {
+
+                }
+        }
+
+//        feedReplyList.add(ChildComment(
+//            commentId = 0,
+//            authorNickname = myInfo.nickName,
+//            authorProfileImage = myInfo.profileImage,
+//            content = content,
+//            createdDate = commentCreatedDateFormat.format(realTime)
+//        ))
+//        feedCommentList[position].childComments = feedReplyList
+//        _feedComment.value = feedCommentList
+
     }
 }

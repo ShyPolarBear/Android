@@ -1,9 +1,11 @@
 package com.shypolarbear.presentation.ui.feed.feedDetail
 
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -26,8 +28,9 @@ import com.shypolarbear.presentation.util.showLikeBtnIsLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
-enum class commentType(val type: Int) {
+enum class CommentType(val type: Int) {
     COMMENT(0),
     REPLY(1)
 }
@@ -38,11 +41,14 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
 ) {
 
     override val viewModel: FeedDetailViewModel by viewModels()
+    private var commentType = CommentType.COMMENT
+    private var commentParentId = 0
+    private var commentPosition = 0
     private val feedDetailArgs: FeedDetailFragmentArgs by navArgs()
     private val feedCommentAdapter: FeedCommentAdapter by lazy {
         FeedCommentAdapter(
-            onMyCommentPropertyClick = { view: ImageView, commentId: Int, position: Int ->
-                showMyCommentPropertyMenu(view, commentId, position)
+            onMyCommentPropertyClick = { view: ImageView, commentId: Int, position: Int, commentView: View ->
+                showMyCommentPropertyMenu(view, commentId, position, commentView)
             },
             onOtherCommentPropertyClick = { view: ImageView ->
                 showOtherCommentPropertyMenu(view)
@@ -90,7 +96,14 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             }
 
             btnFeedCommentWrite.setOnClickListener {
-                viewModel.requestWriteFeedComment(feedDetailArgs.feedId, null, edtFeedDetailReply.text.toString(),requireContext().getString(R.string.time_format))
+                when(commentType) {
+                    CommentType.COMMENT -> {
+                        viewModel.requestWriteFeedComment(feedDetailArgs.feedId, edtFeedDetailReply.text.toString(),requireContext().getString(R.string.time_format))
+                    }
+                    CommentType.REPLY -> {
+                        viewModel.requestWriteFeedReply(feedDetailArgs.feedId, commentParentId, edtFeedDetailReply.text.toString(), requireContext().getString(R.string.time_format), commentPosition)
+                    }
+                }
                 binding.edtFeedDetailReply.clearFocus()
                 binding.edtFeedDetailReply.setText("")
                 binding.cardviewFeedCommentWritingMsg.isVisible = false
@@ -209,7 +222,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         }
     }
 
-    private fun showMyCommentPropertyMenu(view: ImageView, commentId: Int, position: Int) {
+    private fun showMyCommentPropertyMenu(view: ImageView, commentId: Int, position: Int, commentView: View) {
         val myCommentPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
@@ -228,6 +241,12 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 }
                 getString(R.string.feed_post_property_delete) -> {
                     viewModel.requestDeleteFeedComment(commentId, position)
+                }
+                getString(R.string.feed_comment_reply) -> {
+                    clickReplyProperty(commentView)
+                    commentType = CommentType.REPLY
+                    commentParentId = commentId
+                    commentPosition = position
                 }
             }
         }.showAsDropDown(
@@ -347,5 +366,10 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
 
         button.showLikeBtnIsLike(isLike, button)
         likeCntText.text = likeCount.toString()
+    }
+
+    private fun clickReplyProperty(view: View) {
+        val replySelectedCommentBackgroundColor = ContextCompat.getColor(requireContext(), R.color.Blue_05)
+        view.setBackgroundColor(replySelectedCommentBackgroundColor)
     }
 }
