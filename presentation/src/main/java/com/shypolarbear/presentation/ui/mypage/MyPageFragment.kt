@@ -2,7 +2,6 @@ package com.shypolarbear.presentation.ui.mypage
 
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -16,8 +15,6 @@ import com.shypolarbear.presentation.ui.mypage.adapter.MyCommentAdapter
 import com.shypolarbear.presentation.ui.mypage.adapter.MyPostAdapter
 import com.shypolarbear.presentation.util.PowerMenuUtil
 import com.shypolarbear.presentation.util.infiniteScroll
-import com.shypolarbear.presentation.util.setMenu
-import com.skydoves.powermenu.OnMenuItemClickListener
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,7 +39,7 @@ class MyPageFragment :
     override fun initView() {
         viewModel.loadMyFeed()
         viewModel.myPostResponse.observe(viewLifecycleOwner) { postFeed ->
-            postFeed?.let {가
+            postFeed?.let {
                 binding.myFeedProgressbar.isVisible = false
                 postAdapter = MyPostAdapter(postFeed.content) { feedId: Int, view: ImageView ->
                     showMyPostPropertyMenu(view, feedId)
