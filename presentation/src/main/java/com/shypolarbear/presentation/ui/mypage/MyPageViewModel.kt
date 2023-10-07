@@ -31,7 +31,12 @@ class MyPageViewModel @Inject constructor(
     private val _myCommentResponse = MutableLiveData<MyComment>()
     val myCommentResponse: LiveData<MyComment> = _myCommentResponse
 
-    fun loadMyPost(lastFeedId: Int? = null): Job {
+    fun loadMyFeed(){
+        loadMyPost()
+        loadMyComment()
+    }
+
+    private fun loadMyPost(lastFeedId: Int? = null): Job {
         val loadJob = viewModelScope.launch {
             val responseMyPost =
                 loadMyPostUseCase(getMyPostRequest = MyPostRequest(lastFeedId, null))
@@ -52,7 +57,7 @@ class MyPageViewModel @Inject constructor(
         viewModelScope.launch {
             when (contentType) {
                 FeedContentType.POST -> {
-                    if (!myPostResponse.value!!.isLast) {
+                    if (!myPostResponse.value!!.last) {
                         val loadJob = loadMyPost(
                             myPostResponse.value!!.content.last().feedId
                         )
@@ -77,7 +82,7 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    fun loadMyComment(lastCommentId: Int? = null): Job {
+    private fun loadMyComment(lastCommentId: Int? = null): Job {
         val loadJob = viewModelScope.launch {
             val responseMyComment =
                 loadMyCommentUseCase(getMyCommentRequest = MyCommentRequest(lastCommentId, null))

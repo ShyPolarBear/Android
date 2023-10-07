@@ -8,7 +8,7 @@ data class MyPostResponse(
 
 data class MyPost(
     val count: Int,
-    val isLast: Boolean,
+    val last: Boolean,
     val content: List<MyFeed>
 )
 

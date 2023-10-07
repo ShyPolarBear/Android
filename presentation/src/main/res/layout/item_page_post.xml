@@ -38,7 +38,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cv_item_page"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="글 제목" />
+            tools:text="@string/item_tools_text" />
 
         <View
             android:layout_width="match_parent"

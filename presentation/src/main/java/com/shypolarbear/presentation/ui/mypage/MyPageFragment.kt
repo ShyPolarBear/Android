@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentMyPageBinding
+import com.shypolarbear.presentation.ui.mypage.adapter.MyCommentAdapter
 import com.shypolarbear.presentation.ui.mypage.adapter.MyPostAdapter
 import com.shypolarbear.presentation.util.infiniteScroll
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,10 +24,11 @@ enum class FeedContentType(val state: Int){
 class MyPageFragment :
     BaseFragment<FragmentMyPageBinding, MyPageViewModel>(R.layout.fragment_my_page) {
     override val viewModel: MyPageViewModel by viewModels()
-    lateinit var postAdapter: Adapter<ViewHolder>
+    private lateinit var postAdapter: Adapter<ViewHolder>
+    private lateinit var commentAdapter: Adapter<ViewHolder>
 
     override fun initView() {
-
+        viewModel.loadMyFeed()
         viewModel.myPostResponse.observe(viewLifecycleOwner){ postFeed ->
             postFeed?.let {
                 binding.myFeedProgressbar.isVisible = false
@@ -35,11 +37,16 @@ class MyPageFragment :
             }
         }
 
+        viewModel.myCommentResponse.observe(viewLifecycleOwner){ commentFeed ->
+            commentFeed?.let {
+                commentAdapter = MyCommentAdapter(commentFeed.content)
+                setAdapter(commentAdapter, FeedContentType.COMMENT)
+            }
+        }
 
         binding.apply {
             myFeedProgressbar.isVisible = true
             binding.tvMyPostPost.isActivated = true
-            viewModel.loadMyPost()
 
             tvMyPostPost.setOnClickListener {
                 invertActivation(it, tvMyPostComment)
@@ -48,7 +55,7 @@ class MyPageFragment :
 
             tvMyPostComment.setOnClickListener {
                 invertActivation(it, tvMyPostPost)
-//                setAdapter(commentAdapter, FeedContentType.COMMENT)
+                setAdapter(commentAdapter, FeedContentType.COMMENT)
             }
 
             myPostBtnBack.setOnClickListener {
