@@ -4,6 +4,8 @@ import android.view.View
 import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavAction
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -35,6 +37,7 @@ class MyPageFragment :
     override val viewModel: MyPageViewModel by viewModels()
     private lateinit var postAdapter: Adapter<ViewHolder>
     private lateinit var commentAdapter: Adapter<ViewHolder>
+    private lateinit var myFeedToDetail: NavDirections
 
     override fun initView() {
         viewModel.loadMyFeed()
@@ -97,7 +100,8 @@ class MyPageFragment :
             onItemClickListener = { position, item ->
                 when (position) {
                     PostProperty.MODIFY.state -> {
-
+                        myFeedToDetail = MyPageFragmentDirections.actionMyPageFragmentToFeedDetailFragment(feedId)
+                        findNavController().navigate(myFeedToDetail)
                     }
                     PostProperty.DELETE.state -> {
                         viewModel.requestDeleteFeed(feedId = feedId)

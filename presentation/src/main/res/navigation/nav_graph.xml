@@ -200,5 +200,12 @@
         <action
             android:id="@+id/action_myPageFragment_to_navigation_more"
             app:destination="@id/navigation_more" />
+        <action
+            android:id="@+id/action_myPageFragment_to_feedDetailFragment"
+            app:destination="@id/feedDetailFragment">
+            <argument
+                android:name="feedId"
+                app:argType="integer" />
+        </action>
     </fragment>
 </navigation>
