@@ -207,4 +207,23 @@ class FeedRepoImpl @Inject constructor(
             Result.failure(e)
         }
     }
+
+    override suspend fun changeFeedCommentData(
+        commentId: Int,
+        content: String,
+    ): Result<CommentChangeResponse> {
+        return try {
+            val response = api.changeFeedComment(commentId, content)
+            when {
+                response.isSuccessful -> {
+                    Result.success(response.body()!!)
+                }
+                else -> {
+                    Result.failure(HttpError(response.code(), response.errorBody()?.string() ?: ""))
+                }
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

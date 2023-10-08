@@ -41,4 +41,6 @@ interface FeedRepo {
     suspend fun requestLikeFeedComment(commentId: Int): Result<CommentLikeResponse>
 
     suspend fun deleteFeedCommentData(commentId: Int): Result<CommentChangeResponse>
+
+    suspend fun changeFeedCommentData(commentId: Int, content: String): Result<CommentChangeResponse>
 }

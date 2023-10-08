@@ -74,4 +74,11 @@ interface FeedApi {
     suspend fun deleteFeedComment(
         @Path("commentId") commentID: Int
     ): Response<CommentChangeResponse>
+
+    @PUT("api/comments/{commentId}")
+    suspend fun changeFeedComment(
+        @Path("commentId") commentID: Int,
+        @Body
+        content: String
+    ): Response<CommentChangeResponse>
 }
