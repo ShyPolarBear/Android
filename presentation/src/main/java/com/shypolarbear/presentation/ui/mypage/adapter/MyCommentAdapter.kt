@@ -14,8 +14,6 @@ import com.shypolarbear.presentation.util.MyFeedType
 class MyCommentAdapter(private val _items: List<MyCommentFeed?>) :
     ListAdapter<MyCommentFeed, RecyclerView.ViewHolder>(MyCommentDiffCallback()) {
 
-    private lateinit var commentBinding: ItemPageCommentBinding
-
     inner class ItemCommentViewHolder(private val binding: ItemPageCommentBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bindItems(item: MyCommentFeed) {
@@ -38,9 +36,7 @@ class MyCommentAdapter(private val _items: List<MyCommentFeed?>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == MyFeedType.ITEM.state) {
-            commentBinding =
-                ItemPageCommentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            ItemCommentViewHolder(commentBinding)
+            ItemCommentViewHolder(ItemPageCommentBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         } else {
             LoadingViewHolder(
                 ItemFeedLoadingBinding.inflate(

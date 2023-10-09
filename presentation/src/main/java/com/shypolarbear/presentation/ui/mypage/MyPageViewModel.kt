@@ -34,7 +34,7 @@ class MyPageViewModel @Inject constructor(
     private val _myCommentResponse = MutableLiveData<MyComment>()
     val myCommentResponse: LiveData<MyComment> = _myCommentResponse
 
-    fun loadMyFeed(){
+    fun loadMyFeed() {
         loadMyPost()
         loadMyComment()
     }
@@ -105,6 +105,11 @@ class MyPageViewModel @Inject constructor(
     fun requestDeleteFeed(feedId: Int) {
         viewModelScope.launch {
             feedDeleteUseCase(feedId)
+                .onSuccess {
+                    loadMyPost(myPostResponse.value!!.content.last().feedId)
+                }.onFailure { error ->
+                    simpleHttpErrorCheck(error)
+                }
         }
     }
 }

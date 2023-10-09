@@ -14,13 +14,14 @@ import com.shypolarbear.presentation.util.MyFeedType
 
 class MyPostAdapter(
     private val _items: List<MyFeed?>,
-    private val onMyFeedPropertyClick: (feedId: Int, view: ImageView) -> Unit = { _,_ -> },
+    private val onMyFeedPropertyClick: (feedId: Int, view: ImageView) -> Unit = { _, _ -> },
 ) :
     ListAdapter<MyFeed, RecyclerView.ViewHolder>(MyFeedDiffCallback()) {
 
-    private lateinit var postBinding: ItemPagePostBinding
-
-    inner class ItemPostViewHolder(private val binding: ItemPagePostBinding) :
+    inner class ItemPostViewHolder(
+        private val binding: ItemPagePostBinding,
+        private val onMyFeedPropertyClick: (feedId: Int, view: ImageView) -> Unit = { _, _ -> },
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bindItems(item: MyFeed) {
             binding.apply {
@@ -39,9 +40,14 @@ class MyPostAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == MyFeedType.ITEM.state) {
-            postBinding =
-                ItemPagePostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            ItemPostViewHolder(postBinding)
+            ItemPostViewHolder(
+                ItemPagePostBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                ),
+                onMyFeedPropertyClick = onMyFeedPropertyClick
+            )
         } else {
             LoadingViewHolder(
                 ItemFeedLoadingBinding.inflate(
