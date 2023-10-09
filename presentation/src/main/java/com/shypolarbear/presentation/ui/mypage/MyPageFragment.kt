@@ -54,7 +54,6 @@ class MyPageFragment :
         viewModel.myCommentResponse.observe(viewLifecycleOwner) { commentFeed ->
             commentFeed?.let {
                 commentAdapter = MyCommentAdapter(commentFeed.content)
-                setAdapter(commentAdapter, FeedContentType.COMMENT)
             }
         }
 

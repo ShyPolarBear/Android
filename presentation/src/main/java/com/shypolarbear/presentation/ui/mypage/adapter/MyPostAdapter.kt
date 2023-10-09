@@ -23,7 +23,14 @@ class MyPostAdapter(
         private val onMyFeedPropertyClick: (feedId: Int, view: ImageView) -> Unit = { _, _ -> },
     ) :
         RecyclerView.ViewHolder(binding.root) {
+        private lateinit var myFeed: MyFeed
+        init {
+            binding.ivItemPostProperty.setOnClickListener {
+                onMyFeedPropertyClick(myFeed.feedId, binding.ivItemPostProperty)
+            }
+        }
         fun bindItems(item: MyFeed) {
+            myFeed = item
             binding.apply {
                 tvItemPageTitle.text = item.title
                 GlideUtil.loadImage(binding.root.context, item.feedImage, ivItemPage)
