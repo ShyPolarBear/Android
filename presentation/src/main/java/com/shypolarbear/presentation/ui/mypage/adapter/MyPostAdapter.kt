@@ -24,11 +24,15 @@ class MyPostAdapter(
     ) :
         RecyclerView.ViewHolder(binding.root) {
         private lateinit var myFeed: MyFeed
+
         init {
-            binding.ivItemPostProperty.setOnClickListener {
-                onMyFeedPropertyClick(myFeed.feedId, binding.ivItemPostProperty)
+            if(::myFeed.isInitialized){
+                binding.ivItemPostProperty.setOnClickListener {
+                    onMyFeedPropertyClick(myFeed.feedId, binding.ivItemPostProperty)
+                }
             }
         }
+
         fun bindItems(item: MyFeed) {
             myFeed = item
             binding.apply {
