@@ -19,7 +19,6 @@ import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
@@ -181,9 +180,9 @@ class FeedDetailViewModel @Inject constructor(
         feedCommentList.addAll(0, _feedComment.value!!)
 
         viewModelScope.launch {
-            val feedCommentDeleteresult = feedCommentDeleteUseCase(commentId)
+            val feedCommentDeleteResult = feedCommentDeleteUseCase(commentId)
 
-            feedCommentDeleteresult
+            feedCommentDeleteResult
                 .onSuccess {
                     feedCommentList[position] =
                         Comment(isDeleted = true)
@@ -234,5 +233,32 @@ class FeedDetailViewModel @Inject constructor(
 //        feedCommentList[position].childComments = feedReplyList
 //        _feedComment.value = feedCommentList
 
+    }
+
+    fun requestDeleteFeedReply(commentId: Int, feedId: Int) {
+        val feedCommentList: MutableList<Comment> = mutableListOf()
+        feedCommentList.addAll(0, _feedComment.value!!)
+
+        viewModelScope.launch {
+            val feedCommentDeleteResult = feedCommentDeleteUseCase(commentId)
+
+            feedCommentDeleteResult
+                .onSuccess {
+                    // 추후 아이템의 상태만 변경하는 방식으로 수정할 예정
+                    val feedCommentData = feedCommentUseCase(feedId)
+
+                    feedCommentData
+                        .onSuccess {
+                            _feedComment.value = it.data.content
+                        }
+                        .onFailure {
+
+                        }
+
+                }
+                .onFailure {
+
+                }
+        }
     }
 }

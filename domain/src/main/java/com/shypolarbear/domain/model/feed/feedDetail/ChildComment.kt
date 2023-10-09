@@ -8,5 +8,6 @@ data class ChildComment(
     val createdDate: String = "",
     val isAuthor: Boolean = true,
     val isLike: Boolean = false,
-    val likeCount: Int = 0
+    val likeCount: Int = 0,
+    val isDeleted: Boolean = false
 )

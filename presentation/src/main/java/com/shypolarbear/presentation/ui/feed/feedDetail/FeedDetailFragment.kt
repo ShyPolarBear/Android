@@ -53,8 +53,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             onOtherCommentPropertyClick = { view: ImageView ->
                 showOtherCommentPropertyMenu(view)
             },
-            onMyReplyPropertyClick = { view: ImageView, commentId: Int, position: Int ->
-                showMyReplyPropertyMenu(view, commentId, position)
+            onMyReplyPropertyClick = { view: ImageView, commentId: Int, _: Int ->
+                showMyReplyPropertyMenu(view, commentId, feedDetailArgs.feedId)
             },
             onOtherReplyPropertyClick = { view: ImageView ->
                 showOtherReplyPropertyMenu(view)
@@ -271,7 +271,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         )
     }
 
-    private fun showMyReplyPropertyMenu(view: ImageView, commentId: Int, position: Int) {
+    private fun showMyReplyPropertyMenu(view: ImageView, commentId: Int, feedId: Int) {
         val myReplyPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
@@ -279,31 +279,25 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 PowerMenuItem(requireContext().getString(R.string.feed_comment_reply))
             )
 
-//        PowerMenuUtil.getPowerMenu(
-//            requireContext(),
-//            viewLifecycleOwner,
-//            myCommentPropertyItems
-//        ) { _, item ->
-//            when(item.title) {
-//                getString(R.string.feed_post_property_revise) -> {
-//
-//                }
-//                getString(R.string.feed_post_property_delete) -> {
-//                    viewModel.requestDeleteFeed(feedId)
-//                    viewModel.removeFeedList(position)
-//                }
-//            }
-//        }.showAsDropDown(
-//            view,
-//            FeedTotalFragment.POWER_MENU_OFFSET_X,
-//            FeedTotalFragment.POWER_MENU_OFFSET_Y
-//        )
+        PowerMenuUtil.getPowerMenu(
+            requireContext(),
+            viewLifecycleOwner,
+            myReplyPropertyItems
+        ) { _, item ->
+            when(item.title) {
+                getString(R.string.feed_post_property_revise) -> {
 
-        view.setMenu(
+                }
+                getString(R.string.feed_post_property_delete) -> {
+                    viewModel.requestDeleteFeedReply(commentId, feedId)
+                }
+            }
+        }.showAsDropDown(
             view,
-            myReplyPropertyItems,
-            viewLifecycleOwner
+            FeedTotalFragment.POWER_MENU_OFFSET_X,
+            FeedTotalFragment.POWER_MENU_OFFSET_Y
         )
+
     }
 
     private fun showOtherReplyPropertyMenu(view: ImageView) {
