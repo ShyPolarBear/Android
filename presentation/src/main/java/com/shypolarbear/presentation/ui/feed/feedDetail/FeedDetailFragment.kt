@@ -19,6 +19,7 @@ import com.shypolarbear.presentation.databinding.FragmentFeedDetailBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedCommentAdapter
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
+import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragmentDirections
 import com.shypolarbear.presentation.ui.feed.feedTotal.FragmentTotalStatus
 import com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider
 import com.shypolarbear.presentation.ui.feed.feedTotal.fragmentTotalStatus
@@ -237,7 +238,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         ) { _, item ->
             when(item.title) {
                 getString(R.string.feed_post_property_revise) -> {
-
+                    findNavController().navigate(FeedDetailFragmentDirections.actionFeedDetailFragmentToFeedCommentChangeFragment(commentId))
                 }
                 getString(R.string.feed_post_property_delete) -> {
                     viewModel.requestDeleteFeedComment(commentId, position)
@@ -286,7 +287,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         ) { _, item ->
             when(item.title) {
                 getString(R.string.feed_post_property_revise) -> {
-
+                    findNavController().navigate(FeedDetailFragmentDirections.actionFeedDetailFragmentToFeedCommentChangeFragment(commentId))
                 }
                 getString(R.string.feed_post_property_delete) -> {
                     viewModel.requestDeleteFeedReply(commentId, feedId)
