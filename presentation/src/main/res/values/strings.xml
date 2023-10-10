@@ -119,4 +119,12 @@
 
     <string name="features_in_preparation">준비 중인 기능입니다.</string>
     <string name="item_tools_text">글 제목</string>
+
+    <string name="product">이번달 상품</string>
+    <string name="product_sample">스타벅스 카페 아메리카노T</string>
+    <string name="ranking">랭킹</string>
+    <string name="ranking_rank">순위</string>
+    <string name="ranking_name">닉네임</string>
+    <string name="ranking_point">포인트</string>
+    <string name="ranking_possible">당첨 확률</string>
 </resources>
