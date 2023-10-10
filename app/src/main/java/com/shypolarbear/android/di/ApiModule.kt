@@ -10,11 +10,13 @@ import com.shypolarbear.data.api.feed.FeedApi
 import com.shypolarbear.data.api.image.ImageUploadApi
 import com.shypolarbear.data.api.mypage.MyFeedApi
 import com.shypolarbear.data.api.quiz.QuizApi
+import com.shypolarbear.data.api.ranking.RankingApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -81,5 +83,11 @@ object ApiModule {
     @Provides
     fun provideMyFeedApi(@AuthRetrofit retrofit: Retrofit): MyFeedApi {
         return retrofit.create(MyFeedApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRankingApi(@AuthRetrofit retrofit: Retrofit): RankingApi {
+        return retrofit.create(RankingApi::class.java)
     }
 }
