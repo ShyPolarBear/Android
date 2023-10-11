@@ -23,7 +23,7 @@ class RankingFragment :
             myRanking?.let {
                 binding.apply {
                     tvRankingRank.text = if(myRanking.rank == UNRANKED){
-                        binding.root.context.getString(R.string.ranking_null)
+                        getString(R.string.ranking_null)
                     }else{
                         myRanking.rank.toString()
                     }
