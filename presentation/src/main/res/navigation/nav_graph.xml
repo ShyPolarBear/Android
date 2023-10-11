@@ -70,6 +70,9 @@
         <argument
             android:name="commentId"
             app:argType="integer" />
+        <argument
+            android:name="content"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/signupFragment"

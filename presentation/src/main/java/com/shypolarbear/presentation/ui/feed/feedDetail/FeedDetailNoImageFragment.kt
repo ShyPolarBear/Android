@@ -38,14 +38,14 @@ class FeedDetailNoImageFragment : BaseFragment<FragmentFeedDetailNoImageBinding,
     private val feedDetailNoImageArgs: FeedDetailNoImageFragmentArgs by navArgs()
     private val feedCommentAdapter: FeedCommentAdapter by lazy {
         FeedCommentAdapter(
-            onMyCommentPropertyClick = { view: ImageView, commentId: Int, position: Int, commentView: View ->
-                showMyCommentPropertyMenu(view, commentId, position, commentView)
+            onMyCommentPropertyClick = { view: ImageView, commentId: Int, position: Int, commentView: View, content: String ->
+                showMyCommentPropertyMenu(view, commentId, position, commentView, content)
             },
             onOtherCommentPropertyClick = { view: ImageView ->
                 showOtherCommentPropertyMenu(view)
             },
-            onMyReplyPropertyClick = { view: ImageView, commentId: Int, _: Int ->
-                showMyReplyPropertyMenu(view, commentId, feedDetailNoImageArgs.feedId)
+            onMyReplyPropertyClick = { view: ImageView, commentId: Int, _: Int, content: String ->
+                showMyReplyPropertyMenu(view, commentId, feedDetailNoImageArgs.feedId, content)
             },
             onOtherReplyPropertyClick = { view: ImageView ->
                 showOtherReplyPropertyMenu(view)
@@ -199,7 +199,7 @@ class FeedDetailNoImageFragment : BaseFragment<FragmentFeedDetailNoImageBinding,
         }
     }
 
-    private fun showMyCommentPropertyMenu(view: ImageView, commentId: Int, position: Int, commentView: View) {
+    private fun showMyCommentPropertyMenu(view: ImageView, commentId: Int, position: Int, commentView: View, content: String) {
         val myCommentPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
@@ -214,7 +214,7 @@ class FeedDetailNoImageFragment : BaseFragment<FragmentFeedDetailNoImageBinding,
         ) { _, item ->
             when(item.title) {
                 getString(R.string.feed_post_property_revise) -> {
-                    findNavController().navigate(FeedDetailNoImageFragmentDirections.actionFeedDetailNoImageFragmentToFeedCommentChangeFragment(commentId))
+                    findNavController().navigate(FeedDetailNoImageFragmentDirections.actionFeedDetailNoImageFragmentToFeedCommentChangeFragment(commentId, content))
                 }
                 getString(R.string.feed_post_property_delete) -> {
                     viewModel.requestDeleteFeedComment(commentId, position)
@@ -248,7 +248,7 @@ class FeedDetailNoImageFragment : BaseFragment<FragmentFeedDetailNoImageBinding,
         )
     }
 
-    private fun showMyReplyPropertyMenu(view: ImageView, commentId: Int, feedId: Int) {
+    private fun showMyReplyPropertyMenu(view: ImageView, commentId: Int, feedId: Int, content: String) {
         val myReplyPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
@@ -263,7 +263,7 @@ class FeedDetailNoImageFragment : BaseFragment<FragmentFeedDetailNoImageBinding,
         ) { _, item ->
             when(item.title) {
                 getString(R.string.feed_post_property_revise) -> {
-                    findNavController().navigate(FeedDetailNoImageFragmentDirections.actionFeedDetailNoImageFragmentToFeedCommentChangeFragment(commentId))
+                    findNavController().navigate(FeedDetailNoImageFragmentDirections.actionFeedDetailNoImageFragmentToFeedCommentChangeFragment(commentId, content))
                 }
                 getString(R.string.feed_post_property_delete) -> {
                     viewModel.requestDeleteFeedReply(commentId, feedId)

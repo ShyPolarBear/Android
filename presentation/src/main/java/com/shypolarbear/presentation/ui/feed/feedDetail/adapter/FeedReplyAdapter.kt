@@ -17,7 +17,7 @@ import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedReplyDele
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedReplyNormalViewHolder
 
 class FeedReplyAdapter (
-    private val onMyReplyPropertyClick: (view: ImageView, commentId: Int, feedId: Int) -> Unit = { _, _, _ -> },
+    private val onMyReplyPropertyClick: (view: ImageView, commentId: Int, feedId: Int, content: String) -> Unit = { _, _, _, _ -> },
     private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onBtnLikeClick: (
         view: Button,

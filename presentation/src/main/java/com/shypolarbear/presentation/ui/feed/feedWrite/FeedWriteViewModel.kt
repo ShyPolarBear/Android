@@ -24,7 +24,7 @@ const val UPLOADED = 1
 @HiltViewModel
 class FeedWriteViewModel @Inject constructor(
     private val feedDetailUseCase: LoadFeedDetailUseCase,
-    private val changePostUseCase: RequestFeedChangeUseCase,
+    private val feedChangeUseCase: RequestFeedChangeUseCase,
     private val feedWriteUseCase: RequestFeedWriteUseCase,
     private val imageUploadUseCase: RequestImageUploadUseCase
 ): BaseViewModel(){
@@ -53,7 +53,7 @@ class FeedWriteViewModel @Inject constructor(
 
     fun changePost(feedId: Int, content: String, feedImages: List<String>?, title: String) {
         viewModelScope.launch {
-            val feedChangeResult = changePostUseCase(feedId, content, feedImages, title)
+            val feedChangeResult = feedChangeUseCase(feedId, content, feedImages, title)
 
             feedChangeResult
                 .onSuccess {
@@ -73,7 +73,7 @@ class FeedWriteViewModel @Inject constructor(
             uploadImages
                 .onSuccess {
                     _selectedLiveImgList.value = (originalImages!! + it.data.imageLinks).toMutableList()
-                    changePostUseCase(feedId, content, _selectedLiveImgList.value, title)
+                    feedChangeUseCase(feedId, content, _selectedLiveImgList.value, title)
 
                     _uploadState.value = UPLOADED
                 }
