@@ -24,6 +24,7 @@ class RankingAdapter(private val _items: List<Ranking>) :
                 GlideUtil.loadImage(binding.root.context, myRanking.profileImage, ivRankingProfile)
                 tvRankingName.text = myRanking.nickName
                 tvRankingPoint.text = binding.root.context.getString(R.string.ranking_point_value, myRanking.point)
+
                 tvRankingPossible.text = binding.root.context.getString(R.string.ranking_possible_value, myRanking.winningPercent)
             }
         }

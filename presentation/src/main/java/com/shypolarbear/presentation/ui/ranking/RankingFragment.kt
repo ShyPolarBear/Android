@@ -11,6 +11,7 @@ import com.shypolarbear.presentation.ui.mypage.FeedContentType
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.infiniteScroll
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class RankingFragment :
@@ -35,8 +36,10 @@ class RankingFragment :
         viewModel.totalRankingResponse.observe(viewLifecycleOwner) { totalRanking ->
             totalRanking?.let {
                 binding.apply {
+                    Timber.tag("RANKING").d("${totalRanking}")
+                    val rankingAdapter = RankingAdapter(totalRanking.content)
+                    setAdapter(rankingAdapter)
                     rankingProgressbar.isVisible = false
-                    setAdapter(RankingAdapter(totalRanking.content))
                 }
             }
         }

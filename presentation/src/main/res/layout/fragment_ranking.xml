@@ -92,34 +92,37 @@
                     <TextView
                         android:id="@+id/ranking_rank"
                         style="@style/l4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
                         android:text="@string/ranking_rank"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.25" />
 
                     <TextView
                         android:id="@+id/ranking_name"
                         style="@style/l4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
                         android:text="@string/ranking_name"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/ranking_point"
                         app:layout_constraintStart_toEndOf="@+id/ranking_rank"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.25" />
 
                     <TextView
                         android:id="@+id/ranking_point"
                         style="@style/l4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
                         android:text="@string/ranking_point"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/ranking_possible"
                         app:layout_constraintStart_toEndOf="@+id/ranking_name"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.25" />
 
                     <TextView
                         android:id="@+id/ranking_possible"
@@ -135,34 +138,39 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp" />
+                    android:layout_height="1dp"
+                    android:background="@color/Gray_06" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:background="@color/Blue_06"
+                    android:paddingHorizontal="8dp"
                     app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
                     <TextView
                         android:id="@+id/tv_ranking_rank"
                         style="@style/H5"
-                        android:layout_width="32dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:gravity="center_vertical"
                         android:text="@string/ranking_rank"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.25" />
 
                     <LinearLayout
                         android:id="@+id/ll_ranking_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/tv_ranking_point"
                         app:layout_constraintStart_toEndOf="@+id/tv_ranking_rank"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.25">
 
                         <ImageView
                             android:id="@+id/iv_ranking_profile"
@@ -174,8 +182,10 @@
                         <TextView
                             android:id="@+id/tv_ranking_name"
                             style="@style/B3"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             android:text="@string/ranking_name" />
 
                     </LinearLayout>
@@ -183,30 +193,35 @@
                     <TextView
                         android:id="@+id/tv_ranking_point"
                         style="@style/B3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:gravity="center"
                         android:text="@string/ranking_point"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/tv_ranking_possible"
                         app:layout_constraintStart_toEndOf="@+id/ll_ranking_name"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.25" />
 
                     <TextView
                         android:id="@+id/tv_ranking_possible"
                         style="@style/B3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:gravity="center_vertical|end"
                         android:text="@string/ranking_possible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.25" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginBottom="12dp" />
+                    android:layout_marginBottom="12dp"
+                    android:background="@color/Gray_06" />
 
 
             </com.google.android.material.appbar.AppBarLayout>
@@ -214,7 +229,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_ranking"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

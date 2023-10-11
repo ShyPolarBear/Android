@@ -128,6 +128,6 @@
     <string name="ranking_point">포인트</string>
     <string name="ranking_point_value">%d P</string>
     <string name="ranking_possible">당첨 확률</string>
-    <string name="ranking_possible_value">%d\%</string>
+    <string name="ranking_possible_value">%d%%</string>
 
 </resources>

@@ -37,11 +37,8 @@ class RankingViewModel @Inject constructor(
         viewModelScope.launch {
             val responseMyRanking =
                 loadMyRankingUseCase()
-            Timber.tag("RANKING").d("${responseMyRanking}")
-
             responseMyRanking.onSuccess { response ->
                 _myRankingResponse.value = response.data
-                Timber.tag("RANKING").d("${_myRankingResponse.value}")
             }
                 .onFailure { error ->
                     simpleHttpErrorCheck(error)
