@@ -29,10 +29,11 @@ class RankingViewModel @Inject constructor(
     private val _totalRankingResponse = MutableLiveData<TotalRanking>()
     val totalRankingResponse: LiveData<TotalRanking> = _totalRankingResponse
 
-    fun loadRankingData(){
+    fun loadRankingData() {
         loadMyRanking()
         loadTotalRanking()
     }
+
     private fun loadMyRanking() {
         viewModelScope.launch {
             val responseMyRanking =

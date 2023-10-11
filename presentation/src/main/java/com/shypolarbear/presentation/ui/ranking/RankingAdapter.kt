@@ -18,14 +18,26 @@ class RankingAdapter(private val _items: List<Ranking>) :
 
     inner class ItemRankingViewHolder(private val binding: ItemRankingBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bindItems(myRanking: Ranking) {
+        fun bindItems(totalRanking: Ranking) {
             binding.apply {
-                tvRankingRank.text = myRanking.rank.toString()
-                GlideUtil.loadImage(binding.root.context, myRanking.profileImage, ivRankingProfile)
-                tvRankingName.text = myRanking.nickName
-                tvRankingPoint.text = binding.root.context.getString(R.string.ranking_point_value, myRanking.point)
-
-                tvRankingPossible.text = binding.root.context.getString(R.string.ranking_possible_value, myRanking.winningPercent)
+                tvRankingRank.text = if (totalRanking.rank == UNRANKED) {
+                    binding.root.context.getString(R.string.ranking_null)
+                } else {
+                    totalRanking.rank.toString()
+                }
+                GlideUtil.loadCircleImage(
+                    binding.root.context,
+                    totalRanking.profileImage,
+                    ivRankingProfile,
+                    R.drawable.ic_user_base_profile
+                )
+                tvRankingName.text = totalRanking.nickName
+                tvRankingPoint.text =
+                    binding.root.context.getString(R.string.ranking_point_value, totalRanking.point)
+                tvRankingPossible.text = binding.root.context.getString(
+                    R.string.ranking_possible_value,
+                    totalRanking.winningPercent
+                )
             }
         }
     }
