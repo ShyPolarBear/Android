@@ -13,7 +13,7 @@ import com.shypolarbear.presentation.ui.mypage.adapter.LoadingViewHolder
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.MyFeedType
 
-class RankingAdapter(private val _items: List<Ranking>) :
+class RankingAdapter :
     ListAdapter<Ranking, RecyclerView.ViewHolder>(RankingDiffCallback()) {
 
     inner class ItemRankingViewHolder(private val binding: ItemRankingBinding) :
@@ -43,7 +43,7 @@ class RankingAdapter(private val _items: List<Ranking>) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (_items[position] != null) MyFeedType.ITEM.state else MyFeedType.LOADING.state
+        return if (currentList[position] != null) MyFeedType.ITEM.state else MyFeedType.LOADING.state
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -68,12 +68,12 @@ class RankingAdapter(private val _items: List<Ranking>) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ItemRankingViewHolder) {
-            holder.bindItems(_items[position])
+            holder.bindItems(currentList[position])
         }
     }
 
     override fun getItemCount(): Int {
-        return _items.size
+        return currentList.size
     }
 }
 
