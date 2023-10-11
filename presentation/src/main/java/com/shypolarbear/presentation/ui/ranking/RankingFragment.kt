@@ -2,7 +2,6 @@ package com.shypolarbear.presentation.ui.ranking
 
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.RecyclerView
 import com.shypolarbear.domain.model.ranking.Ranking
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment

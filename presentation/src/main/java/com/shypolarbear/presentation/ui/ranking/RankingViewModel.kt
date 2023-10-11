@@ -6,11 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.ranking.Ranking
 import com.shypolarbear.domain.model.ranking.RankingScroll
 import com.shypolarbear.domain.model.ranking.TotalRanking
-import com.shypolarbear.domain.model.ranking.TotalRankingResponse
 import com.shypolarbear.domain.usecase.ranking.LoadMyRankingUseCase
 import com.shypolarbear.domain.usecase.ranking.LoadTotalRankingUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
-import com.shypolarbear.presentation.ui.mypage.FeedContentType
 import com.shypolarbear.presentation.util.simpleHttpErrorCheck
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -51,7 +49,7 @@ class RankingViewModel @Inject constructor(
         val loadJob = viewModelScope.launch {
             val responseMyRanking =
                 loadTotalRankingUseCase(RankingScroll(lastCommentId, limit = null))
-            Timber.tag("RANKING").d("${responseMyRanking}")
+            Timber.tag("RANKING").d("$responseMyRanking")
 
             responseMyRanking.onSuccess { response ->
                 _totalRankingResponse.value = response.data
