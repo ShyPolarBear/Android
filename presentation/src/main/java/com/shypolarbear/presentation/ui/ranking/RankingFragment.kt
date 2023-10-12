@@ -18,6 +18,7 @@ class RankingFragment :
     BaseFragment<FragmentRankingBinding, RankingViewModel>(R.layout.fragment_ranking) {
     override val viewModel: RankingViewModel by viewModels()
     override fun initView() {
+        val rankingAdapter = RankingAdapter()
         val sampleProductUrl = "https://media.bunjang.co.kr/product/234579740_1_1693213317_w360.jpg"
         viewModel.loadRankingData()
         viewModel.myRankingResponse.observe(viewLifecycleOwner) { myRanking ->
@@ -45,23 +46,21 @@ class RankingFragment :
         viewModel.totalRankingResponse.observe(viewLifecycleOwner) { totalRanking ->
             totalRanking?.let {
                 binding.apply {
-                    setAdapter(
-                        RankingAdapter(), totalRanking.content
-                    )
+                    rankingAdapter.submitList(totalRanking.content)
                     rankingProgressbar.isVisible = false
                 }
             }
         }
 
         binding.apply {
+            setAdapter(rankingAdapter)
             rankingProgressbar.isVisible = true
             GlideUtil.loadImage(requireContext(), sampleProductUrl, ivRankingSampleProduct)
         }
     }
 
-    private fun setAdapter(adapter: RankingAdapter, contentList: List<Ranking>) {
+    private fun setAdapter(adapter: RankingAdapter) {
         binding.rvRanking.adapter = adapter
-        adapter.submitList(contentList)
         binding.rvRanking.infiniteScroll {
             viewModel.loadMoreRanking()
         }
