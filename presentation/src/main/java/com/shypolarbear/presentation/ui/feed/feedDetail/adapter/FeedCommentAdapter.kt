@@ -11,10 +11,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.presentation.databinding.ItemFeedCommentDeleteBinding
+import com.shypolarbear.presentation.databinding.ItemFeedCommentLoadingBinding
 import com.shypolarbear.presentation.databinding.ItemFeedCommentNormalBinding
 import com.shypolarbear.presentation.ui.feed.feedDetail.FeedCommentViewType
 import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailLikeBtnType
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentDeleteViewHolder
+import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentLoadingViewHolder
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentNormalViewHolder
 import timber.log.Timber
 
@@ -37,6 +39,10 @@ class FeedCommentAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         when(viewType) {
+            FeedCommentViewType.LOADING.commentType -> {
+                return FeedCommentLoadingViewHolder(ItemFeedCommentLoadingBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+            }
+
             FeedCommentViewType.NORMAL.commentType -> {
                 return FeedCommentNormalViewHolder(
                     ItemFeedCommentNormalBinding.inflate(
@@ -70,12 +76,14 @@ class FeedCommentAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        when(getItem(position).isDeleted) {
-
-            true -> {
+        when {
+            getItem(position).commentId == 0 -> {
+                (holder as FeedCommentLoadingViewHolder).bind(getItem(position))
+            }
+            getItem(position).isDeleted -> {
                 (holder as FeedCommentDeleteViewHolder).bind(getItem(position))
             }
-            false -> {
+            !getItem(position).isDeleted -> {
                 (holder as FeedCommentNormalViewHolder).bind(getItem(position))
             }
         }
@@ -83,10 +91,17 @@ class FeedCommentAdapter(
 
     override fun getItemViewType(position: Int): Int {
         val comment: Comment = getItem(position)
-        return if (comment.isDeleted)
-            FeedCommentViewType.DELETE.commentType
-        else
-            FeedCommentViewType.NORMAL.commentType
+        return when {
+            getItem(position).commentId == 0 -> {
+                FeedCommentViewType.LOADING.commentType
+            }
+            comment.isDeleted -> {
+                FeedCommentViewType.DELETE.commentType
+            }
+            else -> {
+                FeedCommentViewType.NORMAL.commentType
+            }
+        }
     }
 }
 

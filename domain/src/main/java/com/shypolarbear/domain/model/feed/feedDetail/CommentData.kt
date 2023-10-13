@@ -4,5 +4,5 @@ import com.shypolarbear.domain.model.feed.Comment
 
 data class CommentData(
     val content: List<Comment>,
-    val isLast: Boolean
+    val last: Boolean
 )

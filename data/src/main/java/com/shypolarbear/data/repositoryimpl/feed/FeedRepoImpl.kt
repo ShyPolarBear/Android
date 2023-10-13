@@ -50,9 +50,9 @@ class FeedRepoImpl @Inject constructor(
         }
     }
 
-    override suspend fun getFeedCommentData(feedId: Int): Result<FeedComment> {
+    override suspend fun getFeedCommentData(feedId: Int, lastCommentId: Int?): Result<FeedComment> {
         return try {
-            val response = api.getFeedComment(feedId)
+            val response = api.getFeedComment(feedId, lastCommentId, 5)
             when {
                 response.isSuccessful -> {
                     Result.success(response.body()!!)

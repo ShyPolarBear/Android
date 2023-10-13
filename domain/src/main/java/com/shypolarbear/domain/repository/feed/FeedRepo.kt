@@ -13,7 +13,7 @@ interface FeedRepo {
 
     suspend fun getFeedDetailData(feedId: Int): Result<FeedDetail>
 
-    suspend fun getFeedCommentData(feedId: Int): Result<FeedComment>
+    suspend fun getFeedCommentData(feedId: Int, lastCommentId: Int?): Result<FeedComment>
 
     suspend fun requestChangePostData(
         feedId: Int,

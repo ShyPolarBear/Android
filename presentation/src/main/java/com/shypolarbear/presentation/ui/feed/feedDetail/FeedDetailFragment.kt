@@ -10,26 +10,22 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.tabs.TabLayoutMediator
-import com.shypolarbear.domain.model.feed.Comment
+import androidx.recyclerview.widget.ConcatAdapter
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedDetailBinding
-import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedCommentAdapter
+import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedDetailPostAdapter
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
-import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragmentDirections
 import com.shypolarbear.presentation.ui.feed.feedTotal.FragmentTotalStatus
 import com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider
 import com.shypolarbear.presentation.ui.feed.feedTotal.fragmentTotalStatus
-import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.PowerMenuUtil
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 enum class CommentType(val type: Int) {
     COMMENT(0),
@@ -46,6 +42,24 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     private var commentParentId = 0
     private var commentPosition = 0
     private val feedDetailArgs: FeedDetailFragmentArgs by navArgs()
+    private val feedDetailPostAdapter: FeedDetailPostAdapter by lazy {
+        FeedDetailPostAdapter(
+            onPostPropertyClick = { feedDetail: Feed, imageView: ImageView ->
+                showPostPropertyMenu(feedDetail, imageView)
+            },
+            onBtnLikeClick = {
+                    btn: Button,
+                    isLiked: Boolean,
+                    likeCnt: Int,
+                    textView: TextView,
+                    commentId: Int,
+                    replyId: Int,
+                    itemType: FeedDetailLikeBtnType ->
+                changeLikeBtn(btn, isLiked, likeCnt, textView, commentId, replyId, itemType)
+            },
+            onBtnBackClick = { moveToBack() }
+        )
+    }
     private val feedCommentAdapter: FeedCommentAdapter by lazy {
         FeedCommentAdapter(
             onMyCommentPropertyClick = { view: ImageView, commentId: Int, position: Int, commentView: View, content: String ->
@@ -79,10 +93,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             layoutFeedDetail.isVisible = false
             progressFeedDetailLoading.isVisible = true
 
-            btnFeedDetailBack.setOnClickListener {
-                fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
-                findNavController().popBackStack()
-            }
+            rvFeedDetail.adapter = ConcatAdapter(feedDetailPostAdapter, feedCommentAdapter)
 
             edtFeedDetailReply.setOnFocusChangeListener { _, isFocus ->
                 binding.cardviewFeedCommentWritingMsg.isVisible = isFocus
@@ -108,118 +119,22 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 binding.edtFeedDetailReply.clearFocus()
                 binding.edtFeedDetailReply.setText("")
                 binding.cardviewFeedCommentWritingMsg.isVisible = false
-                binding.rvFeedDetailReply.scrollToPosition(viewModel.feedComment.value!!.size)
             }
 
             viewModel.getMyInfo()
             viewModel.loadFeedDetail(feedDetailArgs.feedId)
             viewModel.loadFeedComment(feedDetailArgs.feedId)
 
-            viewModel.feed.observe(viewLifecycleOwner) {feed ->
-                setFeedPost(feed)
-            }
-            setFeedComment()
-        }
-    }
-
-    private fun setFeedPost(feedDetail: Feed) {
-        var postPropertyItems: List<PowerMenuItem>
-        val isPostLike = feedDetail.isLike
-        val postLikeCnt: Int = feedDetail.likeCount
-
-        binding.tvFeedDetailUserNickname.text = feedDetail.author
-        binding.tvFeedDetailPostingTime.text = feedDetail.createdDate
-        binding.tvFeedDetailLikeCnt.text = feedDetail.likeCount.toString()
-        binding.tvFeedDetailTitle.text = feedDetail.title
-        binding.tvFeedDetailContent.text = feedDetail.content
-        binding.tvFeedDetailReplyCnt.text = feedDetail.commentCount.toString()
-
-        binding.btnFeedDetailLike.showLikeBtnIsLike(feedDetail.isLike, binding.btnFeedDetailLike)
-        binding.btnFeedDetailLike.setOnClickListener {
-            changeLikeBtn(
-                button = binding.btnFeedDetailLike,
-                isLiked = isPostLike,
-                likeCnt = postLikeCnt,
-                likeCntText = binding.tvFeedDetailLikeCnt,
-                itemType = FeedDetailLikeBtnType.POST_LIKE_BTN
-            )
-        }
-
-        if (!feedDetail.authorProfileImage.isNullOrBlank()) {
-            GlideUtil.loadImage(requireContext(), feedDetail.authorProfileImage, binding.ivFeedDetailUserProfile)
-        } else {
-            GlideUtil.loadImage(requireContext(), url = null, view = binding.ivFeedDetailUserProfile, placeHolder = R.drawable.ic_user_base_profile)
-        }
-
-        with(binding.viewpagerFeedDetailImg) {
-            adapter = ImageViewPagerAdapter().apply {
-                submitList(feedDetail.feedImages)
+            viewModel.feed.observe(viewLifecycleOwner) { feed ->
+                feedDetailPostAdapter.submitList(listOf(feed))
+                binding.layoutFeedDetail.isVisible = true
+                binding.progressFeedDetailLoading.isVisible = false
             }
 
-            TabLayoutMediator(binding.tablayoutFeedDetailIndicator, this
-            ) { _, _ ->
-
-            }.attach()
-        }
-
-
-        binding.ivFeedDetailProperty.setOnClickListener {
-            when (feedDetail.isAuthor) {
-                true -> {
-                    postPropertyItems =
-                        listOf(
-                            PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
-                            PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete))
-                        )
-                }
-                false -> {
-                    postPropertyItems =
-                        listOf(
-                            PowerMenuItem(requireContext().getString(R.string.feed_post_property_report)),
-                            PowerMenuItem(requireContext().getString(R.string.feed_post_property_block))
-                        )
-                }
+            viewModel.feedComment.observe(viewLifecycleOwner) { comment ->
+                feedCommentAdapter.submitList(comment)
             }
 
-            PowerMenuUtil.getPowerMenu(
-                requireContext(),
-                viewLifecycleOwner,
-                postPropertyItems
-            ) { _, item ->
-                when(item.title) {
-                    getString(R.string.feed_post_property_revise) -> {
-                        findNavController().navigate(
-                            FeedDetailFragmentDirections.actionFeedDetailFragmentToFeedWriteFragment(
-                                WriteChangeDivider.CHANGE, feedDetailArgs.feedId
-                            )
-                        )
-                    }
-                    getString(R.string.feed_post_property_delete) -> {
-                        viewModel.requestDeleteFeed(feedDetailArgs.feedId)
-                        fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
-                        findNavController().popBackStack()
-                    }
-                    getString(R.string.feed_post_property_report), getString(R.string.feed_post_property_block) -> {
-                        Toast.makeText(requireContext(), getString(R.string.features_in_preparation), Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }.showAsDropDown(
-                binding.ivFeedDetailProperty,
-                FeedTotalFragment.POWER_MENU_OFFSET_X,
-                FeedTotalFragment.POWER_MENU_OFFSET_Y
-            )
-        }
-    }
-
-    private fun setFeedComment() {
-        binding.rvFeedDetailReply.adapter = feedCommentAdapter
-        viewModel.feedComment.observe(viewLifecycleOwner) {
-            binding.rvFeedDetailReply.isVisible = true
-            binding.tvFeedDetailReplyCnt.text = it.size.toString()
-
-            feedCommentAdapter.submitList(it)
-            binding.layoutFeedDetail.isVisible = true
-            binding.progressFeedDetailLoading.isVisible = false
         }
     }
 
@@ -366,5 +281,59 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     private fun clickReplyProperty(view: View) {
         val replySelectedCommentBackgroundColor = ContextCompat.getColor(requireContext(), R.color.Blue_05)
         view.setBackgroundColor(replySelectedCommentBackgroundColor)
+    }
+
+    private fun showPostPropertyMenu(feedDetail: Feed, view: ImageView) {
+        var postPropertyItems: List<PowerMenuItem>
+
+        when (feedDetail.isAuthor) {
+            true -> {
+                postPropertyItems =
+                    listOf(
+                        PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
+                        PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete))
+                    )
+            }
+            false -> {
+                postPropertyItems =
+                    listOf(
+                        PowerMenuItem(requireContext().getString(R.string.feed_post_property_report)),
+                        PowerMenuItem(requireContext().getString(R.string.feed_post_property_block))
+                    )
+            }
+        }
+
+        PowerMenuUtil.getPowerMenu(
+            requireContext(),
+            viewLifecycleOwner,
+            postPropertyItems
+        ) { _, item ->
+            when(item.title) {
+                getString(R.string.feed_post_property_revise) -> {
+                    findNavController().navigate(
+                        FeedDetailFragmentDirections.actionFeedDetailFragmentToFeedWriteFragment(
+                            WriteChangeDivider.CHANGE, feedDetailArgs.feedId
+                        )
+                    )
+                }
+                getString(R.string.feed_post_property_delete) -> {
+                    viewModel.requestDeleteFeed(feedDetailArgs.feedId)
+                    fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
+                    findNavController().popBackStack()
+                }
+                getString(R.string.feed_post_property_report), getString(R.string.feed_post_property_block) -> {
+                    Toast.makeText(requireContext(), getString(R.string.features_in_preparation), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }.showAsDropDown(
+            view,
+            FeedTotalFragment.POWER_MENU_OFFSET_X,
+            FeedTotalFragment.POWER_MENU_OFFSET_Y
+        )
+    }
+
+    private fun moveToBack() {
+        fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
+        findNavController().popBackStack()
     }
 }

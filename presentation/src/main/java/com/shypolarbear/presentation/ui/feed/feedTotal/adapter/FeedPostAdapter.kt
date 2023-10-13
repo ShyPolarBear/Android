@@ -38,7 +38,7 @@ class FeedPostAdapter(
         commentId: Int?,
         itemType: FeedTotalLikeBtnType
             ) -> Unit = { _, _, _, _, _, _, _ -> },
-    private val onMoveToDetailClick: (feed: Feed, feedId: Int) -> Unit = { _, _ ->  }
+    private val onMoveToDetailClick: (feedId: Int) -> Unit = {  _ ->  }
     ): ListAdapter<Feed, RecyclerView.ViewHolder>(FeedPostDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

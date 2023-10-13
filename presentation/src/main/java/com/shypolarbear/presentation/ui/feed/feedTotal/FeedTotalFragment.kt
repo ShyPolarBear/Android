@@ -70,7 +70,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                 itemType: FeedTotalLikeBtnType ->
             changeLikeBtn(btn, isLiked, likeCnt, textView, feedId, commentId, itemType)
         },
-        onMoveToDetailClick = { feed: Feed, feedId: Int -> showFeedPostDetail(feed, feedId) }
+        onMoveToDetailClick = { feedId: Int -> showFeedPostDetail(feedId) }
     )
     private val feedSortItems: List<PowerMenuItem> by lazy {
         listOf(
@@ -270,11 +270,8 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         likeCntText.text = likeCount.toString()
     }
 
-    private fun showFeedPostDetail(feed: Feed, feedId: Int) {
-        when {
-            feed.feedImages.isNullOrEmpty() -> { findNavController().navigate(FeedTotalFragmentDirections.actionNavigationFeedToFeedDetailNoImageFragment(feedId)) }
-            else -> { findNavController().navigate(FeedTotalFragmentDirections.actionFeedTotalFragmentToFeedDetailFragment(feedId)) }
-        }
+    private fun showFeedPostDetail(feedId: Int) {
+        findNavController().navigate(FeedTotalFragmentDirections.actionFeedTotalFragmentToFeedDetailFragment(feedId))
     }
 
     private fun loadSortedFeed(sort: String) {

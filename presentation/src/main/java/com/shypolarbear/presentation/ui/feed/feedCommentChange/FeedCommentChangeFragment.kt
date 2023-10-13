@@ -13,9 +13,6 @@ import com.shypolarbear.presentation.ui.feed.feedWrite.UPLOADED
 import com.shypolarbear.presentation.ui.feed.feedWrite.UPLOADING
 import dagger.hilt.android.AndroidEntryPoint
 
-const val UPLOADING = 0
-const val UPLOADED = 1
-
 @AndroidEntryPoint
 class FeedCommentChangeFragment: BaseFragment<FragmentFeedCommentChangeBinding, FeedCommentChangeViewModel>(
     R.layout.fragment_feed_comment_change

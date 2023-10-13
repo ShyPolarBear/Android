@@ -6,8 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.domain.model.feed.feedDetail.ChildComment
+import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
 import com.shypolarbear.domain.model.more.Info
-import com.shypolarbear.domain.usecase.feed.LoadCommentUseCase
+import com.shypolarbear.domain.usecase.feed.LoadFeedCommentUseCase
 import com.shypolarbear.domain.usecase.feed.LoadFeedDetailUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedCommentDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedCommentLikeUseCase
@@ -25,7 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FeedDetailViewModel @Inject constructor(
     private val feedDetailUseCase: LoadFeedDetailUseCase,
-    private val feedCommentUseCase: LoadCommentUseCase,
+    private val feedCommentUseCase: LoadFeedCommentUseCase,
     private val feedDeleteUseCase: RequestFeedDeleteUseCase,
     private val feedLikeUseCase: RequestFeedLikeUseCase,
     private val feedCommentWriteUseCase: RequestFeedCommentWriteUseCase,
@@ -42,6 +43,7 @@ class FeedDetailViewModel @Inject constructor(
 
     private lateinit var currentCommentList: List<Comment>
     private lateinit var myInfo: Info
+    var commentIsLast = false
 
     fun getMyInfo() {
         viewModelScope.launch {
@@ -69,16 +71,35 @@ class FeedDetailViewModel @Inject constructor(
     }
 
     fun loadFeedComment(feedId: Int) {
+        var feedCommentData: Result<FeedComment>
+
         viewModelScope.launch {
-            val feedCommentData = feedCommentUseCase(feedId)
+
+            feedCommentData = when {
+                _feedComment.value.isNullOrEmpty() -> { feedCommentUseCase(feedId, null) }
+                else -> { feedCommentUseCase(feedId, _feedComment.value!![_feedComment.value!!.lastIndex - 1].commentId) }
+            }
 
             feedCommentData
                 .onSuccess {
-                    _feedComment.value = it.data.content
-                }
-                .onFailure {
+                    val newDataList = it.data.content
+                    val currentList = _feedComment.value ?: emptyList()
 
+                    if (!currentList.isNullOrEmpty()) {
+                        val removeProgressList = currentList as MutableList
+                        removeProgressList.removeLast()
+
+                        _feedComment.value = removeProgressList
+                    }
+
+                    commentIsLast = it.data.last
+
+                    when(commentIsLast) {
+                        true -> { _feedComment.value = currentList + newDataList }
+                        false -> { _feedComment.value = currentList + newDataList + listOf(Comment()) }
+                    }
                 }
+                .onFailure {  }
         }
     }
 
@@ -172,7 +193,6 @@ class FeedDetailViewModel @Inject constructor(
 
                 }
         }
-
     }
 
     fun requestDeleteFeedComment(commentId: Int, position: Int) {
@@ -205,22 +225,8 @@ class FeedDetailViewModel @Inject constructor(
         viewModelScope.launch {
             val feedCommentWriteResult = feedCommentWriteUseCase(feedId, parentId, content)
 
-            feedCommentWriteResult
-                .onSuccess {
-                    // 추후 아이템만 추가하는 방식으로 변경할 예정
-                    val feedCommentData = feedCommentUseCase(feedId)
-
-                    feedCommentData
-                        .onSuccess {
-                            _feedComment.value = it.data.content
-                        }
-                        .onFailure {
-
-                        }
-                }
-                .onFailure {
-
-                }
+            // 추후 아이템만 추가하는 방식으로 변경할 예정
+            loadFeedComment(feedId)
         }
 
 //        feedReplyList.add(ChildComment(
@@ -242,23 +248,8 @@ class FeedDetailViewModel @Inject constructor(
         viewModelScope.launch {
             val feedCommentDeleteResult = feedCommentDeleteUseCase(commentId)
 
-            feedCommentDeleteResult
-                .onSuccess {
-                    // 추후 아이템의 상태만 변경하는 방식으로 수정할 예정
-                    val feedCommentData = feedCommentUseCase(feedId)
-
-                    feedCommentData
-                        .onSuccess {
-                            _feedComment.value = it.data.content
-                        }
-                        .onFailure {
-
-                        }
-
-                }
-                .onFailure {
-
-                }
+            // 추후 아이템의 상태만 변경하는 방식으로 수정할 예정
+            loadFeedComment(feedId)
         }
     }
 }

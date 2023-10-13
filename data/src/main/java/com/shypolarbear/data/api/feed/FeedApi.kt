@@ -39,7 +39,9 @@ interface FeedApi {
 
     @GET("api/comments/{feedId}")
     suspend fun getFeedComment(
-        @Path("feedId") feedID: Int
+        @Path("feedId") feedID: Int,
+        @Query("lastCommentId") lastCommentID: Int?,
+        @Query("limit") limit: Int
     ): Response<FeedComment>
 
     @DELETE("api/feeds/{feedId}")

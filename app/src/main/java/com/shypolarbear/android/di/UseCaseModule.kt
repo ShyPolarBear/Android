@@ -18,7 +18,7 @@ import com.shypolarbear.domain.usecase.RequestLoginUseCase
 import com.shypolarbear.domain.usecase.tokens.GetRefreshTokenUseCase
 import com.shypolarbear.domain.usecase.RequestTokenRenewUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedChangeUseCase
-import com.shypolarbear.domain.usecase.feed.LoadCommentUseCase
+import com.shypolarbear.domain.usecase.feed.LoadFeedCommentUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.LoadFeedDetailUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedCommentChangeUseCase
@@ -81,8 +81,8 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideFeedCommentUseCase(repo: FeedRepo): LoadCommentUseCase {
-        return LoadCommentUseCase(repo)
+    fun provideFeedCommentUseCase(repo: FeedRepo): LoadFeedCommentUseCase {
+        return LoadFeedCommentUseCase(repo)
     }
 
     @Singleton
