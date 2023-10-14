@@ -119,4 +119,5 @@
 
     <string name="features_in_preparation">준비 중인 기능입니다.</string>
     <string name="time_format">yyyy-MM-dd hh:mm:ss</string>
+    <string name="feed_detail_comment_writing_msg">댓글을 남기는 중...</string>
 </resources>
