@@ -90,12 +90,11 @@ class FeedCommentAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        val comment: Comment = getItem(position)
         return when {
             getItem(position).commentId == 0 -> {
                 FeedCommentViewType.LOADING.commentType
             }
-            comment.isDeleted -> {
+            getItem(position).isDeleted -> {
                 FeedCommentViewType.DELETE.commentType
             }
             else -> {

@@ -22,10 +22,12 @@ import com.shypolarbear.presentation.ui.feed.feedTotal.FragmentTotalStatus
 import com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider
 import com.shypolarbear.presentation.ui.feed.feedTotal.fragmentTotalStatus
 import com.shypolarbear.presentation.util.PowerMenuUtil
+import com.shypolarbear.presentation.util.infiniteScroll
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
 import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 enum class CommentType(val type: Int) {
     COMMENT(0),
@@ -121,6 +123,16 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 binding.cardviewFeedCommentWritingMsg.isVisible = false
             }
 
+            rvFeedDetail.infiniteScroll {
+                when(viewModel.commentIsLast) {
+                    true -> { }
+                    false -> {
+                        Timber.d("${viewModel.feedComment.value!!.size}")
+                        viewModel.loadFeedComment(feedDetailArgs.feedId)
+                    }
+                }
+            }
+
             viewModel.getMyInfo()
             viewModel.loadFeedDetail(feedDetailArgs.feedId)
             viewModel.loadFeedComment(feedDetailArgs.feedId)
@@ -132,7 +144,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             }
 
             viewModel.feedComment.observe(viewLifecycleOwner) { comment ->
-                feedCommentAdapter.submitList(comment)
+                feedCommentAdapter.submitList(comment.toList())
             }
 
         }

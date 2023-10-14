@@ -95,7 +95,7 @@ class FeedPostAdapter(
             getItem(position).feedId == 0 -> {
                 FeedViewType.LOADING.viewType
             }
-            getItem(position).feedImages.isNullOrEmpty() == true -> {
+            getItem(position).feedImages.isNullOrEmpty() -> {
                 FeedViewType.ITEM_HAS_NO_IMAGES.viewType
             }
             else -> {
