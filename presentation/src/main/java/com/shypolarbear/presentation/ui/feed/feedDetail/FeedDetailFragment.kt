@@ -24,7 +24,6 @@ import com.shypolarbear.presentation.ui.feed.feedTotal.fragmentTotalStatus
 import com.shypolarbear.presentation.util.PowerMenuUtil
 import com.shypolarbear.presentation.util.infiniteScroll
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
-import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber

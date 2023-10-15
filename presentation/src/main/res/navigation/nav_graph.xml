@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_navigation_feed_to_feedDetailNoImageFragment"
             app:destination="@id/feedDetailNoImageFragment" />
+        <action
+            android:id="@+id/action_navigation_feed_to_feedCommentChangeFragment"
+            app:destination="@id/feedCommentChangeFragment" />
     </fragment>
     <fragment
         android:id="@+id/feedDetailFragment"

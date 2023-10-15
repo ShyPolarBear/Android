@@ -1,5 +1,6 @@
 package com.shypolarbear.presentation.ui.feed.feedTotal.viewholder
 
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -19,7 +20,7 @@ class FeedPostViewHolder(
     private val binding: ItemFeedBinding,
     private val onMyPostPropertyClick: (view: ImageView, feedId: Int, position: Int) -> Unit = { _, _, _ -> },
     private val onOtherPostPropertyClick: (view: ImageView) -> Unit = { _ -> },
-    private val onMyBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onMyBestCommentPropertyClick: (view: ImageView, commentId: Int, content: String, commentView: View) -> Unit = { _, _, _, _ -> },
     private val onOtherBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onBtnLikeClick: (
         view: Button,
@@ -52,7 +53,7 @@ class FeedPostViewHolder(
         // 베스트 댓글 작성자 확인
         binding.ivFeedPostCommentProperty.setOnClickListener {
             when(post.comment.isAuthor) {
-                true -> onMyBestCommentPropertyClick(binding.ivFeedPostCommentProperty)
+                true -> onMyBestCommentPropertyClick(binding.ivFeedPostCommentProperty, post.comment.commentId, post.comment.content, binding.cardviewFeedPostComment)
                 false -> onOtherBestCommentPropertyClick(binding.ivFeedPostCommentProperty)
             }
         }
@@ -85,10 +86,10 @@ class FeedPostViewHolder(
     fun bind(item: Feed) {
         post = item
 
-        binding.layoutFeedComment.isVisible = true
+        if (post.comment.commentId != 0) {
+            binding.layoutFeedComment.isVisible = true
+        }
 
-        if (item.commentCount == 0)
-            binding.layoutFeedComment.isVisible = false
 
         setFeedPost(item)
         setFeedPostImg(item)

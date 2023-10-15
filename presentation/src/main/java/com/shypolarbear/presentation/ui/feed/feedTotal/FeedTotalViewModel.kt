@@ -3,11 +3,13 @@ package com.shypolarbear.presentation.ui.feed.feedTotal
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.domain.model.feed.FeedTotal
 import com.shypolarbear.domain.usecase.feed.RequestFeedDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedLikeUseCase
 import com.shypolarbear.domain.usecase.feed.LoadFeedTotalUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedCommentDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedCommentLikeUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +21,8 @@ class FeedTotalViewModel @Inject constructor (
     private val feedTotalUseCase: LoadFeedTotalUseCase,
     private val feedDeleteUseCase: RequestFeedDeleteUseCase,
     private val feedLikeUseCase: RequestFeedLikeUseCase,
-    private val feedCommentLikeUseCase: RequestFeedCommentLikeUseCase
+    private val feedCommentLikeUseCase: RequestFeedCommentLikeUseCase,
+    private val feedCommentDeleteUseCase: RequestFeedCommentDeleteUseCase
 ): BaseViewModel() {
 
     private val _feed = MutableLiveData<List<Feed>>()
@@ -122,5 +125,11 @@ class FeedTotalViewModel @Inject constructor (
         val feedList: MutableList<Feed> = mutableListOf()
 
         _feed.value = feedList
+    }
+
+    fun requestDeleteFeedComment(commentId: Int) {
+        viewModelScope.launch {
+            feedCommentDeleteUseCase(commentId)
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.shypolarbear.presentation.ui.feed.feedTotal
 
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,6 +13,7 @@ import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedTotalBinding
+import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailFragmentDirections
 import com.shypolarbear.presentation.ui.feed.feedTotal.adapter.FeedPostAdapter
 import com.shypolarbear.presentation.util.PowerMenuUtil
 import com.shypolarbear.presentation.util.infiniteScroll
@@ -54,8 +56,8 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         onOtherPostPropertyClick = { view: ImageView ->
             showOtherPostPropertyMenu(view)
         },
-        onMyBestCommentPropertyClick = { view: ImageView ->
-            showMyBestCommentPropertyMenu(view)
+        onMyBestCommentPropertyClick = { view: ImageView, commentId: Int, content: String, commentView: View ->
+            showMyBestCommentPropertyMenu(view, commentId, content, commentView)
         },
         onOtherBestCommentPropertyClick = { view: ImageView ->
             showOtherBestCommentPropertyMenu(view)
@@ -205,17 +207,31 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         )
     }
 
-    private fun showMyBestCommentPropertyMenu(view: ImageView) {
+    private fun showMyBestCommentPropertyMenu(view: ImageView, commentId: Int, content: String, commentView: View) {
         val myCommentPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete))
             )
 
-        view.setMenu(
+        PowerMenuUtil.getPowerMenu(
+            requireContext(),
+            viewLifecycleOwner,
+            myCommentPropertyItems
+        ) { _, item ->
+            when(item.title) {
+                getString(R.string.feed_post_property_revise) -> {
+                    findNavController().navigate(FeedTotalFragmentDirections.actionNavigationFeedToFeedCommentChangeFragment(commentId, content))
+                }
+                getString(R.string.feed_post_property_delete) -> {
+                    viewModel.requestDeleteFeedComment(commentId)
+                    commentView.isVisible = false
+                }
+            }
+        }.showAsDropDown(
             view,
-            myCommentPropertyItems,
-            viewLifecycleOwner
+            POWER_MENU_OFFSET_X,
+            POWER_MENU_OFFSET_Y
         )
     }
 
