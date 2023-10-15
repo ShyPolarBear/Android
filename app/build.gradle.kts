@@ -2,7 +2,8 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
     id("com.android.application")
-
+    // firebase
+    id("com.google.gms.google-services")
     // Hilt
     id("dagger.hilt.android.plugin")
 
@@ -83,4 +84,5 @@ dependencies {
 
     implementation(Jakewharton.TIMBER)
     implementation(Kakao.KAKAO)
+    implementation(platform(Firebase.FIREBASE))
 }

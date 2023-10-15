@@ -36,4 +36,7 @@ object Versions {
     const val DATA_STORE = "1.0.0"
 
     const val SWIPE_REFRESH_LAYOUT = "1.1.0"
+
+    const val GOOGLE_GMS = "4.4.0"
+    const val FIREBASE_BOM = "32.3.1"
 }

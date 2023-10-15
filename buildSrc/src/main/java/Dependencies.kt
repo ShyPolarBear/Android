@@ -57,3 +57,7 @@ object Glide {
 object Kakao {
     const val KAKAO = "com.kakao.sdk:v2-all:${Versions.KAKAO}"
 }
+
+object Firebase{
+    const val FIREBASE = "com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"
+}

@@ -12,6 +12,10 @@ buildscript {
     }
 }
 
+plugins{
+    id("com.google.gms.google-services") version Versions.GOOGLE_GMS apply false
+}
+
 val clean by tasks.registering(Delete::class) {
     delete(rootProject.buildDir)
 }
