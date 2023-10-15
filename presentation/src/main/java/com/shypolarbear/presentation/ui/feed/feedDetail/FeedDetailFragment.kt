@@ -253,10 +253,20 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 PowerMenuItem(requireContext().getString(R.string.feed_comment_reply))
             )
 
-        view.setMenu(
+        PowerMenuUtil.getPowerMenu(
+            requireContext(),
+            viewLifecycleOwner,
+            otherReplyPropertyItems
+        ) { _, item ->
+            when(item.title) {
+                getString(R.string.feed_post_property_report), getString(R.string.feed_post_property_block) -> {
+                    Toast.makeText(requireContext(), getString(R.string.features_in_preparation), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }.showAsDropDown(
             view,
-            otherReplyPropertyItems,
-            viewLifecycleOwner
+            FeedTotalFragment.POWER_MENU_OFFSET_X,
+            FeedTotalFragment.POWER_MENU_OFFSET_Y
         )
     }
 
