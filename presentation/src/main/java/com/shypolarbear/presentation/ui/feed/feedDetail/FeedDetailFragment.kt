@@ -294,6 +294,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     private fun clickReplyProperty(view: View) {
         val replySelectedCommentBackgroundColor = ContextCompat.getColor(requireContext(), R.color.Blue_05)
         view.setBackgroundColor(replySelectedCommentBackgroundColor)
+
+        binding.edtFeedDetailReply.hint = getString(R.string.feed_detail_reply_msg)
     }
 
     private fun showPostPropertyMenu(feedDetail: Feed, view: ImageView) {
@@ -357,5 +359,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         commentType = CommentType.COMMENT
         commentParentId = 0
         commentPosition = 0
+
+        binding.edtFeedDetailReply.hint = getString(R.string.feed_detail_comment_msg)
     }
 }
