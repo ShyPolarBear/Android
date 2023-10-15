@@ -331,23 +331,6 @@ fun EditText.keyboardDown(fragment: Fragment) {
     }
 }
 
-fun ImageView.setMenu(
-    view: ImageView,
-    menuList: List<PowerMenuItem>,
-    viewLifecycleOwner: LifecycleOwner,
-) {
-    PowerMenuUtil.getPowerMenu(
-        context,
-        viewLifecycleOwner,
-        menuList
-    ) { _, _ -> }
-        .showAsDropDown(
-            view,
-            FeedTotalFragment.POWER_MENU_OFFSET_X,
-            FeedTotalFragment.POWER_MENU_OFFSET_Y
-        )
-}
-
 fun TextView.setTextColorById(context: Context, colorId: Int) {
     this.setTextColor(
         ContextCompat.getColor(

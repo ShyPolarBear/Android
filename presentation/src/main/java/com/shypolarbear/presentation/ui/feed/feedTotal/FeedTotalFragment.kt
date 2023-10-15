@@ -13,12 +13,10 @@ import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedTotalBinding
-import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailFragmentDirections
 import com.shypolarbear.presentation.ui.feed.feedTotal.adapter.FeedPostAdapter
 import com.shypolarbear.presentation.util.PowerMenuUtil
 import com.shypolarbear.presentation.util.infiniteScroll
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
-import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
