@@ -33,7 +33,8 @@ class FeedCommentAdapter(
         commentId: Int,
         replyId: Int,
         itemType: FeedDetailLikeBtnType
-            ) -> Unit = { _, _, _, _, _, _, _ -> }
+    ) -> Unit = { _, _, _, _, _, _, _ -> },
+    private val onItemClick: (view: View) -> Unit = { _ -> }
 ): ListAdapter<Comment, RecyclerView.ViewHolder>(FeedCommentDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -54,7 +55,8 @@ class FeedCommentAdapter(
                     onOtherCommentPropertyClick = onOtherCommentPropertyClick,
                     onMyReplyPropertyClick = onMyReplyPropertyClick,
                     onOtherReplyPropertyClick = onOtherReplyPropertyClick,
-                    onBtnLikeClick = onBtnLikeClick
+                    onBtnLikeClick = onBtnLikeClick,
+                    onItemClick = onItemClick
                 )
             }
 

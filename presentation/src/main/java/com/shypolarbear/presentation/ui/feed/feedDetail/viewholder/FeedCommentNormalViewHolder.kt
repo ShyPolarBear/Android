@@ -28,8 +28,9 @@ class FeedCommentNormalViewHolder (
         commentId: Int,
         replyId: Int,
         itemType: FeedDetailLikeBtnType
-    ) -> Unit = { _, _, _, _, _, _, _ -> }
-    ) : RecyclerView.ViewHolder(binding.root) {
+    ) -> Unit = { _, _, _, _, _, _, _ -> },
+    private val onItemClick: (view: View) -> Unit = { _ -> }
+) : RecyclerView.ViewHolder(binding.root) {
 
     private var comment: Comment = Comment()
 
@@ -53,6 +54,10 @@ class FeedCommentNormalViewHolder (
                 false ->
                     onOtherCommentPropertyClick(binding.ivFeedCommentNormalProperty)
             }
+        }
+
+        binding.layoutFeedCommentNormalTotal.setOnClickListener {
+            onItemClick(binding.layoutFeedCommentNormal)
         }
     }
 

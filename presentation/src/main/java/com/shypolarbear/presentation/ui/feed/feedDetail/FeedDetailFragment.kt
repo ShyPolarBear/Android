@@ -85,7 +85,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                     replyId: Int,
                     itemType: FeedDetailLikeBtnType ->
                 changeLikeBtn(btn, isLiked, likeCnt, textView, commentId, replyId, itemType)
-            }
+            },
+            onItemClick = { view: View -> clickCommentItem(view) }
         )
     }
 
@@ -171,10 +172,10 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                     viewModel.requestDeleteFeedComment(commentId, position)
                 }
                 getString(R.string.feed_comment_reply) -> {
-                    clickReplyProperty(commentView)
                     commentType = CommentType.REPLY
                     commentParentId = commentId
                     commentPosition = position
+                    clickReplyProperty(commentView)
                 }
             }
         }.showAsDropDown(
@@ -347,5 +348,14 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     private fun moveToBack() {
         fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
         findNavController().popBackStack()
+    }
+
+    private fun clickCommentItem(view: View) {
+        val replySelectedCommentBackgroundColor = ContextCompat.getColor(requireContext(), R.color.White_01)
+        view.setBackgroundColor(replySelectedCommentBackgroundColor)
+
+        commentType = CommentType.COMMENT
+        commentParentId = 0
+        commentPosition = 0
     }
 }
