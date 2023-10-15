@@ -17,7 +17,7 @@ import timber.log.Timber
 class FeedCommentNormalViewHolder (
     private val binding: ItemFeedCommentNormalBinding,
     private val onMyCommentPropertyClick: (view: ImageView, commentId: Int, position: Int, commentView: View ,content: String) -> Unit = { _, _, _, _, _ -> },
-    private val onOtherCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onOtherCommentPropertyClick: (view: ImageView, commentId: Int, position: Int, commentView: View) -> Unit = { _, _, _, _ -> },
     private val onMyReplyPropertyClick: (view: ImageView, commentId: Int, feedId: Int, content: String) -> Unit = { _, _, _, _ -> },
     private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onBtnLikeClick: (
@@ -52,7 +52,7 @@ class FeedCommentNormalViewHolder (
                 true ->
                     onMyCommentPropertyClick(binding.ivFeedCommentNormalProperty, comment.commentId, adapterPosition, binding.layoutFeedCommentNormal, comment.content)
                 false ->
-                    onOtherCommentPropertyClick(binding.ivFeedCommentNormalProperty)
+                    onOtherCommentPropertyClick(binding.ivFeedCommentNormalProperty, comment.commentId, adapterPosition, binding.layoutFeedCommentNormal)
             }
         }
 

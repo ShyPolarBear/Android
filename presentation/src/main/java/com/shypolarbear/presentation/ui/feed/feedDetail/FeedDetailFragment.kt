@@ -67,8 +67,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             onMyCommentPropertyClick = { view: ImageView, commentId: Int, position: Int, commentView: View, content: String ->
                 showMyCommentPropertyMenu(view, commentId, position, commentView, content)
             },
-            onOtherCommentPropertyClick = { view: ImageView ->
-                showOtherCommentPropertyMenu(view)
+            onOtherCommentPropertyClick = { view: ImageView, commentId: Int, position: Int, commentView: View ->
+                showOtherCommentPropertyMenu(view, commentId, position, commentView)
             },
             onMyReplyPropertyClick = { view: ImageView, commentId: Int, _: Int, content: String ->
                 showMyReplyPropertyMenu(view, commentId, feedDetailArgs.feedId, content)
@@ -185,7 +185,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         )
     }
 
-    private fun showOtherCommentPropertyMenu(view: ImageView) {
+    private fun showOtherCommentPropertyMenu(view: ImageView, commentId: Int, position: Int, commentView: View) {
         val otherCommentPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_report)),
@@ -193,10 +193,26 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 PowerMenuItem(requireContext().getString(R.string.feed_comment_reply))
             )
 
-        view.setMenu(
+        PowerMenuUtil.getPowerMenu(
+            requireContext(),
+            viewLifecycleOwner,
+            otherCommentPropertyItems
+        ) { _, item ->
+            when(item.title) {
+                getString(R.string.feed_post_property_report), getString(R.string.feed_post_property_block) -> {
+                    Toast.makeText(requireContext(), getString(R.string.features_in_preparation), Toast.LENGTH_SHORT).show()
+                }
+                getString(R.string.feed_comment_reply) -> {
+                    commentType = CommentType.REPLY
+                    commentParentId = commentId
+                    commentPosition = position
+                    clickReplyProperty(commentView)
+                }
+            }
+        }.showAsDropDown(
             view,
-            otherCommentPropertyItems,
-            viewLifecycleOwner
+            FeedTotalFragment.POWER_MENU_OFFSET_X,
+            FeedTotalFragment.POWER_MENU_OFFSET_Y
         )
     }
 
