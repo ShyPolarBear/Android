@@ -220,8 +220,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         val myReplyPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
-                PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete)),
-                PowerMenuItem(requireContext().getString(R.string.feed_comment_reply))
+                PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete))
             )
 
         PowerMenuUtil.getPowerMenu(
@@ -249,8 +248,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         val otherReplyPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_report)),
-                PowerMenuItem(requireContext().getString(R.string.feed_post_property_block)),
-                PowerMenuItem(requireContext().getString(R.string.feed_comment_reply))
+                PowerMenuItem(requireContext().getString(R.string.feed_post_property_block))
             )
 
         PowerMenuUtil.getPowerMenu(
