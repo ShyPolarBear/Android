@@ -26,7 +26,6 @@ import com.shypolarbear.presentation.util.infiniteScroll
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 enum class CommentType(val type: Int) {
     COMMENT(0),
@@ -35,7 +34,7 @@ enum class CommentType(val type: Int) {
 
 enum class CommentLoadType(val type: Int) {
     INIT(0),
-    COMMENTLOAD(1)
+    COMMENT_LOAD(1)
 }
 
 @AndroidEntryPoint
@@ -132,7 +131,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 when(viewModel.commentIsLast) {
                     true -> { }
                     false -> {
-                        viewModel.commentLoadType = CommentLoadType.COMMENTLOAD
+                        viewModel.commentLoadType = CommentLoadType.COMMENT_LOAD
                         viewModel.loadFeedComment(feedDetailArgs.feedId, viewModel.commentLoadType)
                     }
                 }

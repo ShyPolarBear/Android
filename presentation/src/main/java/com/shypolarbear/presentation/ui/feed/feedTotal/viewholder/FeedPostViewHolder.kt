@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.google.android.material.tabs.TabLayoutMediator
+import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
@@ -15,6 +16,9 @@ import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalLikeBtnType
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
+import timber.log.Timber
+
+const val DEFAULT_COMMENT_ID = 0
 
 class FeedPostViewHolder(
     private val binding: ItemFeedBinding,
@@ -86,10 +90,9 @@ class FeedPostViewHolder(
     fun bind(item: Feed) {
         post = item
 
-        if (post.comment.commentId != 0) {
-            binding.layoutFeedComment.isVisible = true
+        if ((post.comment.commentId == DEFAULT_COMMENT_ID) || (post.commentCount == 0)) {
+            binding.layoutFeedComment.isVisible = false
         }
-
 
         setFeedPost(item)
         setFeedPostImg(item)
