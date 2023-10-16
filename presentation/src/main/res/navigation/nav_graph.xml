@@ -180,6 +180,9 @@
         <action
             android:id="@+id/action_quizMainFragment_to_quizDailyMultiChoiceFragment"
             app:destination="@id/quizDailyMultiChoiceFragment" />
+        <action
+            android:id="@+id/action_navigation_quiz_main_to_navigation_ranking"
+            app:destination="@id/navigation_ranking" />
     </fragment>
     <fragment
         android:id="@+id/quizDailyMultiChoiceFragment"
@@ -220,5 +223,16 @@
         <action
             android:id="@+id/action_myPageFragment_to_navigation_more"
             app:destination="@id/navigation_more" />
+        <action
+            android:id="@+id/action_myPageFragment_to_feedDetailFragment"
+            app:destination="@id/feedDetailFragment">
+            <argument
+                android:name="feedId"
+                app:argType="integer" />
+        </action>
     </fragment>
+    <fragment
+        android:id="@+id/navigation_ranking"
+        android:name="com.shypolarbear.presentation.ui.ranking.RankingFragment"
+        android:label="RankingFragment" />
 </navigation>

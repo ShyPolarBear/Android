@@ -8,8 +8,9 @@ import com.shypolarbear.data.repositoryimpl.LoginRepoImpl
 import com.shypolarbear.data.repositoryimpl.TokenRepoImpl
 import com.shypolarbear.data.repositoryimpl.feed.FeedRepoImpl
 import com.shypolarbear.data.repositoryimpl.image.ImageUploadRepoImpl
-import com.shypolarbear.data.repositoryimpl.mypage.MyPostRepoImpl
+import com.shypolarbear.data.repositoryimpl.mypage.MyFeedRepoImpl
 import com.shypolarbear.data.repositoryimpl.quiz.QuizRepoImpl
+import com.shypolarbear.data.repositoryimpl.ranking.RankingRepoImpl
 import com.shypolarbear.domain.repository.ExampleRepo
 import com.shypolarbear.domain.repository.image.ImageEditRepo
 import com.shypolarbear.domain.repository.InfoRepo
@@ -18,8 +19,9 @@ import com.shypolarbear.domain.repository.LoginRepo
 import com.shypolarbear.domain.repository.TokenRepo
 import com.shypolarbear.domain.repository.feed.FeedRepo
 import com.shypolarbear.domain.repository.image.ImageUploadRepo
-import com.shypolarbear.domain.repository.mypage.MyPostRepo
+import com.shypolarbear.domain.repository.mypage.MyFeedRepo
 import com.shypolarbear.domain.repository.quiz.QuizRepo
+import com.shypolarbear.domain.repository.ranking.RankingRepo
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -57,5 +59,8 @@ abstract class RepositoryModule {
     abstract fun bindImageUploadRepo(repoImp: ImageUploadRepoImpl): ImageUploadRepo
 
     @Binds
-    abstract fun bindMyPostRepo(repoImp: MyPostRepoImpl): MyPostRepo
+    abstract fun bindMyFeedRepo(repoImp: MyFeedRepoImpl): MyFeedRepo
+
+    @Binds
+    abstract fun bindRankingRepo(repoImp: RankingRepoImpl): RankingRepo
 }

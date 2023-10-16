@@ -2,6 +2,7 @@ package com.shypolarbear.presentation.ui.mypage.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,17 +12,35 @@ import com.shypolarbear.presentation.databinding.ItemPagePostBinding
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.MyFeedType
 
-class MyPostAdapter(private val _items: List<MyFeed?>) :
+class MyPostAdapter(
+    private val _items: List<MyFeed?>,
+    private val onMyFeedPropertyClick: (feedId: Int, view: ImageView) -> Unit = { _, _ -> },
+) :
     ListAdapter<MyFeed, RecyclerView.ViewHolder>(MyFeedDiffCallback()) {
 
-    private lateinit var postBinding: ItemPagePostBinding
-
-    inner class ItemPostViewHolder(private val binding: ItemPagePostBinding) :
+    inner class ItemPostViewHolder(
+        private val binding: ItemPagePostBinding,
+        private val onMyFeedPropertyClick: (feedId: Int, view: ImageView) -> Unit = { _, _ -> },
+    ) :
         RecyclerView.ViewHolder(binding.root) {
+        private lateinit var myFeed: MyFeed
+
+        init {
+            if(::myFeed.isInitialized){
+                binding.ivItemPostProperty.setOnClickListener {
+                    onMyFeedPropertyClick(myFeed.feedId, binding.ivItemPostProperty)
+                }
+            }
+        }
+
         fun bindItems(item: MyFeed) {
+            myFeed = item
             binding.apply {
                 tvItemPageTitle.text = item.title
                 GlideUtil.loadImage(binding.root.context, item.feedImage, ivItemPage)
+                ivItemPostProperty.setOnClickListener {
+                    onMyFeedPropertyClick(item.feedId, ivItemPostProperty)
+                }
             }
         }
     }
@@ -32,9 +51,14 @@ class MyPostAdapter(private val _items: List<MyFeed?>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == MyFeedType.ITEM.state) {
-            postBinding =
-                ItemPagePostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            ItemPostViewHolder(postBinding)
+            ItemPostViewHolder(
+                ItemPagePostBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                ),
+                onMyFeedPropertyClick = onMyFeedPropertyClick
+            )
         } else {
             LoadingViewHolder(
                 ItemFeedLoadingBinding.inflate(

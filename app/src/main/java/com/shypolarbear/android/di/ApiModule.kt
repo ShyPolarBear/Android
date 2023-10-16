@@ -8,8 +8,9 @@ import com.shypolarbear.data.api.LoginApi
 import com.shypolarbear.data.api.TokenApi
 import com.shypolarbear.data.api.feed.FeedApi
 import com.shypolarbear.data.api.image.ImageUploadApi
-import com.shypolarbear.data.api.mypage.MyPostApi
+import com.shypolarbear.data.api.mypage.MyFeedApi
 import com.shypolarbear.data.api.quiz.QuizApi
+import com.shypolarbear.data.api.ranking.RankingApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -80,7 +81,13 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun provideMyPostApi(@AuthRetrofit retrofit: Retrofit): MyPostApi {
-        return retrofit.create(MyPostApi::class.java)
+    fun provideMyFeedApi(@AuthRetrofit retrofit: Retrofit): MyFeedApi {
+        return retrofit.create(MyFeedApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRankingApi(@AuthRetrofit retrofit: Retrofit): RankingApi {
+        return retrofit.create(RankingApi::class.java)
     }
 }
