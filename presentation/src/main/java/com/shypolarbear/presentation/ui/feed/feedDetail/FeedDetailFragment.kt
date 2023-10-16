@@ -33,6 +33,11 @@ enum class CommentType(val type: Int) {
     REPLY(1)
 }
 
+enum class CommentLoadType(val type: Int) {
+    INIT(0),
+    COMMENTLOAD(1)
+}
+
 @AndroidEntryPoint
 class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailViewModel>(
     R.layout.fragment_feed_detail
@@ -127,15 +132,15 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 when(viewModel.commentIsLast) {
                     true -> { }
                     false -> {
-                        Timber.d("${viewModel.feedComment.value!!.size}")
-                        viewModel.loadFeedComment(feedDetailArgs.feedId)
+                        viewModel.commentLoadType = CommentLoadType.COMMENTLOAD
+                        viewModel.loadFeedComment(feedDetailArgs.feedId, viewModel.commentLoadType)
                     }
                 }
             }
 
             viewModel.getMyInfo()
             viewModel.loadFeedDetail(feedDetailArgs.feedId)
-            viewModel.loadFeedComment(feedDetailArgs.feedId)
+            viewModel.loadFeedComment(feedDetailArgs.feedId, viewModel.commentLoadType)
 
             viewModel.feed.observe(viewLifecycleOwner) { feed ->
                 feedDetailPostAdapter.submitList(listOf(feed))
@@ -165,6 +170,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         ) { _, item ->
             when(item.title) {
                 getString(R.string.feed_post_property_revise) -> {
+                    viewModel.commentLoadType = CommentLoadType.INIT
                     findNavController().navigate(FeedDetailFragmentDirections.actionFeedDetailFragmentToFeedCommentChangeFragment(commentId, content))
                 }
                 getString(R.string.feed_post_property_delete) -> {
@@ -229,6 +235,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         ) { _, item ->
             when(item.title) {
                 getString(R.string.feed_post_property_revise) -> {
+                    viewModel.commentLoadType = CommentLoadType.INIT
                     findNavController().navigate(FeedDetailFragmentDirections.actionFeedDetailFragmentToFeedCommentChangeFragment(commentId, content))
                 }
                 getString(R.string.feed_post_property_delete) -> {

@@ -45,6 +45,7 @@ class FeedDetailViewModel @Inject constructor(
     private lateinit var currentCommentList: List<Comment>
     private lateinit var myInfo: Info
     var commentIsLast = false
+    var commentLoadType = CommentLoadType.INIT
 
     fun getMyInfo() {
         viewModelScope.launch {
@@ -71,13 +72,13 @@ class FeedDetailViewModel @Inject constructor(
         }
     }
 
-    fun loadFeedComment(feedId: Int) {
+    fun loadFeedComment(feedId: Int, commentLoadType: CommentLoadType) {
         var feedCommentData: Result<FeedComment>
 
         viewModelScope.launch {
 
             feedCommentData = when {
-                _feedComment.value.isNullOrEmpty() -> { feedCommentUseCase(feedId, null) }
+                _feedComment.value.isNullOrEmpty() || commentLoadType == CommentLoadType.INIT -> { feedCommentUseCase(feedId, null) }
                 else -> { feedCommentUseCase(feedId, _feedComment.value!![_feedComment.value!!.lastIndex - 1].commentId) }
             }
 
@@ -95,9 +96,10 @@ class FeedDetailViewModel @Inject constructor(
 
                     commentIsLast = it.data.last
 
-                    when(commentIsLast) {
-                        true -> { _feedComment.value = currentList + newDataList }
-                        false -> { _feedComment.value = currentList + newDataList + listOf(Comment()) }
+                    when {
+                        commentLoadType == CommentLoadType.INIT -> { _feedComment.value = newDataList }
+                        commentIsLast -> { _feedComment.value = currentList + newDataList }
+                        else-> { _feedComment.value = currentList + newDataList + listOf(Comment()) }
                     }
                 }
                 .onFailure {  }
@@ -227,7 +229,7 @@ class FeedDetailViewModel @Inject constructor(
             val feedCommentWriteResult = feedCommentWriteUseCase(feedId, parentId, content)
 
             // 추후 아이템만 추가하는 방식으로 변경할 예정
-            loadFeedComment(feedId)
+            loadFeedComment(feedId, CommentLoadType.INIT)
         }
 
 //        feedReplyList.add(ChildComment(
@@ -250,7 +252,7 @@ class FeedDetailViewModel @Inject constructor(
             val feedCommentDeleteResult = feedCommentDeleteUseCase(commentId)
 
             // 추후 아이템의 상태만 변경하는 방식으로 수정할 예정
-            loadFeedComment(feedId)
+            loadFeedComment(feedId, CommentLoadType.INIT)
         }
     }
 }
