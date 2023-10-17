@@ -124,7 +124,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 binding.edtFeedDetailReply.clearFocus()
                 binding.edtFeedDetailReply.setText("")
                 binding.cardviewFeedCommentWritingMsg.isVisible = false
-                clickCommentItem()
+                clickCommentItem()  // 대댓글 모드 해제
             }
 
             rvFeedDetail.infiniteScroll {
@@ -148,6 +148,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             }
 
             viewModel.feedComment.observe(viewLifecycleOwner) { comment ->
+                viewModel.loadFeedDetail(feedDetailArgs.feedId)
                 feedCommentAdapter.submitList(comment.toList())
             }
         }
