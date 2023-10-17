@@ -44,6 +44,7 @@ class FeedDetailViewModel @Inject constructor(
 
     private lateinit var currentCommentList: List<Comment>
     private lateinit var myInfo: Info
+
     var commentIsLast = false
     var commentLoadType = CommentLoadType.INIT
 

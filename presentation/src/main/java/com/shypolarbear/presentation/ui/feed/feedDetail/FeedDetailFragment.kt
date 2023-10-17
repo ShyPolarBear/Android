@@ -5,7 +5,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -89,7 +88,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                     itemType: FeedDetailLikeBtnType ->
                 changeLikeBtn(btn, isLiked, likeCnt, textView, commentId, replyId, itemType)
             },
-            onItemClick = { view: View -> clickCommentItem(view) }
+            onItemClick = { view: View -> clickCommentItem(view) }  // 선택된 댓글 해제
         )
     }
 
@@ -150,7 +149,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             viewModel.feedComment.observe(viewLifecycleOwner) { comment ->
                 feedCommentAdapter.submitList(comment.toList())
             }
-
         }
     }
 
@@ -246,7 +244,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             FeedTotalFragment.POWER_MENU_OFFSET_X,
             FeedTotalFragment.POWER_MENU_OFFSET_Y
         )
-
     }
 
     private fun showOtherReplyPropertyMenu(view: ImageView) {
@@ -320,15 +317,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         likeCntText.text = likeCount.toString()
     }
 
-    private fun clickReplyProperty(view: View) {
-        val replySelectedCommentBackgroundColor = ContextCompat.getColor(requireContext(), R.color.Blue_05)
-        view.setBackgroundColor(replySelectedCommentBackgroundColor)
-
-        binding.edtFeedDetailReply.hint = getString(R.string.feed_detail_reply_msg)
-    }
-
     private fun showPostPropertyMenu(feedDetail: Feed, view: ImageView) {
-        var postPropertyItems: List<PowerMenuItem>
+        val postPropertyItems: List<PowerMenuItem>
 
         when (feedDetail.isAuthor) {
             true -> {
@@ -381,9 +371,16 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         findNavController().popBackStack()
     }
 
+    private fun clickReplyProperty(view: View) {
+//        view.selectedComment(true, view)
+
+        commentType = CommentType.REPLY
+
+        binding.edtFeedDetailReply.hint = getString(R.string.feed_detail_reply_msg)
+    }
+
     private fun clickCommentItem(view: View) {
-        val replySelectedCommentBackgroundColor = ContextCompat.getColor(requireContext(), R.color.White_01)
-        view.setBackgroundColor(replySelectedCommentBackgroundColor)
+//        view.selectedComment(false, view)
 
         commentType = CommentType.COMMENT
         commentParentId = 0
