@@ -88,7 +88,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                     itemType: FeedDetailLikeBtnType ->
                 changeLikeBtn(btn, isLiked, likeCnt, textView, commentId, replyId, itemType)
             },
-            onItemClick = { view: View -> clickCommentItem(view) }  // 선택된 댓글 해제
+            onItemClick = { clickCommentItem() }  // 선택된 댓글 해제
         )
     }
 
@@ -124,6 +124,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 binding.edtFeedDetailReply.clearFocus()
                 binding.edtFeedDetailReply.setText("")
                 binding.cardviewFeedCommentWritingMsg.isVisible = false
+                clickCommentItem()
             }
 
             rvFeedDetail.infiniteScroll {
@@ -177,7 +178,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                     commentType = CommentType.REPLY
                     commentParentId = commentId
                     commentPosition = position
-                    clickReplyProperty(commentView)
+                    clickReplyProperty()
                 }
             }
         }.showAsDropDown(
@@ -208,7 +209,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                     commentType = CommentType.REPLY
                     commentParentId = commentId
                     commentPosition = position
-                    clickReplyProperty(commentView)
+                    clickReplyProperty()
                 }
             }
         }.showAsDropDown(
@@ -371,7 +372,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         findNavController().popBackStack()
     }
 
-    private fun clickReplyProperty(view: View) {
+    private fun clickReplyProperty() {
+//        나중에 대댓글 옵션 클릭된 댓글 배경 바꿀 때 사용할 예정
 //        view.selectedComment(true, view)
 
         commentType = CommentType.REPLY
@@ -379,7 +381,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         binding.edtFeedDetailReply.hint = getString(R.string.feed_detail_reply_msg)
     }
 
-    private fun clickCommentItem(view: View) {
+    private fun clickCommentItem() {
+//        나중에 대댓글 옵션 클릭된 댓글 배경 바꿀 때 사용할 예정
 //        view.selectedComment(false, view)
 
         commentType = CommentType.COMMENT

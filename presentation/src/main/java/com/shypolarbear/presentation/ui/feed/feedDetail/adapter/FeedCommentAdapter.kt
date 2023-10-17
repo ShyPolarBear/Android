@@ -34,7 +34,7 @@ class FeedCommentAdapter(
         replyId: Int,
         itemType: FeedDetailLikeBtnType
     ) -> Unit = { _, _, _, _, _, _, _ -> },
-    private val onItemClick: (view: View) -> Unit = { _ -> }
+    private val onItemClick: () -> Unit
 ): ListAdapter<Comment, RecyclerView.ViewHolder>(FeedCommentDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -79,11 +79,11 @@ class FeedCommentAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         when {
-            getItem(position).commentId == 0 -> {
-                (holder as FeedCommentLoadingViewHolder).bind(getItem(position))
-            }
             getItem(position).isDeleted -> {
                 (holder as FeedCommentDeleteViewHolder).bind(getItem(position))
+            }
+            getItem(position).commentId == 0 -> {
+                (holder as FeedCommentLoadingViewHolder).bind(getItem(position))
             }
             !getItem(position).isDeleted -> {
                 (holder as FeedCommentNormalViewHolder).bind(getItem(position))
@@ -93,11 +93,11 @@ class FeedCommentAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when {
-            getItem(position).commentId == 0 -> {
-                FeedCommentViewType.LOADING.commentType
-            }
             getItem(position).isDeleted -> {
                 FeedCommentViewType.DELETE.commentType
+            }
+            getItem(position).commentId == 0 -> {
+                FeedCommentViewType.LOADING.commentType
             }
             else -> {
                 FeedCommentViewType.NORMAL.commentType
