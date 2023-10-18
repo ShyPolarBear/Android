@@ -1,15 +1,43 @@
 package com.shypolarbear.presentation.ui.feed.feedDetail.viewholder
 
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.presentation.databinding.ItemFeedCommentDeleteBinding
+import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailLikeBtnType
+import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedReplyAdapter
 
 class FeedCommentDeleteViewHolder (
-    private val binding: ItemFeedCommentDeleteBinding
+    private val binding: ItemFeedCommentDeleteBinding,
+    private val onMyReplyPropertyClick: (view: ImageView, commentId: Int, feedId: Int, content: String) -> Unit = { _, _, _, _ -> },
+    private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onBtnLikeClick: (
+        view: Button,
+        isLiked: Boolean,
+        likeCnt: Int,
+        textView: TextView,
+        commentId: Int,
+        replyId: Int,
+        itemType: FeedDetailLikeBtnType
+    ) -> Unit = { _, _, _, _, _, _, _ -> }
     ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(comment: Comment) {
-        // Todo(삭제된 댓글)
+    fun bind(item: Comment) {
+        setReply(item)
         binding.executePendingBindings()
+    }
+
+    private fun setReply(item: Comment) {
+        val feedReplyAdapter = FeedReplyAdapter(
+            onMyReplyPropertyClick = onMyReplyPropertyClick,
+            onOtherReplyPropertyClick = onOtherReplyPropertyClick,
+            onBtnLikeClick = onBtnLikeClick,
+            parentCommentId = item.commentId
+        )
+
+        binding.rvFeedDeleteCommentReply.adapter = feedReplyAdapter
+        feedReplyAdapter.submitList(item.childComments)
     }
 }

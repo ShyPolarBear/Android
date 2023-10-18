@@ -66,7 +66,10 @@ class FeedCommentAdapter(
                         LayoutInflater.from(parent.context),
                         parent,
                         false
-                    )
+                    ),
+                    onMyReplyPropertyClick = onMyReplyPropertyClick,
+                    onOtherReplyPropertyClick = onOtherReplyPropertyClick,
+                    onBtnLikeClick = onBtnLikeClick
                 )
             }
 
