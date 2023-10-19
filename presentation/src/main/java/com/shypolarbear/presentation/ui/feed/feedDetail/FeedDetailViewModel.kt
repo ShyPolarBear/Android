@@ -174,9 +174,7 @@ class FeedDetailViewModel @Inject constructor(
         val commentCreatedDateFormat = SimpleDateFormat(timeFormat, Locale.US)
 
         viewModelScope.launch {
-            val feedCommentWriteResult = feedCommentWriteUseCase(feedId, null, content)
-
-            feedCommentWriteResult
+            feedCommentWriteUseCase(feedId, null, content)
                 .onSuccess {
                     feedCommentList.add(Comment(
                         commentId = it.data.commentId,
