@@ -151,9 +151,7 @@ class FeedDetailViewModel @Inject constructor(
                 comment
         }
         viewModelScope.launch {
-            val result = feedCommentLikeUseCase(replyId)
-
-            result
+           feedCommentLikeUseCase(replyId)
                 .onSuccess {
                     _feedComment.value = updatedCommentList
                 }
