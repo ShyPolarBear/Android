@@ -87,7 +87,7 @@ class FeedDetailViewModel @Inject constructor(
                     val currentList = _feedComment.value ?: emptyList()
 
                     if (!currentList.isNullOrEmpty()) {
-                        val removeProgressList = currentList as MutableList
+                        val removeProgressList = currentList.toMutableList()
                         removeProgressList.removeLast()
 
                         _feedComment.value = removeProgressList
