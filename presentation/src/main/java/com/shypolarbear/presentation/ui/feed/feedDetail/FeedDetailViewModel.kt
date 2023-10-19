@@ -61,7 +61,7 @@ class FeedDetailViewModel @Inject constructor(
         viewModelScope.launch {
             val feedDetailData = feedDetailUseCase(feedId)
 
-            feedDetailData
+           feedDetailUseCase(feedId)
                 .onSuccess {
                     _feed.value = it.data
                 }
