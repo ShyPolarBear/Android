@@ -85,4 +85,5 @@ dependencies {
     implementation(Jakewharton.TIMBER)
     implementation(Kakao.KAKAO)
     implementation(platform(Firebase.FIREBASE))
+    implementation(Firebase.FIREBASE_ANALYTICS)
 }

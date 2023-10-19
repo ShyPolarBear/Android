@@ -9,6 +9,7 @@ import com.shypolarbear.domain.repository.feed.FeedRepo
 import com.shypolarbear.domain.repository.image.ImageEditRepo
 import com.shypolarbear.domain.repository.image.ImageUploadRepo
 import com.shypolarbear.domain.repository.mypage.MyFeedRepo
+import com.shypolarbear.domain.repository.noti.NotificationRepo
 import com.shypolarbear.domain.repository.quiz.QuizRepo
 import com.shypolarbear.domain.repository.ranking.RankingRepo
 import com.shypolarbear.domain.usecase.ExampleUseCase
@@ -29,6 +30,8 @@ import com.shypolarbear.domain.usecase.more.LoadMyInfoUseCase
 import com.shypolarbear.domain.usecase.more.RequestMyInfoChangeUseCase
 import com.shypolarbear.domain.usecase.mypage.LoadMyCommentUseCase
 import com.shypolarbear.domain.usecase.mypage.LoadMyPostUseCase
+import com.shypolarbear.domain.usecase.noti.LoadNotificationsUseCase
+import com.shypolarbear.domain.usecase.noti.RequestNotificationReadUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizReviewUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizSolvedUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizSubmitMultiUseCase
@@ -221,5 +224,17 @@ class UseCaseModule {
     @Provides
     fun provideTotalRanking(repo: RankingRepo): LoadTotalRankingUseCase {
         return LoadTotalRankingUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideNotificationList(repo: NotificationRepo): LoadNotificationsUseCase {
+        return LoadNotificationsUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideNotificationRead(repo: NotificationRepo): RequestNotificationReadUseCase {
+        return RequestNotificationReadUseCase(repo)
     }
 }

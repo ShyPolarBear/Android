@@ -9,6 +9,7 @@ import com.shypolarbear.data.api.TokenApi
 import com.shypolarbear.data.api.feed.FeedApi
 import com.shypolarbear.data.api.image.ImageUploadApi
 import com.shypolarbear.data.api.mypage.MyFeedApi
+import com.shypolarbear.data.api.noti.NotificationApi
 import com.shypolarbear.data.api.quiz.QuizApi
 import com.shypolarbear.data.api.ranking.RankingApi
 import dagger.Module
@@ -89,5 +90,11 @@ object ApiModule {
     @Provides
     fun provideRankingApi(@AuthRetrofit retrofit: Retrofit): RankingApi {
         return retrofit.create(RankingApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideNotificationApi(@AuthRetrofit retrofit: Retrofit): NotificationApi {
+        return retrofit.create(NotificationApi::class.java)
     }
 }

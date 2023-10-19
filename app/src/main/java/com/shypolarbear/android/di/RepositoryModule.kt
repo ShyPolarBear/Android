@@ -9,6 +9,7 @@ import com.shypolarbear.data.repositoryimpl.TokenRepoImpl
 import com.shypolarbear.data.repositoryimpl.feed.FeedRepoImpl
 import com.shypolarbear.data.repositoryimpl.image.ImageUploadRepoImpl
 import com.shypolarbear.data.repositoryimpl.mypage.MyFeedRepoImpl
+import com.shypolarbear.data.repositoryimpl.noti.NotificationRepoImpl
 import com.shypolarbear.data.repositoryimpl.quiz.QuizRepoImpl
 import com.shypolarbear.data.repositoryimpl.ranking.RankingRepoImpl
 import com.shypolarbear.domain.repository.ExampleRepo
@@ -20,6 +21,7 @@ import com.shypolarbear.domain.repository.TokenRepo
 import com.shypolarbear.domain.repository.feed.FeedRepo
 import com.shypolarbear.domain.repository.image.ImageUploadRepo
 import com.shypolarbear.domain.repository.mypage.MyFeedRepo
+import com.shypolarbear.domain.repository.noti.NotificationRepo
 import com.shypolarbear.domain.repository.quiz.QuizRepo
 import com.shypolarbear.domain.repository.ranking.RankingRepo
 import dagger.Binds
@@ -63,4 +65,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindRankingRepo(repoImp: RankingRepoImpl): RankingRepo
+
+    @Binds
+    abstract fun bindNotificationRepo(repoImp: NotificationRepoImpl): NotificationRepo
 }

@@ -4,7 +4,6 @@ plugins {
     id ("kotlin-android")
     id("dagger.hilt.android.plugin")
     id("androidx.navigation.safeargs.kotlin")
-
     kotlin("android")
     kotlin("kapt")
 }
@@ -69,5 +68,6 @@ dependencies {
     implementation(PowerMenu.POWER_MENU)
     implementation(Glide.GLIDE)
     implementation(Kakao.KAKAO)
-
+    implementation(platform(Firebase.FIREBASE))
+    implementation(Firebase.FIREBASE_ANALYTICS)
 }
