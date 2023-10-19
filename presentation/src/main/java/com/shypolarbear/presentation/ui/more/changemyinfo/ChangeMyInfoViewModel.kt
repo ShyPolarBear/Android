@@ -31,9 +31,7 @@ class ChangeMyInfoViewModel @Inject constructor(
 
     fun getMyInfo() {
         viewModelScope.launch {
-            val info = getMyInfoUseCase()
-
-            info
+            getMyInfoUseCase()
                 .onSuccess {
                     _myInfo.value = it.data
                 }
@@ -63,9 +61,7 @@ class ChangeMyInfoViewModel @Inject constructor(
                 }
                 // 프로필 사진 있는 경우
                 else -> {
-                    val uploadImages = imageUploadUseCase(ImageUploadRequest(ImageType.PROFILE.type, listOf(profileImageFile)))
-
-                    uploadImages
+                    imageUploadUseCase(ImageUploadRequest(ImageType.PROFILE.type, listOf(profileImageFile)))
                         .onSuccess {
                             changeMyInfoUseCase(nickName, it.data.imageLinks[0], email, phoneNumber)
                             _uploadState.value = UPLOADED

@@ -80,9 +80,7 @@ class FeedTotalViewModel @Inject constructor (
                 feed
         }
         viewModelScope.launch {
-            val result = feedLikeUseCase(feedId)
-
-            result
+            feedLikeUseCase(feedId)
                 .onSuccess {
                     _feed.value = updatedFeed
                 }
@@ -102,9 +100,7 @@ class FeedTotalViewModel @Inject constructor (
                 feed
         }
         viewModelScope.launch {
-            val result = feedCommentLikeUseCase(feedId)
-
-            result
+            feedCommentLikeUseCase(feedId)
                 .onSuccess {
                     _feed.value = updatedFeed
                 }

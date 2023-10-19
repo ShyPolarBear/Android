@@ -59,8 +59,6 @@ class FeedDetailViewModel @Inject constructor(
 
     fun loadFeedDetail(feedId: Int) {
         viewModelScope.launch {
-            val feedDetailData = feedDetailUseCase(feedId)
-
            feedDetailUseCase(feedId)
                 .onSuccess {
                     _feed.value = it.data
@@ -193,13 +191,11 @@ class FeedDetailViewModel @Inject constructor(
 
     fun requestDeleteFeedComment(commentId: Int, position: Int) {
         val feedCommentList: MutableList<Comment> = mutableListOf()
-        var feedCommentReply: List<ChildComment> = listOf()
+        var feedCommentReply: List<ChildComment>
         feedCommentList.addAll(0, _feedComment.value!!)
 
         viewModelScope.launch {
-            val feedCommentDeleteResult = feedCommentDeleteUseCase(commentId)
-
-            feedCommentDeleteResult
+            feedCommentDeleteUseCase(commentId)
                 .onSuccess {
                     feedCommentReply = feedCommentList[position].childComments
                     feedCommentList[position] =
@@ -221,7 +217,7 @@ class FeedDetailViewModel @Inject constructor(
         val commentCreatedDateFormat = SimpleDateFormat(timeFormat, Locale.US)
 
         viewModelScope.launch {
-            val feedCommentWriteResult = feedCommentWriteUseCase(feedId, parentId, content)
+            feedCommentWriteUseCase(feedId, parentId, content)
 
             // 추후 아이템만 추가하는 방식으로 변경할 예정
             loadFeedComment(feedId, CommentLoadType.INIT)
@@ -244,7 +240,7 @@ class FeedDetailViewModel @Inject constructor(
         feedCommentList.addAll(0, _feedComment.value!!)
 
         viewModelScope.launch {
-            val feedCommentDeleteResult = feedCommentDeleteUseCase(commentId)
+            feedCommentDeleteUseCase(commentId)
 
             // 추후 아이템의 상태만 변경하는 방식으로 수정할 예정
             loadFeedComment(feedId, CommentLoadType.INIT)

@@ -20,9 +20,7 @@ class FeedCommentChangeViewModel @Inject constructor(
 
     fun changeComment(commentId: Int, content: String) {
         viewModelScope.launch {
-            val feedCommentChangeResult = feedCommentChangeUseCase(commentId, content)
-
-            feedCommentChangeResult
+            feedCommentChangeUseCase(commentId, content)
                 .onSuccess {
                     _uploadState.value = UPLOADED
                 }
