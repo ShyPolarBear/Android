@@ -50,9 +50,7 @@ class FeedDetailViewModel @Inject constructor(
 
     fun getMyInfo() {
         viewModelScope.launch {
-            val info = getMyInfoUseCase()
-
-            info
+            getMyInfoUseCase()
                 .onSuccess { myInfo = it.data }
                 .onFailure {  }
 
