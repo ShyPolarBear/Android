@@ -224,14 +224,10 @@ fun Button.showLikeBtnIsLike(isLike: Boolean, view: Button) {
 
 fun View.selectedComment(isSelected: Boolean, view: View) {
 
-    val nonSelectedBackGround = ContextCompat.getColor(context, R.color.White_01)
-    val selectedBackGround = ContextCompat.getColor(context, R.color.Blue_05)
+    val background = if(isSelected) ContextCompat.getColor(context, R.color.Blue_05) else ContextCompat.getColor(context, R.color.White_01)
 
-    if (isSelected) {
-        view.setBackgroundColor(selectedBackGround)
-    } else {
-        view.setBackgroundColor(nonSelectedBackGround)
-    }
+    view.setBackgroundColor(background)
+    
 }
 
 fun TextView.setSpecificTextColor(
