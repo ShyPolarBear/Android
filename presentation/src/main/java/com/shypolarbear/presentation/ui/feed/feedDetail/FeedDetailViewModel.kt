@@ -201,6 +201,7 @@ class FeedDetailViewModel @Inject constructor(
 
     fun requestDeleteFeedComment(commentId: Int, position: Int) {
         val feedCommentList: MutableList<Comment> = mutableListOf()
+        var feedCommentReply: List<ChildComment> = listOf()
         feedCommentList.addAll(0, _feedComment.value!!)
 
         viewModelScope.launch {
@@ -208,8 +209,9 @@ class FeedDetailViewModel @Inject constructor(
 
             feedCommentDeleteResult
                 .onSuccess {
+                    feedCommentReply = feedCommentList[position].childComments
                     feedCommentList[position] =
-                        Comment(isDeleted = true)
+                        Comment(isDeleted = true, childComments = feedCommentReply)
                     _feedComment.value = feedCommentList
                 }
                 .onFailure {  }
