@@ -4,7 +4,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.shypolarbear.domain.model.feed.feedDetail.ChildComment
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedReplyNormalBinding
@@ -14,7 +13,7 @@ import com.shypolarbear.presentation.util.showLikeBtnIsLike
 
 class FeedReplyNormalViewHolder (
     private val binding: ItemFeedReplyNormalBinding,
-    private val onMyReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onMyReplyPropertyClick: (view: ImageView, commentId: Int, feedId: Int, content: String) -> Unit = { _, _, _, _ -> },
     private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onBtnLikeClick: (
         view: Button,
@@ -46,7 +45,7 @@ class FeedReplyNormalViewHolder (
         binding.ivFeedReplyNormalProperty.setOnClickListener {
             when(childComment.isAuthor) {
                 true ->
-                    onMyReplyPropertyClick(binding.ivFeedReplyNormalProperty)
+                    onMyReplyPropertyClick(binding.ivFeedReplyNormalProperty, childComment.commentId, 0, childComment.content)
                 false ->
                     onOtherReplyPropertyClick(binding.ivFeedReplyNormalProperty)
             }
@@ -64,7 +63,7 @@ class FeedReplyNormalViewHolder (
     }
 
     private fun setReply(item: ChildComment) {
-        binding.tvFeedReplyNormalNickname.text = item.author
+        binding.tvFeedReplyNormalNickname.text = item.authorNickname
         binding.tvFeedReplyNormalContent.text = item.content
         binding.tvFeedReplyNormalTime.text = item.createdDate
 

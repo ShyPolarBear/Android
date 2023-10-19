@@ -1,10 +1,10 @@
 package com.shypolarbear.presentation.ui.feed.feedDetail.viewholder
 
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedCommentNormalBinding
@@ -12,12 +12,13 @@ import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailLikeBtnType
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedReplyAdapter
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
+import timber.log.Timber
 
 class FeedCommentNormalViewHolder (
     private val binding: ItemFeedCommentNormalBinding,
-    private val onMyCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
-    private val onOtherCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
-    private val onMyReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onMyCommentPropertyClick: (view: ImageView, commentId: Int, position: Int, commentView: View ,content: String) -> Unit = { _, _, _, _, _ -> },
+    private val onOtherCommentPropertyClick: (view: ImageView, commentId: Int, position: Int, commentView: View) -> Unit = { _, _, _, _ -> },
+    private val onMyReplyPropertyClick: (view: ImageView, commentId: Int, feedId: Int, content: String) -> Unit = { _, _, _, _ -> },
     private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onBtnLikeClick: (
         view: Button,
@@ -27,8 +28,9 @@ class FeedCommentNormalViewHolder (
         commentId: Int,
         replyId: Int,
         itemType: FeedDetailLikeBtnType
-    ) -> Unit = { _, _, _, _, _, _, _ -> }
-    ) : RecyclerView.ViewHolder(binding.root) {
+    ) -> Unit = { _, _, _, _, _, _, _ -> },
+    private val onItemClick: () -> Unit
+) : RecyclerView.ViewHolder(binding.root) {
 
     private var comment: Comment = Comment()
 
@@ -48,10 +50,14 @@ class FeedCommentNormalViewHolder (
         binding.ivFeedCommentNormalProperty.setOnClickListener {
             when(comment.isAuthor) {
                 true ->
-                    onMyCommentPropertyClick(binding.ivFeedCommentNormalProperty)
+                    onMyCommentPropertyClick(binding.ivFeedCommentNormalProperty, comment.commentId, adapterPosition, binding.layoutFeedCommentNormal, comment.content)
                 false ->
-                    onOtherCommentPropertyClick(binding.ivFeedCommentNormalProperty)
+                    onOtherCommentPropertyClick(binding.ivFeedCommentNormalProperty, comment.commentId, adapterPosition, binding.layoutFeedCommentNormal)
             }
+        }
+
+        binding.layoutFeedCommentNormalTotal.setOnClickListener {
+            onItemClick()
         }
     }
 
@@ -74,7 +80,7 @@ class FeedCommentNormalViewHolder (
         binding.rvFeedCommentReply.adapter = feedReplyAdapter
         feedReplyAdapter.submitList(item.childComments)
 
-        binding.tvFeedCommentNormalNickname.text = item.author
+        binding.tvFeedCommentNormalNickname.text = item.authorNickname
         binding.tvFeedCommentNormalContent.text = item.content
         binding.tvFeedCommentNormalTime.text = item.createdDate
 

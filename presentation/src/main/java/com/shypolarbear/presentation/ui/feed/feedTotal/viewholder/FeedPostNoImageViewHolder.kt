@@ -1,26 +1,23 @@
 package com.shypolarbear.presentation.ui.feed.feedTotal.viewholder
 
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.R
-import com.shypolarbear.presentation.databinding.ItemFeedBinding
 import com.shypolarbear.presentation.databinding.ItemFeedNoImageBinding
-import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalLikeBtnType
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
-import timber.log.Timber
 
 class FeedPostNoImageViewHolder(
     private val binding: ItemFeedNoImageBinding,
     private val onMyPostPropertyClick: (view: ImageView, feedId: Int, position: Int) -> Unit = { _, _, _ -> },
     private val onOtherPostPropertyClick: (view: ImageView) -> Unit = { _ -> },
-    private val onMyBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onMyBestCommentPropertyClick: (view: ImageView, commentId: Int, content: String, commentView: View) -> Unit = { _, _, _, _ -> },
     private val onOtherBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onBtnLikeClick: (
         view: Button,
@@ -28,9 +25,10 @@ class FeedPostNoImageViewHolder(
         likeCnt: Int,
         textView: TextView,
         feedId: Int,
+        commentId: Int?,
         itemType: FeedTotalLikeBtnType
-    ) -> Unit = { _, _, _, _, _, _ -> },
-    private val onMoveToDetailClick: (feed: Feed, feedId: Int) -> Unit = { _, _ -> }
+    ) -> Unit = { _, _, _, _, _, _, _ -> },
+    private val onMoveToDetailClick: (feedId: Int) -> Unit = { _ -> }
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private var post: Feed = Feed()
@@ -38,7 +36,7 @@ class FeedPostNoImageViewHolder(
     init {
 
         binding.layoutNoImageMoveToDetailArea.setOnClickListener {
-            onMoveToDetailClick(post, post.feedId)
+            onMoveToDetailClick(post.feedId)
         }
 
         // 게시물 작성자 확인
@@ -52,7 +50,7 @@ class FeedPostNoImageViewHolder(
         // 베스트 댓글 작성자 확인
         binding.ivFeedPostNoImageCommentProperty.setOnClickListener {
             when(post.comment.isAuthor) {
-                true -> onMyBestCommentPropertyClick(binding.ivFeedPostNoImageCommentProperty)
+                true -> onMyBestCommentPropertyClick(binding.ivFeedPostNoImageCommentProperty, post.comment.commentId, post.comment.content, binding.cardviewFeedPostNoImageComment)
                 false -> onOtherBestCommentPropertyClick(binding.ivFeedPostNoImageCommentProperty)
             }
         }
@@ -64,6 +62,7 @@ class FeedPostNoImageViewHolder(
                 post.likeCount,
                 binding.tvFeedPostNoImageLikeCnt,
                 post.feedId,
+                null,
                 FeedTotalLikeBtnType.POST_LIKE_BTN
             )
         }
@@ -75,6 +74,7 @@ class FeedPostNoImageViewHolder(
                 post.comment.likeCount,
                 binding.tvFeedPostNoImageBestCommentLikeCnt,
                 post.feedId,
+                post.comment.commentId,
                 FeedTotalLikeBtnType.BEST_COMMENT_LIKE_BTN
             )
         }
@@ -103,11 +103,12 @@ class FeedPostNoImageViewHolder(
         binding.tvFeedPostNoImageTitle.text = item.title
         binding.tvFeedPostNoImageContent.text = item.content
         binding.tvFeedPostNoImageCommentCnt.text = item.commentCount.toString()
+        binding.tvFeedPostNoImageCommentCommentingTime.text = item.comment.createdDate
 
         binding.btnFeedPostNoImageLike.showLikeBtnIsLike(item.isLike, binding.btnFeedPostNoImageLike)
         binding.btnFeedPostNoImageBestCommentLike.showLikeBtnIsLike(item.comment.isLike, binding.btnFeedPostNoImageBestCommentLike)
 
-        binding.tvFeedPostNoImageCommentUserNickname.text = item.comment.author
+        binding.tvFeedPostNoImageCommentUserNickname.text = item.comment.authorNickname
         binding.tvFeedPostNoImageBestCommentContent.text = item.comment.content
 
         if (!item.authorProfileImage.isNullOrBlank()) {

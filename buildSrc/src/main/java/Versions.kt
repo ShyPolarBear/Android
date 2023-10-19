@@ -36,4 +36,6 @@ object Versions {
     const val DATA_STORE = "1.0.0"
 
     const val SWIPE_REFRESH_LAYOUT = "1.1.0"
+
+    const val RECYCLERVIEW = "1.2.1"
 }

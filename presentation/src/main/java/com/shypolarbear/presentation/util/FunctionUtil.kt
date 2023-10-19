@@ -21,16 +21,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.presentation.R
-import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
 import com.shypolarbear.presentation.ui.quiz.daily.dialog.BackDialog
-import com.skydoves.powermenu.PowerMenuItem
 import timber.log.Timber
 import org.json.JSONObject
 import java.io.File
@@ -225,6 +222,14 @@ fun Button.showLikeBtnIsLike(isLike: Boolean, view: Button) {
     }
 }
 
+fun View.selectedComment(isSelected: Boolean, view: View) {
+
+    val background = if(isSelected) ContextCompat.getColor(context, R.color.Blue_05) else ContextCompat.getColor(context, R.color.White_01)
+
+    view.setBackgroundColor(background)
+    
+}
+
 fun TextView.setSpecificTextColor(
     text: String,
     targetText: String,
@@ -329,24 +334,6 @@ fun EditText.keyboardDown(fragment: Fragment) {
         }
         return@setOnEditorActionListener false
     }
-}
-
-// TODO("클릭 동작 수행하기 위해서는 공통으로 사용할 수 없을 듯 API 연동하면서 제거 해야 할 듯;")
-fun ImageView.setMenu(
-    view: ImageView,
-    menuList: List<PowerMenuItem>,
-    viewLifecycleOwner: LifecycleOwner,
-) {
-    PowerMenuUtil.getPowerMenu(
-        context,
-        viewLifecycleOwner,
-        menuList
-    ) { _, _ -> }
-        .showAsDropDown(
-            view,
-            FeedTotalFragment.POWER_MENU_OFFSET_X,
-            FeedTotalFragment.POWER_MENU_OFFSET_Y
-        )
 }
 
 fun TextView.setTextColorById(context: Context, colorId: Int) {

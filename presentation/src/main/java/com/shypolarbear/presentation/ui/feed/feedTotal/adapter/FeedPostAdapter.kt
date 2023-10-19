@@ -1,6 +1,7 @@
 package com.shypolarbear.presentation.ui.feed.feedTotal.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
@@ -27,7 +28,7 @@ enum class FeedViewType(val viewType: Int) {
 class FeedPostAdapter(
     private val onMyPostPropertyClick: (view: ImageView, feedId: Int, position: Int) -> Unit = { _, _, _ -> },
     private val onOtherPostPropertyClick: (view: ImageView) -> Unit = { _ -> },
-    private val onMyBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onMyBestCommentPropertyClick: (view: ImageView, commentId: Int, content: String, commentView: View) -> Unit = { _, _, _, _ -> },
     private val onOtherBestCommentPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onBtnLikeClick: (
         view: Button,
@@ -35,9 +36,10 @@ class FeedPostAdapter(
         likeCnt: Int,
         textView: TextView,
         feedId: Int,
+        commentId: Int?,
         itemType: FeedTotalLikeBtnType
-            ) -> Unit = { _, _, _, _, _, _ -> },
-    private val onMoveToDetailClick: (feed: Feed, feedId: Int) -> Unit = { _, _ ->  }
+    ) -> Unit = { _, _, _, _, _, _, _ -> },
+    private val onMoveToDetailClick: (feedId: Int) -> Unit = {  _ ->  }
     ): ListAdapter<Feed, RecyclerView.ViewHolder>(FeedPostDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -94,7 +96,7 @@ class FeedPostAdapter(
             getItem(position).feedId == 0 -> {
                 FeedViewType.LOADING.viewType
             }
-            getItem(position).feedImages.isNullOrEmpty() == true -> {
+            getItem(position).feedImages.isNullOrEmpty() -> {
                 FeedViewType.ITEM_HAS_NO_IMAGES.viewType
             }
             else -> {
