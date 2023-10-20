@@ -133,5 +133,8 @@
     <string name="ranking_possible">당첨 확률</string>
     <string name="ranking_possible_value">%d%%</string>
     <string name="ranking_null">-</string>
+    <string name="noti_default">작성하신 글에 새로운 (대)댓글이 달렸어요</string>
+    <string name="noti_detail">: %s</string>
+    <string name="noti_warning">신고 누적으로 인해 사용 정지 되었습니다.</string>
 
 </resources>
