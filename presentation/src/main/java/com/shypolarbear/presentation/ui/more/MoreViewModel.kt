@@ -19,9 +19,7 @@ class MoreViewModel @Inject constructor(
 
     fun getMyInfo() {
         viewModelScope.launch {
-            val info = getMyInfoUseCase()
-
-            info
+            getMyInfoUseCase()
                 .onSuccess {
                     _myInfo.value = it.data
                 }

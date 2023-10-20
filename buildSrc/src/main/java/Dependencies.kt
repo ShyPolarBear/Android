@@ -20,6 +20,8 @@ object AndroidX {
     const val PROTO_DATASTORE = "androidx.datastore:datastore:${Versions.DATA_STORE}"
 
     const val SWIPE_REFRESH_LAYOUT = "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.SWIPE_REFRESH_LAYOUT}"
+
+    const val RECYCLERVIEW = "androidx.recyclerview:recyclerview:${Versions.RECYCLERVIEW}"
 }
 
 object Google {

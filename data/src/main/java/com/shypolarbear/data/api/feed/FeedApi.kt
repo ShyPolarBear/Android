@@ -1,6 +1,9 @@
 package com.shypolarbear.data.api.feed
 
+import com.shypolarbear.domain.model.feed.CommentWriteRequest
+import com.shypolarbear.domain.model.feed.CommentChangeResponse
 import com.shypolarbear.domain.model.feed.FeedTotal
+import com.shypolarbear.domain.model.feed.commentLike.CommentLikeResponse
 import com.shypolarbear.domain.model.feed.feedChange.FeedChangeResponse
 import com.shypolarbear.domain.model.feed.feedChange.WriteFeedForm
 import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
@@ -34,9 +37,11 @@ interface FeedApi {
         writeFeedForm: WriteFeedForm
     ): Response<FeedChangeResponse>
 
-    @GET("api/feeds/{feedId}/comment")
+    @GET("api/comments/{feedId}")
     suspend fun getFeedComment(
-        @Path("feedId") feedID: Int
+        @Path("feedId") feedID: Int,
+        @Query("lastCommentId") lastCommentID: Int?,
+        @Query("limit") limit: Int
     ): Response<FeedComment>
 
     @DELETE("api/feeds/{feedId}")
@@ -54,4 +59,28 @@ interface FeedApi {
     suspend fun likeFeed(
         @Path("feedId") feedID: Int
     ): Response<FeedLikeResponse>
+
+    @POST("api/comments/{feedId}")
+    suspend fun writeFeedComment(
+        @Path("feedId") feedID: Int,
+        @Body
+        commentWriteRequest: CommentWriteRequest
+    ): Response<CommentChangeResponse>
+
+    @PUT("api/comments/{commentId}/like")
+    suspend fun likeComment(
+        @Path("commentId") commentID: Int
+    ): Response<CommentLikeResponse>
+
+    @DELETE("api/comments/{commentId}")
+    suspend fun deleteFeedComment(
+        @Path("commentId") commentID: Int
+    ): Response<CommentChangeResponse>
+
+    @PUT("api/comments/{commentId}")
+    suspend fun changeFeedComment(
+        @Path("commentId") commentID: Int,
+        @Body
+        content: String
+    ): Response<CommentChangeResponse>
 }

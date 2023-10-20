@@ -1,5 +1,6 @@
 package com.shypolarbear.presentation.ui.feed.feedTotal
 
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,7 +17,6 @@ import com.shypolarbear.presentation.ui.feed.feedTotal.adapter.FeedPostAdapter
 import com.shypolarbear.presentation.util.PowerMenuUtil
 import com.shypolarbear.presentation.util.infiniteScroll
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
-import com.shypolarbear.presentation.util.setMenu
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -54,8 +54,8 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         onOtherPostPropertyClick = { view: ImageView ->
             showOtherPostPropertyMenu(view)
         },
-        onMyBestCommentPropertyClick = { view: ImageView ->
-            showMyBestCommentPropertyMenu(view)
+        onMyBestCommentPropertyClick = { view: ImageView, commentId: Int, content: String, commentView: View ->
+            showMyBestCommentPropertyMenu(view, commentId, content, commentView)
         },
         onOtherBestCommentPropertyClick = { view: ImageView ->
             showOtherBestCommentPropertyMenu(view)
@@ -66,10 +66,11 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                 likeCnt: Int,
                 textView: TextView,
                 feedId: Int,
+                commentId: Int?,
                 itemType: FeedTotalLikeBtnType ->
-            changeLikeBtn(btn, isLiked, likeCnt, textView, feedId, itemType)
+            changeLikeBtn(btn, isLiked, likeCnt, textView, feedId, commentId, itemType)
         },
-        onMoveToDetailClick = { feed: Feed, feedId: Int -> showFeedPostDetail(feed, feedId) }
+        onMoveToDetailClick = { feedId: Int -> showFeedPostDetail(feedId) }
     )
     private val feedSortItems: List<PowerMenuItem> by lazy {
         listOf(
@@ -204,17 +205,31 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         )
     }
 
-    private fun showMyBestCommentPropertyMenu(view: ImageView) {
+    private fun showMyBestCommentPropertyMenu(view: ImageView, commentId: Int, content: String, commentView: View) {
         val myCommentPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete))
             )
 
-        view.setMenu(
+        PowerMenuUtil.getPowerMenu(
+            requireContext(),
+            viewLifecycleOwner,
+            myCommentPropertyItems
+        ) { _, item ->
+            when(item.title) {
+                getString(R.string.feed_post_property_revise) -> {
+                    findNavController().navigate(FeedTotalFragmentDirections.actionNavigationFeedToFeedCommentChangeFragment(commentId, content))
+                }
+                getString(R.string.feed_post_property_delete) -> {
+                    viewModel.requestDeleteFeedComment(commentId)
+                    commentView.isVisible = false
+                }
+            }
+        }.showAsDropDown(
             view,
-            myCommentPropertyItems,
-            viewLifecycleOwner
+            POWER_MENU_OFFSET_X,
+            POWER_MENU_OFFSET_Y
         )
     }
 
@@ -244,6 +259,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         likeCnt: Int,
         likeCntText: TextView,
         feedId: Int,
+        commentId: Int?,
         itemType: FeedTotalLikeBtnType
         ) {
         var isLike = isLiked
@@ -261,18 +277,15 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                 viewModel.clickFeedLikeBtn(isLike, likeCount, feedId)
 
             FeedTotalLikeBtnType.BEST_COMMENT_LIKE_BTN ->
-                viewModel.clickFeedBestCommentLikeBtn(isLike, likeCount, feedId)
+                viewModel.clickFeedBestCommentLikeBtn(isLike, likeCount, commentId!!)
         }
 
         button.showLikeBtnIsLike(isLike, button)
         likeCntText.text = likeCount.toString()
     }
 
-    private fun showFeedPostDetail(feed: Feed, feedId: Int) {
-        when {
-            feed.feedImages.isNullOrEmpty() -> { findNavController().navigate(FeedTotalFragmentDirections.actionNavigationFeedToFeedDetailNoImageFragment(feedId)) }
-            else -> { findNavController().navigate(FeedTotalFragmentDirections.actionFeedTotalFragmentToFeedDetailFragment(feedId)) }
-        }
+    private fun showFeedPostDetail(feedId: Int) {
+        findNavController().navigate(FeedTotalFragmentDirections.actionFeedTotalFragmentToFeedDetailFragment(feedId))
     }
 
     private fun loadSortedFeed(sort: String) {

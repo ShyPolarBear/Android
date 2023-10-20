@@ -17,7 +17,7 @@ import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedReplyDele
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedReplyNormalViewHolder
 
 class FeedReplyAdapter (
-    private val onMyReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
+    private val onMyReplyPropertyClick: (view: ImageView, commentId: Int, feedId: Int, content: String) -> Unit = { _, _, _, _ -> },
     private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onBtnLikeClick: (
         view: Button,
@@ -65,24 +65,23 @@ class FeedReplyAdapter (
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        when(getItem(position)) {
+        when(getItem(position).isDeleted) {
 
-            null -> {
+            true -> {
                 (holder as FeedReplyDeleteViewHolder).bind(getItem(position))
             }
-            else -> {
+            false -> {
                 (holder as FeedReplyNormalViewHolder).bind(getItem(position))
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        val reply: ChildComment? = getItem(position)
-        // 추후에 isDeleted가 추가되면 이에 따라 판단할 예정
-        return if (reply != null)
-            FeedCommentViewType.NORMAL.commentType
-        else
+        val reply: ChildComment = getItem(position)
+        return if (reply.isDeleted)
             FeedCommentViewType.DELETE.commentType
+        else
+            FeedCommentViewType.NORMAL.commentType
     }
 }
 

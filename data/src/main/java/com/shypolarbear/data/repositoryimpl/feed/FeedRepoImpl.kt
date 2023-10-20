@@ -2,7 +2,10 @@ package com.shypolarbear.data.repositoryimpl.feed
 
 import com.shypolarbear.data.api.feed.FeedApi
 import com.shypolarbear.domain.model.HttpError
+import com.shypolarbear.domain.model.feed.CommentWriteRequest
+import com.shypolarbear.domain.model.feed.CommentChangeResponse
 import com.shypolarbear.domain.model.feed.FeedTotal
+import com.shypolarbear.domain.model.feed.commentLike.CommentLikeResponse
 import com.shypolarbear.domain.model.feed.feedChange.FeedChangeResponse
 import com.shypolarbear.domain.model.feed.feedChange.WriteFeedForm
 import com.shypolarbear.domain.model.feed.feedDetail.FeedComment
@@ -36,6 +39,7 @@ class FeedRepoImpl @Inject constructor(
             when {
                 response.isSuccessful -> {
                     Result.success(response.body()!!)
+
                 }
                 else -> {
                     Result.failure(HttpError(response.code(), response.errorBody()?.string() ?: ""))
@@ -46,9 +50,9 @@ class FeedRepoImpl @Inject constructor(
         }
     }
 
-    override suspend fun getFeedCommentData(feedId: Int): Result<FeedComment> {
+    override suspend fun getFeedCommentData(feedId: Int, lastCommentId: Int?): Result<FeedComment> {
         return try {
-            val response = api.getFeedComment(feedId)
+            val response = api.getFeedComment(feedId, lastCommentId, 5)
             when {
                 response.isSuccessful -> {
                     Result.success(response.body()!!)
@@ -136,6 +140,80 @@ class FeedRepoImpl @Inject constructor(
     override suspend fun requestLikeFeedData(feedId: Int): Result<FeedLikeResponse> {
         return try {
             val response = api.likeFeed(feedId)
+            when {
+                response.isSuccessful -> {
+                    Result.success(response.body()!!)
+                }
+                else -> {
+                    Result.failure(HttpError(response.code(), response.errorBody()?.string() ?: ""))
+                }
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun requestWriteFeedCommentData(
+        feedId: Int,
+        parentId: Int?,
+        content: String,
+    ): Result<CommentChangeResponse> {
+        return try {
+            val response = api.writeFeedComment(
+                feedID = feedId,
+                commentWriteRequest = CommentWriteRequest(parentId, content)
+            )
+            when {
+                response.isSuccessful -> {
+                    Result.success(response.body()!!)
+                }
+                else -> {
+                    Result.failure(HttpError(response.code(), response.errorBody()?.string() ?: ""))
+                }
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun requestLikeFeedComment(commentId: Int): Result<CommentLikeResponse> {
+        return try {
+            val response = api.likeComment(commentId)
+            when {
+                response.isSuccessful -> {
+                    Result.success(response.body()!!)
+                }
+                else -> {
+                    Result.failure(HttpError(response.code(), response.errorBody()?.string() ?: ""))
+                }
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun deleteFeedCommentData(commentId: Int): Result<CommentChangeResponse> {
+        return try {
+            val response = api.deleteFeedComment(commentId)
+            when {
+                response.isSuccessful -> {
+                    Result.success(response.body()!!)
+                }
+                else -> {
+                    Result.failure(HttpError(response.code(), response.errorBody()?.string() ?: ""))
+                }
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun changeFeedCommentData(
+        commentId: Int,
+        content: String,
+    ): Result<CommentChangeResponse> {
+        return try {
+            val response = api.changeFeedComment(commentId, content)
             when {
                 response.isSuccessful -> {
                     Result.success(response.body()!!)

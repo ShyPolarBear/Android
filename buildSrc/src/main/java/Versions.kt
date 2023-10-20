@@ -39,4 +39,6 @@ object Versions {
 
     const val GOOGLE_GMS = "4.4.0"
     const val FIREBASE_BOM = "32.3.1"
+
+    const val RECYCLERVIEW = "1.2.1"
 }

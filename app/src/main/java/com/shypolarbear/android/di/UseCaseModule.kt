@@ -16,10 +16,14 @@ import com.shypolarbear.domain.usecase.ExampleUseCase
 import com.shypolarbear.domain.usecase.RequestJoinUseCase
 import com.shypolarbear.domain.usecase.RequestLoginUseCase
 import com.shypolarbear.domain.usecase.RequestTokenRenewUseCase
-import com.shypolarbear.domain.usecase.feed.LoadCommentUseCase
+import com.shypolarbear.domain.usecase.feed.LoadFeedCommentUseCase
 import com.shypolarbear.domain.usecase.feed.LoadFeedDetailUseCase
 import com.shypolarbear.domain.usecase.feed.LoadFeedTotalUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedChangeUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedCommentChangeUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedCommentDeleteUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedCommentLikeUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedCommentWriteUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedLikeUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedWriteUseCase
@@ -84,8 +88,8 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideFeedCommentUseCase(repo: FeedRepo): LoadCommentUseCase {
-        return LoadCommentUseCase(repo)
+    fun provideFeedCommentUseCase(repo: FeedRepo): LoadFeedCommentUseCase {
+        return LoadFeedCommentUseCase(repo)
     }
 
     @Singleton
@@ -236,5 +240,29 @@ class UseCaseModule {
     @Provides
     fun provideNotificationRead(repo: NotificationRepo): RequestNotificationReadUseCase {
         return RequestNotificationReadUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideFeedCommentWriteUseCase(repo: FeedRepo): RequestFeedCommentWriteUseCase {
+        return RequestFeedCommentWriteUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideFeedCommentLikeUseCase(repo: FeedRepo): RequestFeedCommentLikeUseCase {
+        return RequestFeedCommentLikeUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideFeedCommentDeleteUseCase(repo: FeedRepo): RequestFeedCommentDeleteUseCase {
+        return RequestFeedCommentDeleteUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideFeedCommentChangeUseCase(repo: FeedRepo): RequestFeedCommentChangeUseCase {
+        return RequestFeedCommentChangeUseCase(repo)
     }
 }

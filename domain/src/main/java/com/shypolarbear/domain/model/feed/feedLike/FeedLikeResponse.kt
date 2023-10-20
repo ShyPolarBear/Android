@@ -5,3 +5,7 @@ data class FeedLikeResponse(
     val data: Result,
     val message: String
 )
+
+data class Result(
+    val result: String
+)
