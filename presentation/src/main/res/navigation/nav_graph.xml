@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_navigation_feed_to_feedCommentChangeFragment"
             app:destination="@id/feedCommentChangeFragment" />
+        <action
+            android:id="@+id/action_navigation_feed_to_notiFragment"
+            app:destination="@id/notiFragment" />
     </fragment>
     <fragment
         android:id="@+id/feedDetailFragment"
@@ -235,4 +238,8 @@
         android:id="@+id/navigation_ranking"
         android:name="com.shypolarbear.presentation.ui.ranking.RankingFragment"
         android:label="RankingFragment" />
+    <fragment
+        android:id="@+id/notiFragment"
+        android:name="com.shypolarbear.presentation.ui.noti.NotiFragment"
+        android:label="NotiFragment" />
 </navigation>

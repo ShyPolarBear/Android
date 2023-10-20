@@ -43,9 +43,9 @@ const val SIGNUP_NEED = 1006
 const val LOGIN_SUCCESS = 0
 const val LOGIN_FAIL = 1007
 
-enum class NotificationType(){
-    NEW_FEED_COMMENT,
-    NEW_COMMENT_CHILD_COMMENT
+enum class NotificationType(val type: String){
+    NEW_FEED_COMMENT("NEW_FEED_COMMENT"),
+    NEW_COMMENT_CHILD_COMMENT("NEW_COMMENT_CHILD_COMMENT")
 }
 
 enum class InputState(val state: Int) {

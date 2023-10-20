@@ -72,5 +72,5 @@ dependencies {
     implementation(platform(Firebase.FIREBASE))
     implementation(Firebase.FIREBASE_ANALYTICS)
     implementation(AndroidX.RECYCLERVIEW)
-
+    implementation(Firebase.FIREBASE_CM)
 }

@@ -63,4 +63,5 @@ object Kakao {
 object Firebase{
     const val FIREBASE = "com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"
     const val FIREBASE_ANALYTICS= "com.google.firebase:firebase-analytics-ktx"
+    const val FIREBASE_CM = "com.google.firebase:firebase-messaging-ktx"
 }

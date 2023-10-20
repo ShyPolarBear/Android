@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/my_feed_progressbar"
+            android:id="@+id/noti_progressbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
