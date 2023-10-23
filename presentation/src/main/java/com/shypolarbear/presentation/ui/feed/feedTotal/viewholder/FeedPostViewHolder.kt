@@ -115,7 +115,7 @@ class FeedPostViewHolder(
         binding.btnFeedPostLike.showLikeBtnIsLike(item.isLike, binding.btnFeedPostLike)
         binding.btnFeedPostBestCommentLike.showLikeBtnIsLike(item.comment.isLike, binding.btnFeedPostBestCommentLike)
 
-        binding.tvFeedPostCommentUserNickname.text = item.comment.authorNickname
+        binding.tvFeedPostCommentUserNickname.text = item.comment.author
         binding.tvFeedPostBestCommentContent.text = item.comment.content
 
         if (!item.authorProfileImage.isNullOrBlank()) {

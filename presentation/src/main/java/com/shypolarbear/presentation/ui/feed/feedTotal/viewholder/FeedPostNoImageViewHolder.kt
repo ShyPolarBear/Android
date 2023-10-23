@@ -108,7 +108,7 @@ class FeedPostNoImageViewHolder(
         binding.btnFeedPostNoImageLike.showLikeBtnIsLike(item.isLike, binding.btnFeedPostNoImageLike)
         binding.btnFeedPostNoImageBestCommentLike.showLikeBtnIsLike(item.comment.isLike, binding.btnFeedPostNoImageBestCommentLike)
 
-        binding.tvFeedPostNoImageCommentUserNickname.text = item.comment.authorNickname
+        binding.tvFeedPostNoImageCommentUserNickname.text = item.comment.author
         binding.tvFeedPostNoImageBestCommentContent.text = item.comment.content
 
         if (!item.authorProfileImage.isNullOrBlank()) {
