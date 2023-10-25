@@ -3,12 +3,14 @@ package com.shypolarbear.presentation.ui.quiz
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.shypolarbear.domain.model.more.Info
 import com.shypolarbear.domain.model.quiz.Correction
 import com.shypolarbear.domain.model.quiz.Quiz
 import com.shypolarbear.domain.model.quiz.Review
 import com.shypolarbear.domain.model.quiz.SolvedData
 import com.shypolarbear.domain.model.quiz.SubmitRequestMulti
 import com.shypolarbear.domain.model.quiz.SubmitRequestOX
+import com.shypolarbear.domain.usecase.more.LoadMyInfoUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizReviewUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizSolvedUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizSubmitMultiUseCase
@@ -30,6 +32,7 @@ class QuizViewModel @Inject constructor(
     private val reviewQuizUseCase: QuizReviewUseCase,
     private val submitOXUseCase: QuizSubmitOXUseCase,
     private val submitMultiUseCase: QuizSubmitMultiUseCase,
+    private val getMyInfoUseCase: LoadMyInfoUseCase,
 ) : BaseViewModel() {
 
     private val _quizResponse = MutableLiveData<Event<Quiz>>()
@@ -47,6 +50,8 @@ class QuizViewModel @Inject constructor(
     private val _quizInstance = MutableLiveData<Quiz>()
     val quizInstance: LiveData<Quiz> = _quizInstance
     private val _dailyQuizSolvedState = MutableLiveData<SolvedData>()
+    private val _userName = MutableLiveData<String>()
+    val userName: LiveData<String> = _userName
 
     fun getQuizInstance() {
         _quizInstance.value = when (_dailySubmit.value) {
@@ -130,6 +135,19 @@ class QuizViewModel @Inject constructor(
             }.onFailure { error ->
                 simpleHttpErrorCheck(error)
             }
+
+        }
+    }
+
+    fun getMyInfo() {
+        viewModelScope.launch {
+            getMyInfoUseCase()
+                .onSuccess {
+                    _userName.value = it.data.nickName
+                }
+                .onFailure {
+
+                }
 
         }
     }

@@ -21,9 +21,19 @@ class QuizMainFragment :
 
     override fun initView() {
         viewModel.requestDailyQuizSolvedState()
-
+        viewModel.getMyInfo()
+        viewModel.userName.observe(viewLifecycleOwner) { userName ->
+            userName?.let {
+                binding.quizMainTvName.setSpecificTextColor(
+                    getString(R.string.quiz_main_user_name, userName),
+                    userName,
+                    styleId = R.style.H3,
+                    colorId = R.color.Blue_01
+                )
+            }
+        }
         viewModel.dailySubmit.observe(viewLifecycleOwner) { solvedState ->
-            if(solvedState){
+            if (solvedState) {
                 binding.quizMainTvGoQuiz.text = getString(R.string.quiz_main_tv_go_quiz)
             }
         }
@@ -35,13 +45,6 @@ class QuizMainFragment :
         })
 
         binding.apply {
-            val userName = "춘식이"
-            quizMainTvName.setSpecificTextColor(
-                getString(R.string.quiz_main_user_name, userName),
-                userName,
-                styleId = R.style.H3,
-                colorId = R.color.Blue_01
-            )
             quizMainTvTitle.setSpecificTextColor(
                 getString(R.string.quiz_main_title),
                 getString(R.string.quiz_main_polarbear),
