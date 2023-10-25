@@ -63,15 +63,31 @@ class QuizViewModel @Inject constructor(
             feedTotalUseCase("recent", lastFeedId = null)
                 .onSuccess { response ->
                     val imageContainList = mutableListOf<Feed>()
-                    for(item in response.data.content){
-                        if(item.feedImages.isNotEmpty()) imageContainList.add(item)
-                        if(imageContainList.size == MAX_PAGES) break
+                    for (item in response.data.content) {
+                        if (item.feedImages.isNotEmpty()) imageContainList.add(item)
+                        if (imageContainList.size == MAX_PAGES) break
+                    }
+                    if (imageContainList.size < MAX_PAGES) {
+                        loadFeedRecentMore(imageContainList, response.data.content.last().feedId)
                     }
                     _feed.value = imageContainList
                 }
                 .onFailure { error ->
                     simpleHttpErrorCheck(error)
                 }
+        }
+    }
+
+    private fun loadFeedRecentMore(imageContainList: MutableList<Feed>, lastFeedId: Int) {
+        viewModelScope.launch {
+            feedTotalUseCase("recent", lastFeedId).onSuccess { plusResponse ->
+                for (item in plusResponse.data.content) {
+                    if (item.feedImages.isNotEmpty()) imageContainList.add(item)
+                    if (imageContainList.size == MAX_PAGES) break
+                }
+            }.onFailure { error ->
+                simpleHttpErrorCheck(error)
+            }
         }
     }
 
