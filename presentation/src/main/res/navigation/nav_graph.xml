@@ -183,6 +183,9 @@
         <action
             android:id="@+id/action_navigation_quiz_main_to_navigation_ranking"
             app:destination="@id/navigation_ranking" />
+        <action
+            android:id="@+id/action_navigation_quiz_main_to_navigation_feed"
+            app:destination="@id/navigation_feed" />
     </fragment>
     <fragment
         android:id="@+id/quizDailyMultiChoiceFragment"

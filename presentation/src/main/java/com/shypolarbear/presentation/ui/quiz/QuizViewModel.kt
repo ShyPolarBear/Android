@@ -3,13 +3,15 @@ package com.shypolarbear.presentation.ui.quiz
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.shypolarbear.domain.model.more.Info
+import com.shypolarbear.domain.model.feed.Feed
+import com.shypolarbear.domain.model.feed.FeedTotal
 import com.shypolarbear.domain.model.quiz.Correction
 import com.shypolarbear.domain.model.quiz.Quiz
 import com.shypolarbear.domain.model.quiz.Review
 import com.shypolarbear.domain.model.quiz.SolvedData
 import com.shypolarbear.domain.model.quiz.SubmitRequestMulti
 import com.shypolarbear.domain.model.quiz.SubmitRequestOX
+import com.shypolarbear.domain.usecase.feed.LoadFeedTotalUseCase
 import com.shypolarbear.domain.usecase.more.LoadMyInfoUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizReviewUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizSolvedUseCase
@@ -33,6 +35,7 @@ class QuizViewModel @Inject constructor(
     private val submitOXUseCase: QuizSubmitOXUseCase,
     private val submitMultiUseCase: QuizSubmitMultiUseCase,
     private val getMyInfoUseCase: LoadMyInfoUseCase,
+    private val feedTotalUseCase: LoadFeedTotalUseCase,
 ) : BaseViewModel() {
 
     private val _quizResponse = MutableLiveData<Event<Quiz>>()
@@ -52,6 +55,25 @@ class QuizViewModel @Inject constructor(
     private val _dailyQuizSolvedState = MutableLiveData<SolvedData>()
     private val _userName = MutableLiveData<String>()
     val userName: LiveData<String> = _userName
+    private val _feed = MutableLiveData<List<Feed>>()
+    val feed: LiveData<List<Feed>> = _feed
+
+    fun loadFeedRecentData() {
+        viewModelScope.launch {
+            feedTotalUseCase("recent", lastFeedId = null)
+                .onSuccess { response ->
+                    val imageContainList = mutableListOf<Feed>()
+                    for(item in response.data.content){
+                        if(item.feedImages.isNotEmpty()) imageContainList.add(item)
+                        if(imageContainList.size == 5) break
+                    }
+                    _feed.value = imageContainList
+                }
+                .onFailure { error ->
+                    simpleHttpErrorCheck(error)
+                }
+        }
+    }
 
     fun getQuizInstance() {
         _quizInstance.value = when (_dailySubmit.value) {
