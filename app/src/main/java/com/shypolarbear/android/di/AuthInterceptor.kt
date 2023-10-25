@@ -21,34 +21,39 @@ class AuthInterceptor @Inject constructor(
     private lateinit var refreshToken: String
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        // TODO("TokenRepoImpl에서 토큰 가져오는 동작 구현되면 주석 해제하기")
 
         runBlocking {
-            accessToken = accessTokenUseCase()
+            accessToken = "zzz"
+//            accessToken = accessTokenUseCase()
             refreshToken = refreshTokenUseCase()
         }
+
+        Timber.d("access token: $accessToken, refresh token: $refreshToken")
 
         val addedAccessTokenRequest = chain.request().newBuilder().addHeader("Authorization", "Bearer $accessToken").build()
         val response = chain.proceed(addedAccessTokenRequest)
 
         when (response.code) {
+            200 -> {
+                Timber.d("유효한 토큰: $accessToken")
+            }
             401 -> {
+                Timber.d("갱신 전 access token: $accessToken, refresh token: $refreshToken")
                 // Token 갱신하는 동작
                 runBlocking {
-                    val renewResponse = tokenRenewUseCase(refreshToken)
-
-                    renewResponse
+                    tokenRenewUseCase(refreshToken)
                         .onSuccess {
                             accessToken = it.data.accessToken
                             refreshToken = it.data.refreshToken
 
-                            Timber.d("access token: $accessToken, refresh token: $refreshToken")
+                            Timber.d("갱신 후 access token: $accessToken, refresh token: $refreshToken")
+
+
                         }
                         .onFailure {
 
                         }
                 }
-
             }
             else -> response
         }
