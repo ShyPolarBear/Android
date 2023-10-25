@@ -25,6 +25,7 @@
             <ImageView
                 android:id="@+id/item_quiz_main_iv"
                 android:layout_width="match_parent"
+                android:scaleType="centerCrop"
                 android:background="@color/Gray_06"
                 android:layout_height="match_parent" />
         </androidx.cardview.widget.CardView>

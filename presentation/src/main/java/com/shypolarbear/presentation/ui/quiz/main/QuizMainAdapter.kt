@@ -6,16 +6,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.shypolarbear.domain.model.feed.Feed
-import com.shypolarbear.domain.model.mypage.MyCommentFeed
 import com.shypolarbear.presentation.databinding.ItemFeedLoadingBinding
-import com.shypolarbear.presentation.databinding.ItemPageCommentBinding
 import com.shypolarbear.presentation.databinding.ItemQuizMainRecentFeedBinding
 import com.shypolarbear.presentation.ui.mypage.adapter.LoadingViewHolder
-import com.shypolarbear.presentation.ui.mypage.adapter.MyCommentDiffCallback
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.MyFeedType
 
-class QuizMainAdapter() :
+class QuizMainAdapter:
     ListAdapter<Feed, RecyclerView.ViewHolder>(RecentFeedDiffCallback())  {
     inner class ItemRecentFeedViewHolder(private val binding: ItemQuizMainRecentFeedBinding) :
         RecyclerView.ViewHolder(binding.root) {

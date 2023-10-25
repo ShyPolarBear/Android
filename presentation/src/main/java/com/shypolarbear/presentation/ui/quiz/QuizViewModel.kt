@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.feed.Feed
-import com.shypolarbear.domain.model.feed.FeedTotal
 import com.shypolarbear.domain.model.quiz.Correction
 import com.shypolarbear.domain.model.quiz.Quiz
 import com.shypolarbear.domain.model.quiz.Review
@@ -19,6 +18,7 @@ import com.shypolarbear.domain.usecase.quiz.QuizSubmitMultiUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizSubmitOXUseCase
 import com.shypolarbear.domain.usecase.quiz.QuizUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
+import com.shypolarbear.presentation.ui.quiz.main.MAX_PAGES
 import com.shypolarbear.presentation.util.Event
 import com.shypolarbear.presentation.util.QuizType
 import com.shypolarbear.presentation.util.simpleHttpErrorCheck
@@ -48,7 +48,7 @@ class QuizViewModel @Inject constructor(
     val submitResponse: LiveData<Event<Correction>> = _submitResponse
     private val _dailySubmit = MutableLiveData<Boolean>()
     val dailySubmit: LiveData<Boolean> = _dailySubmit
-    private val _reviewQuizPage = MutableLiveData<Int>(0)
+    private val _reviewQuizPage = MutableLiveData(0)
     val reviewQuizPage: LiveData<Int> = _reviewQuizPage
     private val _quizInstance = MutableLiveData<Quiz>()
     val quizInstance: LiveData<Quiz> = _quizInstance
@@ -65,7 +65,7 @@ class QuizViewModel @Inject constructor(
                     val imageContainList = mutableListOf<Feed>()
                     for(item in response.data.content){
                         if(item.feedImages.isNotEmpty()) imageContainList.add(item)
-                        if(imageContainList.size == 5) break
+                        if(imageContainList.size == MAX_PAGES) break
                     }
                     _feed.value = imageContainList
                 }

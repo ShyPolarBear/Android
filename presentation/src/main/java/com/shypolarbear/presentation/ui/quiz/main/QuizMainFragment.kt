@@ -25,7 +25,7 @@ class QuizMainFragment :
         viewModel.requestDailyQuizSolvedState()
         viewModel.loadFeedRecentData()
         viewModel.getMyInfo()
-        viewModel.feed.observe(viewLifecycleOwner){ recentFeed ->
+        viewModel.feed.observe(viewLifecycleOwner) { recentFeed ->
             recentFeed?.let {
                 recentFeedAdapter.submitList(recentFeed)
             }

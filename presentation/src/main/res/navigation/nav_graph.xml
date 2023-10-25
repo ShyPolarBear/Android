@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_navigation_feed_to_feedCommentChangeFragment"
             app:destination="@id/feedCommentChangeFragment" />
+        <action
+            android:id="@+id/action_navigation_feed_to_navigation_quiz_main"
+            app:destination="@id/navigation_quiz_main" />
     </fragment>
     <fragment
         android:id="@+id/feedDetailFragment"
@@ -181,10 +184,9 @@
             android:id="@+id/action_quizMainFragment_to_quizDailyMultiChoiceFragment"
             app:destination="@id/quizDailyMultiChoiceFragment" />
         <action
-            android:id="@+id/action_navigation_quiz_main_to_navigation_ranking"
-            app:destination="@id/navigation_ranking" />
-        <action
             android:id="@+id/action_navigation_quiz_main_to_navigation_feed"
+            app:popUpTo="@+id/navigation_quiz_main"
+            app:popUpToInclusive="true"
             app:destination="@id/navigation_feed" />
     </fragment>
     <fragment
