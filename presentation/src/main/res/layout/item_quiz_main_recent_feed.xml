@@ -8,7 +8,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="160dp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="16dp"
         android:layout_height="wrap_content"
@@ -25,6 +25,7 @@
             <ImageView
                 android:id="@+id/item_quiz_main_iv"
                 android:layout_width="match_parent"
+                android:scaleType="centerCrop"
                 android:background="@color/Gray_06"
                 android:layout_height="match_parent" />
         </androidx.cardview.widget.CardView>
@@ -34,6 +35,8 @@
             style="@style/b1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
