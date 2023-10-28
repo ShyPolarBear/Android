@@ -83,20 +83,19 @@ class FeedDetailViewModel @Inject constructor(
                 .onSuccess {
                     val newDataList = it.data.content
                     val currentList = _feedComment.value ?: emptyList()
+                    val removeProgressList = currentList.toMutableList()
 
                     if (!currentList.isNullOrEmpty()) {
-                        val removeProgressList = currentList.toMutableList()
                         removeProgressList.removeLast()
-
                         _feedComment.value = removeProgressList
                     }
 
                     commentIsLast = it.data.last
 
                     when {
-                        commentLoadType == CommentLoadType.INIT -> { _feedComment.value = newDataList }
-                        commentIsLast -> { _feedComment.value = currentList + newDataList }
-                        else-> { _feedComment.value = currentList + newDataList + listOf(Comment()) }
+                        commentLoadType == CommentLoadType.INIT -> { _feedComment.value = newDataList + listOf(Comment()) }
+                        commentIsLast -> { _feedComment.value = removeProgressList + newDataList }
+                        else-> { _feedComment.value = removeProgressList + newDataList + listOf(Comment()) }
                     }
                 }
                 .onFailure {  }
