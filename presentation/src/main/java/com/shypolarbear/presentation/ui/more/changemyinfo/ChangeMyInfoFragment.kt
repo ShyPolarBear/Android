@@ -237,5 +237,9 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
         }
     }
 
+    override fun onBackPressed() {
+        findNavController().popBackStack()
+    }
+
     private fun uploadImage(): File? { return imageUtil.uriToOptimizeImageFile(requireContext(), profileImageUri) }
 }

@@ -7,8 +7,6 @@ import androidx.navigation.fragment.navArgs
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedCommentChangeBinding
-import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailFragmentArgs
-import com.shypolarbear.presentation.ui.feed.feedTotal.FragmentTotalStatus
 import com.shypolarbear.presentation.ui.feed.feedWrite.UPLOADED
 import com.shypolarbear.presentation.ui.feed.feedWrite.UPLOADING
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,5 +45,9 @@ class FeedCommentChangeFragment: BaseFragment<FragmentFeedCommentChangeBinding, 
                 }
             }
         }
+    }
+
+    override fun onBackPressed() {
+        findNavController().popBackStack()
     }
 }

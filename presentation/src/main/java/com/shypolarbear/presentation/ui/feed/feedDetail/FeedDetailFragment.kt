@@ -154,6 +154,11 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         }
     }
 
+    override fun onBackPressed() {
+        fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
+        findNavController().popBackStack()
+    }
+
     private fun showMyCommentPropertyMenu(view: ImageView, commentId: Int, position: Int, commentView: View, content: String) {
         val myCommentPropertyItems: List<PowerMenuItem> =
             listOf(
