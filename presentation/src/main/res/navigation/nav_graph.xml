@@ -188,6 +188,9 @@
             app:popUpTo="@+id/navigation_quiz_main"
             app:popUpToInclusive="true"
             app:destination="@id/navigation_feed" />
+        <action
+            android:id="@+id/action_navigation_quiz_main_to_feedWriteFragment"
+            app:destination="@id/feedWriteFragment" />
     </fragment>
     <fragment
         android:id="@+id/quizDailyMultiChoiceFragment"
