@@ -7,6 +7,7 @@ import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.domain.model.login.LoginRequest
 import com.shypolarbear.domain.usecase.RequestLoginUseCase
 import com.shypolarbear.domain.usecase.tokens.SetAccessTokenUseCase
+import com.shypolarbear.domain.usecase.tokens.SetRefreshTokenUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import com.shypolarbear.presentation.util.LOGIN_FAIL
 import com.shypolarbear.presentation.util.SIGNUP_NEED
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: RequestLoginUseCase,
-    private val setAccessTokenUseCase: SetAccessTokenUseCase
+    private val setAccessTokenUseCase: SetAccessTokenUseCase,
+    private val setRefreshTokenUseCase: SetRefreshTokenUseCase
 ) : BaseViewModel() {
     private val _tokens = MutableLiveData<String>()
     val tokens: LiveData<String> = _tokens
@@ -31,6 +33,7 @@ class LoginViewModel @Inject constructor(
 
             responseTokens.onSuccess { response ->
                 setAccessTokenUseCase(response.data.accessToken)
+                setRefreshTokenUseCase(response.data.refreshToken)
                 setResponseCode(response.code)
             }
 

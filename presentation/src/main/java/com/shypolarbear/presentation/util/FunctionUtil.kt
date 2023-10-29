@@ -1,5 +1,6 @@
 package com.shypolarbear.presentation.util
 
+import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
@@ -17,6 +18,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
@@ -38,6 +40,8 @@ import kotlin.math.ceil
 
 val emailPattern = Regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
 val phonePattern = Regex("[^0-9]")
+
+var backKeyPressTime: Long = 0
 
 const val SIGNUP_NEED = 1006
 const val LOGIN_SUCCESS = 0
@@ -368,4 +372,15 @@ fun RecyclerView.infiniteScroll(method: () -> Unit) {
             if (isBottom and isDownScroll) { method() }
         }
     })
+}
+
+fun onBackPressedToFinish(context: Context, activity: Activity) {
+    if(System.currentTimeMillis() > (backKeyPressTime + 2500)){
+        backKeyPressTime = System.currentTimeMillis()
+        Toast.makeText(context, context.getString(R.string.msg_on_back_pressed_end), Toast.LENGTH_SHORT).show()
+        return
+    }
+    else if(System.currentTimeMillis() <= (backKeyPressTime + 2500)){
+        activity.finish()
+    }
 }

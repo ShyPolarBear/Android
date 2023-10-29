@@ -78,6 +78,10 @@ class MyPageFragment :
         }
     }
 
+    override fun onBackPressed() {
+        findNavController().popBackStack()
+    }
+
     private fun setAdapter(adapter: Adapter<ViewHolder>, contentType: FeedContentType) {
         binding.rvMyPost.adapter = adapter
         binding.rvMyPost.infiniteScroll {

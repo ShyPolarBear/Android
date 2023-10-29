@@ -19,6 +19,7 @@ import com.shypolarbear.presentation.util.detectActivation
 import com.shypolarbear.presentation.util.initProgressBar
 import com.shypolarbear.presentation.util.setQuizNavigation
 import com.shypolarbear.presentation.util.setReviewMode
+import java.util.Timer
 
 class QuizDailyMultiChoiceFragment :
     BaseFragment<FragmentQuizDailyMultiBinding, QuizViewModel>(
@@ -26,11 +27,13 @@ class QuizDailyMultiChoiceFragment :
     ) {
     override val viewModel: QuizViewModel by activityViewModels()
     private lateinit var dialog: QuizDialog
+    private lateinit var backBtn: BackDialog
+    private lateinit var progressJob: Timer
     private var pageEnd: Int = 0
 
     override fun initView() {
         val state = checkReviewMode()
-        val backBtn = BackDialog(requireContext())
+        backBtn = BackDialog(requireContext())
         dialog = QuizDialog(requireContext(), state)
         viewModel.getQuizInstance()
         viewModel.initAnswer()
@@ -77,7 +80,7 @@ class QuizDailyMultiChoiceFragment :
         binding.apply {
             val choiceList =
                 listOf(quizDailyChoice1, quizDailyChoice2, quizDailyChoice3, quizDailyChoice4)
-            val progressJob = quizDailyProgressBar.initProgressBar(
+            progressJob = quizDailyProgressBar.initProgressBar(
                 quizDailyTvTime
             ) { viewModel.submitAnswer(isTimeOut = true) }
 
@@ -106,10 +109,27 @@ class QuizDailyMultiChoiceFragment :
             )
 
             quizDailyBtnSubmit.setOnClickListener {
-                progressJob.cancel()
                 viewModel.answerId.value?.let {
+                    progressJob.cancel()
                     viewModel.submitAnswer()
                 }
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        when(checkReviewMode()) {
+            DialogType.REVIEW -> {
+                backBtn.showDialog()
+                backBtn.alertDialog.setOnCancelListener {
+                    progressJob.cancel()
+                    findNavController().navigate(R.id.action_quizDailyMultiChoiceFragment_to_navigation_quiz_main)
+                }
+
+            }
+            DialogType.DEFAULT -> {
+                progressJob.cancel()
+                findNavController().popBackStack()
             }
         }
     }

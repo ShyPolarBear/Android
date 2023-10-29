@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ShyPolarBear</string>
+    <string name="app_name">부끄북극</string>
     <string name="feed_title">환경 피드</string>
     <string name="bottom_navigation_home">홈</string>
     <string name="bottom_navigation_feed">환경 피드</string>
@@ -133,5 +133,7 @@
     <string name="ranking_possible">당첨 확률</string>
     <string name="ranking_possible_value">%d%%</string>
     <string name="ranking_null">-</string>
+
+    <string name="msg_on_back_pressed_end">한번 더 누르면 종료 됩니다.</string>
 
 </resources>

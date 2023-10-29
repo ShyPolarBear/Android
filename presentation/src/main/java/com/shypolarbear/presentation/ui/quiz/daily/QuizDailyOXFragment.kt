@@ -18,17 +18,20 @@ import com.shypolarbear.presentation.util.initProgressBar
 import com.shypolarbear.presentation.util.setQuizNavigation
 import com.shypolarbear.presentation.util.setReviewMode
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Timer
 
 @AndroidEntryPoint
 class QuizDailyOXFragment :
     BaseFragment<FragmentQuizDailyOxBinding, QuizViewModel>(R.layout.fragment_quiz_daily_ox) {
     override val viewModel: QuizViewModel by activityViewModels()
     private lateinit var dialog: QuizDialog
+    private lateinit var backBtn: BackDialog
+    private lateinit var progressJob: Timer
     private var pageEnd: Int = 0
 
     override fun initView() {
         val state = checkReviewMode()
-        val backBtn = BackDialog(requireContext())
+        backBtn = BackDialog(requireContext())
         dialog = QuizDialog(requireContext(), state)
         viewModel.getQuizInstance()
         viewModel.initAnswer()
@@ -76,7 +79,7 @@ class QuizDailyOXFragment :
             quizDailyProblem.text = viewModel.quizInstance.value!!.question
             val choiceList = listOf(quizDailyO, quizDailyX)
 
-            val progressJob =
+            progressJob =
                 quizDailyProgressBar.initProgressBar(quizDailyTvTime) {
                     viewModel.submitAnswer(
                         isTimeOut = true
@@ -102,8 +105,27 @@ class QuizDailyOXFragment :
             )
 
             quizDailyBtnSubmit.setOnClickListener {
+                viewModel.answerId.value?.let {
+                    progressJob.cancel()
+                    viewModel.submitAnswer()
+                }
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        when(checkReviewMode()) {
+            DialogType.REVIEW -> {
+                backBtn.showDialog()
+                backBtn.alertDialog.setOnCancelListener {
+                    progressJob.cancel()
+                    findNavController().navigate(R.id.action_quizDailyOXFragment_to_navigation_quiz_main)
+                }
+
+            }
+            DialogType.DEFAULT -> {
                 progressJob.cancel()
-                viewModel.submitAnswer()
+                findNavController().popBackStack()
             }
         }
     }

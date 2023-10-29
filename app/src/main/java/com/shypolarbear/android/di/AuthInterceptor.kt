@@ -3,8 +3,11 @@ package com.shypolarbear.android.di
 import com.shypolarbear.domain.usecase.tokens.GetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.tokens.GetRefreshTokenUseCase
 import com.shypolarbear.domain.usecase.RequestTokenRenewUseCase
+import com.shypolarbear.domain.usecase.tokens.SetAccessTokenUseCase
+import com.shypolarbear.domain.usecase.tokens.SetRefreshTokenUseCase
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
+import okhttp3.Request
 import okhttp3.Response
 import timber.log.Timber
 import javax.inject.Inject
@@ -12,8 +15,10 @@ import javax.inject.Singleton
 
 @Singleton
 class AuthInterceptor @Inject constructor(
-    private val accessTokenUseCase: GetAccessTokenUseCase,
-    private val refreshTokenUseCase: GetRefreshTokenUseCase,
+    private val getAccessTokenUseCase: GetAccessTokenUseCase,
+    private val getRefreshTokenUseCase: GetRefreshTokenUseCase,
+    private val setAccessTokenUseCase: SetAccessTokenUseCase,
+    private val setRefreshTokenUseCase: SetRefreshTokenUseCase,
     private val tokenRenewUseCase: RequestTokenRenewUseCase
 ): Interceptor {
 
@@ -21,38 +26,40 @@ class AuthInterceptor @Inject constructor(
     private lateinit var refreshToken: String
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        // TODO("TokenRepoImpl에서 토큰 가져오는 동작 구현되면 주석 해제하기")
 
         runBlocking {
-            accessToken = accessTokenUseCase()
-            refreshToken = refreshTokenUseCase()
+            accessToken = getAccessTokenUseCase()
+            refreshToken = getRefreshTokenUseCase()
         }
 
-        val addedAccessTokenRequest = chain.request().newBuilder().addHeader("Authorization", "Bearer $accessToken").build()
+        val addedAccessTokenRequest = chain.request().addTokenIntoHeader(accessToken)
         val response = chain.proceed(addedAccessTokenRequest)
 
         when (response.code) {
             401 -> {
-                // Token 갱신하는 동작
                 runBlocking {
-                    val renewResponse = tokenRenewUseCase(refreshToken)
-
-                    renewResponse
+                    tokenRenewUseCase(refreshToken)
                         .onSuccess {
                             accessToken = it.data.accessToken
                             refreshToken = it.data.refreshToken
 
-                            Timber.d("access token: $accessToken, refresh token: $refreshToken")
+                            setAccessTokenUseCase(accessToken)
+                            setRefreshTokenUseCase(refreshToken)
                         }
                         .onFailure {
 
                         }
                 }
 
+                response.close()
+                return chain.proceed(chain.request().addTokenIntoHeader(accessToken))
             }
             else -> response
         }
-
         return response
+    }
+
+    private fun Request.addTokenIntoHeader(accessToken: String): Request {
+        return this.newBuilder().addHeader("Authorization", "Bearer $accessToken").build()
     }
 }

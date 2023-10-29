@@ -5,6 +5,7 @@ import androidx.navigation.fragment.findNavController
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentQuizMainBinding
+import com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider
 import com.shypolarbear.presentation.ui.quiz.QuizViewModel
 import com.shypolarbear.presentation.util.EventObserver
 import com.shypolarbear.presentation.util.QuizNavType
@@ -65,6 +66,9 @@ class QuizMainFragment :
             }
             quizMainTvMore.setOnClickListener {
                 findNavController().navigate(R.id.action_navigation_quiz_main_to_navigation_feed)
+            }
+            quizMainBtnWrite.setOnClickListener {
+                findNavController().navigate(QuizMainFragmentDirections.actionNavigationQuizMainToFeedWriteFragment(WriteChangeDivider.WRITE, 0))
             }
         }
     }

@@ -98,6 +98,10 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
         }
     }
 
+    override fun onBackPressed() {
+        moveToBack(FragmentTotalStatus.WRITE_BACK_BTN_CLICK)
+    }
+
     private fun uploadPost() {
         when(feedWriteArgs.divider) {
             WriteChangeDivider.WRITE -> {
