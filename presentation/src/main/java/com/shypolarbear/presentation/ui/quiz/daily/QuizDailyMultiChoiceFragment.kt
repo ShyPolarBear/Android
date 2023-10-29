@@ -129,7 +129,7 @@ class QuizDailyMultiChoiceFragment :
             }
             DialogType.DEFAULT -> {
                 progressJob.cancel()
-                findNavController().navigate(R.id.action_quizDailyMultiChoiceFragment_to_navigation_quiz_main)
+                findNavController().popBackStack()
             }
         }
     }

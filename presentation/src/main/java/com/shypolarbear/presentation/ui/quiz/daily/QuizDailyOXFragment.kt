@@ -125,7 +125,7 @@ class QuizDailyOXFragment :
             }
             DialogType.DEFAULT -> {
                 progressJob.cancel()
-                findNavController().navigate(R.id.action_quizDailyOXFragment_to_navigation_quiz_main)
+                findNavController().popBackStack()
             }
         }
     }
