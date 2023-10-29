@@ -122,7 +122,7 @@ class QuizDailyOXFragment :
 
             }
             DialogType.DEFAULT -> {
-                viewModel.submitAnswer(isTimeOut = true)
+                progressJob.cancel()
                 findNavController().navigate(R.id.action_quizDailyOXFragment_to_navigation_quiz_main)
             }
         }

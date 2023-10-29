@@ -128,7 +128,7 @@ class QuizDailyMultiChoiceFragment :
 
             }
             DialogType.DEFAULT -> {
-                viewModel.submitAnswer(isTimeOut = true)
+                progressJob.cancel()
                 findNavController().navigate(R.id.action_quizDailyMultiChoiceFragment_to_navigation_quiz_main)
             }
         }
