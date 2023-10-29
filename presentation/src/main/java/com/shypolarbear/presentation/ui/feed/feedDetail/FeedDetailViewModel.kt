@@ -93,9 +93,9 @@ class FeedDetailViewModel @Inject constructor(
                     commentIsLast = it.data.last
 
                     when {
-                        commentLoadType == CommentLoadType.INIT -> { _feedComment.value = newDataList + listOf(Comment()) }
-                        commentIsLast -> { _feedComment.value = removeProgressList + newDataList }
-                        else-> { _feedComment.value = removeProgressList + newDataList + listOf(Comment()) }
+                        commentLoadType == CommentLoadType.INIT -> { _feedComment.value = newDataList }
+                        else-> { _feedComment.value = removeProgressList + newDataList
+                        }
                     }
                 }
                 .onFailure {  }

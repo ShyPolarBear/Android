@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ConcatAdapter
+import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
@@ -128,9 +129,12 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             }
 
             rvFeedDetail.infiniteScroll {
+                val currentCommentList = viewModel.feedComment.value!!.toMutableList()
+
                 when(viewModel.commentIsLast) {
-                    true -> { }
+                    true -> {  }
                     false -> {
+                        feedCommentAdapter.submitList(currentCommentList + listOf(Comment()))
                         viewModel.commentLoadType = CommentLoadType.COMMENT_LOAD
                         viewModel.loadFeedComment(feedDetailArgs.feedId, viewModel.commentLoadType)
                     }
