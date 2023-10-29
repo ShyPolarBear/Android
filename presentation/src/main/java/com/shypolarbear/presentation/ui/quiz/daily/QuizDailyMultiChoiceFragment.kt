@@ -109,8 +109,8 @@ class QuizDailyMultiChoiceFragment :
             )
 
             quizDailyBtnSubmit.setOnClickListener {
-                progressJob.cancel()
                 viewModel.answerId.value?.let {
+                    progressJob.cancel()
                     viewModel.submitAnswer()
                 }
             }

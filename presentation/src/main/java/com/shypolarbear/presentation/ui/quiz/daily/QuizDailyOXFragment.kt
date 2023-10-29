@@ -105,8 +105,10 @@ class QuizDailyOXFragment :
             )
 
             quizDailyBtnSubmit.setOnClickListener {
-                progressJob.cancel()
-                viewModel.submitAnswer()
+                viewModel.answerId.value?.let {
+                    progressJob.cancel()
+                    viewModel.submitAnswer()
+                }
             }
         }
     }
