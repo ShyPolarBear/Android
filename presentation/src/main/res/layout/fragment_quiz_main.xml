@@ -115,10 +115,9 @@
             android:id="@+id/quiz_main_rv"
             android:layout_width="0dp"
             android:foregroundGravity="center_vertical"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/quiz_main_box_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/quiz_main_tv_recent" />
@@ -129,7 +128,7 @@
             android:layout_height="10dp"
             android:layout_marginBottom="16dp"
             android:background="#F2FAFF"
-            app:layout_constraintBottom_toTopOf="@id/quiz_main_tv_detail"
+            app:layout_constraintTop_toBottomOf="@+id/quiz_main_rv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -138,9 +137,9 @@
             style="@style/H5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
+            android:layout_marginTop="16dp"
             android:text="@string/quiz_main_write_detail"
-            app:layout_constraintBottom_toTopOf="@id/quiz_main_btn_write"
+            app:layout_constraintTop_toBottomOf="@+id/quiz_main_box_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -148,11 +147,12 @@
             android:id="@+id/quiz_main_btn_write"
             android:layout_width="0dp"
             android:layout_height="60dp"
+            android:layout_marginTop="12dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="116dp"
             android:background="@drawable/ripple_btn"
             android:clickable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/quiz_main_tv_detail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
