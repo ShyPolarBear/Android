@@ -150,6 +150,9 @@
         <action
             android:id="@+id/action_navigation_more_to_myPageFragment"
             app:destination="@id/myPageFragment" />
+        <action
+            android:id="@+id/action_navigation_more_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/changeMyInfoFragment"

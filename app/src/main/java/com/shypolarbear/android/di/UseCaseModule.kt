@@ -4,6 +4,7 @@ import com.shypolarbear.domain.repository.ExampleRepo
 import com.shypolarbear.domain.repository.InfoRepo
 import com.shypolarbear.domain.repository.JoinRepo
 import com.shypolarbear.domain.repository.LoginRepo
+import com.shypolarbear.domain.repository.LogoutRepo
 import com.shypolarbear.domain.repository.TokenRepo
 import com.shypolarbear.domain.repository.feed.FeedRepo
 import com.shypolarbear.domain.repository.image.ImageEditRepo
@@ -14,6 +15,7 @@ import com.shypolarbear.domain.repository.ranking.RankingRepo
 import com.shypolarbear.domain.usecase.ExampleUseCase
 import com.shypolarbear.domain.usecase.RequestJoinUseCase
 import com.shypolarbear.domain.usecase.RequestLoginUseCase
+import com.shypolarbear.domain.usecase.RequestLogoutUseCase
 import com.shypolarbear.domain.usecase.RequestTokenRenewUseCase
 import com.shypolarbear.domain.usecase.feed.LoadFeedCommentUseCase
 import com.shypolarbear.domain.usecase.feed.LoadFeedDetailUseCase
@@ -249,5 +251,11 @@ class UseCaseModule {
     @Provides
     fun provideFeedCommentChangeUseCase(repo: FeedRepo): RequestFeedCommentChangeUseCase {
         return RequestFeedCommentChangeUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideLogoutUseCase(repo: LogoutRepo): RequestLogoutUseCase {
+        return RequestLogoutUseCase(repo)
     }
 }

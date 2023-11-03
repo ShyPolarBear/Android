@@ -5,6 +5,7 @@ import com.shypolarbear.data.repositoryimpl.image.ImageEditRepoImpl
 import com.shypolarbear.data.repositoryimpl.InfoRepoImpl
 import com.shypolarbear.data.repositoryimpl.JoinRepoImpl
 import com.shypolarbear.data.repositoryimpl.LoginRepoImpl
+import com.shypolarbear.data.repositoryimpl.LogoutRepoImpl
 import com.shypolarbear.data.repositoryimpl.TokenRepoImpl
 import com.shypolarbear.data.repositoryimpl.feed.FeedRepoImpl
 import com.shypolarbear.data.repositoryimpl.image.ImageUploadRepoImpl
@@ -16,6 +17,7 @@ import com.shypolarbear.domain.repository.image.ImageEditRepo
 import com.shypolarbear.domain.repository.InfoRepo
 import com.shypolarbear.domain.repository.JoinRepo
 import com.shypolarbear.domain.repository.LoginRepo
+import com.shypolarbear.domain.repository.LogoutRepo
 import com.shypolarbear.domain.repository.TokenRepo
 import com.shypolarbear.domain.repository.feed.FeedRepo
 import com.shypolarbear.domain.repository.image.ImageUploadRepo
@@ -63,4 +65,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindRankingRepo(repoImp: RankingRepoImpl): RankingRepo
+
+    @Binds
+    abstract fun bindLogoutRepo(repoImp: LogoutRepoImpl): LogoutRepo
 }

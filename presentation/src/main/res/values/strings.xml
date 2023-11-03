@@ -135,5 +135,8 @@
     <string name="ranking_null">-</string>
 
     <string name="msg_on_back_pressed_end">한번 더 누르면 종료 됩니다.</string>
+    <string name="more_logout_text">로그아웃 하시겠습니까?</string>
+    <string name="more_logout_yes">예</string>
+    <string name="more_logout_no">아니요</string>
 
 </resources>

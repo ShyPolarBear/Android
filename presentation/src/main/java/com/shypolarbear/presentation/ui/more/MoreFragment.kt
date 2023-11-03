@@ -5,8 +5,14 @@ import androidx.navigation.fragment.findNavController
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentMoreBinding
+import com.shypolarbear.presentation.ui.more.dialog.LogOutDialog
 import com.shypolarbear.presentation.util.GlideUtil
 import dagger.hilt.android.AndroidEntryPoint
+
+enum class LoginState(val state: String) {
+    LOGIN("Login"),
+    LOGOUT("Logout")
+}
 
 @AndroidEntryPoint
 class MoreFragment: BaseFragment<FragmentMoreBinding, MoreViewModel> (
@@ -14,8 +20,10 @@ class MoreFragment: BaseFragment<FragmentMoreBinding, MoreViewModel> (
 ) {
 
     override val viewModel: MoreViewModel by viewModels()
+    private lateinit var logoutDialog: LogOutDialog
 
     override fun initView() {
+        logoutDialog = LogOutDialog(requireContext())
 
         binding.apply {
             viewModel.getMyInfo()
@@ -34,6 +42,24 @@ class MoreFragment: BaseFragment<FragmentMoreBinding, MoreViewModel> (
 
             layoutMoreMyPostAndComment.setOnClickListener {
                 findNavController().navigate(R.id.action_navigation_more_to_myPageFragment)
+            }
+
+            layoutMoreLogOut.setOnClickListener {
+                logoutDialog.showDialog()
+                logoutDialog.alertDialog.setOnCancelListener {
+                    viewModel.requestLogout()
+
+                }
+            }
+
+            viewModel.loginState.observe(viewLifecycleOwner) {
+                when(viewModel.loginState.value) {
+                    LoginState.LOGIN -> {  }
+                    LoginState.LOGOUT -> {
+                        findNavController().navigate(R.id.action_navigation_more_to_loginFragment)
+                    }
+                    else -> {}
+                }
             }
         }
     }
