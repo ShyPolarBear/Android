@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -15,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentChangeMyInfoBinding
+import com.shypolarbear.presentation.ui.feed.feedWrite.ActiveState
 import com.shypolarbear.presentation.ui.feed.feedWrite.UPLOADED
 import com.shypolarbear.presentation.ui.feed.feedWrite.UPLOADING
 import com.shypolarbear.presentation.ui.join.NAME_RANGE
@@ -171,6 +173,7 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                             tvChangeMyInfoNameRule,
                             ivChangeMyInfoNameCheck
                         )
+                        checkButtonActive()
                     }
                 })
             }
@@ -203,6 +206,7 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                         tvChangeMyInfoPhoneNumberRule,
                         ivChangeMyInfoPhoneNumberCheck
                     )
+                    checkButtonActive()
                 }
             }
 
@@ -232,6 +236,7 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                         tvChangeMyInfoEmailRule,
                         ivChangeMyInfoEmailCheck
                     )
+                    checkButtonActive()
                 }
             }
         }
@@ -242,4 +247,23 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
     }
 
     private fun uploadImage(): File? { return imageUtil.uriToOptimizeImageFile(requireContext(), profileImageUri) }
+
+    private fun checkButtonActive() {
+        binding.apply {
+            if(nameState == InputState.ACCEPT && emailState == InputState.ACCEPT && phoneNumberState == InputState.ACCEPT) {
+                btnChangeMyInfoRevise.background = AppCompatResources.getDrawable(
+                    requireContext(),
+                    R.drawable.background_solid_blue_01_radius_15
+                )
+                btnChangeMyInfoRevise.setTextColor(requireContext().getColor(R.color.White_01))
+            }
+            else {
+                btnChangeMyInfoRevise.background = AppCompatResources.getDrawable(
+                    requireContext(),
+                    R.drawable.background_solid_gray_06_radius_15
+                )
+                btnChangeMyInfoRevise.setTextColor(requireContext().getColor(R.color.Gray_03))
+            }
+        }
+    }
 }
