@@ -5,6 +5,8 @@ import androidx.navigation.fragment.findNavController
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentMoreBinding
+import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragmentDirections
+import com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider
 import com.shypolarbear.presentation.ui.more.dialog.LogOutDialog
 import com.shypolarbear.presentation.util.GlideUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,12 +25,16 @@ class MoreFragment: BaseFragment<FragmentMoreBinding, MoreViewModel> (
     private lateinit var logoutDialog: LogOutDialog
 
     override fun initView() {
+        var nickName = ""
         logoutDialog = LogOutDialog(requireContext())
 
         binding.apply {
             viewModel.getMyInfo()
             viewModel.myInfo.observe(viewLifecycleOwner) { info ->
-                tvMoreUserNickname.setText(info.nickName)
+                nickName = info.nickName
+
+                tvMoreUserNickname.setText(nickName)
+
                 if (!info.profileImage.isNullOrBlank()) {
                     GlideUtil.loadImage(requireContext(), info.profileImage, binding.ivMoreUserProfile)
                 } else {
@@ -37,7 +43,9 @@ class MoreFragment: BaseFragment<FragmentMoreBinding, MoreViewModel> (
             }
 
             layoutMoreMyInfoChange.setOnClickListener {
-                findNavController().navigate(R.id.action_navigation_more_to_changeMyInfoFragment)
+                findNavController().navigate(
+                    MoreFragmentDirections.actionNavigationMoreToChangeMyInfoFragment(nickName)
+                )
             }
 
             layoutMoreMyPostAndComment.setOnClickListener {

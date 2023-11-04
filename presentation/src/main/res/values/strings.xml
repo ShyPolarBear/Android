@@ -139,4 +139,6 @@
     <string name="more_logout_yes">예</string>
     <string name="more_logout_no">아니요</string>
 
+    <string name="singup_duplicate_nickname_text">중복된 닉네임입니다.</string>
+
 </resources>

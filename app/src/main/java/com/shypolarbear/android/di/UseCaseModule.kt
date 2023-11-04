@@ -32,6 +32,7 @@ import com.shypolarbear.domain.usecase.image.RequestImageDeleteUseCase
 import com.shypolarbear.domain.usecase.image.RequestImageModifyUseCase
 import com.shypolarbear.domain.usecase.image.RequestImageUploadUseCase
 import com.shypolarbear.domain.usecase.more.LoadMyInfoUseCase
+import com.shypolarbear.domain.usecase.more.RequestCheckDuplicateNickNameUseCase
 import com.shypolarbear.domain.usecase.more.RequestMyInfoChangeUseCase
 import com.shypolarbear.domain.usecase.mypage.LoadMyCommentUseCase
 import com.shypolarbear.domain.usecase.mypage.LoadMyPostUseCase
@@ -257,5 +258,11 @@ class UseCaseModule {
     @Provides
     fun provideLogoutUseCase(repo: LogoutRepo): RequestLogoutUseCase {
         return RequestLogoutUseCase(repo)
+    }
+
+    @Singleton
+    @Provides
+    fun provideCheckDuplicateNickNameUseCase(repo: InfoRepo): RequestCheckDuplicateNickNameUseCase {
+        return RequestCheckDuplicateNickNameUseCase(repo)
     }
 }

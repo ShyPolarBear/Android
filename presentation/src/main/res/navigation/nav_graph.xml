@@ -159,6 +159,9 @@
         android:name="com.shypolarbear.presentation.ui.more.changemyinfo.ChangeMyInfoFragment"
         android:label="ChangeMyInfoFragment"
         tools:layout="@layout/fragment_change_my_info">
+        <argument
+            android:name="nickName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
