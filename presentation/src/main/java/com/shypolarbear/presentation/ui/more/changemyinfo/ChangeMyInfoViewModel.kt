@@ -64,6 +64,7 @@ class ChangeMyInfoViewModel @Inject constructor(
                         email = email,
                         phoneNumber = phoneNumber
                     )
+                    _uploadState.value = UPLOADED
                 }
                 // 프로필 사진 있는 경우
                 else -> {
