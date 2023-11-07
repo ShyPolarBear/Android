@@ -223,9 +223,9 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="40dp"
-                android:background="@drawable/background_solid_blue_01_radius_15"
+                android:background="@drawable/background_solid_gray_06_radius_15"
                 android:text="@string/more_change_my_info_complete"
-                android:textColor="@color/White_01"
+                android:textColor="@color/Gray_03"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

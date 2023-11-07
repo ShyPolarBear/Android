@@ -8,6 +8,7 @@ import com.shypolarbear.domain.model.more.Info
 import com.shypolarbear.domain.usecase.image.RequestImageUploadUseCase
 import com.shypolarbear.domain.usecase.more.RequestMyInfoChangeUseCase
 import com.shypolarbear.domain.usecase.more.LoadMyInfoUseCase
+import com.shypolarbear.domain.usecase.more.RequestCheckDuplicateNickNameUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import com.shypolarbear.presentation.ui.feed.feedWrite.UPLOADED
 import com.shypolarbear.presentation.ui.feed.feedWrite.UPLOADING
@@ -21,13 +22,18 @@ import javax.inject.Inject
 class ChangeMyInfoViewModel @Inject constructor(
     private val getMyInfoUseCase: LoadMyInfoUseCase,
     private val changeMyInfoUseCase: RequestMyInfoChangeUseCase,
-    private val imageUploadUseCase: RequestImageUploadUseCase
+    private val imageUploadUseCase: RequestImageUploadUseCase,
+    private val checkDuplicateNickNameUseCase: RequestCheckDuplicateNickNameUseCase
 ): BaseViewModel() {
     private val _myInfo = MutableLiveData<Info>()
     val myInfo: LiveData<Info> = _myInfo
 
     private val _uploadState = MutableLiveData(UPLOADING)
     val uploadState: LiveData<Int> = _uploadState
+
+    private val _nickNameState = MutableLiveData(availableState.UNAVAILABLE)
+    val nickNameState: LiveData<availableState> = _nickNameState
+
 
     fun getMyInfo() {
         viewModelScope.launch {
@@ -58,6 +64,7 @@ class ChangeMyInfoViewModel @Inject constructor(
                         email = email,
                         phoneNumber = phoneNumber
                     )
+                    _uploadState.value = UPLOADED
                 }
                 // 프로필 사진 있는 경우
                 else -> {
@@ -71,6 +78,18 @@ class ChangeMyInfoViewModel @Inject constructor(
                         }
                 }
             }
+        }
+    }
+
+    fun requestCheckNickName(nickName: String) {
+        viewModelScope.launch {
+            checkDuplicateNickNameUseCase(nickName)
+                .onSuccess {
+                    _nickNameState.value = availableState.AVAILABLE
+                }
+                .onFailure {
+                    _nickNameState.value = availableState.UNAVAILABLE
+                }
         }
     }
 }

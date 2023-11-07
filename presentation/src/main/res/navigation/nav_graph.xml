@@ -150,12 +150,18 @@
         <action
             android:id="@+id/action_navigation_more_to_myPageFragment"
             app:destination="@id/myPageFragment" />
+        <action
+            android:id="@+id/action_navigation_more_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/changeMyInfoFragment"
         android:name="com.shypolarbear.presentation.ui.more.changemyinfo.ChangeMyInfoFragment"
         android:label="ChangeMyInfoFragment"
         tools:layout="@layout/fragment_change_my_info">
+        <argument
+            android:name="nickName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"

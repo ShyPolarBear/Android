@@ -135,5 +135,17 @@
     <string name="ranking_null">-</string>
 
     <string name="msg_on_back_pressed_end">한번 더 누르면 종료 됩니다.</string>
+    <string name="more_logout_text">로그아웃 하시겠습니까?</string>
+    <string name="more_logout_yes">예</string>
+    <string name="more_logout_no">아니요</string>
+
+    <string name="singup_duplicate_nickname_text">중복된 닉네임입니다.</string>
+
+    <string name="Beomjun_Email">whqjawns75@gmail.com</string>
+    <string name="more_contact_email_data">mail to:</string>
+    <string name="more_contact_email_type">text/plain</string>
+    <string name="more_contact_email_content">문의사항을 입력해주세요.</string>
+
+    <string name="more_open_source_library_link">https://www.notion.so/f1a4ab23dcb840559135e7d269884392?pvs=4</string>
 
 </resources>

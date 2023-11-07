@@ -31,6 +31,7 @@
             android:background="@drawable/selector_signup_nickname"
             android:hint="@string/feed_write_title"
             android:inputType="text"
+            android:maxLength="20"
             android:padding="10dp"
             android:textColorHint="@color/Gray_05"
             app:layout_constraintEnd_toEndOf="parent"
@@ -48,6 +49,7 @@
             android:gravity="top|start"
             android:hint="@string/feed_write_content"
             android:inputType="textMultiLine"
+            android:maxLength="1000"
             android:padding="10dp"
             android:textColorHint="@color/Gray_05"
             app:layout_constraintBottom_toTopOf="@id/btn_feed_write_add_photo"
@@ -66,15 +68,15 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_feed_write_upload_img"
-            tools:listitem="@layout/item_feed_write_img"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="@+id/btn_feed_write_add_photo"
-            app:layout_constraintStart_toEndOf="@+id/btn_feed_write_add_photo"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/btn_feed_write_add_photo" />
+            app:layout_constraintStart_toEndOf="@+id/btn_feed_write_add_photo"
+            app:layout_constraintTop_toTopOf="@+id/btn_feed_write_add_photo"
+            tools:listitem="@layout/item_feed_write_img" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_feed_write_confirm"
@@ -82,9 +84,9 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginBottom="17dp"
-            android:background="@drawable/background_solid_blue_01_radius_15"
+            android:background="@drawable/background_solid_gray_06_radius_15"
             android:text="@string/quiz_dialog_confirm"
-            android:textColor="@color/White_01"
+            android:textColor="@color/Gray_03"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

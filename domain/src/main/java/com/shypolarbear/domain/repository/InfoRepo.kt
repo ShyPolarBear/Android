@@ -1,5 +1,6 @@
 package com.shypolarbear.domain.repository
 
+import com.shypolarbear.domain.model.more.CheckDuplicateNickNameResponse
 import com.shypolarbear.domain.model.more.InfoResponse
 
 interface InfoRepo {
@@ -11,4 +12,8 @@ interface InfoRepo {
         email: String,
         phoneNumber: String
     ): Result<InfoResponse>
+
+    suspend fun checkDuplicateNickName(
+        nickName: String
+    ): Result<CheckDuplicateNickNameResponse>
 }

@@ -5,6 +5,7 @@ import com.shypolarbear.data.api.image.ImageEditApi
 import com.shypolarbear.data.api.InfoApi
 import com.shypolarbear.data.api.JoinApi
 import com.shypolarbear.data.api.LoginApi
+import com.shypolarbear.data.api.LogoutApi
 import com.shypolarbear.data.api.TokenApi
 import com.shypolarbear.data.api.feed.FeedApi
 import com.shypolarbear.data.api.image.ImageUploadApi
@@ -89,5 +90,11 @@ object ApiModule {
     @Provides
     fun provideRankingApi(@AuthRetrofit retrofit: Retrofit): RankingApi {
         return retrofit.create(RankingApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideLogoutApi(@AuthRetrofit retrofit: Retrofit): LogoutApi {
+        return retrofit.create(LogoutApi::class.java)
     }
 }

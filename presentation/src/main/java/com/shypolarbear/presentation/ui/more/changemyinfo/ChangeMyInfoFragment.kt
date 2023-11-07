@@ -1,17 +1,19 @@
 package com.shypolarbear.presentation.ui.more.changemyinfo
 
 import android.net.Uri
+import android.os.CountDownTimer
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.navigation.fragment.navArgs
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentChangeMyInfoBinding
@@ -23,13 +25,20 @@ import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.ImageUtil
 import com.shypolarbear.presentation.util.InputState
 import com.shypolarbear.presentation.util.afterTextChanged
-import com.shypolarbear.presentation.util.convertUriToFile
 import com.shypolarbear.presentation.util.emailPattern
 import com.shypolarbear.presentation.util.keyboardDown
 import com.shypolarbear.presentation.util.phonePattern
 import com.shypolarbear.presentation.util.setColorStateWithInput
+import com.shypolarbear.presentation.util.updateButtonState
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
+
+const val NICKNAME_DUPLICATE_CHECK_TIME = 500
+
+enum class availableState(val state: String) {
+    AVAILABLE("available"),
+    UNAVAILABLE("unavailable")
+}
 
 @AndroidEntryPoint
 class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyInfoViewModel> (
@@ -37,12 +46,14 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
 ) {
 
     override val viewModel: ChangeMyInfoViewModel by viewModels()
+    private val changeMyInfoArgs: ChangeMyInfoFragmentArgs by navArgs()
     private lateinit var phoneNumber: String
     private var nameState: InputState = InputState.OFF
     private var phoneNumberState: InputState = InputState.OFF
     private var emailState: InputState = InputState.OFF
     private val imageUtil = ImageUtil
     private lateinit var profileImageUri: Uri
+    private var checkTimer: CountDownTimer? = null
 
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
@@ -51,6 +62,8 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                 GlideUtil.loadCircleImage(requireContext(), uri, binding.ivChangeMyInfoProfile)
             }
         }
+
+    private val inputDelayMillis = NICKNAME_DUPLICATE_CHECK_TIME
 
     override fun initView() {
 
@@ -146,6 +159,8 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                             tvChangeMyInfoNameRule,
                             ivChangeMyInfoNameCheck
                         )
+                        checkTimer?.cancel()
+                        startTimer(changeMyInfoArgs.nickName)
                     }
 
                     override fun afterTextChanged(s: Editable?) {
@@ -170,6 +185,11 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                             nameState,
                             tvChangeMyInfoNameRule,
                             ivChangeMyInfoNameCheck
+                        )
+                        updateButtonState(
+                            requireContext(),
+                            btnChangeMyInfoRevise,
+                            nameState == InputState.ACCEPT && emailState == InputState.ACCEPT && phoneNumberState == InputState.ACCEPT
                         )
                     }
                 })
@@ -203,6 +223,11 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                         tvChangeMyInfoPhoneNumberRule,
                         ivChangeMyInfoPhoneNumberCheck
                     )
+                    updateButtonState(
+                        requireContext(),
+                        btnChangeMyInfoRevise,
+                        nameState == InputState.ACCEPT && emailState == InputState.ACCEPT && phoneNumberState == InputState.ACCEPT
+                    )
                 }
             }
 
@@ -232,8 +257,36 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                         tvChangeMyInfoEmailRule,
                         ivChangeMyInfoEmailCheck
                     )
+                    updateButtonState(
+                        requireContext(),
+                        btnChangeMyInfoRevise,
+                        nameState == InputState.ACCEPT && emailState == InputState.ACCEPT && phoneNumberState == InputState.ACCEPT
+                    )
                 }
             }
+        }
+
+        viewModel.nickNameState.observe(viewLifecycleOwner) {
+            when(it) {
+                availableState.AVAILABLE -> {
+                    nameState = InputState.ACCEPT
+                    binding.tvChangeMyInfoNameRule.text = getString(R.string.signup_confirm_text)
+                }
+                else -> {
+                    nameState = InputState.ERROR
+                    binding.tvChangeMyInfoNameRule.text = getString(R.string.singup_duplicate_nickname_text)
+                }
+            }
+            binding.edtChangeMyInfoNickname.setColorStateWithInput(
+                nameState,
+                binding.tvChangeMyInfoNameRule,
+                binding.ivChangeMyInfoNameCheck
+            )
+            updateButtonState(
+                requireContext(),
+                binding.btnChangeMyInfoRevise,
+                nameState == InputState.ACCEPT && emailState == InputState.ACCEPT && phoneNumberState == InputState.ACCEPT
+            )
         }
     }
 
@@ -242,4 +295,21 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
     }
 
     private fun uploadImage(): File? { return imageUtil.uriToOptimizeImageFile(requireContext(), profileImageUri) }
+
+    private fun startTimer(oldNickName: String) {
+        checkTimer = object : CountDownTimer(inputDelayMillis.toLong(), 1000) {
+            override fun onTick(p0: Long) {
+
+            }
+
+            override fun onFinish() {
+                val newNickName = binding.edtChangeMyInfoNickname.text.toString()
+
+                if (oldNickName != newNickName && newNickName.length in NAME_RANGE) {
+                    viewModel.requestCheckNickName(newNickName)
+                }
+            }
+        }
+        checkTimer?.start()
+    }
 }

@@ -1,6 +1,8 @@
 package com.shypolarbear.presentation.ui.feed.feedWrite
 
 import android.net.Uri
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -15,7 +17,7 @@ import com.shypolarbear.presentation.ui.feed.feedTotal.FragmentTotalStatus
 import com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider
 import com.shypolarbear.presentation.ui.feed.feedTotal.fragmentTotalStatus
 import com.shypolarbear.presentation.util.ImageUtil
-import com.shypolarbear.presentation.util.convertUriToFile
+import com.shypolarbear.presentation.util.updateButtonState
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.io.File
@@ -23,6 +25,13 @@ import java.io.File
 const val IMAGE_ADD_INDEX = 0
 const val IMAGE_MAX_COUNT = 5
 const val IMAGE_ADD_MAX = 6
+val TITLE_RANGE = 1..20
+val CONTENT_RANGE = 1..1000
+
+enum class ActiveState(val state: String) {
+    ACTIVE("active"),
+    NONACTIVE("nonActive")
+}
 
 @AndroidEntryPoint
 class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewModel > (
@@ -34,6 +43,9 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
     private var originalImageUriList: MutableList<Uri> = mutableListOf()
     private var originalFeedImages: List<String> = listOf()
     private val imageUtil = ImageUtil
+    private var titleState: ActiveState = ActiveState.NONACTIVE
+    private var contentState: ActiveState = ActiveState.NONACTIVE
+
 
     private val feedWriteImgAdapter = FeedWriteImgAdapter(
         onRemoveImgClick = { position: Int -> removeImg(position) }
@@ -54,6 +66,7 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
         }
 
     override fun initView() {
+
         binding.apply {
 
             when(feedWriteArgs.divider) {
@@ -95,6 +108,59 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                     }
                 }
             }
+
+            edtFeedWriteTitle.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    when {
+                        s.isNullOrEmpty() -> {
+                            titleState = ActiveState.NONACTIVE
+                        }
+                        s.length in TITLE_RANGE -> {
+                            titleState = ActiveState.ACTIVE
+                        }
+                    }
+                    updateButtonState(
+                        requireContext(),
+                        btnFeedWriteConfirm,
+                        titleState == ActiveState.ACTIVE && contentState == ActiveState.ACTIVE
+                    )
+                }
+            })
+
+            edtFeedWriteContent.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    when {
+                        s.isNullOrEmpty() -> {
+                            contentState = ActiveState.NONACTIVE
+                        }
+                        s.length in CONTENT_RANGE -> {
+                            contentState = ActiveState.ACTIVE
+                            updateButtonState(
+                                requireContext(),
+                                btnFeedWriteConfirm,
+                                titleState == ActiveState.ACTIVE && contentState == ActiveState.ACTIVE
+                            )
+                        }
+                    }
+                    updateButtonState(
+                        requireContext(),
+                        btnFeedWriteConfirm,
+                        titleState == ActiveState.ACTIVE && contentState == ActiveState.ACTIVE
+                    )
+                }
+            })
         }
     }
 
