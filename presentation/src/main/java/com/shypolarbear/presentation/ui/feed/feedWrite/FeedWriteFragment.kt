@@ -6,7 +6,6 @@ import android.text.TextWatcher
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -18,6 +17,7 @@ import com.shypolarbear.presentation.ui.feed.feedTotal.FragmentTotalStatus
 import com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider
 import com.shypolarbear.presentation.ui.feed.feedTotal.fragmentTotalStatus
 import com.shypolarbear.presentation.util.ImageUtil
+import com.shypolarbear.presentation.util.updateButtonState
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.io.File
@@ -125,7 +125,11 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                             titleState = ActiveState.ACTIVE
                         }
                     }
-                    checkButtonActive()
+                    updateButtonState(
+                        requireContext(),
+                        btnFeedWriteConfirm,
+                        titleState == ActiveState.ACTIVE && contentState == ActiveState.ACTIVE
+                    )
                 }
             })
 
@@ -143,10 +147,18 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
                         }
                         s.length in CONTENT_RANGE -> {
                             contentState = ActiveState.ACTIVE
-                            checkButtonActive()
+                            updateButtonState(
+                                requireContext(),
+                                btnFeedWriteConfirm,
+                                titleState == ActiveState.ACTIVE && contentState == ActiveState.ACTIVE
+                            )
                         }
                     }
-                    checkButtonActive()
+                    updateButtonState(
+                        requireContext(),
+                        btnFeedWriteConfirm,
+                        titleState == ActiveState.ACTIVE && contentState == ActiveState.ACTIVE
+                    )
                 }
             })
         }
@@ -263,18 +275,5 @@ class FeedWriteFragment: BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMod
 
     private fun uploadImage(addedImageUriList: List<Uri>): List<File>{
         return addedImageUriList.map { imageUtil.uriToOptimizeImageFile(requireContext(), it)!! }
-    }
-
-    private fun checkButtonActive() {
-        binding.apply {
-            if(titleState == ActiveState.ACTIVE && contentState == ActiveState.ACTIVE) {
-                btnFeedWriteConfirm.background = getDrawable(requireContext(), R.drawable.background_solid_blue_01_radius_15)
-                btnFeedWriteConfirm.setTextColor(requireContext().getColor(R.color.White_01))
-            }
-            else {
-                btnFeedWriteConfirm.background = getDrawable(requireContext(), R.drawable.background_solid_gray_06_radius_15)
-                btnFeedWriteConfirm.setTextColor(requireContext().getColor(R.color.Gray_03))
-            }
-        }
     }
 }

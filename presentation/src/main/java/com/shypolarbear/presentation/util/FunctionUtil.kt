@@ -19,6 +19,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
@@ -382,5 +383,22 @@ fun onBackPressedToFinish(context: Context, activity: Activity) {
     }
     else if(System.currentTimeMillis() <= (backKeyPressTime + 2500)){
         activity.finish()
+    }
+}
+
+fun updateButtonState(context: Context, button: Button, isAccept: Boolean) {
+    if(isAccept) {
+        button.background = AppCompatResources.getDrawable(
+            context,
+            R.drawable.background_solid_blue_01_radius_15
+        )
+        button.setTextColor(context.getColor(R.color.White_01))
+    }
+    else {
+        button.background = AppCompatResources.getDrawable(
+            context,
+            R.drawable.background_solid_gray_06_radius_15
+        )
+        button.setTextColor(context.getColor(R.color.Gray_03))
     }
 }

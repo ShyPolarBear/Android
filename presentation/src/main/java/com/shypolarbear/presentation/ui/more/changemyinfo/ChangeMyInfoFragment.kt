@@ -29,6 +29,7 @@ import com.shypolarbear.presentation.util.emailPattern
 import com.shypolarbear.presentation.util.keyboardDown
 import com.shypolarbear.presentation.util.phonePattern
 import com.shypolarbear.presentation.util.setColorStateWithInput
+import com.shypolarbear.presentation.util.updateButtonState
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
@@ -185,7 +186,11 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                             tvChangeMyInfoNameRule,
                             ivChangeMyInfoNameCheck
                         )
-                        checkButtonActive()
+                        updateButtonState(
+                            requireContext(),
+                            btnChangeMyInfoRevise,
+                            nameState == InputState.ACCEPT && emailState == InputState.ACCEPT && phoneNumberState == InputState.ACCEPT
+                        )
                     }
                 })
             }
@@ -218,7 +223,11 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                         tvChangeMyInfoPhoneNumberRule,
                         ivChangeMyInfoPhoneNumberCheck
                     )
-                    checkButtonActive()
+                    updateButtonState(
+                        requireContext(),
+                        btnChangeMyInfoRevise,
+                        nameState == InputState.ACCEPT && emailState == InputState.ACCEPT && phoneNumberState == InputState.ACCEPT
+                    )
                 }
             }
 
@@ -248,7 +257,11 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                         tvChangeMyInfoEmailRule,
                         ivChangeMyInfoEmailCheck
                     )
-                    checkButtonActive()
+                    updateButtonState(
+                        requireContext(),
+                        btnChangeMyInfoRevise,
+                        nameState == InputState.ACCEPT && emailState == InputState.ACCEPT && phoneNumberState == InputState.ACCEPT
+                    )
                 }
             }
         }
@@ -269,7 +282,11 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                 binding.tvChangeMyInfoNameRule,
                 binding.ivChangeMyInfoNameCheck
             )
-            checkButtonActive()
+            updateButtonState(
+                requireContext(),
+                binding.btnChangeMyInfoRevise,
+                nameState == InputState.ACCEPT && emailState == InputState.ACCEPT && phoneNumberState == InputState.ACCEPT
+            )
         }
     }
 
@@ -278,25 +295,6 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
     }
 
     private fun uploadImage(): File? { return imageUtil.uriToOptimizeImageFile(requireContext(), profileImageUri) }
-
-    private fun checkButtonActive() {
-        binding.apply {
-            if(nameState == InputState.ACCEPT && emailState == InputState.ACCEPT && phoneNumberState == InputState.ACCEPT) {
-                btnChangeMyInfoRevise.background = AppCompatResources.getDrawable(
-                    requireContext(),
-                    R.drawable.background_solid_blue_01_radius_15
-                )
-                btnChangeMyInfoRevise.setTextColor(requireContext().getColor(R.color.White_01))
-            }
-            else {
-                btnChangeMyInfoRevise.background = AppCompatResources.getDrawable(
-                    requireContext(),
-                    R.drawable.background_solid_gray_06_radius_15
-                )
-                btnChangeMyInfoRevise.setTextColor(requireContext().getColor(R.color.Gray_03))
-            }
-        }
-    }
 
     private fun startTimer(oldNickName: String) {
         checkTimer = object : CountDownTimer(inputDelayMillis.toLong(), 1000) {
