@@ -89,7 +89,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                     itemType: FeedDetailLikeBtnType ->
                 changeLikeBtn(btn, isLiked, likeCnt, textView, commentId, replyId, itemType)
             },
-            onItemClick = { clickCommentItem() }  // 선택된 댓글 해제
+            onItemClick = { setCommentWriteMode() }  // 선택된 댓글 해제
         )
     }
 
@@ -101,16 +101,13 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
 
             rvFeedDetail.adapter = ConcatAdapter(feedDetailPostAdapter, feedCommentAdapter)
 
-            edtFeedDetailReply.setOnFocusChangeListener { _, isFocus ->
-                binding.cardviewFeedCommentWritingMsg.isVisible = isFocus
-            }
-
             layoutFeedDetail.setOnClickListener {
                 binding.edtFeedDetailReply.clearFocus()
             }
 
             btnFeedCommentWritingClose.setOnClickListener {
                 binding.cardviewFeedCommentWritingMsg.isVisible = false
+                setCommentWriteMode()
             }
 
             btnFeedCommentWrite.setOnClickListener {
@@ -125,7 +122,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 binding.edtFeedDetailReply.clearFocus()
                 binding.edtFeedDetailReply.setText("")
                 binding.cardviewFeedCommentWritingMsg.isVisible = false
-                clickCommentItem()  // 대댓글 모드 해제
+                setCommentWriteMode()  // 대댓글 모드 해제
             }
 
             rvFeedDetail.infiniteScroll {
@@ -188,7 +185,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                     commentType = CommentType.REPLY
                     commentParentId = commentId
                     commentPosition = position
-                    clickReplyProperty()
+                    setReplyWriteMode()
                 }
             }
         }.showAsDropDown(
@@ -219,7 +216,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                     commentType = CommentType.REPLY
                     commentParentId = commentId
                     commentPosition = position
-                    clickReplyProperty()
+                    setReplyWriteMode()
                 }
             }
         }.showAsDropDown(
@@ -382,16 +379,17 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         findNavController().popBackStack()
     }
 
-    private fun clickReplyProperty() {
+    private fun setReplyWriteMode() {
 //        나중에 대댓글 옵션 클릭된 댓글 배경 바꿀 때 사용할 예정
 //        view.selectedComment(true, view)
 
         commentType = CommentType.REPLY
 
         binding.edtFeedDetailReply.hint = getString(R.string.feed_detail_reply_msg)
+        binding.cardviewFeedCommentWritingMsg.isVisible = true
     }
 
-    private fun clickCommentItem() {
+    private fun setCommentWriteMode() {
 //        나중에 대댓글 옵션 클릭된 댓글 배경 바꿀 때 사용할 예정
 //        view.selectedComment(false, view)
 
