@@ -91,8 +91,8 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_feed_detail_like"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/ic_btn_like_off"
@@ -105,8 +105,8 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
             android:text="@string/feed_post_like"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_feed_detail_like"
             app:layout_constraintStart_toEndOf="@id/btn_feed_detail_like"
             app:layout_constraintTop_toTopOf="@id/btn_feed_detail_like" />
 
@@ -151,7 +151,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_feed_detail_title" />
 
         <TextView
-            style="@style/L1"
+            style="@style/B2"
             android:layout_width="wrap_content"
             android:layout_height="18dp"
             android:layout_marginEnd="3dp"
@@ -162,19 +162,18 @@
 
         <TextView
             android:id="@+id/tv_feed_detail_reply_cnt"
-            style="@style/L1"
+            style="@style/B2"
             android:layout_width="wrap_content"
             android:layout_height="18dp"
             android:layout_marginBottom="8dp"
             android:text="@string/test_feed_post_reply_cnt"
             android:textColor="@color/Gray_01"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tv_feed_detail_reply_text"
             app:layout_constraintTop_toTopOf="@id/tv_feed_detail_reply_text" />
 
         <TextView
             android:id="@+id/tv_feed_detail_reply_text"
-            style="@style/L1"
+            style="@style/B2"
             android:layout_width="wrap_content"
             android:layout_height="18dp"
             android:layout_marginTop="24dp"
@@ -183,6 +182,13 @@
             android:textColor="@color/Gray_01"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_feed_detail_content" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginTop="14dp"
+            android:background="@color/Blue_06"
+            app:layout_constraintTop_toBottomOf="@id/tv_feed_detail_reply_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
