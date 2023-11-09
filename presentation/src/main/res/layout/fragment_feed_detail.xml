@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:layout_marginBottom="16dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:cardBackgroundColor="@color/Gray_06"
                 app:layout_constraintBottom_toTopOf="@id/cardview_feed_reply">
 
