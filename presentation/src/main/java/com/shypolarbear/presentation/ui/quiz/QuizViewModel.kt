@@ -183,8 +183,6 @@ class QuizViewModel @Inject constructor(
                 .onSuccess {
                     _userName.value = it.data.nickName
                 }
-                .onFailure {
-                }
         }
     }
 

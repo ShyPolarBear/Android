@@ -53,9 +53,10 @@ class JoinViewModel @Inject constructor(
 
             responseJoin
                 .onSuccess { response ->
-                    initToken(Tokens(response.data.accessToken, response.data.refreshToken))
                     setAccessTokenUseCase(response.data.accessToken)
                     setRefreshTokenUseCase(response.data.refreshToken)
+
+                    initToken(Tokens(response.data.accessToken, response.data.refreshToken))
                 }
                 .onFailure {error ->
                     if (error is HttpError) {
