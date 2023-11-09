@@ -1,5 +1,6 @@
 package com.shypolarbear.presentation.ui.quiz.main
 
+import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.shypolarbear.presentation.R
@@ -37,7 +38,7 @@ class QuizMainFragment :
                     getString(R.string.quiz_main_user_name, userName),
                     userName,
                     styleId = R.style.H3,
-                    colorId = R.color.Blue_01
+                    colorId = R.color.Blue_01,
                 )
             }
         }
@@ -46,29 +47,42 @@ class QuizMainFragment :
                 binding.quizMainTvGoQuiz.text = getString(R.string.quiz_main_tv_go_quiz)
             }
         }
-        viewModel.quizResponse.observe(viewLifecycleOwner, EventObserver { quiz ->
-            setQuizNavigation(quiz.type, QuizNavType.MAIN)
-        })
-        viewModel.reviewResponse.observe(viewLifecycleOwner, EventObserver { reviewQuiz ->
-            setQuizNavigation(reviewQuiz.content.first().type, QuizNavType.MAIN)
-        })
+        viewModel.quizResponse.observe(
+            viewLifecycleOwner,
+            EventObserver { quiz ->
+                setQuizNavigation(quiz.type, QuizNavType.MAIN)
+            },
+        )
+        viewModel.reviewResponse.observe(
+            viewLifecycleOwner,
+            EventObserver { reviewQuiz ->
+                setQuizNavigation(reviewQuiz.content.first().type, QuizNavType.MAIN)
+            },
+        )
 
         binding.apply {
             quizMainTvTitle.setSpecificTextColor(
                 getString(R.string.quiz_main_title),
                 getString(R.string.quiz_main_polarbear),
-                colorId = R.color.Blue_01
+                colorId = R.color.Blue_01,
             )
             quizMainBtnGoQuiz.setOnClickListener {
                 if (viewModel.dailySubmit.value!!) {
                     viewModel.requestReviewQuiz()
-                } else viewModel.requestQuiz()
+                } else {
+                    viewModel.requestQuiz()
+                }
             }
             quizMainTvMore.setOnClickListener {
                 findNavController().navigate(R.id.action_navigation_quiz_main_to_navigation_feed)
             }
             quizMainBtnWrite.setOnClickListener {
-                findNavController().navigate(QuizMainFragmentDirections.actionNavigationQuizMainToFeedWriteFragment(WriteChangeDivider.WRITE, 0))
+                findNavController().navigate(
+                    QuizMainFragmentDirections.actionNavigationQuizMainToFeedWriteFragment(
+                        WriteChangeDivider.WRITE,
+                        0,
+                    ),
+                )
             }
         }
     }
