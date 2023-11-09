@@ -160,7 +160,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         findNavController().popBackStack()
     }
 
-    // TODO("댓글 작성자 닉네임 받아오기")
     private fun showMyCommentPropertyMenu(view: ImageView, commentId: Int, position: Int, commentAuthor: String, content: String) {
         val myCommentPropertyItems: List<PowerMenuItem> =
             listOf(
@@ -196,7 +195,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         )
     }
 
-    // TODO("댓글 작성자 닉네임 받아오기")
     private fun showOtherCommentPropertyMenu(view: ImageView, commentId: Int, position: Int, commentAuthor: String) {
         val otherCommentPropertyItems: List<PowerMenuItem> =
             listOf(
