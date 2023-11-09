@@ -5,17 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.domain.usecase.RequestTokenRenewUseCase
-import com.shypolarbear.domain.usecase.tokens.GetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.tokens.GetRefreshTokenUseCase
 import com.shypolarbear.domain.usecase.tokens.SetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.tokens.SetRefreshTokenUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
-import com.shypolarbear.presentation.util.LOGIN_FAIL
-import com.shypolarbear.presentation.util.SIGNUP_NEED
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import org.json.JSONObject
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
