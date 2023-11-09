@@ -6,6 +6,7 @@ import androidx.navigation.fragment.findNavController
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentQuizMainBinding
+import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragmentDirections
 import com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider
 import com.shypolarbear.presentation.ui.quiz.QuizViewModel
 import com.shypolarbear.presentation.util.EventObserver
@@ -22,7 +23,7 @@ class QuizMainFragment :
     override val viewModel: QuizViewModel by activityViewModels()
 
     override fun initView() {
-        val recentFeedAdapter = QuizMainAdapter()
+        val recentFeedAdapter = QuizMainAdapter(onMoveToDetailClick = { feedId: Int -> showFeedPostDetail(feedId) })
         binding.quizMainRv.adapter = recentFeedAdapter
         viewModel.requestDailyQuizSolvedState()
         viewModel.loadFeedRecentData()
@@ -85,5 +86,9 @@ class QuizMainFragment :
                 )
             }
         }
+    }
+
+    private fun showFeedPostDetail(feedId: Int) {
+        findNavController().navigate(QuizMainFragmentDirections.actionNavigationQuizMainToFeedDetailFragment(feedId))
     }
 }
