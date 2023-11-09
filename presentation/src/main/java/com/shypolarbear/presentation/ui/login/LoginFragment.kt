@@ -3,6 +3,7 @@ package com.shypolarbear.presentation.ui.login
 import android.content.Context
 import android.text.util.Linkify
 import android.text.util.Linkify.addLinks
+import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections

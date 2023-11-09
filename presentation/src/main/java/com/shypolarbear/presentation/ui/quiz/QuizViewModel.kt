@@ -62,6 +62,8 @@ class QuizViewModel @Inject constructor(
         viewModelScope.launch {
             feedTotalUseCase("recent", lastFeedId = null)
                 .onSuccess { response ->
+                    if (response.data.content.isEmpty()) return@onSuccess
+
                     val imageContainList = mutableListOf<Feed>()
                     for (item in response.data.content) {
                         if (item.feedImages.isNotEmpty()) imageContainList.add(item)
@@ -117,7 +119,6 @@ class QuizViewModel @Inject constructor(
         }
     }
 
-
     fun requestReviewQuiz() {
         viewModelScope.launch {
             val responseQuiz = reviewQuizUseCase()
@@ -156,14 +157,14 @@ class QuizViewModel @Inject constructor(
                 QuizType.MULTI -> {
                     submitMultiUseCase(
                         _quizInstance.value!!.quizId,
-                        SubmitRequestMulti(isTimeOut, _answerId.value?.toLong())
+                        SubmitRequestMulti(isTimeOut, _answerId.value?.toLong()),
                     )
                 }
 
                 QuizType.OX -> {
                     submitOXUseCase(
                         _quizInstance.value!!.quizId,
-                        SubmitRequestOX(isTimeOut, _answerId.value?.toString())
+                        SubmitRequestOX(isTimeOut, _answerId.value?.toString()),
                     )
                 }
             }
@@ -173,7 +174,6 @@ class QuizViewModel @Inject constructor(
             }.onFailure { error ->
                 simpleHttpErrorCheck(error)
             }
-
         }
     }
 
@@ -184,9 +184,7 @@ class QuizViewModel @Inject constructor(
                     _userName.value = it.data.nickName
                 }
                 .onFailure {
-
                 }
-
         }
     }
 
@@ -203,5 +201,4 @@ class QuizViewModel @Inject constructor(
             _answerId.value = null
         }
     }
-
 }
