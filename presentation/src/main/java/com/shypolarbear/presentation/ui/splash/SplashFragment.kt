@@ -6,7 +6,6 @@ import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentSplashBinding
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 enum class Splash(val code: Int) {
     SUCCESS(0),
