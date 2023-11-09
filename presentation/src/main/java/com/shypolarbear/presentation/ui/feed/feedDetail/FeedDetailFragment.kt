@@ -67,11 +67,11 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     }
     private val feedCommentAdapter: FeedCommentAdapter by lazy {
         FeedCommentAdapter(
-            onMyCommentPropertyClick = { view: ImageView, commentId: Int, position: Int, commentView: View, content: String ->
-                showMyCommentPropertyMenu(view, commentId, position, commentView, content)
+            onMyCommentPropertyClick = { view: ImageView, commentId: Int, position: Int, commentAuthor: String, content: String ->
+                showMyCommentPropertyMenu(view, commentId, position, commentAuthor, content)
             },
-            onOtherCommentPropertyClick = { view: ImageView, commentId: Int, position: Int, commentView: View ->
-                showOtherCommentPropertyMenu(view, commentId, position, commentView)
+            onOtherCommentPropertyClick = { view: ImageView, commentId: Int, position: Int, commentAuthor: String ->
+                showOtherCommentPropertyMenu(view, commentId, position, commentAuthor)
             },
             onMyReplyPropertyClick = { view: ImageView, commentId: Int, _: Int, content: String ->
                 showMyReplyPropertyMenu(view, commentId, feedDetailArgs.feedId, content)
@@ -160,7 +160,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         findNavController().popBackStack()
     }
 
-    private fun showMyCommentPropertyMenu(view: ImageView, commentId: Int, position: Int, commentView: View, content: String) {
+    // TODO("댓글 작성자 닉네임 받아오기")
+    private fun showMyCommentPropertyMenu(view: ImageView, commentId: Int, position: Int, commentAuthor: String, content: String) {
         val myCommentPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
@@ -185,7 +186,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                     commentType = CommentType.REPLY
                     commentParentId = commentId
                     commentPosition = position
-                    setReplyWriteMode()
+                    setReplyWriteMode(commentAuthor)
                 }
             }
         }.showAsDropDown(
@@ -195,7 +196,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         )
     }
 
-    private fun showOtherCommentPropertyMenu(view: ImageView, commentId: Int, position: Int, commentView: View) {
+    // TODO("댓글 작성자 닉네임 받아오기")
+    private fun showOtherCommentPropertyMenu(view: ImageView, commentId: Int, position: Int, commentAuthor: String) {
         val otherCommentPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_report)),
@@ -216,7 +218,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                     commentType = CommentType.REPLY
                     commentParentId = commentId
                     commentPosition = position
-                    setReplyWriteMode()
+                    setReplyWriteMode(commentAuthor)
                 }
             }
         }.showAsDropDown(
@@ -379,7 +381,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         findNavController().popBackStack()
     }
 
-    private fun setReplyWriteMode() {
+    private fun setReplyWriteMode(commentAuthor: String) {
 //        나중에 대댓글 옵션 클릭된 댓글 배경 바꿀 때 사용할 예정
 //        view.selectedComment(true, view)
 
@@ -387,6 +389,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
 
         binding.edtFeedDetailReply.hint = getString(R.string.feed_detail_reply_msg)
         binding.cardviewFeedCommentWritingMsg.isVisible = true
+        binding.tvFeedCommentWritingMsg.text = requireContext().getString(R.string.feed_detail_comment_writing_msg, commentAuthor)
     }
 
     private fun setCommentWriteMode() {
