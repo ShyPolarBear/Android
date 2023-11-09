@@ -18,10 +18,10 @@
             android:indeterminate="true"
             app:indicatorColor="@color/Blue_02"
             app:indicatorSize="36dp"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:trackThickness="5dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,16 +33,16 @@
                 android:id="@+id/rv_feed_detail"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toTopOf="@+id/cardview_feed_reply" />
+                app:layout_constraintBottom_toTopOf="@+id/cardview_feed_reply"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardview_feed_comment_writing_msg"
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:layout_marginBottom="8dp"
-                android:visibility="gone"
+                android:layout_height="32dp"
+                android:layout_marginBottom="16dp"
+                android:visibility="visible"
                 app:cardBackgroundColor="@color/Gray_06"
                 app:layout_constraintBottom_toTopOf="@id/cardview_feed_reply">
 
@@ -51,23 +51,23 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        style="@style/l4"
+                        style="@style/L1"
                         android:layout_width="wrap_content"
-                        android:layout_height="14dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="5dp"
                         android:text="@string/feed_detail_comment_writing_msg"
                         android:textColor="@color/Gray_04"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_feed_comment_writing_close"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_marginTop="4dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_marginEnd="20dp"
                         android:background="@drawable/ic_btn_close"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -94,14 +94,17 @@
                     <EditText
                         android:id="@+id/edt_feed_detail_reply"
                         style="@style/B2"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="35dp"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginEnd="30dp"
                         android:background="@color/White_01"
-                        android:maxLength="300"
+                        android:gravity="center"
                         android:hint="@string/feed_detail_comment_msg"
-                        android:textColorHint="@color/Gray_05" />
+                        android:maxLength="300"
+                        android:textColorHint="@color/Gray_05"
+                        app:layout_constraintEnd_toStartOf="@id/btn_feed_comment_write"
+                        app:layout_constraintStart_toStartOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_feed_comment_write"
