@@ -1,12 +1,10 @@
 package com.shypolarbear.presentation.ui.quiz.main
 
-import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentQuizMainBinding
-import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragmentDirections
 import com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider
 import com.shypolarbear.presentation.ui.quiz.QuizViewModel
 import com.shypolarbear.presentation.util.EventObserver

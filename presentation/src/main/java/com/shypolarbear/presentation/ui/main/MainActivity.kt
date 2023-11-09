@@ -38,7 +38,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
                     R.id.signupFragment, R.id.loginFragment, R.id.quizDailyOXFragment,
                     R.id.quizDailyMultiChoiceFragment, R.id.feedWriteFragment, R.id.feedDetailFragment,
                     R.id.changeMyInfoFragment, R.id.feedDetailNoImageFragment, R.id.feedCommentChangeFragment,
-                    R.id.myPageFragment -> bottomNavigationBar.visibility = View.INVISIBLE
+                    R.id.myPageFragment, R.id.splashFragment -> bottomNavigationBar.visibility = View.INVISIBLE
                     else -> bottomNavigationBar.visibility = View.VISIBLE
                 }
             }
