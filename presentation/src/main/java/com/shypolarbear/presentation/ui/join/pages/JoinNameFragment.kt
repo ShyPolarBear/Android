@@ -13,10 +13,12 @@ import com.shypolarbear.presentation.databinding.FragmentSignupNameBinding
 import com.shypolarbear.presentation.ui.join.NAME_RANGE
 import com.shypolarbear.presentation.ui.join.JoinViewModel
 import com.shypolarbear.presentation.util.GlideUtil
+import com.shypolarbear.presentation.util.ImageUtil
 import com.shypolarbear.presentation.util.InputState
 import com.shypolarbear.presentation.util.keyboardDown
 import com.shypolarbear.presentation.util.setColorStateWithInput
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
 
 @AndroidEntryPoint
 class JoinNameFragment :
@@ -25,8 +27,9 @@ class JoinNameFragment :
 
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            uri?.let {
+            uri?.let { profileImage ->
                 GlideUtil.loadCircleImage(requireContext(), uri, binding.ivSignupNameProfile)
+                viewModel.requestImageUploadWithJoin(listOf(ImageUtil.uriToOptimizeImageFile(requireContext(), profileImage)!!))
             }
         }
 
