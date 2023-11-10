@@ -21,8 +21,8 @@ import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentNo
 import timber.log.Timber
 
 class FeedCommentAdapter(
-    private val onMyCommentPropertyClick: (view: ImageView, commentId: Int, position: Int, commentView: View ,content: String) -> Unit = { _, _, _, _, _ -> },
-    private val onOtherCommentPropertyClick: (view: ImageView, commentId: Int, position: Int, commentView: View) -> Unit = { _, _, _, _ -> },
+    private val onMyCommentPropertyClick: (view: ImageView, commentId: Int, position: Int, commentAuthor: String ,content: String) -> Unit = { _, _, _, _, _ -> },
+    private val onOtherCommentPropertyClick: (view: ImageView, commentId: Int, position: Int, commentAuthor: String) -> Unit = { _, _, _, _ -> },
     private val onMyReplyPropertyClick: (view: ImageView, commentId: Int, feedId: Int, content: String) -> Unit = { _, _, _, _ -> },
     private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onBtnLikeClick: (

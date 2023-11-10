@@ -67,11 +67,11 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     }
     private val feedCommentAdapter: FeedCommentAdapter by lazy {
         FeedCommentAdapter(
-            onMyCommentPropertyClick = { view: ImageView, commentId: Int, position: Int, commentView: View, content: String ->
-                showMyCommentPropertyMenu(view, commentId, position, commentView, content)
+            onMyCommentPropertyClick = { view: ImageView, commentId: Int, position: Int, commentAuthor: String, content: String ->
+                showMyCommentPropertyMenu(view, commentId, position, commentAuthor, content)
             },
-            onOtherCommentPropertyClick = { view: ImageView, commentId: Int, position: Int, commentView: View ->
-                showOtherCommentPropertyMenu(view, commentId, position, commentView)
+            onOtherCommentPropertyClick = { view: ImageView, commentId: Int, position: Int, commentAuthor: String ->
+                showOtherCommentPropertyMenu(view, commentId, position, commentAuthor)
             },
             onMyReplyPropertyClick = { view: ImageView, commentId: Int, _: Int, content: String ->
                 showMyReplyPropertyMenu(view, commentId, feedDetailArgs.feedId, content)
@@ -89,7 +89,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                     itemType: FeedDetailLikeBtnType ->
                 changeLikeBtn(btn, isLiked, likeCnt, textView, commentId, replyId, itemType)
             },
-            onItemClick = { clickCommentItem() }  // 선택된 댓글 해제
+            onItemClick = { setCommentWriteMode() }  // 선택된 댓글 해제
         )
     }
 
@@ -101,16 +101,13 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
 
             rvFeedDetail.adapter = ConcatAdapter(feedDetailPostAdapter, feedCommentAdapter)
 
-            edtFeedDetailReply.setOnFocusChangeListener { _, isFocus ->
-                binding.cardviewFeedCommentWritingMsg.isVisible = isFocus
-            }
-
             layoutFeedDetail.setOnClickListener {
                 binding.edtFeedDetailReply.clearFocus()
             }
 
             btnFeedCommentWritingClose.setOnClickListener {
                 binding.cardviewFeedCommentWritingMsg.isVisible = false
+                setCommentWriteMode()
             }
 
             btnFeedCommentWrite.setOnClickListener {
@@ -125,7 +122,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 binding.edtFeedDetailReply.clearFocus()
                 binding.edtFeedDetailReply.setText("")
                 binding.cardviewFeedCommentWritingMsg.isVisible = false
-                clickCommentItem()  // 대댓글 모드 해제
+                setCommentWriteMode()  // 대댓글 모드 해제
             }
 
             rvFeedDetail.infiniteScroll {
@@ -163,7 +160,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         findNavController().popBackStack()
     }
 
-    private fun showMyCommentPropertyMenu(view: ImageView, commentId: Int, position: Int, commentView: View, content: String) {
+    private fun showMyCommentPropertyMenu(view: ImageView, commentId: Int, position: Int, commentAuthor: String, content: String) {
         val myCommentPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
@@ -188,7 +185,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                     commentType = CommentType.REPLY
                     commentParentId = commentId
                     commentPosition = position
-                    clickReplyProperty()
+                    setReplyWriteMode(commentAuthor)
                 }
             }
         }.showAsDropDown(
@@ -198,7 +195,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         )
     }
 
-    private fun showOtherCommentPropertyMenu(view: ImageView, commentId: Int, position: Int, commentView: View) {
+    private fun showOtherCommentPropertyMenu(view: ImageView, commentId: Int, position: Int, commentAuthor: String) {
         val otherCommentPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_report)),
@@ -219,7 +216,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                     commentType = CommentType.REPLY
                     commentParentId = commentId
                     commentPosition = position
-                    clickReplyProperty()
+                    setReplyWriteMode(commentAuthor)
                 }
             }
         }.showAsDropDown(
@@ -382,16 +379,18 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         findNavController().popBackStack()
     }
 
-    private fun clickReplyProperty() {
+    private fun setReplyWriteMode(commentAuthor: String) {
 //        나중에 대댓글 옵션 클릭된 댓글 배경 바꿀 때 사용할 예정
 //        view.selectedComment(true, view)
 
         commentType = CommentType.REPLY
 
         binding.edtFeedDetailReply.hint = getString(R.string.feed_detail_reply_msg)
+        binding.cardviewFeedCommentWritingMsg.isVisible = true
+        binding.tvFeedCommentWritingMsg.text = requireContext().getString(R.string.feed_detail_comment_writing_msg, commentAuthor)
     }
 
-    private fun clickCommentItem() {
+    private fun setCommentWriteMode() {
 //        나중에 대댓글 옵션 클릭된 댓글 배경 바꿀 때 사용할 예정
 //        view.selectedComment(false, view)
 
