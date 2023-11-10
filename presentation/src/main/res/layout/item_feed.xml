@@ -220,12 +220,14 @@
                         <TextView
                             android:id="@+id/tv_feed_post_best_comment_content"
                             style="@style/B2"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="20dp"
                             android:layout_marginTop="8dp"
+                            android:layout_marginEnd="20dp"
                             android:layout_marginBottom="18dp"
                             android:maxLines="1"
                             android:text="@string/test_feed_post_best_reply_content"
+                            app:layout_constraintEnd_toStartOf="@+id/tv_feed_post_best_comment_like_cnt"
                             app:layout_constraintStart_toStartOf="@id/iv_feed_post_comment_user_profile"
                             app:layout_constraintTop_toBottomOf="@id/tv_feed_post_comment_commenting_time" />
 
