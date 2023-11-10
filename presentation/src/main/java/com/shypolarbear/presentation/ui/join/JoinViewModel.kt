@@ -5,26 +5,32 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.domain.model.Tokens
+import com.shypolarbear.domain.model.image.ImageUploadRequest
 import com.shypolarbear.domain.model.join.JoinRequest
 import com.shypolarbear.domain.usecase.RequestJoinUseCase
+import com.shypolarbear.domain.usecase.image.RequestImageUploadUseCase
 import com.shypolarbear.domain.usecase.tokens.SetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.tokens.SetRefreshTokenUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
+import com.shypolarbear.presentation.util.ImageType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class JoinViewModel @Inject constructor(
     private val joinUseCase: RequestJoinUseCase,
     private val setAccessTokenUseCase: SetAccessTokenUseCase,
-    private val setRefreshTokenUseCase: SetRefreshTokenUseCase
+    private val setRefreshTokenUseCase: SetRefreshTokenUseCase,
+    private val imageUploadUseCase: RequestImageUploadUseCase
 ) : BaseViewModel() {
     private val _termData = MutableLiveData<Boolean>()
     val termData: LiveData<Boolean> = _termData
     private val _nameData = MutableLiveData<String>()
     val nameData: LiveData<String> = _nameData
+    private val _imageData = MutableLiveData<String>()
     private val _phoneData = MutableLiveData<String>()
     val phoneData: LiveData<String> = _phoneData
     private val _mailData = MutableLiveData<String>()
@@ -39,6 +45,16 @@ class JoinViewModel @Inject constructor(
     private val _pageIndex = MutableLiveData<Int>(1)
     val pageIndex: LiveData<Int> = _pageIndex
 
+    fun requestImageUploadWithJoin(profileImage: List<File>){
+        viewModelScope.launch {
+            imageUploadUseCase.invoke(
+                ImageUploadRequest(ImageType.PROFILE.type, profileImage)
+            ).onSuccess { response ->
+                _imageData.value = response.data.imageLinks.first()
+            }
+        }
+    }
+
     fun requestJoin(socialAccessToken: String? = null) {
         viewModelScope.launch {
             val responseJoin = joinUseCase.invoke(
@@ -47,7 +63,7 @@ class JoinViewModel @Inject constructor(
                     nickName = nameData.value!!,
                     phoneNumber = phoneData.value!!,
                     email = mailData.value!!,
-                    profileImage = "아직 미구현"
+                    profileImage = _imageData.value ?: ""
                 )
             )
 

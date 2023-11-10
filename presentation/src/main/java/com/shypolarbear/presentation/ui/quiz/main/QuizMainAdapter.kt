@@ -12,13 +12,14 @@ import com.shypolarbear.presentation.ui.mypage.adapter.LoadingViewHolder
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.MyFeedType
 
-class QuizMainAdapter:
+class QuizMainAdapter(private val onMoveToDetailClick: (feedId: Int) -> Unit = {  _ ->  }):
     ListAdapter<Feed, RecyclerView.ViewHolder>(RecentFeedDiffCallback())  {
     inner class ItemRecentFeedViewHolder(private val binding: ItemQuizMainRecentFeedBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bindItems(item: Feed) {
             binding.apply {
                 itemQuizMainTv.text = item.title
+                itemRecentFeed.setOnClickListener { onMoveToDetailClick(item.feedId) }
                 GlideUtil.loadImage(binding.root.context, item.feedImages.first(), itemQuizMainIv)
             }
         }

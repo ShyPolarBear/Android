@@ -4,17 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.children
-import androidx.fragment.app.findFragment
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseActivity
 import com.shypolarbear.presentation.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
@@ -38,7 +34,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
                     R.id.signupFragment, R.id.loginFragment, R.id.quizDailyOXFragment,
                     R.id.quizDailyMultiChoiceFragment, R.id.feedWriteFragment, R.id.feedDetailFragment,
                     R.id.changeMyInfoFragment, R.id.feedDetailNoImageFragment, R.id.feedCommentChangeFragment,
-                    R.id.myPageFragment -> bottomNavigationBar.visibility = View.INVISIBLE
+                    R.id.myPageFragment, R.id.splashFragment -> bottomNavigationBar.visibility = View.INVISIBLE
                     else -> bottomNavigationBar.visibility = View.VISIBLE
                 }
             }

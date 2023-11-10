@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/navigation_feed"
@@ -197,6 +197,14 @@
         <action
             android:id="@+id/action_navigation_quiz_main_to_feedWriteFragment"
             app:destination="@id/feedWriteFragment" />
+        <action
+            android:id="@+id/action_navigation_quiz_main_to_feedDetailFragment"
+            app:destination="@id/feedDetailFragment">
+            <argument
+                android:name="feedId"
+                app:argType="integer" />
+        </action>
+
     </fragment>
     <fragment
         android:id="@+id/quizDailyMultiChoiceFragment"
@@ -249,4 +257,15 @@
         android:id="@+id/navigation_ranking"
         android:name="com.shypolarbear.presentation.ui.ranking.RankingFragment"
         android:label="RankingFragment" />
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.shypolarbear.presentation.ui.splash.SplashFragment"
+        android:label="SplashFragment" >
+        <action
+            android:id="@+id/action_splashFragment_to_navigation_quiz_main"
+            app:destination="@id/navigation_quiz_main" />
+        <action
+            android:id="@+id/action_splashFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 </navigation>
