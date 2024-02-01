@@ -12,8 +12,8 @@ import com.shypolarbear.presentation.ui.mypage.adapter.LoadingViewHolder
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.MyFeedType
 
-class QuizMainAdapter(private val onMoveToDetailClick: (feedId: Int) -> Unit = {  _ ->  }):
-    ListAdapter<Feed, RecyclerView.ViewHolder>(RecentFeedDiffCallback())  {
+class QuizMainAdapter(private val onMoveToDetailClick: (feedId: Int) -> Unit = { _ -> }) :
+    ListAdapter<Feed, RecyclerView.ViewHolder>(RecentFeedDiffCallback()) {
     inner class ItemRecentFeedViewHolder(private val binding: ItemQuizMainRecentFeedBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bindItems(item: Feed) {
@@ -37,8 +37,8 @@ class QuizMainAdapter(private val onMoveToDetailClick: (feedId: Int) -> Unit = {
                 ItemFeedLoadingBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
-                    false
-                )
+                    false,
+                ),
             )
         }
     }

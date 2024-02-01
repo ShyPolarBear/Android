@@ -1,7 +1,6 @@
 package com.shypolarbear.android.di
 
 import com.shypolarbear.android.util.BASE_URL
-import com.shypolarbear.android.util.MOCK_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +21,7 @@ object AuthNetworkModule {
     @AuthOkHttp
     fun provideAuthHttpClient(
         logger: HttpLoggingInterceptor,
-        authInterceptor: AuthInterceptor
+        authInterceptor: AuthInterceptor,
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .readTimeout(10, TimeUnit.SECONDS)
@@ -32,13 +31,13 @@ object AuthNetworkModule {
             .addInterceptor(authInterceptor)
             .build()
     }
+
     @Singleton
     @Provides
     @AuthRetrofit
     fun provideAuthRetrofit(
-        @AuthOkHttp client: OkHttpClient
+        @AuthOkHttp client: OkHttpClient,
     ): Retrofit {
-
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())

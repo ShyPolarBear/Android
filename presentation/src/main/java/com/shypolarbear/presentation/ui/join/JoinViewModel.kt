@@ -24,7 +24,7 @@ class JoinViewModel @Inject constructor(
     private val joinUseCase: RequestJoinUseCase,
     private val setAccessTokenUseCase: SetAccessTokenUseCase,
     private val setRefreshTokenUseCase: SetRefreshTokenUseCase,
-    private val imageUploadUseCase: RequestImageUploadUseCase
+    private val imageUploadUseCase: RequestImageUploadUseCase,
 ) : BaseViewModel() {
     private val _termData = MutableLiveData<Boolean>()
     val termData: LiveData<Boolean> = _termData
@@ -45,10 +45,10 @@ class JoinViewModel @Inject constructor(
     private val _pageIndex = MutableLiveData<Int>(1)
     val pageIndex: LiveData<Int> = _pageIndex
 
-    fun requestImageUploadWithJoin(profileImage: List<File>){
+    fun requestImageUploadWithJoin(profileImage: List<File>) {
         viewModelScope.launch {
             imageUploadUseCase.invoke(
-                ImageUploadRequest(ImageType.PROFILE.type, profileImage)
+                ImageUploadRequest(ImageType.PROFILE.type, profileImage),
             ).onSuccess { response ->
                 _imageData.value = response.data.imageLinks.first()
             }
@@ -63,8 +63,8 @@ class JoinViewModel @Inject constructor(
                     nickName = nameData.value!!,
                     phoneNumber = phoneData.value!!,
                     email = mailData.value!!,
-                    profileImage = _imageData.value ?: ""
-                )
+                    profileImage = _imageData.value ?: "",
+                ),
             )
 
             responseJoin
@@ -74,26 +74,25 @@ class JoinViewModel @Inject constructor(
 
                     initToken(Tokens(response.data.accessToken, response.data.refreshToken))
                 }
-                .onFailure {error ->
+                .onFailure { error ->
                     if (error is HttpError) {
                         val errorBodyData = JSONObject(error.errorBody)
-                        when(errorBodyData.get("code")){
-                            1101, 1004 ->{
+                        when (errorBodyData.get("code")) {
+                            1101, 1004 -> {
                                 setErrorMessage(errorBodyData.get("message") as String)
                             }
-                            1007 ->{}
+                            1007 -> {}
                         }
                     }
                 }
         }
-
     }
 
     private fun initToken(responseToken: Tokens) {
         _tokens.value = responseToken
     }
 
-    private fun setErrorMessage(message: String){
+    private fun setErrorMessage(message: String) {
         _errorMessage.value = message
     }
 

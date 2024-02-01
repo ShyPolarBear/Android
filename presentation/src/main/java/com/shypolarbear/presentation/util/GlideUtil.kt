@@ -7,7 +7,6 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestListener
 
-
 object GlideUtil {
     fun loadImage(context: Context, url: String, view: ImageView) {
         loadGlide(context, url = url).into(view)
@@ -45,6 +44,4 @@ object GlideUtil {
     private fun loadGlide(context: Context, uri: Uri? = null) = run {
         Glide.with(context).load(uri)
     }
-
-
 }

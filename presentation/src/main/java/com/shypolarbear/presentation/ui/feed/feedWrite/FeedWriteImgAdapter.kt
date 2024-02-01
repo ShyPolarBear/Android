@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.ListAdapter
 import com.shypolarbear.presentation.databinding.ItemFeedWriteImgBinding
 
 class FeedWriteImgAdapter(
-    private val onRemoveImgClick: (position: Int) -> Unit = { _ -> }
-): ListAdapter<String, FeedWriteImgViewHolder>(FeedWriteImgDiffCallback()) {
+    private val onRemoveImgClick: (position: Int) -> Unit = { _ -> },
+) : ListAdapter<String, FeedWriteImgViewHolder>(FeedWriteImgDiffCallback()) {
 
-    private lateinit var binding : ItemFeedWriteImgBinding
+    private lateinit var binding: ItemFeedWriteImgBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedWriteImgViewHolder {
         binding = ItemFeedWriteImgBinding.inflate(LayoutInflater.from(parent.context), parent, false)

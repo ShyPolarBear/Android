@@ -54,26 +54,29 @@ class QuizDailyOXFragment :
             }
         }
 
-        viewModel.submitResponse.observe(viewLifecycleOwner, EventObserver { response ->
-            when (state) {
-                DialogType.REVIEW -> {
-                    dialog.showDialog(
-                        response.isCorrect,
-                        response.explanation,
-                        response.point.toInt(),
-                        viewModel.reviewQuizPage.value!! + 1 == pageEnd
-                    )
-                }
+        viewModel.submitResponse.observe(
+            viewLifecycleOwner,
+            EventObserver { response ->
+                when (state) {
+                    DialogType.REVIEW -> {
+                        dialog.showDialog(
+                            response.isCorrect,
+                            response.explanation,
+                            response.point.toInt(),
+                            viewModel.reviewQuizPage.value!! + 1 == pageEnd,
+                        )
+                    }
 
-                DialogType.DEFAULT -> {
-                    dialog.showDialog(
-                        response.isCorrect,
-                        response.explanation,
-                        response.point.toInt(),
-                    )
+                    DialogType.DEFAULT -> {
+                        dialog.showDialog(
+                            response.isCorrect,
+                            response.explanation,
+                            response.point.toInt(),
+                        )
+                    }
                 }
-            }
-        })
+            },
+        )
 
         binding.apply {
             quizDailyProblem.text = viewModel.quizInstance.value!!.question
@@ -82,7 +85,7 @@ class QuizDailyOXFragment :
             progressJob =
                 quizDailyProgressBar.initProgressBar(quizDailyTvTime) {
                     viewModel.submitAnswer(
-                        isTimeOut = true
+                        isTimeOut = true,
                     )
                 }
             choiceList.map { choice ->
@@ -90,9 +93,11 @@ class QuizDailyOXFragment :
                     val answer = choice.text.toString()
                     viewModel.setAnswer(answer)
                     quizDailyBtnSubmit.isActivated = choice.isActivated.not()
-                    choice.detectActivation(*choiceList.filter { other ->
-                        other != choice
-                    }.toTypedArray())
+                    choice.detectActivation(
+                        *choiceList.filter { other ->
+                            other != choice
+                        }.toTypedArray(),
+                    )
                 }
             }
 
@@ -101,7 +106,7 @@ class QuizDailyOXFragment :
                 quizDailyPages,
                 backBtn,
                 R.id.action_quizDailyOXFragment_to_navigation_quiz_main,
-                progressJob
+                progressJob,
             )
 
             quizDailyBtnSubmit.setOnClickListener {
@@ -114,14 +119,13 @@ class QuizDailyOXFragment :
     }
 
     override fun onBackPressed() {
-        when(checkReviewMode()) {
+        when (checkReviewMode()) {
             DialogType.REVIEW -> {
                 backBtn.showDialog()
                 backBtn.alertDialog.setOnCancelListener {
                     progressJob.cancel()
                     findNavController().navigate(R.id.action_quizDailyOXFragment_to_navigation_quiz_main)
                 }
-
             }
             DialogType.DEFAULT -> {
                 progressJob.cancel()
@@ -141,7 +145,7 @@ class QuizDailyOXFragment :
             binding.quizDailyPages.text = getString(
                 R.string.quiz_page_indicator,
                 viewModel.reviewQuizPage.value!! + 1,
-                pageEnd
+                pageEnd,
             )
             DialogType.REVIEW
         } else {

@@ -1,15 +1,14 @@
 package com.shypolarbear.android.di
 
+import com.shypolarbear.domain.usecase.RequestTokenRenewUseCase
 import com.shypolarbear.domain.usecase.tokens.GetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.tokens.GetRefreshTokenUseCase
-import com.shypolarbear.domain.usecase.RequestTokenRenewUseCase
 import com.shypolarbear.domain.usecase.tokens.SetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.tokens.SetRefreshTokenUseCase
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,14 +18,13 @@ class AuthInterceptor @Inject constructor(
     private val getRefreshTokenUseCase: GetRefreshTokenUseCase,
     private val setAccessTokenUseCase: SetAccessTokenUseCase,
     private val setRefreshTokenUseCase: SetRefreshTokenUseCase,
-    private val tokenRenewUseCase: RequestTokenRenewUseCase
-): Interceptor {
+    private val tokenRenewUseCase: RequestTokenRenewUseCase,
+) : Interceptor {
 
     private lateinit var accessToken: String
     private lateinit var refreshToken: String
 
     override fun intercept(chain: Interceptor.Chain): Response {
-
         runBlocking {
             accessToken = getAccessTokenUseCase()
             refreshToken = getRefreshTokenUseCase()
@@ -47,7 +45,6 @@ class AuthInterceptor @Inject constructor(
                             setRefreshTokenUseCase(refreshToken)
                         }
                         .onFailure {
-
                         }
                 }
 

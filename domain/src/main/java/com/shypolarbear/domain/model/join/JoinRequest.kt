@@ -5,5 +5,5 @@ data class JoinRequest(
     val nickName: String,
     val phoneNumber: String,
     val email: String,
-    val profileImage: String
+    val profileImage: String,
 )

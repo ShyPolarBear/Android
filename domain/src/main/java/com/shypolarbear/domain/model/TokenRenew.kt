@@ -1,7 +1,7 @@
 package com.shypolarbear.domain.model
 
-data class TokenRenew (
+data class TokenRenew(
     val code: Int,
     val data: Tokens,
-    val message: String
+    val message: String,
 )

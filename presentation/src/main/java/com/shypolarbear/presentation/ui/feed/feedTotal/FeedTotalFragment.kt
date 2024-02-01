@@ -9,7 +9,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseFragment
 import com.shypolarbear.presentation.databinding.FragmentFeedTotalBinding
@@ -23,21 +22,21 @@ import kotlinx.coroutines.launch
 
 enum class WriteChangeDivider(val fragmentType: Int) {
     WRITE(0),
-    CHANGE(1)
+    CHANGE(1),
 }
 
 enum class FragmentTotalStatus(val status: Int) {
     INIT(0),
     WRITE_BACK_BTN_CLICK(1),
-    POST_CHANGE_OR_DETAIL_BACK(2)
+    POST_CHANGE_OR_DETAIL_BACK(2),
 }
 
 var fragmentTotalStatus = FragmentTotalStatus.INIT
 
 @AndroidEntryPoint
-class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewModel> (
-    R.layout.fragment_feed_total
-){
+class FeedTotalFragment : BaseFragment<FragmentFeedTotalBinding, FeedTotalViewModel> (
+    R.layout.fragment_feed_total,
+) {
 
     companion object {
         const val POWER_MENU_OFFSET_X = -290
@@ -67,26 +66,25 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                 textView: TextView,
                 feedId: Int,
                 commentId: Int?,
-                itemType: FeedTotalLikeBtnType ->
+                itemType: FeedTotalLikeBtnType, ->
             changeLikeBtn(btn, isLiked, likeCnt, textView, feedId, commentId, itemType)
         },
-        onMoveToDetailClick = { feedId: Int -> showFeedPostDetail(feedId) }
+        onMoveToDetailClick = { feedId: Int -> showFeedPostDetail(feedId) },
     )
     private val feedSortItems: List<PowerMenuItem> by lazy {
         listOf(
             PowerMenuItem(requireContext().getString(R.string.feed_post_property_recent)),
             PowerMenuItem(requireContext().getString(R.string.feed_post_property_recent_best)),
-            PowerMenuItem(requireContext().getString(R.string.feed_post_property_best))
+            PowerMenuItem(requireContext().getString(R.string.feed_post_property_best)),
         )
     }
 
     override fun initView() {
-
         binding.apply {
             binding.progressFeedTotalLoading.isVisible = true
             binding.layoutFeed.isVisible = false
 
-            when(fragmentTotalStatus) {
+            when (fragmentTotalStatus) {
                 FragmentTotalStatus.INIT, FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK -> {
                     viewModel.clearFeedList()
                     viewModel.loadFeedTotalData(feedSort)
@@ -105,9 +103,9 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                 PowerMenuUtil.getPowerMenu(
                     requireContext(),
                     viewLifecycleOwner,
-                    feedSortItems
+                    feedSortItems,
                 ) { _, item ->
-                    when(item.title) {
+                    when (item.title) {
                         getString(R.string.feed_post_property_recent) -> {
                             loadSortedFeed("recent")
                         }
@@ -121,20 +119,21 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
                 }.showAsDropDown(
                     ivFeedToolbarSort,
                     POWER_MENU_OFFSET_X,
-                    POWER_MENU_OFFSET_Y
+                    POWER_MENU_OFFSET_Y,
                 )
             }
 
             btnFeedPostWrite.setOnClickListener {
                 findNavController().navigate(
                     FeedTotalFragmentDirections.actionNavigationFeedToFeedWriteFragment(
-                        WriteChangeDivider.WRITE, 0
-                    )
+                        WriteChangeDivider.WRITE,
+                        0,
+                    ),
                 )
             }
 
             rvFeedPost.infiniteScroll {
-                when(viewModel.feedIsLast) {
+                when (viewModel.feedIsLast) {
                     true -> { }
                     false -> { viewModel.loadFeedTotalData(feedSort) }
                 }
@@ -157,20 +156,21 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         val myCommentPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
-                PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete))
+                PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete)),
             )
 
         PowerMenuUtil.getPowerMenu(
             requireContext(),
             viewLifecycleOwner,
-            myCommentPropertyItems
+            myCommentPropertyItems,
         ) { _, item ->
-            when(item.title) {
+            when (item.title) {
                 getString(R.string.feed_post_property_revise) -> {
                     findNavController().navigate(
                         FeedTotalFragmentDirections.actionNavigationFeedToFeedWriteFragment(
-                            WriteChangeDivider.CHANGE, feedId
-                        )
+                            WriteChangeDivider.CHANGE,
+                            feedId,
+                        ),
                     )
                 }
                 getString(R.string.feed_post_property_delete) -> {
@@ -181,7 +181,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         }.showAsDropDown(
             view,
             POWER_MENU_OFFSET_X,
-            POWER_MENU_OFFSET_Y
+            POWER_MENU_OFFSET_Y,
         )
     }
 
@@ -189,19 +189,19 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         val myCommentPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_report)),
-                PowerMenuItem(requireContext().getString(R.string.feed_post_property_block))
+                PowerMenuItem(requireContext().getString(R.string.feed_post_property_block)),
             )
 
         PowerMenuUtil.getPowerMenu(
             requireContext(),
             viewLifecycleOwner,
-            myCommentPropertyItems
+            myCommentPropertyItems,
         ) { _, _ ->
             Toast.makeText(requireContext(), getString(R.string.features_in_preparation), Toast.LENGTH_SHORT).show()
         }.showAsDropDown(
             view,
             POWER_MENU_OFFSET_X,
-            POWER_MENU_OFFSET_Y
+            POWER_MENU_OFFSET_Y,
         )
     }
 
@@ -209,15 +209,15 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         val myCommentPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
-                PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete))
+                PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete)),
             )
 
         PowerMenuUtil.getPowerMenu(
             requireContext(),
             viewLifecycleOwner,
-            myCommentPropertyItems
+            myCommentPropertyItems,
         ) { _, item ->
-            when(item.title) {
+            when (item.title) {
                 getString(R.string.feed_post_property_revise) -> {
                     findNavController().navigate(FeedTotalFragmentDirections.actionNavigationFeedToFeedCommentChangeFragment(commentId, content))
                 }
@@ -229,7 +229,7 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         }.showAsDropDown(
             view,
             POWER_MENU_OFFSET_X,
-            POWER_MENU_OFFSET_Y
+            POWER_MENU_OFFSET_Y,
         )
     }
 
@@ -237,19 +237,19 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         val myCommentPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_report)),
-                PowerMenuItem(requireContext().getString(R.string.feed_post_property_block))
+                PowerMenuItem(requireContext().getString(R.string.feed_post_property_block)),
             )
 
         PowerMenuUtil.getPowerMenu(
             requireContext(),
             viewLifecycleOwner,
-            myCommentPropertyItems
+            myCommentPropertyItems,
         ) { _, _ ->
             Toast.makeText(requireContext(), getString(R.string.features_in_preparation), Toast.LENGTH_SHORT).show()
         }.showAsDropDown(
             view,
             POWER_MENU_OFFSET_X,
-            POWER_MENU_OFFSET_Y
+            POWER_MENU_OFFSET_Y,
         )
     }
 
@@ -260,14 +260,14 @@ class FeedTotalFragment: BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMod
         likeCntText: TextView,
         feedId: Int,
         commentId: Int?,
-        itemType: FeedTotalLikeBtnType
-        ) {
+        itemType: FeedTotalLikeBtnType,
+    ) {
         var isLike = isLiked
         var likeCount = likeCnt
 
         isLike = !isLike
 
-        when(isLike) {
+        when (isLike) {
             true -> likeCount += 1
             false -> likeCount -= 1
         }

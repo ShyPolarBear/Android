@@ -8,7 +8,7 @@ import com.shypolarbear.presentation.databinding.ItemFeedPostImgBinding
 
 class ImageViewPagerAdapter : ListAdapter<String, ImageViewPagerViewHolder>(FeedPostImgDiffCallback()) {
 
-    private lateinit var binding : ItemFeedPostImgBinding
+    private lateinit var binding: ItemFeedPostImgBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewPagerViewHolder {
         binding = ItemFeedPostImgBinding.inflate(LayoutInflater.from(parent.context), parent, false)

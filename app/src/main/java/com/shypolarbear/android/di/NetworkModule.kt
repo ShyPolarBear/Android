@@ -26,7 +26,7 @@ object NetworkModule {
     @Provides
     @NormalOkHttp
     fun provideHttpClient(
-        logger: HttpLoggingInterceptor
+        logger: HttpLoggingInterceptor,
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .readTimeout(10, TimeUnit.SECONDS)
@@ -43,10 +43,12 @@ object NetworkModule {
             when {
                 !it.isJsonArray() && !it.isJsonObject() ->
                     Timber.tag(RETROFIT_TAG).d("CONNECTION INFO: $it")
-                else ->  try {
+                else -> try {
                     Timber.tag(RETROFIT_TAG).d(
                         GsonBuilder().setPrettyPrinting().create().toJson(
-                        JsonParser().parse(it)))
+                            JsonParser().parse(it),
+                        ),
+                    )
                 } catch (m: JsonSyntaxException) {
                     Timber.tag(RETROFIT_TAG).d(it)
                 }
@@ -60,9 +62,8 @@ object NetworkModule {
     @Provides
     @NormalRetrofit
     fun provideRetrofit(
-        @NormalOkHttp client: OkHttpClient
+        @NormalOkHttp client: OkHttpClient,
     ): Retrofit {
-
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())

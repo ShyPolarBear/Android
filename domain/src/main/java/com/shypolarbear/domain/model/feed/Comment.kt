@@ -13,5 +13,5 @@ data class Comment(
     val isLike: Boolean = false,
     val isDeleted: Boolean = false,
     val createdDate: String = "",
-    val childComments: List<ChildComment> = listOf()
+    val childComments: List<ChildComment> = listOf(),
 )

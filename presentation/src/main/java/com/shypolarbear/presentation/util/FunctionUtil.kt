@@ -31,13 +31,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.ui.quiz.daily.dialog.BackDialog
-import timber.log.Timber
 import org.json.JSONObject
+import timber.log.Timber
 import java.io.File
 import java.util.Timer
 import java.util.TimerTask
 import kotlin.math.ceil
-
 
 val emailPattern = Regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
 val phonePattern = Regex("[^0-9]")
@@ -52,33 +51,33 @@ enum class InputState(val state: Int) {
     ACCEPT(0),
     ERROR(1),
     ON(2),
-    OFF(3)
+    OFF(3),
 }
 
 enum class DialogType(val point: String) {
     REVIEW("REVIEW"),
-    DEFAULT("DEFAULT")
+    DEFAULT("DEFAULT"),
 }
 
 enum class QuizType(val type: String) {
     MULTI("MULTIPLE_CHOICE"),
-    OX("OX")
+    OX("OX"),
 }
 
 enum class QuizNavType() {
     MULTI,
     OX,
-    MAIN
+    MAIN,
 }
 
-enum class MyFeedType(val state: Int){
+enum class MyFeedType(val state: Int) {
     ITEM(1),
-    LOADING(0)
+    LOADING(0),
 }
 
 enum class ImageType(val type: String) {
     PROFILE("profile"),
-    FEED("feed")
+    FEED("feed"),
 }
 
 fun Uri.convertUriToPath(context: Context): String {
@@ -142,24 +141,28 @@ fun ProgressBar.initProgressBar(detailText: TextView, submitIncorrect: () -> Uni
 
     detailText.text = context.getString(R.string.quiz_daily_time, totalProgress / 100)
 
-    timer.scheduleAtFixedRate(object : TimerTask() {
-        override fun run() {
-            if (totalProgress > 0) {
-                totalProgress -= 1
-                progress = totalProgress / 10
+    timer.scheduleAtFixedRate(
+        object : TimerTask() {
+            override fun run() {
+                if (totalProgress > 0) {
+                    totalProgress -= 1
+                    progress = totalProgress / 10
 
-                detailText.post {
-                    detailText.text = context.getString(
-                        R.string.quiz_daily_time,
-                        ceil(totalProgress.toDouble() / 1000).toInt()
-                    )
+                    detailText.post {
+                        detailText.text = context.getString(
+                            R.string.quiz_daily_time,
+                            ceil(totalProgress.toDouble() / 1000).toInt(),
+                        )
+                    }
+                } else {
+                    timer.cancel()
+                    submitIncorrect()
                 }
-            } else {
-                timer.cancel()
-                submitIncorrect()
             }
-        }
-    }, 0, 1L)
+        },
+        0,
+        1L,
+    )
 
     return timer
 }
@@ -183,8 +186,6 @@ fun TextView.detectActivation(vararg choices: TextView) {
     }
     this.isActivated = this.isActivated.not()
 }
-
-
 
 fun ImageView.setReviewMode(
     type: DialogType,
@@ -216,7 +217,6 @@ fun ImageView.setReviewMode(
 }
 
 fun Button.showLikeBtnIsLike(isLike: Boolean, view: Button) {
-
     val likeBtnOn = ContextCompat.getDrawable(context, R.drawable.ic_btn_like_on)
     val likeBtnOff = ContextCompat.getDrawable(context, R.drawable.ic_btn_like_off)
 
@@ -228,11 +228,9 @@ fun Button.showLikeBtnIsLike(isLike: Boolean, view: Button) {
 }
 
 fun View.selectedComment(isSelected: Boolean, view: View) {
-
-    val background = if(isSelected) ContextCompat.getColor(context, R.color.Blue_05) else ContextCompat.getColor(context, R.color.White_01)
+    val background = if (isSelected) ContextCompat.getColor(context, R.color.Blue_05) else ContextCompat.getColor(context, R.color.White_01)
 
     view.setBackgroundColor(background)
-    
 }
 
 fun TextView.setSpecificTextColor(
@@ -250,7 +248,7 @@ fun TextView.setSpecificTextColor(
             TextAppearanceSpan(context, styleId),
             startIndex,
             endIndex,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
         )
     }
     if (colorId != null) {
@@ -258,7 +256,7 @@ fun TextView.setSpecificTextColor(
             ForegroundColorSpan(resources.getColor(colorId, context?.theme)),
             startIndex,
             endIndex,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
         )
     }
 
@@ -271,7 +269,7 @@ fun EditText.setColorStateWithInput(state: InputState, textView: TextView, image
             this.background = ResourcesCompat.getDrawable(
                 resources,
                 R.drawable.background_signup_et_accept,
-                context.theme
+                context.theme,
             )
             textView.setTextColorById(context, R.color.Success_01)
             imageView.apply {
@@ -284,7 +282,7 @@ fun EditText.setColorStateWithInput(state: InputState, textView: TextView, image
             this.background = ResourcesCompat.getDrawable(
                 resources,
                 R.drawable.background_signup_et_error,
-                context.theme
+                context.theme,
             )
             textView.setTextColorById(context, R.color.Error_01)
             imageView.apply {
@@ -297,7 +295,7 @@ fun EditText.setColorStateWithInput(state: InputState, textView: TextView, image
             this.background = ResourcesCompat.getDrawable(
                 resources,
                 R.drawable.background_signup_et_on,
-                context.theme
+                context.theme,
             )
             textView.setTextColorById(context, R.color.Blue_02)
             imageView.visibility = View.GONE
@@ -308,7 +306,7 @@ fun EditText.setColorStateWithInput(state: InputState, textView: TextView, image
             this.background = ResourcesCompat.getDrawable(
                 resources,
                 R.drawable.background_signup_et_off,
-                context.theme
+                context.theme,
             )
             imageView.visibility = View.GONE
         }
@@ -318,11 +316,9 @@ fun EditText.setColorStateWithInput(state: InputState, textView: TextView, image
 fun EditText.afterTextChanged(method: (editable: Editable?) -> Unit) {
     addTextChangedListener(object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
         }
 
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
         }
 
         override fun afterTextChanged(p0: Editable?) {
@@ -345,8 +341,8 @@ fun TextView.setTextColorById(context: Context, colorId: Int) {
     this.setTextColor(
         ContextCompat.getColor(
             context,
-            colorId
-        )
+            colorId,
+        ),
     )
 }
 
@@ -356,7 +352,7 @@ fun Fragment.hideKeyboard() {
             requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(
             requireActivity().currentFocus!!.windowToken,
-            InputMethodManager.HIDE_NOT_ALWAYS
+            InputMethodManager.HIDE_NOT_ALWAYS,
         )
     }
 }
@@ -376,28 +372,26 @@ fun RecyclerView.infiniteScroll(method: () -> Unit) {
 }
 
 fun onBackPressedToFinish(context: Context, activity: Activity) {
-    if(System.currentTimeMillis() > (backKeyPressTime + 2500)){
+    if (System.currentTimeMillis() > (backKeyPressTime + 2500)) {
         backKeyPressTime = System.currentTimeMillis()
         Toast.makeText(context, context.getString(R.string.msg_on_back_pressed_end), Toast.LENGTH_SHORT).show()
         return
-    }
-    else if(System.currentTimeMillis() <= (backKeyPressTime + 2500)){
+    } else if (System.currentTimeMillis() <= (backKeyPressTime + 2500)) {
         activity.finish()
     }
 }
 
 fun updateButtonState(context: Context, button: Button, isAccept: Boolean) {
-    if(isAccept) {
+    if (isAccept) {
         button.background = AppCompatResources.getDrawable(
             context,
-            R.drawable.background_solid_blue_01_radius_15
+            R.drawable.background_solid_blue_01_radius_15,
         )
         button.setTextColor(context.getColor(R.color.White_01))
-    }
-    else {
+    } else {
         button.background = AppCompatResources.getDrawable(
             context,
-            R.drawable.background_solid_gray_06_radius_15
+            R.drawable.background_solid_gray_06_radius_15,
         )
         button.setTextColor(context.getColor(R.color.Gray_03))
     }

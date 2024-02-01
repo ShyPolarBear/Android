@@ -5,5 +5,5 @@ import com.shypolarbear.domain.model.Tokens
 data class LoginResponse(
     val code: Int,
     val data: Tokens,
-    val messages: String
+    val messages: String,
 )

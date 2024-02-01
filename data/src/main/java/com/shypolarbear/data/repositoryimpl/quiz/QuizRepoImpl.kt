@@ -12,8 +12,8 @@ import com.shypolarbear.domain.repository.quiz.QuizRepo
 import javax.inject.Inject
 
 class QuizRepoImpl @Inject constructor(
-    private val api: QuizApi
-): QuizRepo {
+    private val api: QuizApi,
+) : QuizRepo {
     override suspend fun requestQuiz(): Result<DailyQuizResponse> {
         return try {
             val response = api.requestQuiz()

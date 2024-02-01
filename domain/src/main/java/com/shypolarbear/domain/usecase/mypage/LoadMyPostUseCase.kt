@@ -5,9 +5,9 @@ import com.shypolarbear.domain.model.mypage.MyPostResponse
 import com.shypolarbear.domain.repository.mypage.MyFeedRepo
 
 class LoadMyPostUseCase(
-    private val repo: MyFeedRepo
+    private val repo: MyFeedRepo,
 ) {
-    suspend operator fun invoke(getMyPostRequest: MyPostRequest): Result<MyPostResponse>{
+    suspend operator fun invoke(getMyPostRequest: MyPostRequest): Result<MyPostResponse> {
         return repo.getMyPostResponse(getMyPostRequest)
     }
 }

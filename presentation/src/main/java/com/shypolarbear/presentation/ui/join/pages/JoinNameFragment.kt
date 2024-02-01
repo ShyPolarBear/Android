@@ -33,7 +33,6 @@ class JoinNameFragment :
 
     @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
-
         binding.apply {
             ivSignupImgEdit.setOnClickListener {
                 pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
@@ -51,7 +50,7 @@ class JoinNameFragment :
                         setColorStateWithInput(
                             InputState.ON,
                             tvSignupNameRule,
-                            signupEtCheck
+                            signupEtCheck,
                         )
                     }
 
@@ -64,7 +63,7 @@ class JoinNameFragment :
                         setColorStateWithInput(
                             InputState.ON,
                             tvSignupNameRule,
-                            signupEtCheck
+                            signupEtCheck,
                         )
                     }
 
@@ -89,7 +88,7 @@ class JoinNameFragment :
                         setColorStateWithInput(
                             state,
                             tvSignupNameRule,
-                            signupEtCheck
+                            signupEtCheck,
                         )
                         viewModel.setNameData(s.toString())
                     }

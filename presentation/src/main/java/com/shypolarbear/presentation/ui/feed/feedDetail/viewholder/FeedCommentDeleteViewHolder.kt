@@ -9,7 +9,7 @@ import com.shypolarbear.presentation.databinding.ItemFeedCommentDeleteBinding
 import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailLikeBtnType
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedReplyAdapter
 
-class FeedCommentDeleteViewHolder (
+class FeedCommentDeleteViewHolder(
     private val binding: ItemFeedCommentDeleteBinding,
     private val onMyReplyPropertyClick: (view: ImageView, commentId: Int, feedId: Int, content: String) -> Unit = { _, _, _, _ -> },
     private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
@@ -20,9 +20,9 @@ class FeedCommentDeleteViewHolder (
         textView: TextView,
         commentId: Int,
         replyId: Int,
-        itemType: FeedDetailLikeBtnType
-    ) -> Unit = { _, _, _, _, _, _, _ -> }
-    ) : RecyclerView.ViewHolder(binding.root) {
+        itemType: FeedDetailLikeBtnType,
+    ) -> Unit = { _, _, _, _, _, _, _ -> },
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: Comment) {
         setReply(item)
@@ -34,7 +34,7 @@ class FeedCommentDeleteViewHolder (
             onMyReplyPropertyClick = onMyReplyPropertyClick,
             onOtherReplyPropertyClick = onOtherReplyPropertyClick,
             onBtnLikeClick = onBtnLikeClick,
-            parentCommentId = item.commentId
+            parentCommentId = item.commentId,
         )
 
         binding.rvFeedDeleteCommentReply.adapter = feedReplyAdapter

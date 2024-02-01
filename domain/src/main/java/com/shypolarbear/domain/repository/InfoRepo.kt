@@ -10,10 +10,10 @@ interface InfoRepo {
         nickName: String,
         profileImage: String?,
         email: String,
-        phoneNumber: String
+        phoneNumber: String,
     ): Result<InfoResponse>
 
     suspend fun checkDuplicateNickName(
-        nickName: String
+        nickName: String,
     ): Result<CheckDuplicateNickNameResponse>
 }

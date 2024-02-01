@@ -12,7 +12,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.util.UUID
 
-object ImageUtil{
+object ImageUtil {
 
     private const val MAX_IMAGE_WIDTH = 1440
     private const val MAX_IMAGE_HEIGHT = 1440

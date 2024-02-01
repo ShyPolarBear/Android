@@ -47,7 +47,7 @@ class JoinPhoneFragment :
                     setColorStateWithInput(
                         state,
                         tvSignupPhoneRule,
-                        signupEtCheck
+                        signupEtCheck,
                     )
                     viewModel.setPhoneData(phoneNumber)
                 }

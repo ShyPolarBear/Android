@@ -7,8 +7,8 @@ import com.shypolarbear.domain.repository.LogoutRepo
 import javax.inject.Inject
 
 class LogoutRepoImpl @Inject constructor(
-    private val api: LogoutApi
-): LogoutRepo {
+    private val api: LogoutApi,
+) : LogoutRepo {
     override suspend fun requestLogoutData(): Result<LogoutResponse> {
         return try {
             val response = api.requestLogout()

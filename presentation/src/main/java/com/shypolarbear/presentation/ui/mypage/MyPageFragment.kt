@@ -4,7 +4,6 @@ import android.view.View
 import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavAction
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView.Adapter
@@ -20,15 +19,14 @@ import com.shypolarbear.presentation.util.infiniteScroll
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
 
-
 enum class FeedContentType(val state: Int) {
     POST(0),
-    COMMENT(1)
+    COMMENT(1),
 }
 
 enum class PostProperty(val state: Int) {
     MODIFY(0),
-    DELETE(1)
+    DELETE(1),
 }
 
 @AndroidEntryPoint
@@ -74,7 +72,6 @@ class MyPageFragment :
             myPostBtnBack.setOnClickListener {
                 findNavController().popBackStack()
             }
-
         }
     }
 
@@ -110,15 +107,14 @@ class MyPageFragment :
                         viewModel.requestDeleteFeed(feedId = feedId)
                     }
                 }
-            }
+            },
         )
             .showAsDropDown(
                 view,
                 FeedTotalFragment.POWER_MENU_OFFSET_X,
-                FeedTotalFragment.POWER_MENU_OFFSET_Y
+                FeedTotalFragment.POWER_MENU_OFFSET_Y,
             )
     }
-
 
     private fun invertActivation(onSelected: View, offSelection: View) {
         onSelected.isActivated = true

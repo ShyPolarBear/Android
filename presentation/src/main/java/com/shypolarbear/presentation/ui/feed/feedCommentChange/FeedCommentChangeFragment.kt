@@ -12,8 +12,8 @@ import com.shypolarbear.presentation.ui.feed.feedWrite.UPLOADING
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FeedCommentChangeFragment: BaseFragment<FragmentFeedCommentChangeBinding, FeedCommentChangeViewModel>(
-    R.layout.fragment_feed_comment_change
+class FeedCommentChangeFragment : BaseFragment<FragmentFeedCommentChangeBinding, FeedCommentChangeViewModel>(
+    R.layout.fragment_feed_comment_change,
 ) {
 
     override val viewModel: FeedCommentChangeViewModel by viewModels()
@@ -39,7 +39,7 @@ class FeedCommentChangeFragment: BaseFragment<FragmentFeedCommentChangeBinding, 
             }
 
             viewModel.uploadState.observe(viewLifecycleOwner) {
-                when(viewModel.uploadState.value) {
+                when (viewModel.uploadState.value) {
                     UPLOADING -> { }
                     UPLOADED -> { findNavController().popBackStack() }
                 }

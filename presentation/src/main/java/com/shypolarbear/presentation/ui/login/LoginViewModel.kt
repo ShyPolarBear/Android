@@ -20,7 +20,7 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val loginUseCase: RequestLoginUseCase,
     private val setAccessTokenUseCase: SetAccessTokenUseCase,
-    private val setRefreshTokenUseCase: SetRefreshTokenUseCase
+    private val setRefreshTokenUseCase: SetRefreshTokenUseCase,
 ) : BaseViewModel() {
     private val _tokens = MutableLiveData<String>()
     val tokens: LiveData<String> = _tokens
@@ -58,5 +58,4 @@ class LoginViewModel @Inject constructor(
     private fun setResponseCode(code: Int) {
         _responseCode.value = code
     }
-
 }

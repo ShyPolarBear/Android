@@ -16,6 +16,4 @@ interface RankingApi {
         @Query("lastRankingId") lastRankingId: Int?,
         @Query("limit") limit: Int?,
     ): Response<TotalRankingResponse>
-
-
 }

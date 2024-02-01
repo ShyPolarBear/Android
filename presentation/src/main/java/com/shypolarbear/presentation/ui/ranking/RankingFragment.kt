@@ -9,7 +9,6 @@ import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.infiniteScroll
 import dagger.hilt.android.AndroidEntryPoint
 
-
 const val UNRANKED = -1
 
 @AndroidEntryPoint
@@ -32,7 +31,7 @@ class RankingFragment :
                         requireContext(),
                         myRanking.profileImage,
                         ivRankingProfile,
-                        R.drawable.ic_user_base_profile
+                        R.drawable.ic_user_base_profile,
                     )
                     tvRankingName.text = myRanking.nickName
                     tvRankingPoint.text = getString(R.string.ranking_point_value, myRanking.point)

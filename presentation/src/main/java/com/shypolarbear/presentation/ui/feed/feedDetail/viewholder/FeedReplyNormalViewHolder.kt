@@ -11,7 +11,7 @@ import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailLikeBtnType
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
 
-class FeedReplyNormalViewHolder (
+class FeedReplyNormalViewHolder(
     private val binding: ItemFeedReplyNormalBinding,
     private val onMyReplyPropertyClick: (view: ImageView, commentId: Int, feedId: Int, content: String) -> Unit = { _, _, _, _ -> },
     private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
@@ -22,10 +22,10 @@ class FeedReplyNormalViewHolder (
         textView: TextView,
         commentId: Int,
         replyId: Int,
-        itemType: FeedDetailLikeBtnType
+        itemType: FeedDetailLikeBtnType,
     ) -> Unit = { _, _, _, _, _, _, _ -> },
-    private val parentCommentId: Int
-    ) : RecyclerView.ViewHolder(binding.root) {
+    private val parentCommentId: Int,
+) : RecyclerView.ViewHolder(binding.root) {
 
     private var childComment: ChildComment = ChildComment()
 
@@ -38,19 +38,18 @@ class FeedReplyNormalViewHolder (
                 binding.tvFeedReplyNormalLikeCnt,
                 parentCommentId,
                 childComment.commentId,
-                FeedDetailLikeBtnType.REPLY_LIKE_BTN
+                FeedDetailLikeBtnType.REPLY_LIKE_BTN,
             )
         }
 
         binding.ivFeedReplyNormalProperty.setOnClickListener {
-            when(childComment.isAuthor) {
+            when (childComment.isAuthor) {
                 true ->
                     onMyReplyPropertyClick(binding.ivFeedReplyNormalProperty, childComment.commentId, 0, childComment.content)
                 false ->
                     onOtherReplyPropertyClick(binding.ivFeedReplyNormalProperty)
             }
         }
-
     }
 
     fun bind(item: ChildComment) {

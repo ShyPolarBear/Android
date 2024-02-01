@@ -29,14 +29,14 @@ class RankingAdapter :
                     binding.root.context,
                     totalRanking.profileImage,
                     ivRankingProfile,
-                    R.drawable.ic_user_base_profile
+                    R.drawable.ic_user_base_profile,
                 )
                 tvRankingName.text = totalRanking.nickName
                 tvRankingPoint.text =
                     binding.root.context.getString(R.string.ranking_point_value, totalRanking.point)
                 tvRankingPossible.text = binding.root.context.getString(
                     R.string.ranking_possible_value,
-                    totalRanking.winningPercent
+                    totalRanking.winningPercent,
                 )
             }
         }
@@ -52,16 +52,16 @@ class RankingAdapter :
                 ItemRankingBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
-                    false
-                )
+                    false,
+                ),
             )
         } else {
             LoadingViewHolder(
                 ItemFeedLoadingBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
-                    false
-                )
+                    false,
+                ),
             )
         }
     }

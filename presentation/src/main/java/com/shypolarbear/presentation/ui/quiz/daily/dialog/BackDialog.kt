@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.ViewDataBinding
 import com.shypolarbear.presentation.databinding.DialogQuizStopBinding
-import com.shypolarbear.presentation.util.DialogType
 
 class BackDialog(private val context: Context) {
     lateinit var alertDialog: AlertDialog

@@ -41,7 +41,7 @@ class JoinMailFragment :
                     setColorStateWithInput(
                         state,
                         tvSignupMailRule,
-                        signupEtCheck
+                        signupEtCheck,
                     )
                     viewModel.setMailData(match?.value ?: "")
                 }

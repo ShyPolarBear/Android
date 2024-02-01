@@ -1,7 +1,6 @@
 package com.shypolarbear.presentation.ui.feed.feedDetail.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
@@ -18,10 +17,9 @@ import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailLikeBtnType
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentDeleteViewHolder
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentLoadingViewHolder
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentNormalViewHolder
-import timber.log.Timber
 
 class FeedCommentAdapter(
-    private val onMyCommentPropertyClick: (view: ImageView, commentId: Int, position: Int, commentAuthor: String ,content: String) -> Unit = { _, _, _, _, _ -> },
+    private val onMyCommentPropertyClick: (view: ImageView, commentId: Int, position: Int, commentAuthor: String, content: String) -> Unit = { _, _, _, _, _ -> },
     private val onOtherCommentPropertyClick: (view: ImageView, commentId: Int, position: Int, commentAuthor: String) -> Unit = { _, _, _, _ -> },
     private val onMyReplyPropertyClick: (view: ImageView, commentId: Int, feedId: Int, content: String) -> Unit = { _, _, _, _ -> },
     private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
@@ -32,14 +30,13 @@ class FeedCommentAdapter(
         textView: TextView,
         commentId: Int,
         replyId: Int,
-        itemType: FeedDetailLikeBtnType
+        itemType: FeedDetailLikeBtnType,
     ) -> Unit = { _, _, _, _, _, _, _ -> },
-    private val onItemClick: () -> Unit
-): ListAdapter<Comment, RecyclerView.ViewHolder>(FeedCommentDiffCallback()) {
+    private val onItemClick: () -> Unit,
+) : ListAdapter<Comment, RecyclerView.ViewHolder>(FeedCommentDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-
-        when(viewType) {
+        when (viewType) {
             FeedCommentViewType.LOADING.commentType -> {
                 return FeedCommentLoadingViewHolder(ItemFeedCommentLoadingBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             }
@@ -49,14 +46,14 @@ class FeedCommentAdapter(
                     ItemFeedCommentNormalBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
-                        false
+                        false,
                     ),
                     onMyCommentPropertyClick = onMyCommentPropertyClick,
                     onOtherCommentPropertyClick = onOtherCommentPropertyClick,
                     onMyReplyPropertyClick = onMyReplyPropertyClick,
                     onOtherReplyPropertyClick = onOtherReplyPropertyClick,
                     onBtnLikeClick = onBtnLikeClick,
-                    onItemClick = onItemClick
+                    onItemClick = onItemClick,
                 )
             }
 
@@ -65,11 +62,11 @@ class FeedCommentAdapter(
                     ItemFeedCommentDeleteBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
-                        false
+                        false,
                     ),
                     onMyReplyPropertyClick = onMyReplyPropertyClick,
                     onOtherReplyPropertyClick = onOtherReplyPropertyClick,
-                    onBtnLikeClick = onBtnLikeClick
+                    onBtnLikeClick = onBtnLikeClick,
                 )
             }
 
@@ -80,7 +77,6 @@ class FeedCommentAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
         when {
             getItem(position).isDeleted -> {
                 (holder as FeedCommentDeleteViewHolder).bind(getItem(position))

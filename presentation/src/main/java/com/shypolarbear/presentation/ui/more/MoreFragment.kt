@@ -13,12 +13,12 @@ import dagger.hilt.android.AndroidEntryPoint
 
 enum class LoginState(val state: String) {
     LOGIN("Login"),
-    LOGOUT("Logout")
+    LOGOUT("Logout"),
 }
 
 @AndroidEntryPoint
-class MoreFragment: BaseFragment<FragmentMoreBinding, MoreViewModel> (
-    R.layout.fragment_more
+class MoreFragment : BaseFragment<FragmentMoreBinding, MoreViewModel> (
+    R.layout.fragment_more,
 ) {
 
     override val viewModel: MoreViewModel by viewModels()
@@ -44,7 +44,7 @@ class MoreFragment: BaseFragment<FragmentMoreBinding, MoreViewModel> (
 
             layoutMoreMyInfoChange.setOnClickListener {
                 findNavController().navigate(
-                    MoreFragmentDirections.actionNavigationMoreToChangeMyInfoFragment(nickName)
+                    MoreFragmentDirections.actionNavigationMoreToChangeMyInfoFragment(nickName),
                 )
             }
 
@@ -56,7 +56,6 @@ class MoreFragment: BaseFragment<FragmentMoreBinding, MoreViewModel> (
                 logoutDialog.showDialog()
                 logoutDialog.alertDialog.setOnCancelListener {
                     viewModel.requestLogout()
-
                 }
             }
 
@@ -77,8 +76,8 @@ class MoreFragment: BaseFragment<FragmentMoreBinding, MoreViewModel> (
             }
 
             viewModel.loginState.observe(viewLifecycleOwner) {
-                when(viewModel.loginState.value) {
-                    LoginState.LOGIN -> {  }
+                when (viewModel.loginState.value) {
+                    LoginState.LOGIN -> { }
                     LoginState.LOGOUT -> {
                         findNavController().navigate(R.id.action_navigation_more_to_loginFragment)
                     }

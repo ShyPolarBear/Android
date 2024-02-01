@@ -9,7 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 enum class Splash(val code: Int) {
     SUCCESS(0),
-    FAILED(401)
+    FAILED(401),
 }
 
 @AndroidEntryPoint

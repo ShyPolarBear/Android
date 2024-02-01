@@ -23,7 +23,7 @@ import java.util.Timer
 
 class QuizDailyMultiChoiceFragment :
     BaseFragment<FragmentQuizDailyMultiBinding, QuizViewModel>(
-        R.layout.fragment_quiz_daily_multi
+        R.layout.fragment_quiz_daily_multi,
     ) {
     override val viewModel: QuizViewModel by activityViewModels()
     private lateinit var dialog: QuizDialog
@@ -56,32 +56,35 @@ class QuizDailyMultiChoiceFragment :
             }
         }
 
-        viewModel.submitResponse.observe(viewLifecycleOwner, EventObserver { response ->
-            when (state) {
-                DialogType.REVIEW -> {
-                    dialog.showDialog(
-                        response.isCorrect,
-                        response.explanation,
-                        response.point.toInt(),
-                        viewModel.reviewQuizPage.value!! + 1 == pageEnd
-                    )
-                }
+        viewModel.submitResponse.observe(
+            viewLifecycleOwner,
+            EventObserver { response ->
+                when (state) {
+                    DialogType.REVIEW -> {
+                        dialog.showDialog(
+                            response.isCorrect,
+                            response.explanation,
+                            response.point.toInt(),
+                            viewModel.reviewQuizPage.value!! + 1 == pageEnd,
+                        )
+                    }
 
-                DialogType.DEFAULT -> {
-                    dialog.showDialog(
-                        response.isCorrect,
-                        response.explanation,
-                        response.point.toInt(),
-                    )
+                    DialogType.DEFAULT -> {
+                        dialog.showDialog(
+                            response.isCorrect,
+                            response.explanation,
+                            response.point.toInt(),
+                        )
+                    }
                 }
-            }
-        })
+            },
+        )
 
         binding.apply {
             val choiceList =
                 listOf(quizDailyChoice1, quizDailyChoice2, quizDailyChoice3, quizDailyChoice4)
             progressJob = quizDailyProgressBar.initProgressBar(
-                quizDailyTvTime
+                quizDailyTvTime,
             ) { viewModel.submitAnswer(isTimeOut = true) }
 
             viewModel.quizInstance.value?.let { quizzes ->
@@ -90,9 +93,11 @@ class QuizDailyMultiChoiceFragment :
                         val id = quizzes.choices!![choiceList.indexOf(choice)].id
                         viewModel.setAnswer(id.toString())
                         quizDailyBtnSubmit.isActivated = choice.isActivated.not()
-                        choice.detectActivation(*choiceList.filter { other ->
-                            other != choice
-                        }.toTypedArray())
+                        choice.detectActivation(
+                            *choiceList.filter { other ->
+                                other != choice
+                            }.toTypedArray(),
+                        )
                     }
                 }
 
@@ -105,7 +110,7 @@ class QuizDailyMultiChoiceFragment :
                 quizDailyPages,
                 backBtn,
                 R.id.action_quizDailyMultiChoiceFragment_to_navigation_quiz_main,
-                progressJob
+                progressJob,
             )
 
             quizDailyBtnSubmit.setOnClickListener {
@@ -118,14 +123,13 @@ class QuizDailyMultiChoiceFragment :
     }
 
     override fun onBackPressed() {
-        when(checkReviewMode()) {
+        when (checkReviewMode()) {
             DialogType.REVIEW -> {
                 backBtn.showDialog()
                 backBtn.alertDialog.setOnCancelListener {
                     progressJob.cancel()
                     findNavController().navigate(R.id.action_quizDailyMultiChoiceFragment_to_navigation_quiz_main)
                 }
-
             }
             DialogType.DEFAULT -> {
                 progressJob.cancel()
@@ -153,7 +157,7 @@ class QuizDailyMultiChoiceFragment :
             binding.quizDailyPages.text = getString(
                 R.string.quiz_page_indicator,
                 viewModel.reviewQuizPage.value!! + 1,
-                pageEnd
+                pageEnd,
             )
             DialogType.REVIEW
         } else {

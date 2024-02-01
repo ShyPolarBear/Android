@@ -4,5 +4,4 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shypolarbear.presentation.databinding.ItemFeedLoadingBinding
 
 class LoadingViewHolder(loadingBinding: ItemFeedLoadingBinding) :
-    RecyclerView.ViewHolder(loadingBinding.root) {
-}
+    RecyclerView.ViewHolder(loadingBinding.root)

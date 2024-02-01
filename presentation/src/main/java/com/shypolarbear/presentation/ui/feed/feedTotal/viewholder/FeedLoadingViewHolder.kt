@@ -6,7 +6,6 @@ import com.shypolarbear.presentation.databinding.ItemFeedLoadingBinding
 
 class FeedLoadingViewHolder(private val binding: ItemFeedLoadingBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(item: Feed) {
-
         binding.executePendingBindings()
     }
 }
