@@ -54,9 +54,6 @@ class MyPageFragment :
 
         viewModel.myCommentResponse.observe(viewLifecycleOwner) { commentFeed ->
             commentFeed?.let {
-                if (it.count != 0) {
-                    binding.tvMyPostNonComment.isVisible = false
-                }
                 commentAdapter = MyCommentAdapter(commentFeed.content)
             }
         }
@@ -66,14 +63,14 @@ class MyPageFragment :
             tvMyPostPost.isActivated = true
 
             tvMyPostPost.setOnClickListener {
+                showNonDataText(FeedContentType.POST, viewModel.myPostResponse.value?.count)
                 invertActivation(it, tvMyPostComment)
-                showNonDataText(FeedContentType.POST)
                 setAdapter(postAdapter, FeedContentType.POST)
             }
 
             tvMyPostComment.setOnClickListener {
+                showNonDataText(FeedContentType.COMMENT, viewModel.myCommentResponse.value?.count)
                 invertActivation(it, tvMyPostPost)
-                showNonDataText(FeedContentType.COMMENT)
                 setAdapter(commentAdapter, FeedContentType.COMMENT)
             }
 
@@ -124,13 +121,17 @@ class MyPageFragment :
             )
     }
 
-    private fun showNonDataText(type: FeedContentType) {
+    private fun showNonDataText(type: FeedContentType, count: Int?) {
         if (type == FeedContentType.POST) {
-            binding.tvMyPostNonPost.isVisible = true
             binding.tvMyPostNonComment.isVisible = false
+            if (count == 0 || count == null) {
+                binding.tvMyPostNonPost.isVisible = true
+            }
         } else {
             binding.tvMyPostNonPost.isVisible = false
-            binding.tvMyPostNonComment.isVisible = true
+            if (count == 0 || count == null) {
+                binding.tvMyPostNonComment.isVisible = true
+            }
         }
     }
 
