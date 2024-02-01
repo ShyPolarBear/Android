@@ -74,8 +74,6 @@
                     android:layout_width="match_parent"
                     android:background="@color/white"
                     app:contentInsetStart="20dp"
-                    app:elevation="@null"
-                    app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
                     android:layout_height="wrap_content">
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
