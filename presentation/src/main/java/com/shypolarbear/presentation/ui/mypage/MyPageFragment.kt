@@ -29,6 +29,11 @@ enum class PostProperty(val state: Int) {
     DELETE(1),
 }
 
+enum class MyPostTabItem {
+    POST,
+    COMMENT,
+}
+
 @AndroidEntryPoint
 class MyPageFragment :
     BaseFragment<FragmentMyPageBinding, MyPageViewModel>(R.layout.fragment_my_page) {
@@ -42,6 +47,9 @@ class MyPageFragment :
         viewModel.myPostResponse.observe(viewLifecycleOwner) { postFeed ->
             postFeed?.let {
                 binding.myFeedProgressbar.isVisible = false
+                if (it.count != 0) {
+                    binding.tvMyPostNonPost.isVisible = false
+                }
                 postAdapter = MyPostAdapter(postFeed.content) { feedId: Int, view: ImageView ->
                     showMyPostPropertyMenu(view, feedId)
                 }
@@ -51,21 +59,26 @@ class MyPageFragment :
 
         viewModel.myCommentResponse.observe(viewLifecycleOwner) { commentFeed ->
             commentFeed?.let {
+                if (it.count != 0) {
+                    binding.tvMyPostNonComment.isVisible = false
+                }
                 commentAdapter = MyCommentAdapter(commentFeed.content)
             }
         }
 
         binding.apply {
             myFeedProgressbar.isVisible = true
-            binding.tvMyPostPost.isActivated = true
+            tvMyPostPost.isActivated = true
 
             tvMyPostPost.setOnClickListener {
                 invertActivation(it, tvMyPostComment)
+                showNonDataText(MyPostTabItem.POST)
                 setAdapter(postAdapter, FeedContentType.POST)
             }
 
             tvMyPostComment.setOnClickListener {
                 invertActivation(it, tvMyPostPost)
+                showNonDataText(MyPostTabItem.COMMENT)
                 setAdapter(commentAdapter, FeedContentType.COMMENT)
             }
 
@@ -114,6 +127,16 @@ class MyPageFragment :
                 FeedTotalFragment.POWER_MENU_OFFSET_X,
                 FeedTotalFragment.POWER_MENU_OFFSET_Y,
             )
+    }
+
+    private fun showNonDataText(type: MyPostTabItem) {
+        if (type == MyPostTabItem.POST) {
+            binding.tvMyPostNonPost.isVisible = true
+            binding.tvMyPostNonComment.isVisible = false
+        } else {
+            binding.tvMyPostNonPost.isVisible = false
+            binding.tvMyPostNonComment.isVisible = true
+        }
     }
 
     private fun invertActivation(onSelected: View, offSelection: View) {

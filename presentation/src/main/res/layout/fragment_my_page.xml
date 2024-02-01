@@ -20,8 +20,32 @@
             app:trackThickness="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/my_feed_progressbar"
-            />
+            android:id="@+id/my_feed_progressbar" />
+
+        <TextView
+            android:id="@+id/tv_my_post_non_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/H4"
+            android:text="@string/text_non_my_post"
+            android:textColor="@color/Gray_04"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_my_post_non_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/H4"
+            android:text="@string/text_non_my_comment"
+            android:visibility="gone"
+            android:textColor="@color/Gray_04"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
