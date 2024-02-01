@@ -19,19 +19,14 @@ import com.shypolarbear.presentation.util.infiniteScroll
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
 
-enum class FeedContentType(val state: Int) {
-    POST(0),
-    COMMENT(1),
+enum class FeedContentType {
+    POST,
+    COMMENT,
 }
 
 enum class PostProperty(val state: Int) {
     MODIFY(0),
     DELETE(1),
-}
-
-enum class MyPostTabItem {
-    POST,
-    COMMENT,
 }
 
 @AndroidEntryPoint
@@ -72,13 +67,13 @@ class MyPageFragment :
 
             tvMyPostPost.setOnClickListener {
                 invertActivation(it, tvMyPostComment)
-                showNonDataText(MyPostTabItem.POST)
+                showNonDataText(FeedContentType.POST)
                 setAdapter(postAdapter, FeedContentType.POST)
             }
 
             tvMyPostComment.setOnClickListener {
                 invertActivation(it, tvMyPostPost)
-                showNonDataText(MyPostTabItem.COMMENT)
+                showNonDataText(FeedContentType.COMMENT)
                 setAdapter(commentAdapter, FeedContentType.COMMENT)
             }
 
@@ -129,8 +124,8 @@ class MyPageFragment :
             )
     }
 
-    private fun showNonDataText(type: MyPostTabItem) {
-        if (type == MyPostTabItem.POST) {
+    private fun showNonDataText(type: FeedContentType) {
+        if (type == FeedContentType.POST) {
             binding.tvMyPostNonPost.isVisible = true
             binding.tvMyPostNonComment.isVisible = false
         } else {
