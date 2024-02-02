@@ -102,7 +102,7 @@ class MyPageViewModel @Inject constructor(
         viewModelScope.launch {
             feedDeleteUseCase(feedId)
                 .onSuccess {
-                    loadMyPost(myPostResponse.value!!.content.last().feedId)
+                    loadMyPost()
                 }.onFailure { error ->
                     simpleHttpErrorCheck(error)
                 }
