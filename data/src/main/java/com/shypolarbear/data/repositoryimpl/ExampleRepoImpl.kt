@@ -6,9 +6,9 @@ import com.shypolarbear.domain.model.sample.ExampleModel
 import com.shypolarbear.domain.repository.ExampleRepo
 import javax.inject.Inject
 
-class ExampleRepoImpl @Inject constructor (
-    private val api: ExampleApi
-): ExampleRepo {
+class ExampleRepoImpl @Inject constructor(
+    private val api: ExampleApi,
+) : ExampleRepo {
     override suspend fun getSampleData(): Result<ExampleModel> {
         return try {
             val response = api.getExample()

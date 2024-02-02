@@ -26,7 +26,7 @@ class MyPostAdapter(
         private lateinit var myFeed: MyFeed
 
         init {
-            if(::myFeed.isInitialized){
+            if (::myFeed.isInitialized) {
                 binding.ivItemPostProperty.setOnClickListener {
                     onMyFeedPropertyClick(myFeed.feedId, binding.ivItemPostProperty)
                 }
@@ -55,17 +55,17 @@ class MyPostAdapter(
                 ItemPagePostBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
-                    false
+                    false,
                 ),
-                onMyFeedPropertyClick = onMyFeedPropertyClick
+                onMyFeedPropertyClick = onMyFeedPropertyClick,
             )
         } else {
             LoadingViewHolder(
                 ItemFeedLoadingBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
-                    false
-                )
+                    false,
+                ),
             )
         }
     }

@@ -11,9 +11,9 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.shypolarbear.presentation.util.onBackPressedToFinish
 
-abstract class BaseFragment<B: ViewDataBinding, VM: BaseViewModel>(
-    @LayoutRes private val layoutId: Int
-): Fragment() {
+abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(
+    @LayoutRes private val layoutId: Int,
+) : Fragment() {
 
     protected abstract val viewModel: VM
 
@@ -23,7 +23,7 @@ abstract class BaseFragment<B: ViewDataBinding, VM: BaseViewModel>(
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         return binding.root
@@ -33,7 +33,7 @@ abstract class BaseFragment<B: ViewDataBinding, VM: BaseViewModel>(
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
 
-        requireActivity().onBackPressedDispatcher.addCallback(object: OnBackPressedCallback(true) {
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 onBackPressed()
             }

@@ -6,7 +6,6 @@ import com.shypolarbear.presentation.databinding.ItemFeedCommentLoadingBinding
 
 class FeedCommentLoadingViewHolder(private val binding: ItemFeedCommentLoadingBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(item: Comment) {
-
         binding.executePendingBindings()
     }
 }

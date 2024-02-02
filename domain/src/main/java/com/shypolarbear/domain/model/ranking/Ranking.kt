@@ -11,5 +11,5 @@ data class Ranking(
 
 data class RankingScroll(
     val lastCommentId: Int?,
-    val limit: Int?
+    val limit: Int?,
 )

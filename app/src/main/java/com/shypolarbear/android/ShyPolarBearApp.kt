@@ -20,5 +20,4 @@ class ShyPolarBearApp : Application() {
     private fun setupTimber() {
         Timber.plant(Timber.DebugTree())
     }
-
 }

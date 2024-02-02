@@ -19,7 +19,7 @@ interface FeedRepo {
         feedId: Int,
         content: String,
         feedImages: List<String>?,
-        title: String
+        title: String,
     ): Result<FeedChangeResponse>
 
     suspend fun deleteFeedData(feedId: Int): Result<FeedChangeResponse>
@@ -27,7 +27,7 @@ interface FeedRepo {
     suspend fun writeFeedData(
         title: String,
         content: String,
-        feedImages: List<String>?
+        feedImages: List<String>?,
     ): Result<FeedChangeResponse>
 
     suspend fun requestLikeFeedData(feedId: Int): Result<FeedLikeResponse>
@@ -35,7 +35,7 @@ interface FeedRepo {
     suspend fun requestWriteFeedCommentData(
         feedId: Int,
         parentId: Int?,
-        content: String
+        content: String,
     ): Result<CommentChangeResponse>
 
     suspend fun requestLikeFeedComment(commentId: Int): Result<CommentLikeResponse>

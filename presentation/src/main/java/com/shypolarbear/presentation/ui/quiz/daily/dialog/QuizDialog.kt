@@ -11,7 +11,8 @@ import com.shypolarbear.presentation.databinding.DialogQuizResultBinding
 import com.shypolarbear.presentation.util.DialogType
 
 class QuizDialog(
-    private val context: Context, private val dialogType: DialogType,
+    private val context: Context,
+    private val dialogType: DialogType,
 ) {
     lateinit var alertDialog: AlertDialog
     val binding = DialogQuizResultBinding.inflate(LayoutInflater.from(context), null, false)
@@ -24,7 +25,7 @@ class QuizDialog(
         isCorrect: Boolean,
         explain: String,
         point: Int,
-        isLast: Boolean? = null
+        isLast: Boolean? = null,
     ) {
         binding.tvQuizDialogExplain.text = explain
         binding.tvQuizDialogPoint.text =
@@ -35,15 +36,14 @@ class QuizDialog(
         }
         when (dialogType) {
             DialogType.REVIEW -> {
-                binding.quizDailyTvSubmit.text = when(isLast) {
+                binding.quizDailyTvSubmit.text = when (isLast) {
                     false -> context.getString(R.string.quiz_dialog_next)
-                    else -> {context.getString(R.string.quiz_dialog_confirm)}
+                    else -> { context.getString(R.string.quiz_dialog_confirm) }
                 }
                 binding.tvQuizDialogPoint.isVisible = false
             }
 
             DialogType.DEFAULT -> {
-
             }
         }
         when (isCorrect) {

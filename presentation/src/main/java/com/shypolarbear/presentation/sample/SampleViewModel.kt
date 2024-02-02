@@ -10,13 +10,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class SampleViewModel @Inject constructor (
-    private val exampleUseCase: ExampleUseCase
-): BaseViewModel() {
+class SampleViewModel @Inject constructor(
+    private val exampleUseCase: ExampleUseCase,
+) : BaseViewModel() {
 
     private val _sampleState: MutableStateFlow<SampleState> = MutableStateFlow(SampleState(loading = true, error = false, category = ""))
     val sampleState: StateFlow<SampleState> = _sampleState.asStateFlow()
@@ -31,13 +30,13 @@ class SampleViewModel @Inject constructor (
                     _sampleState.update { state ->
                         state.copy(
                             loading = false,
-                            category = it.toString()
+                            category = it.toString(),
                         )
                     }
                 }
                 .onFailure { error ->
-                    if(error is HttpError) {
-                        when(error.code) {
+                    if (error is HttpError) {
+                        when (error.code) {
                             400 -> { }
                             401 -> { }
                             else -> { }

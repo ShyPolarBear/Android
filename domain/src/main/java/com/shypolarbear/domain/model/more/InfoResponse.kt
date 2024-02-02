@@ -1,7 +1,7 @@
 package com.shypolarbear.domain.model.more
 
-data class InfoResponse (
+data class InfoResponse(
     val code: Int,
     val data: Info,
-    val message: String
+    val message: String,
 )

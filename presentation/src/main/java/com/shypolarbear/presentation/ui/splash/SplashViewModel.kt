@@ -18,7 +18,7 @@ class SplashViewModel @Inject constructor(
     private val loadRefreshTokenUseCase: GetRefreshTokenUseCase,
     private val renewUseCase: RequestTokenRenewUseCase,
     private val setAccessTokenUseCase: SetAccessTokenUseCase,
-    private val setRefreshTokenUseCase: SetRefreshTokenUseCase
+    private val setRefreshTokenUseCase: SetRefreshTokenUseCase,
 ) : BaseViewModel() {
 
     private val _returnCode = MutableLiveData<Int>()

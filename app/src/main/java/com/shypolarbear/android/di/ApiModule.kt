@@ -1,13 +1,13 @@
 package com.shypolarbear.android.di
 
 import com.shypolarbear.data.api.ExampleApi
-import com.shypolarbear.data.api.image.ImageEditApi
 import com.shypolarbear.data.api.InfoApi
 import com.shypolarbear.data.api.JoinApi
 import com.shypolarbear.data.api.LoginApi
 import com.shypolarbear.data.api.LogoutApi
 import com.shypolarbear.data.api.TokenApi
 import com.shypolarbear.data.api.feed.FeedApi
+import com.shypolarbear.data.api.image.ImageEditApi
 import com.shypolarbear.data.api.image.ImageUploadApi
 import com.shypolarbear.data.api.mypage.MyFeedApi
 import com.shypolarbear.data.api.quiz.QuizApi

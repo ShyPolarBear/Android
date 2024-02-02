@@ -14,8 +14,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MoreViewModel @Inject constructor(
     private val getMyInfoUseCase: LoadMyInfoUseCase,
-    private val requestLogoutUseCase: RequestLogoutUseCase
-): BaseViewModel() {
+    private val requestLogoutUseCase: RequestLogoutUseCase,
+) : BaseViewModel() {
     private val _myInfo = MutableLiveData<Info>()
     val myInfo: LiveData<Info> = _myInfo
 
@@ -29,9 +29,7 @@ class MoreViewModel @Inject constructor(
                     _myInfo.value = it.data
                 }
                 .onFailure {
-
                 }
-
         }
     }
 
@@ -42,7 +40,6 @@ class MoreViewModel @Inject constructor(
                     _loginState.value = LoginState.LOGOUT
                 }
                 .onFailure {
-
                 }
         }
     }

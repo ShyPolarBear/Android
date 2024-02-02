@@ -148,4 +148,7 @@
 
     <string name="more_open_source_library_link">https://www.notion.so/f1a4ab23dcb840559135e7d269884392?pvs=4</string>
 
+    <string name="text_non_my_post">작성한 게시글이 없습니다.</string>
+    <string name="text_non_my_comment">작성한 댓글이 없습니다.</string>
+
 </resources>

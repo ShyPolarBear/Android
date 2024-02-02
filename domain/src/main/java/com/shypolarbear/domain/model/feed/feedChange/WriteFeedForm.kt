@@ -4,5 +4,5 @@ data class WriteFeedForm(
     val content: String,
     val feedId: Int = 0,
     val feedImages: List<String>?,
-    val title: String
+    val title: String,
 )

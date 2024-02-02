@@ -8,7 +8,6 @@ import android.text.TextWatcher
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -37,12 +36,12 @@ const val NICKNAME_DUPLICATE_CHECK_TIME = 500
 
 enum class availableState(val state: String) {
     AVAILABLE("available"),
-    UNAVAILABLE("unavailable")
+    UNAVAILABLE("unavailable"),
 }
 
 @AndroidEntryPoint
-class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyInfoViewModel> (
-    R.layout.fragment_change_my_info
+class ChangeMyInfoFragment : BaseFragment<FragmentChangeMyInfoBinding, ChangeMyInfoViewModel> (
+    R.layout.fragment_change_my_info,
 ) {
 
     override val viewModel: ChangeMyInfoViewModel by viewModels()
@@ -66,7 +65,6 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
     private val inputDelayMillis = NICKNAME_DUPLICATE_CHECK_TIME
 
     override fun initView() {
-
         binding.apply {
             progressChangeMyInfoLoading.isVisible = true
             layoutChangeMyInfo.isVisible = false
@@ -102,10 +100,12 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                         Toast.makeText(requireContext(), getString(R.string.check_my_info_term), Toast.LENGTH_SHORT).show()
                     }
 
-                    listOf(nameState, phoneNumberState, emailState).any { it ==InputState.OFF } ||
-                    listOf(edtChangeMyInfoNickname.text.toString(),
-                        edtChangeMyInfoPhoneNumber.text.toString(),
-                        edtChangeMyInfoEmail.text.toString()).any { it.isNullOrBlank() } -> {
+                    listOf(nameState, phoneNumberState, emailState).any { it == InputState.OFF } ||
+                        listOf(
+                            edtChangeMyInfoNickname.text.toString(),
+                            edtChangeMyInfoPhoneNumber.text.toString(),
+                            edtChangeMyInfoEmail.text.toString(),
+                        ).any { it.isNullOrBlank() } -> {
                         Toast.makeText(requireContext(), getString(R.string.check_my_info_input), Toast.LENGTH_SHORT).show()
                     }
 
@@ -116,13 +116,13 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                             nickName = edtChangeMyInfoNickname.text.toString(),
                             phoneNumber = edtChangeMyInfoPhoneNumber.text.toString(),
                             email = edtChangeMyInfoEmail.text.toString(),
-                            profileImageFile = imageFileList
+                            profileImageFile = imageFileList,
                         )
                     }
                 }
 
                 viewModel.uploadState.observe(viewLifecycleOwner) {
-                    when(viewModel.uploadState.value) {
+                    when (viewModel.uploadState.value) {
                         UPLOADING -> { }
                         UPLOADED -> {
                             Toast.makeText(requireContext(), getString(R.string.check_my_info_success), Toast.LENGTH_SHORT).show()
@@ -139,12 +139,12 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                         s: CharSequence?,
                         start: Int,
                         count: Int,
-                        after: Int
+                        after: Int,
                     ) {
                         setColorStateWithInput(
                             InputState.ON,
                             tvChangeMyInfoNameRule,
-                            ivChangeMyInfoNameCheck
+                            ivChangeMyInfoNameCheck,
                         )
                     }
 
@@ -152,12 +152,12 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                         s: CharSequence?,
                         start: Int,
                         before: Int,
-                        count: Int
+                        count: Int,
                     ) {
                         setColorStateWithInput(
                             InputState.ON,
                             tvChangeMyInfoNameRule,
-                            ivChangeMyInfoNameCheck
+                            ivChangeMyInfoNameCheck,
                         )
                         checkTimer?.cancel()
                         startTimer(changeMyInfoArgs.nickName)
@@ -184,12 +184,12 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                         setColorStateWithInput(
                             nameState,
                             tvChangeMyInfoNameRule,
-                            ivChangeMyInfoNameCheck
+                            ivChangeMyInfoNameCheck,
                         )
                         updateButtonState(
                             requireContext(),
                             btnChangeMyInfoRevise,
-                            nameState == InputState.ACCEPT && emailState == InputState.ACCEPT && phoneNumberState == InputState.ACCEPT
+                            nameState == InputState.ACCEPT && emailState == InputState.ACCEPT && phoneNumberState == InputState.ACCEPT,
                         )
                     }
                 })
@@ -221,12 +221,12 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                     setColorStateWithInput(
                         phoneNumberState,
                         tvChangeMyInfoPhoneNumberRule,
-                        ivChangeMyInfoPhoneNumberCheck
+                        ivChangeMyInfoPhoneNumberCheck,
                     )
                     updateButtonState(
                         requireContext(),
                         btnChangeMyInfoRevise,
-                        nameState == InputState.ACCEPT && emailState == InputState.ACCEPT && phoneNumberState == InputState.ACCEPT
+                        nameState == InputState.ACCEPT && emailState == InputState.ACCEPT && phoneNumberState == InputState.ACCEPT,
                     )
                 }
             }
@@ -255,19 +255,19 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
                     setColorStateWithInput(
                         emailState,
                         tvChangeMyInfoEmailRule,
-                        ivChangeMyInfoEmailCheck
+                        ivChangeMyInfoEmailCheck,
                     )
                     updateButtonState(
                         requireContext(),
                         btnChangeMyInfoRevise,
-                        nameState == InputState.ACCEPT && emailState == InputState.ACCEPT && phoneNumberState == InputState.ACCEPT
+                        nameState == InputState.ACCEPT && emailState == InputState.ACCEPT && phoneNumberState == InputState.ACCEPT,
                     )
                 }
             }
         }
 
         viewModel.nickNameState.observe(viewLifecycleOwner) {
-            when(it) {
+            when (it) {
                 availableState.AVAILABLE -> {
                     nameState = InputState.ACCEPT
                     binding.tvChangeMyInfoNameRule.text = getString(R.string.signup_confirm_text)
@@ -280,12 +280,12 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
             binding.edtChangeMyInfoNickname.setColorStateWithInput(
                 nameState,
                 binding.tvChangeMyInfoNameRule,
-                binding.ivChangeMyInfoNameCheck
+                binding.ivChangeMyInfoNameCheck,
             )
             updateButtonState(
                 requireContext(),
                 binding.btnChangeMyInfoRevise,
-                nameState == InputState.ACCEPT && emailState == InputState.ACCEPT && phoneNumberState == InputState.ACCEPT
+                nameState == InputState.ACCEPT && emailState == InputState.ACCEPT && phoneNumberState == InputState.ACCEPT,
             )
         }
     }
@@ -299,7 +299,6 @@ class ChangeMyInfoFragment: BaseFragment<FragmentChangeMyInfoBinding, ChangeMyIn
     private fun startTimer(oldNickName: String) {
         checkTimer = object : CountDownTimer(inputDelayMillis.toLong(), 1000) {
             override fun onTick(p0: Long) {
-
             }
 
             override fun onFinish() {

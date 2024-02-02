@@ -11,8 +11,8 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
-class SampleFragment: BaseFragment<FragmentSampleBinding, SampleViewModel> (
-    R.layout.fragment_sample
+class SampleFragment : BaseFragment<FragmentSampleBinding, SampleViewModel> (
+    R.layout.fragment_sample,
 ) {
     override val viewModel: SampleViewModel by viewModels()
 

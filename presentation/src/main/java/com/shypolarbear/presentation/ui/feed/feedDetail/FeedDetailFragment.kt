@@ -1,6 +1,5 @@
 package com.shypolarbear.presentation.ui.feed.feedDetail
 
-import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -29,17 +28,17 @@ import dagger.hilt.android.AndroidEntryPoint
 
 enum class CommentType(val type: Int) {
     COMMENT(0),
-    REPLY(1)
+    REPLY(1),
 }
 
 enum class CommentLoadType(val type: Int) {
     INIT(0),
-    COMMENT_LOAD(1)
+    COMMENT_LOAD(1),
 }
 
 @AndroidEntryPoint
 class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailViewModel>(
-    R.layout.fragment_feed_detail
+    R.layout.fragment_feed_detail,
 ) {
 
     override val viewModel: FeedDetailViewModel by viewModels()
@@ -59,10 +58,10 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                     textView: TextView,
                     commentId: Int,
                     replyId: Int,
-                    itemType: FeedDetailLikeBtnType ->
+                    itemType: FeedDetailLikeBtnType, ->
                 changeLikeBtn(btn, isLiked, likeCnt, textView, commentId, replyId, itemType)
             },
-            onBtnBackClick = { moveToBack() }
+            onBtnBackClick = { moveToBack() },
         )
     }
     private val feedCommentAdapter: FeedCommentAdapter by lazy {
@@ -86,15 +85,14 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                     textView: TextView,
                     commentId: Int,
                     replyId: Int,
-                    itemType: FeedDetailLikeBtnType ->
+                    itemType: FeedDetailLikeBtnType, ->
                 changeLikeBtn(btn, isLiked, likeCnt, textView, commentId, replyId, itemType)
             },
-            onItemClick = { setCommentWriteMode() }  // 선택된 댓글 해제
+            onItemClick = { setCommentWriteMode() }, // 선택된 댓글 해제
         )
     }
 
     override fun initView() {
-
         binding.apply {
             layoutFeedDetail.isVisible = false
             progressFeedDetailLoading.isVisible = true
@@ -111,9 +109,9 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             }
 
             btnFeedCommentWrite.setOnClickListener {
-                when(commentType) {
+                when (commentType) {
                     CommentType.COMMENT -> {
-                        viewModel.requestWriteFeedComment(feedDetailArgs.feedId, edtFeedDetailReply.text.toString(),requireContext().getString(R.string.time_format))
+                        viewModel.requestWriteFeedComment(feedDetailArgs.feedId, edtFeedDetailReply.text.toString(), requireContext().getString(R.string.time_format))
                     }
                     CommentType.REPLY -> {
                         viewModel.requestWriteFeedReply(feedDetailArgs.feedId, commentParentId, edtFeedDetailReply.text.toString(), requireContext().getString(R.string.time_format), commentPosition)
@@ -122,14 +120,14 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 binding.edtFeedDetailReply.clearFocus()
                 binding.edtFeedDetailReply.setText("")
                 binding.cardviewFeedCommentWritingMsg.isVisible = false
-                setCommentWriteMode()  // 대댓글 모드 해제
+                setCommentWriteMode() // 대댓글 모드 해제
             }
 
             rvFeedDetail.infiniteScroll {
                 val currentCommentList = viewModel.feedComment.value!!.toMutableList()
 
-                when(viewModel.commentIsLast) {
-                    true -> {  }
+                when (viewModel.commentIsLast) {
+                    true -> { }
                     false -> {
                         feedCommentAdapter.submitList(currentCommentList + listOf(Comment()))
                         viewModel.commentLoadType = CommentLoadType.COMMENT_LOAD
@@ -165,15 +163,15 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete)),
-                PowerMenuItem(requireContext().getString(R.string.feed_comment_reply))
+                PowerMenuItem(requireContext().getString(R.string.feed_comment_reply)),
             )
 
         PowerMenuUtil.getPowerMenu(
             requireContext(),
             viewLifecycleOwner,
-            myCommentPropertyItems
+            myCommentPropertyItems,
         ) { _, item ->
-            when(item.title) {
+            when (item.title) {
                 getString(R.string.feed_post_property_revise) -> {
                     viewModel.commentLoadType = CommentLoadType.INIT
                     findNavController().navigate(FeedDetailFragmentDirections.actionFeedDetailFragmentToFeedCommentChangeFragment(commentId, content))
@@ -191,7 +189,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         }.showAsDropDown(
             view,
             FeedTotalFragment.POWER_MENU_OFFSET_X,
-            FeedTotalFragment.POWER_MENU_OFFSET_Y
+            FeedTotalFragment.POWER_MENU_OFFSET_Y,
         )
     }
 
@@ -200,15 +198,15 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_report)),
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_block)),
-                PowerMenuItem(requireContext().getString(R.string.feed_comment_reply))
+                PowerMenuItem(requireContext().getString(R.string.feed_comment_reply)),
             )
 
         PowerMenuUtil.getPowerMenu(
             requireContext(),
             viewLifecycleOwner,
-            otherCommentPropertyItems
+            otherCommentPropertyItems,
         ) { _, item ->
-            when(item.title) {
+            when (item.title) {
                 getString(R.string.feed_post_property_report), getString(R.string.feed_post_property_block) -> {
                     Toast.makeText(requireContext(), getString(R.string.features_in_preparation), Toast.LENGTH_SHORT).show()
                 }
@@ -222,7 +220,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         }.showAsDropDown(
             view,
             FeedTotalFragment.POWER_MENU_OFFSET_X,
-            FeedTotalFragment.POWER_MENU_OFFSET_Y
+            FeedTotalFragment.POWER_MENU_OFFSET_Y,
         )
     }
 
@@ -230,15 +228,15 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         val myReplyPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
-                PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete))
+                PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete)),
             )
 
         PowerMenuUtil.getPowerMenu(
             requireContext(),
             viewLifecycleOwner,
-            myReplyPropertyItems
+            myReplyPropertyItems,
         ) { _, item ->
-            when(item.title) {
+            when (item.title) {
                 getString(R.string.feed_post_property_revise) -> {
                     viewModel.commentLoadType = CommentLoadType.INIT
                     findNavController().navigate(FeedDetailFragmentDirections.actionFeedDetailFragmentToFeedCommentChangeFragment(commentId, content))
@@ -250,7 +248,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         }.showAsDropDown(
             view,
             FeedTotalFragment.POWER_MENU_OFFSET_X,
-            FeedTotalFragment.POWER_MENU_OFFSET_Y
+            FeedTotalFragment.POWER_MENU_OFFSET_Y,
         )
     }
 
@@ -258,15 +256,15 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         val otherReplyPropertyItems: List<PowerMenuItem> =
             listOf(
                 PowerMenuItem(requireContext().getString(R.string.feed_post_property_report)),
-                PowerMenuItem(requireContext().getString(R.string.feed_post_property_block))
+                PowerMenuItem(requireContext().getString(R.string.feed_post_property_block)),
             )
 
         PowerMenuUtil.getPowerMenu(
             requireContext(),
             viewLifecycleOwner,
-            otherReplyPropertyItems
+            otherReplyPropertyItems,
         ) { _, item ->
-            when(item.title) {
+            when (item.title) {
                 getString(R.string.feed_post_property_report), getString(R.string.feed_post_property_block) -> {
                     Toast.makeText(requireContext(), getString(R.string.features_in_preparation), Toast.LENGTH_SHORT).show()
                 }
@@ -274,7 +272,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         }.showAsDropDown(
             view,
             FeedTotalFragment.POWER_MENU_OFFSET_X,
-            FeedTotalFragment.POWER_MENU_OFFSET_Y
+            FeedTotalFragment.POWER_MENU_OFFSET_Y,
         )
     }
 
@@ -285,31 +283,31 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         likeCntText: TextView,
         commentId: Int = 0,
         replyId: Int = 0,
-        itemType: FeedDetailLikeBtnType
+        itemType: FeedDetailLikeBtnType,
     ) {
         var isLike = isLiked
         var likeCount = likeCnt
 
         isLike = !isLike
 
-        when(isLike) {
+        when (isLike) {
             true -> likeCount += 1
             false -> likeCount -= 1
         }
 
-        when(itemType) {
+        when (itemType) {
             FeedDetailLikeBtnType.POST_LIKE_BTN ->
                 viewModel.clickFeedPostLikeBtn(
                     isLiked = isLike,
                     likeCnt = likeCount,
-                    feedId = feedDetailArgs.feedId
+                    feedId = feedDetailArgs.feedId,
                 )
 
             FeedDetailLikeBtnType.COMMENT_LIKE_BTN ->
                 viewModel.clickCommentLikeBtn(
                     isLiked = isLike,
                     likeCnt = likeCount,
-                    commentId = commentId
+                    commentId = commentId,
                 )
 
             FeedDetailLikeBtnType.REPLY_LIKE_BTN ->
@@ -317,7 +315,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                     isLiked = isLike,
                     likeCnt = likeCount,
                     parentCommentId = commentId,
-                    replyId = replyId
+                    replyId = replyId,
                 )
         }
 
@@ -333,14 +331,14 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 postPropertyItems =
                     listOf(
                         PowerMenuItem(requireContext().getString(R.string.feed_post_property_revise)),
-                        PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete))
+                        PowerMenuItem(requireContext().getString(R.string.feed_post_property_delete)),
                     )
             }
             false -> {
                 postPropertyItems =
                     listOf(
                         PowerMenuItem(requireContext().getString(R.string.feed_post_property_report)),
-                        PowerMenuItem(requireContext().getString(R.string.feed_post_property_block))
+                        PowerMenuItem(requireContext().getString(R.string.feed_post_property_block)),
                     )
             }
         }
@@ -348,14 +346,15 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         PowerMenuUtil.getPowerMenu(
             requireContext(),
             viewLifecycleOwner,
-            postPropertyItems
+            postPropertyItems,
         ) { _, item ->
-            when(item.title) {
+            when (item.title) {
                 getString(R.string.feed_post_property_revise) -> {
                     findNavController().navigate(
                         FeedDetailFragmentDirections.actionFeedDetailFragmentToFeedWriteFragment(
-                            WriteChangeDivider.CHANGE, feedDetailArgs.feedId
-                        )
+                            WriteChangeDivider.CHANGE,
+                            feedDetailArgs.feedId,
+                        ),
                     )
                 }
                 getString(R.string.feed_post_property_delete) -> {
@@ -370,7 +369,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
         }.showAsDropDown(
             view,
             FeedTotalFragment.POWER_MENU_OFFSET_X,
-            FeedTotalFragment.POWER_MENU_OFFSET_Y
+            FeedTotalFragment.POWER_MENU_OFFSET_Y,
         )
     }
 

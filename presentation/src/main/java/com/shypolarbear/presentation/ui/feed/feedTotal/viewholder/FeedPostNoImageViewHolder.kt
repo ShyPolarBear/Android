@@ -26,9 +26,9 @@ class FeedPostNoImageViewHolder(
         textView: TextView,
         feedId: Int,
         commentId: Int?,
-        itemType: FeedTotalLikeBtnType
+        itemType: FeedTotalLikeBtnType,
     ) -> Unit = { _, _, _, _, _, _, _ -> },
-    private val onMoveToDetailClick: (feedId: Int) -> Unit = { _ -> }
+    private val onMoveToDetailClick: (feedId: Int) -> Unit = { _ -> },
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private var post: Feed = Feed()
@@ -41,7 +41,7 @@ class FeedPostNoImageViewHolder(
 
         // 게시물 작성자 확인
         binding.ivFeedPostNoImageProperty.setOnClickListener {
-            when(post.isAuthor) {
+            when (post.isAuthor) {
                 true -> onMyPostPropertyClick(binding.ivFeedPostNoImageProperty, post.feedId, adapterPosition)
                 false -> onOtherPostPropertyClick(binding.ivFeedPostNoImageProperty)
             }
@@ -49,7 +49,7 @@ class FeedPostNoImageViewHolder(
 
         // 베스트 댓글 작성자 확인
         binding.ivFeedPostNoImageCommentProperty.setOnClickListener {
-            when(post.comment.isAuthor) {
+            when (post.comment.isAuthor) {
                 true -> onMyBestCommentPropertyClick(binding.ivFeedPostNoImageCommentProperty, post.comment.commentId, post.comment.content, binding.cardviewFeedPostNoImageComment)
                 false -> onOtherBestCommentPropertyClick(binding.ivFeedPostNoImageCommentProperty)
             }
@@ -63,7 +63,7 @@ class FeedPostNoImageViewHolder(
                 binding.tvFeedPostNoImageLikeCnt,
                 post.feedId,
                 null,
-                FeedTotalLikeBtnType.POST_LIKE_BTN
+                FeedTotalLikeBtnType.POST_LIKE_BTN,
             )
         }
 
@@ -75,7 +75,7 @@ class FeedPostNoImageViewHolder(
                 binding.tvFeedPostNoImageBestCommentLikeCnt,
                 post.feedId,
                 post.comment.commentId,
-                FeedTotalLikeBtnType.BEST_COMMENT_LIKE_BTN
+                FeedTotalLikeBtnType.BEST_COMMENT_LIKE_BTN,
             )
         }
     }
@@ -85,8 +85,9 @@ class FeedPostNoImageViewHolder(
 
         binding.layoutFeedNoImageComment.isVisible = true
 
-        if (item.commentCount == 0)
+        if (item.commentCount == 0) {
             binding.layoutFeedNoImageComment.isVisible = false
+        }
 
         setFeedPost(item)
 
@@ -94,7 +95,6 @@ class FeedPostNoImageViewHolder(
     }
 
     private fun setFeedPost(item: Feed) {
-
         binding.tvFeedPostNoImageLikeCnt.text = item.likeCount.toString()
         binding.tvFeedPostNoImageBestCommentLikeCnt.text = item.comment.likeCount.toString()
 

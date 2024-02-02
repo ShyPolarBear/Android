@@ -21,9 +21,9 @@ class FeedDetailNoImagePostViewHolder(
         textView: TextView,
         commentId: Int,
         replyId: Int,
-        itemType: FeedDetailLikeBtnType
+        itemType: FeedDetailLikeBtnType,
     ) -> Unit = { _, _, _, _, _, _, _ -> },
-    private val onBtnBackClick: () -> Unit = {}
+    private val onBtnBackClick: () -> Unit = {},
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private var post: Feed = Feed()
@@ -39,7 +39,7 @@ class FeedDetailNoImagePostViewHolder(
                     tvFeedDetailNoImageLikeCnt,
                     0,
                     0,
-                    FeedDetailLikeBtnType.POST_LIKE_BTN
+                    FeedDetailLikeBtnType.POST_LIKE_BTN,
                 )
             }
 
@@ -61,7 +61,6 @@ class FeedDetailNoImagePostViewHolder(
     }
 
     private fun setFeedPost(feedDetail: Feed) {
-
         binding.tvFeedDetailNoImageUserNickname.text = feedDetail.author
         binding.tvFeedDetailNoImagePostingTime.text = feedDetail.createdDate
         binding.tvFeedDetailNoImageLikeCnt.text = feedDetail.likeCount.toString()

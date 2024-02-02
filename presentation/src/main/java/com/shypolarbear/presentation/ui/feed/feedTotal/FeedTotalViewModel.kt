@@ -3,27 +3,26 @@ package com.shypolarbear.presentation.ui.feed.feedTotal
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.domain.model.feed.FeedTotal
-import com.shypolarbear.domain.usecase.feed.RequestFeedDeleteUseCase
-import com.shypolarbear.domain.usecase.feed.RequestFeedLikeUseCase
 import com.shypolarbear.domain.usecase.feed.LoadFeedTotalUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedCommentDeleteUseCase
 import com.shypolarbear.domain.usecase.feed.RequestFeedCommentLikeUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedDeleteUseCase
+import com.shypolarbear.domain.usecase.feed.RequestFeedLikeUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FeedTotalViewModel @Inject constructor (
+class FeedTotalViewModel @Inject constructor(
     private val feedTotalUseCase: LoadFeedTotalUseCase,
     private val feedDeleteUseCase: RequestFeedDeleteUseCase,
     private val feedLikeUseCase: RequestFeedLikeUseCase,
     private val feedCommentLikeUseCase: RequestFeedCommentLikeUseCase,
-    private val feedCommentDeleteUseCase: RequestFeedCommentDeleteUseCase
-): BaseViewModel() {
+    private val feedCommentDeleteUseCase: RequestFeedCommentDeleteUseCase,
+) : BaseViewModel() {
 
     private val _feed = MutableLiveData<List<Feed>>()
     val feed: LiveData<List<Feed>> = _feed
@@ -53,13 +52,12 @@ class FeedTotalViewModel @Inject constructor (
 
                     feedIsLast = it.data.last
 
-                    when(feedIsLast) {
+                    when (feedIsLast) {
                         true -> { _feed.value = currentList + newDataList }
                         false -> { _feed.value = currentList + newDataList + listOf(Feed()) }
                     }
                 }
                 .onFailure {
-
                 }
         }
     }
@@ -71,40 +69,41 @@ class FeedTotalViewModel @Inject constructor (
     }
 
     fun clickFeedLikeBtn(isLiked: Boolean, likeCnt: Int, feedId: Int) {
-        val currentFeed = _feed.value?: return
+        val currentFeed = _feed.value ?: return
         val updatedFeed = currentFeed.map { feed ->
 
-            if (feed.feedId == feedId)
+            if (feed.feedId == feedId) {
                 feed.copy(isLike = isLiked, likeCount = likeCnt)
-            else
+            } else {
                 feed
+            }
         }
         viewModelScope.launch {
             feedLikeUseCase(feedId)
                 .onSuccess {
                     _feed.value = updatedFeed
                 }
-                .onFailure {  }
+                .onFailure { }
         }
     }
 
     fun clickFeedBestCommentLikeBtn(isLiked: Boolean, likeCnt: Int, feedId: Int) {
-        val currentFeed = _feed.value?: return
+        val currentFeed = _feed.value ?: return
         val updatedFeed = currentFeed.map { feed ->
 
             if (feed.feedId == feedId) {
                 val updatedBestComment = feed.comment.copy(isLike = isLiked, likeCount = likeCnt)
                 feed.copy(comment = updatedBestComment)
-            }
-            else
+            } else {
                 feed
+            }
         }
         viewModelScope.launch {
             feedCommentLikeUseCase(feedId)
                 .onSuccess {
                     _feed.value = updatedFeed
                 }
-                .onFailure {  }
+                .onFailure { }
         }
     }
 

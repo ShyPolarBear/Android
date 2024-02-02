@@ -1,8 +1,6 @@
 package com.shypolarbear.presentation.sample
 
-import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.base.BaseActivity
 import com.shypolarbear.presentation.databinding.ActivitySampleBinding
@@ -11,7 +9,7 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class SampleActivity : BaseActivity<ActivitySampleBinding, SampleViewModel>(
-    R.layout.activity_sample
+    R.layout.activity_sample,
 ) {
     override val viewModel: SampleViewModel by viewModels()
 
@@ -21,4 +19,3 @@ class SampleActivity : BaseActivity<ActivitySampleBinding, SampleViewModel>(
         }
     }
 }
-

@@ -3,7 +3,6 @@ package com.shypolarbear.presentation.ui.login
 import android.content.Context
 import android.text.util.Linkify
 import android.text.util.Linkify.addLinks
-import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
@@ -26,7 +25,7 @@ import java.util.regex.Pattern
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
-    R.layout.fragment_login
+    R.layout.fragment_login,
 ) {
 
     override val viewModel: LoginViewModel by viewModels()
@@ -51,7 +50,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
                         setVisibilityInvert(
                             binding.btnClickedLogin,
                             binding.progressLogin,
-                            binding.ivKakaotalk
+                            binding.ivKakaotalk,
                         )
                         Toast.makeText(context, getString(R.string.login_fail), Toast.LENGTH_SHORT).show()
                     }
@@ -71,14 +70,14 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
                     terms,
                     getString(R.string.terms_url),
                     null,
-                    transformFilter
+                    transformFilter,
                 )
                 addLinks(
                     tvLoginTerms,
                     privacyPolicy,
                     getString(R.string.privacy_url),
                     null,
-                    transformFilter
+                    transformFilter,
                 )
             }
         }
@@ -91,7 +90,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
                 setVisibilityInvert(
                     binding.btnClickedLogin,
                     binding.progressLogin,
-                    binding.ivKakaotalk
+                    binding.ivKakaotalk,
                 )
             } else if (token != null) {
                 Timber.tag("KAKAO").i("카카오계정으로 로그인 성공")
@@ -110,7 +109,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
                     setVisibilityInvert(
                         binding.btnClickedLogin,
                         binding.progressLogin,
-                        binding.ivKakaotalk
+                        binding.ivKakaotalk,
                     )
 
                     if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {

@@ -13,8 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FeedCommentChangeViewModel @Inject constructor(
-    private val feedCommentChangeUseCase: RequestFeedCommentChangeUseCase
-): BaseViewModel() {
+    private val feedCommentChangeUseCase: RequestFeedCommentChangeUseCase,
+) : BaseViewModel() {
     private val _uploadState = MutableLiveData(UPLOADING)
     val uploadState: LiveData<Int> = _uploadState
 
@@ -25,7 +25,6 @@ class FeedCommentChangeViewModel @Inject constructor(
                     _uploadState.value = UPLOADED
                 }
                 .onFailure {
-
                 }
         }
     }

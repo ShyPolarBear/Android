@@ -17,14 +17,13 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
 @Singleton
 val Context.tokenDataStore by preferencesDataStore("tokens")
 
 class TokenRepoImpl @Inject constructor(
     private val api: TokenApi,
-    @ApplicationContext private val context: Context
-): TokenRepo {
+    @ApplicationContext private val context: Context,
+) : TokenRepo {
 
     private object PreferenceKeys {
         val ACCESS_TOKEN = stringPreferencesKey("access_token")
@@ -45,13 +44,13 @@ class TokenRepoImpl @Inject constructor(
         return userRefreshToken.first().toString()
     }
     override suspend fun setAccessToken(accessToken: String) {
-        context.tokenDataStore.edit {prefs ->
+        context.tokenDataStore.edit { prefs ->
             prefs[ACCESS_TOKEN] = accessToken
         }
     }
 
     override suspend fun setRefreshToken(refreshToken: String) {
-        context.tokenDataStore.edit {prefs ->
+        context.tokenDataStore.edit { prefs ->
             prefs[REFRESH_TOKEN] = refreshToken
         }
     }

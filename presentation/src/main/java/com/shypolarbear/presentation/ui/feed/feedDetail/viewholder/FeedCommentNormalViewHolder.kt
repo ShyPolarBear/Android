@@ -1,6 +1,5 @@
 package com.shypolarbear.presentation.ui.feed.feedDetail.viewholder
 
-import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,11 +11,10 @@ import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailLikeBtnType
 import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedReplyAdapter
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
-import timber.log.Timber
 
-class FeedCommentNormalViewHolder (
+class FeedCommentNormalViewHolder(
     private val binding: ItemFeedCommentNormalBinding,
-    private val onMyCommentPropertyClick: (view: ImageView, commentId: Int, position: Int, commentAuthor: String ,content: String) -> Unit = { _, _, _, _, _ -> },
+    private val onMyCommentPropertyClick: (view: ImageView, commentId: Int, position: Int, commentAuthor: String, content: String) -> Unit = { _, _, _, _, _ -> },
     private val onOtherCommentPropertyClick: (view: ImageView, commentId: Int, position: Int, commentAuthor: String) -> Unit = { _, _, _, _ -> },
     private val onMyReplyPropertyClick: (view: ImageView, commentId: Int, feedId: Int, content: String) -> Unit = { _, _, _, _ -> },
     private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
@@ -27,9 +25,9 @@ class FeedCommentNormalViewHolder (
         textView: TextView,
         commentId: Int,
         replyId: Int,
-        itemType: FeedDetailLikeBtnType
+        itemType: FeedDetailLikeBtnType,
     ) -> Unit = { _, _, _, _, _, _, _ -> },
-    private val onItemClick: () -> Unit
+    private val onItemClick: () -> Unit,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private var comment: Comment = Comment()
@@ -43,12 +41,12 @@ class FeedCommentNormalViewHolder (
                 binding.tvFeedCommentNormalLikeCnt,
                 comment.commentId,
                 0,
-                FeedDetailLikeBtnType.COMMENT_LIKE_BTN
+                FeedDetailLikeBtnType.COMMENT_LIKE_BTN,
             )
         }
 
         binding.ivFeedCommentNormalProperty.setOnClickListener {
-            when(comment.isAuthor) {
+            when (comment.isAuthor) {
                 true ->
                     onMyCommentPropertyClick(binding.ivFeedCommentNormalProperty, comment.commentId, adapterPosition, comment.authorNickname, comment.content)
                 false ->
@@ -74,7 +72,7 @@ class FeedCommentNormalViewHolder (
             onMyReplyPropertyClick = onMyReplyPropertyClick,
             onOtherReplyPropertyClick = onOtherReplyPropertyClick,
             onBtnLikeClick = onBtnLikeClick,
-            parentCommentId = item.commentId
+            parentCommentId = item.commentId,
         )
 
         binding.rvFeedCommentReply.adapter = feedReplyAdapter

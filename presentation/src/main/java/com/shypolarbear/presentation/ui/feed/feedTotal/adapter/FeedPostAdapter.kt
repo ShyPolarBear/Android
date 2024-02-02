@@ -17,12 +17,11 @@ import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalLikeBtnType
 import com.shypolarbear.presentation.ui.feed.feedTotal.viewholder.FeedLoadingViewHolder
 import com.shypolarbear.presentation.ui.feed.feedTotal.viewholder.FeedPostNoImageViewHolder
 import com.shypolarbear.presentation.ui.feed.feedTotal.viewholder.FeedPostViewHolder
-import timber.log.Timber
 
 enum class FeedViewType(val viewType: Int) {
     LOADING(0),
     ITEM_HAS_IMAGES(1),
-    ITEM_HAS_NO_IMAGES(2)
+    ITEM_HAS_NO_IMAGES(2),
 }
 
 class FeedPostAdapter(
@@ -37,16 +36,16 @@ class FeedPostAdapter(
         textView: TextView,
         feedId: Int,
         commentId: Int?,
-        itemType: FeedTotalLikeBtnType
+        itemType: FeedTotalLikeBtnType,
     ) -> Unit = { _, _, _, _, _, _, _ -> },
-    private val onMoveToDetailClick: (feedId: Int) -> Unit = {  _ ->  }
-    ): ListAdapter<Feed, RecyclerView.ViewHolder>(FeedPostDiffCallback()) {
+    private val onMoveToDetailClick: (feedId: Int) -> Unit = { _ -> },
+) : ListAdapter<Feed, RecyclerView.ViewHolder>(FeedPostDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        when(viewType) {
+        when (viewType) {
             FeedViewType.LOADING.viewType -> {
                 return FeedLoadingViewHolder(
-                    ItemFeedLoadingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    ItemFeedLoadingBinding.inflate(LayoutInflater.from(parent.context), parent, false),
                 )
             }
             FeedViewType.ITEM_HAS_IMAGES.viewType -> {
@@ -57,7 +56,7 @@ class FeedPostAdapter(
                     onMyBestCommentPropertyClick = onMyBestCommentPropertyClick,
                     onOtherBestCommentPropertyClick = onOtherBestCommentPropertyClick,
                     onBtnLikeClick = onBtnLikeClick,
-                    onMoveToDetailClick = onMoveToDetailClick
+                    onMoveToDetailClick = onMoveToDetailClick,
                 )
             }
             FeedViewType.ITEM_HAS_NO_IMAGES.viewType -> {
@@ -68,7 +67,7 @@ class FeedPostAdapter(
                     onMyBestCommentPropertyClick = onMyBestCommentPropertyClick,
                     onOtherBestCommentPropertyClick = onOtherBestCommentPropertyClick,
                     onBtnLikeClick = onBtnLikeClick,
-                    onMoveToDetailClick = onMoveToDetailClick
+                    onMoveToDetailClick = onMoveToDetailClick,
                 )
             }
             else -> {

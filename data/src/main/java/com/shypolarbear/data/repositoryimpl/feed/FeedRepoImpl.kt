@@ -2,8 +2,8 @@ package com.shypolarbear.data.repositoryimpl.feed
 
 import com.shypolarbear.data.api.feed.FeedApi
 import com.shypolarbear.domain.model.HttpError
-import com.shypolarbear.domain.model.feed.CommentWriteRequest
 import com.shypolarbear.domain.model.feed.CommentChangeResponse
+import com.shypolarbear.domain.model.feed.CommentWriteRequest
 import com.shypolarbear.domain.model.feed.FeedTotal
 import com.shypolarbear.domain.model.feed.commentLike.CommentLikeResponse
 import com.shypolarbear.domain.model.feed.feedChange.FeedChangeResponse
@@ -15,8 +15,8 @@ import com.shypolarbear.domain.repository.feed.FeedRepo
 import javax.inject.Inject
 
 class FeedRepoImpl @Inject constructor(
-    private val api: FeedApi
-): FeedRepo {
+    private val api: FeedApi,
+) : FeedRepo {
     override suspend fun getFeedTotalData(sort: String, lastFeedId: Int?): Result<FeedTotal> {
         return try {
             val response = api.getFeedTotal(sort, lastFeedId)
@@ -39,7 +39,6 @@ class FeedRepoImpl @Inject constructor(
             when {
                 response.isSuccessful -> {
                     Result.success(response.body()!!)
-
                 }
                 else -> {
                     Result.failure(HttpError(response.code(), response.errorBody()?.string() ?: ""))
@@ -70,7 +69,7 @@ class FeedRepoImpl @Inject constructor(
         feedId: Int,
         content: String,
         feedImages: List<String>?,
-        title: String
+        title: String,
     ): Result<FeedChangeResponse> {
         return try {
             val response = api.requestChangePost(
@@ -79,8 +78,8 @@ class FeedRepoImpl @Inject constructor(
                     content = content,
                     feedId = feedId,
                     feedImages = feedImages,
-                    title = title
-                )
+                    title = title,
+                ),
             )
             when {
                 response.isSuccessful -> {
@@ -114,7 +113,7 @@ class FeedRepoImpl @Inject constructor(
     override suspend fun writeFeedData(
         title: String,
         content: String,
-        feedImages: List<String>?
+        feedImages: List<String>?,
     ): Result<FeedChangeResponse> {
         return try {
             val response = api.writeFeed(
@@ -122,7 +121,7 @@ class FeedRepoImpl @Inject constructor(
                     title = title,
                     content = content,
                     feedImages = feedImages,
-                )
+                ),
             )
             when {
                 response.isSuccessful -> {
@@ -161,7 +160,7 @@ class FeedRepoImpl @Inject constructor(
         return try {
             val response = api.writeFeedComment(
                 feedID = feedId,
-                commentWriteRequest = CommentWriteRequest(parentId, content)
+                commentWriteRequest = CommentWriteRequest(parentId, content),
             )
             when {
                 response.isSuccessful -> {

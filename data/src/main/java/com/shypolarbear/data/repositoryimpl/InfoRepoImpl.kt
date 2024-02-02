@@ -2,15 +2,15 @@ package com.shypolarbear.data.repositoryimpl
 
 import com.shypolarbear.data.api.InfoApi
 import com.shypolarbear.domain.model.HttpError
-import com.shypolarbear.domain.model.more.InfoResponse
 import com.shypolarbear.domain.model.more.ChangeInfoRequest
 import com.shypolarbear.domain.model.more.CheckDuplicateNickNameResponse
+import com.shypolarbear.domain.model.more.InfoResponse
 import com.shypolarbear.domain.repository.InfoRepo
 import javax.inject.Inject
 
 class InfoRepoImpl @Inject constructor(
-    private val api: InfoApi
-): InfoRepo {
+    private val api: InfoApi,
+) : InfoRepo {
     override suspend fun getMyInfo(): Result<InfoResponse> {
         return try {
             val response = api.getMyInfo()
@@ -31,14 +31,16 @@ class InfoRepoImpl @Inject constructor(
         nickName: String,
         profileImage: String?,
         email: String,
-        phoneNumber: String
+        phoneNumber: String,
     ): Result<InfoResponse> {
         return try {
-            val response = api.changeMyInfo(ChangeInfoRequest(
-                nickName = nickName,
-                profileImage = profileImage,
-                email = email,
-                phoneNumber = phoneNumber)
+            val response = api.changeMyInfo(
+                ChangeInfoRequest(
+                    nickName = nickName,
+                    profileImage = profileImage,
+                    email = email,
+                    phoneNumber = phoneNumber,
+                ),
             )
             when {
                 response.isSuccessful -> {

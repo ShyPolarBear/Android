@@ -19,7 +19,6 @@ import com.shypolarbear.domain.usecase.more.LoadMyInfoUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject
@@ -34,7 +33,7 @@ class FeedDetailViewModel @Inject constructor(
     private val feedCommentLikeUseCase: RequestFeedCommentLikeUseCase,
     private val feedCommentDeleteUseCase: RequestFeedCommentDeleteUseCase,
     private val getMyInfoUseCase: LoadMyInfoUseCase,
-): BaseViewModel() {
+) : BaseViewModel() {
 
     private val _feed = MutableLiveData<Feed>()
     val feed: LiveData<Feed> = _feed
@@ -52,19 +51,17 @@ class FeedDetailViewModel @Inject constructor(
         viewModelScope.launch {
             getMyInfoUseCase()
                 .onSuccess { myInfo = it.data }
-                .onFailure {  }
-
+                .onFailure { }
         }
     }
 
     fun loadFeedDetail(feedId: Int) {
         viewModelScope.launch {
-           feedDetailUseCase(feedId)
+            feedDetailUseCase(feedId)
                 .onSuccess {
                     _feed.value = it.data
                 }
                 .onFailure {
-
                 }
         }
     }
@@ -73,7 +70,6 @@ class FeedDetailViewModel @Inject constructor(
         var feedCommentData: Result<FeedComment>
 
         viewModelScope.launch {
-
             feedCommentData = when {
                 _feedComment.value.isNullOrEmpty() || commentLoadType == CommentLoadType.INIT -> { feedCommentUseCase(feedId, null) }
                 else -> { feedCommentUseCase(feedId, _feedComment.value!![_feedComment.value!!.lastIndex - 1].commentId) }
@@ -94,16 +90,16 @@ class FeedDetailViewModel @Inject constructor(
 
                     when {
                         commentLoadType == CommentLoadType.INIT -> { _feedComment.value = newDataList }
-                        else-> { _feedComment.value = removeProgressList + newDataList
+                        else -> { _feedComment.value = removeProgressList + newDataList
                         }
                     }
                 }
-                .onFailure {  }
+                .onFailure { }
         }
     }
 
     fun clickFeedPostLikeBtn(isLiked: Boolean, likeCnt: Int, feedId: Int) {
-        val currentFeed = _feed.value?: return
+        val currentFeed = _feed.value ?: return
         val updatedFeed = currentFeed.copy(isLike = isLiked, likeCount = likeCnt)
 
         viewModelScope.launch { feedLikeUseCase(feedId) }
@@ -111,48 +107,47 @@ class FeedDetailViewModel @Inject constructor(
     }
 
     fun clickCommentLikeBtn(isLiked: Boolean, likeCnt: Int, commentId: Int) {
-
         currentCommentList = _feedComment.value!!
 
         val updatedCommentList = currentCommentList.map { comment ->
-            if (comment.commentId == commentId)
+            if (comment.commentId == commentId) {
                 comment.copy(isLike = isLiked, likeCount = likeCnt)
-            else
+            } else {
                 comment
+            }
         }
         viewModelScope.launch {
             feedCommentLikeUseCase(commentId)
                 .onSuccess {
                     _feedComment.value = updatedCommentList
                 }
-                .onFailure {  }
+                .onFailure { }
         }
     }
 
     fun clickReplyLikeBtn(isLiked: Boolean, likeCnt: Int, parentCommentId: Int, replyId: Int) {
-
         currentCommentList = _feedComment.value!!
 
         val updatedCommentList = currentCommentList.map { comment ->
             if (comment.commentId == parentCommentId) {
-
                 val updatedReplyList = comment.childComments.map { reply ->
-                    if (reply.commentId == replyId)
+                    if (reply.commentId == replyId) {
                         reply.copy(isLike = isLiked, likeCount = likeCnt)
-                    else
+                    } else {
                         reply
+                    }
                 }
                 comment.copy(childComments = updatedReplyList)
-            }
-            else
+            } else {
                 comment
+            }
         }
         viewModelScope.launch {
-           feedCommentLikeUseCase(replyId)
+            feedCommentLikeUseCase(replyId)
                 .onSuccess {
                     _feedComment.value = updatedCommentList
                 }
-                .onFailure {  }
+                .onFailure { }
         }
     }
 
@@ -173,17 +168,18 @@ class FeedDetailViewModel @Inject constructor(
         viewModelScope.launch {
             feedCommentWriteUseCase(feedId, null, content)
                 .onSuccess {
-                    feedCommentList.add(Comment(
-                        commentId = it.data.commentId,
-                        authorNickname = myInfo.nickName,
-                        authorProfileImage = myInfo.profileImage,
-                        content = content,
-                        createdDate = commentCreatedDateFormat.format(realTime)
-                    ))
+                    feedCommentList.add(
+                        Comment(
+                            commentId = it.data.commentId,
+                            authorNickname = myInfo.nickName,
+                            authorProfileImage = myInfo.profileImage,
+                            content = content,
+                            createdDate = commentCreatedDateFormat.format(realTime),
+                        ),
+                    )
                     _feedComment.value = feedCommentList
                 }
                 .onFailure {
-
                 }
         }
     }
@@ -201,7 +197,7 @@ class FeedDetailViewModel @Inject constructor(
                         Comment(isDeleted = true, childComments = feedCommentReply)
                     _feedComment.value = feedCommentList
                 }
-                .onFailure {  }
+                .onFailure { }
         }
     }
 
@@ -231,7 +227,6 @@ class FeedDetailViewModel @Inject constructor(
 //        ))
 //        feedCommentList[position].childComments = feedReplyList
 //        _feedComment.value = feedCommentList
-
     }
 
     fun requestDeleteFeedReply(commentId: Int, feedId: Int) {

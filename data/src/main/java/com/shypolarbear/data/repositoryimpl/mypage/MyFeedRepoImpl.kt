@@ -9,7 +9,7 @@ import com.shypolarbear.domain.model.mypage.MyPostResponse
 import com.shypolarbear.domain.repository.mypage.MyFeedRepo
 import javax.inject.Inject
 
-class MyFeedRepoImpl @Inject constructor(private val api: MyFeedApi): MyFeedRepo {
+class MyFeedRepoImpl @Inject constructor(private val api: MyFeedApi) : MyFeedRepo {
     override suspend fun getMyPostResponse(myPostRequest: MyPostRequest): Result<MyPostResponse> {
         return try {
             val response = api.getMyPost(myPostRequest.lastFeedId, myPostRequest.limit)

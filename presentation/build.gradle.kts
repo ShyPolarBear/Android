@@ -1,7 +1,7 @@
 plugins {
 
     id("com.android.library")
-    id ("kotlin-android")
+    id("kotlin-android")
     id("dagger.hilt.android.plugin")
     id("androidx.navigation.safeargs.kotlin")
 
@@ -25,7 +25,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -70,5 +70,4 @@ dependencies {
     implementation(Glide.GLIDE)
     implementation(Kakao.KAKAO)
     implementation(AndroidX.RECYCLERVIEW)
-
 }

@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class JoinRepoImpl @Inject constructor(
     private val api: JoinApi,
-): JoinRepo {
+) : JoinRepo {
     override suspend fun getJoinResponse(joinRequest: JoinRequest): Result<JoinResponse> {
         return try {
             val response = api.requestJoin(joinRequest)
@@ -25,5 +25,4 @@ class JoinRepoImpl @Inject constructor(
             Result.failure(e)
         }
     }
-
 }

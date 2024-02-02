@@ -3,24 +3,15 @@ package com.shypolarbear.presentation.ui.feed.feedDetail.viewholder
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.view.isVisible
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.MarginPageTransformer
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.R
-import com.shypolarbear.presentation.databinding.ItemFeedBinding
 import com.shypolarbear.presentation.databinding.ItemFeedDetailPostBinding
 import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailLikeBtnType
-import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalLikeBtnType
 import com.shypolarbear.presentation.util.GlideUtil
-import com.shypolarbear.presentation.util.PowerMenuUtil
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
-import com.skydoves.powermenu.PowerMenuItem
 
 class FeedDetailPostViewHolder(
     private val binding: ItemFeedDetailPostBinding,
@@ -32,9 +23,9 @@ class FeedDetailPostViewHolder(
         textView: TextView,
         commentId: Int,
         replyId: Int,
-        itemType: FeedDetailLikeBtnType
+        itemType: FeedDetailLikeBtnType,
     ) -> Unit = { _, _, _, _, _, _, _ -> },
-    private val onBtnBackClick: () -> Unit = {}
+    private val onBtnBackClick: () -> Unit = {},
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private var post: Feed = Feed()
@@ -49,7 +40,7 @@ class FeedDetailPostViewHolder(
                     tvFeedDetailLikeCnt,
                     0,
                     0,
-                    FeedDetailLikeBtnType.POST_LIKE_BTN
+                    FeedDetailLikeBtnType.POST_LIKE_BTN,
                 )
             }
 
@@ -61,7 +52,6 @@ class FeedDetailPostViewHolder(
                 onBtnBackClick()
             }
         }
-
     }
 
     fun bind(item: Feed) {
@@ -71,11 +61,9 @@ class FeedDetailPostViewHolder(
             setFeedPost(item)
             executePendingBindings()
         }
-
     }
 
     private fun setFeedPost(feedDetail: Feed) {
-
         binding.tvFeedDetailUserNickname.text = feedDetail.author
         binding.tvFeedDetailPostingTime.text = feedDetail.createdDate
         binding.tvFeedDetailLikeCnt.text = feedDetail.likeCount.toString()
@@ -96,9 +84,10 @@ class FeedDetailPostViewHolder(
                 submitList(feedDetail.feedImages)
             }
 
-            TabLayoutMediator(binding.tablayoutFeedDetailIndicator, this
+            TabLayoutMediator(
+                binding.tablayoutFeedDetailIndicator,
+                this,
             ) { _, _ ->
-
             }.attach()
         }
     }

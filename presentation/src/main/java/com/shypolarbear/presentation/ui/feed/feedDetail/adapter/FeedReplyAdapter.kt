@@ -16,7 +16,7 @@ import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailLikeBtnType
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedReplyDeleteViewHolder
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedReplyNormalViewHolder
 
-class FeedReplyAdapter (
+class FeedReplyAdapter(
     private val onMyReplyPropertyClick: (view: ImageView, commentId: Int, feedId: Int, content: String) -> Unit = { _, _, _, _ -> },
     private val onOtherReplyPropertyClick: (view: ImageView) -> Unit = { _ -> },
     private val onBtnLikeClick: (
@@ -26,24 +26,23 @@ class FeedReplyAdapter (
         textView: TextView,
         commentId: Int,
         replyId: Int,
-        itemType: FeedDetailLikeBtnType
+        itemType: FeedDetailLikeBtnType,
     ) -> Unit = { _, _, _, _, _, _, _ -> },
-    private val parentCommentId: Int
-): ListAdapter<ChildComment, RecyclerView.ViewHolder>(FeedReplyDiffCallback()) {
+    private val parentCommentId: Int,
+) : ListAdapter<ChildComment, RecyclerView.ViewHolder>(FeedReplyDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-
-        when(viewType) {
+        when (viewType) {
             FeedCommentViewType.NORMAL.commentType -> {
                 return FeedReplyNormalViewHolder(
                     ItemFeedReplyNormalBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
-                        false
+                        false,
                     ),
                     onMyReplyPropertyClick = onMyReplyPropertyClick,
                     onOtherReplyPropertyClick = onOtherReplyPropertyClick,
                     onBtnLikeClick = onBtnLikeClick,
-                    parentCommentId = parentCommentId
+                    parentCommentId = parentCommentId,
                 )
             }
 
@@ -52,8 +51,8 @@ class FeedReplyAdapter (
                     ItemFeedReplyDeleteBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
-                        false
-                    )
+                        false,
+                    ),
                 )
             }
 
@@ -64,9 +63,7 @@ class FeedReplyAdapter (
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
-        when(getItem(position).isDeleted) {
-
+        when (getItem(position).isDeleted) {
             true -> {
                 (holder as FeedReplyDeleteViewHolder).bind(getItem(position))
             }
@@ -78,10 +75,11 @@ class FeedReplyAdapter (
 
     override fun getItemViewType(position: Int): Int {
         val reply: ChildComment = getItem(position)
-        return if (reply.isDeleted)
+        return if (reply.isDeleted) {
             FeedCommentViewType.DELETE.commentType
-        else
+        } else {
             FeedCommentViewType.NORMAL.commentType
+        }
     }
 }
 

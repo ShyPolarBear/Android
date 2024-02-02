@@ -18,7 +18,7 @@ object PowerMenuUtil {
         context: Context,
         lifecycle: LifecycleOwner,
         items: List<PowerMenuItem>,
-        onItemClickListener: OnMenuItemClickListener<PowerMenuItem>
+        onItemClickListener: OnMenuItemClickListener<PowerMenuItem>,
     ): PowerMenu {
         return createPowerMenu(context) {
             addItemList(items)

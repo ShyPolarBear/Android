@@ -8,7 +8,6 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.google.android.material.tabs.TabLayoutMediator
-import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.domain.model.feed.Feed
 import com.shypolarbear.presentation.R
 import com.shypolarbear.presentation.databinding.ItemFeedBinding
@@ -16,7 +15,6 @@ import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
 import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalLikeBtnType
 import com.shypolarbear.presentation.util.GlideUtil
 import com.shypolarbear.presentation.util.showLikeBtnIsLike
-import timber.log.Timber
 
 const val DEFAULT_COMMENT_ID = 0
 
@@ -33,10 +31,10 @@ class FeedPostViewHolder(
         textView: TextView,
         feedId: Int,
         commentId: Int?,
-        itemType: FeedTotalLikeBtnType
+        itemType: FeedTotalLikeBtnType,
     ) -> Unit = { _, _, _, _, _, _, _ -> },
-    private val onMoveToDetailClick: (feedId: Int) -> Unit = { _ -> }
-    ) : RecyclerView.ViewHolder(binding.root) {
+    private val onMoveToDetailClick: (feedId: Int) -> Unit = { _ -> },
+) : RecyclerView.ViewHolder(binding.root) {
 
     private var post: Feed = Feed()
 
@@ -48,7 +46,7 @@ class FeedPostViewHolder(
 
         // 게시물 작성자 확인
         binding.ivFeedPostProperty.setOnClickListener {
-            when(post.isAuthor) {
+            when (post.isAuthor) {
                 true -> onMyPostPropertyClick(binding.ivFeedPostProperty, post.feedId, adapterPosition)
                 false -> onOtherPostPropertyClick(binding.ivFeedPostProperty)
             }
@@ -56,7 +54,7 @@ class FeedPostViewHolder(
 
         // 베스트 댓글 작성자 확인
         binding.ivFeedPostCommentProperty.setOnClickListener {
-            when(post.comment.isAuthor) {
+            when (post.comment.isAuthor) {
                 true -> onMyBestCommentPropertyClick(binding.ivFeedPostCommentProperty, post.comment.commentId, post.comment.content, binding.cardviewFeedPostComment)
                 false -> onOtherBestCommentPropertyClick(binding.ivFeedPostCommentProperty)
             }
@@ -70,7 +68,7 @@ class FeedPostViewHolder(
                 binding.tvFeedPostLikeCnt,
                 post.feedId,
                 null,
-                FeedTotalLikeBtnType.POST_LIKE_BTN
+                FeedTotalLikeBtnType.POST_LIKE_BTN,
             )
         }
 
@@ -82,7 +80,7 @@ class FeedPostViewHolder(
                 binding.tvFeedPostBestCommentLikeCnt,
                 post.feedId,
                 post.comment.commentId,
-                FeedTotalLikeBtnType.BEST_COMMENT_LIKE_BTN
+                FeedTotalLikeBtnType.BEST_COMMENT_LIKE_BTN,
             )
         }
     }
@@ -101,7 +99,6 @@ class FeedPostViewHolder(
     }
 
     private fun setFeedPost(item: Feed) {
-
         binding.tvFeedPostLikeCnt.text = item.likeCount.toString()
         binding.tvFeedPostBestCommentLikeCnt.text = item.comment.likeCount.toString()
 
@@ -135,13 +132,14 @@ class FeedPostViewHolder(
         with(binding.viewpagerFeedPostImg) {
             adapter = ImageViewPagerAdapter().apply {
                 submitList(
-                    post.feedImages
+                    post.feedImages,
                 )
             }
 
-            TabLayoutMediator(binding.tablayoutFeedPostIndicator, this
+            TabLayoutMediator(
+                binding.tablayoutFeedPostIndicator,
+                this,
             ) { _, _ ->
-
             }.attach()
         }
         binding.viewpagerFeedPostImg.setPageTransformer(MarginPageTransformer(100))

@@ -16,10 +16,10 @@ class JoinTermsFragment :
     enum class TERMS(val position: Int) {
         PRIVACY(0),
         TERM(1),
-        AGE(2)
+        AGE(2),
     }
     private val isComplete = BooleanArray(TERMS.values().size) { false }
-    private lateinit var cbAll : CheckBox
+    private lateinit var cbAll: CheckBox
     private var allCheck = false
     override fun initView() {
         binding.apply {
@@ -55,7 +55,7 @@ class JoinTermsFragment :
         viewModel.setTermData(allCheck)
     }
 
-    private fun checkEachItem(checkState: Boolean, position: Int){
+    private fun checkEachItem(checkState: Boolean, position: Int) {
         if (checkState) {
             isComplete[position] = true
             if (false !in isComplete) {

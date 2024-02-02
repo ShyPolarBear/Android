@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.shypolarbear.domain.model.image.ImageUploadRequest
 import com.shypolarbear.domain.model.more.Info
 import com.shypolarbear.domain.usecase.image.RequestImageUploadUseCase
-import com.shypolarbear.domain.usecase.more.RequestMyInfoChangeUseCase
 import com.shypolarbear.domain.usecase.more.LoadMyInfoUseCase
 import com.shypolarbear.domain.usecase.more.RequestCheckDuplicateNickNameUseCase
+import com.shypolarbear.domain.usecase.more.RequestMyInfoChangeUseCase
 import com.shypolarbear.presentation.base.BaseViewModel
 import com.shypolarbear.presentation.ui.feed.feedWrite.UPLOADED
 import com.shypolarbear.presentation.ui.feed.feedWrite.UPLOADING
@@ -23,8 +23,8 @@ class ChangeMyInfoViewModel @Inject constructor(
     private val getMyInfoUseCase: LoadMyInfoUseCase,
     private val changeMyInfoUseCase: RequestMyInfoChangeUseCase,
     private val imageUploadUseCase: RequestImageUploadUseCase,
-    private val checkDuplicateNickNameUseCase: RequestCheckDuplicateNickNameUseCase
-): BaseViewModel() {
+    private val checkDuplicateNickNameUseCase: RequestCheckDuplicateNickNameUseCase,
+) : BaseViewModel() {
     private val _myInfo = MutableLiveData<Info>()
     val myInfo: LiveData<Info> = _myInfo
 
@@ -34,7 +34,6 @@ class ChangeMyInfoViewModel @Inject constructor(
     private val _nickNameState = MutableLiveData(availableState.UNAVAILABLE)
     val nickNameState: LiveData<availableState> = _nickNameState
 
-
     fun getMyInfo() {
         viewModelScope.launch {
             getMyInfoUseCase()
@@ -42,9 +41,7 @@ class ChangeMyInfoViewModel @Inject constructor(
                     _myInfo.value = it.data
                 }
                 .onFailure {
-
                 }
-
         }
     }
 
@@ -52,17 +49,17 @@ class ChangeMyInfoViewModel @Inject constructor(
         nickName: String,
         email: String,
         phoneNumber: String,
-        profileImageFile: File?
+        profileImageFile: File?,
     ) {
         viewModelScope.launch {
             // 프로필 사진 없는 경우
-            when(profileImageFile) {
+            when (profileImageFile) {
                 null -> {
                     changeMyInfoUseCase(
                         nickName = nickName,
                         profileImage = null,
                         email = email,
-                        phoneNumber = phoneNumber
+                        phoneNumber = phoneNumber,
                     )
                     _uploadState.value = UPLOADED
                 }
@@ -74,7 +71,6 @@ class ChangeMyInfoViewModel @Inject constructor(
                             _uploadState.value = UPLOADED
                         }
                         .onFailure {
-
                         }
                 }
             }

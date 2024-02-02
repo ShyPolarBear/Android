@@ -3,14 +3,12 @@ package com.shypolarbear.presentation.base
 import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import timber.log.Timber
 
-abstract class BaseActivity<B: ViewDataBinding, VM: BaseViewModel>(
-    @LayoutRes private val layoutId: Int
-):  AppCompatActivity(){
+abstract class BaseActivity<B : ViewDataBinding, VM : BaseViewModel>(
+    @LayoutRes private val layoutId: Int,
+) : AppCompatActivity() {
 
     protected lateinit var binding: B
     protected abstract val viewModel: VM
@@ -23,6 +21,6 @@ abstract class BaseActivity<B: ViewDataBinding, VM: BaseViewModel>(
 
         initView()
     }
-    
+
     protected abstract fun initView()
 }

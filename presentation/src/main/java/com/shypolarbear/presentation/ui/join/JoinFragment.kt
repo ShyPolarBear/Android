@@ -23,7 +23,7 @@ enum class Page(val page: Int) {
     TERMS(0),
     NAME(1),
     PHONE(2),
-    MAIL(3)
+    MAIL(3),
 }
 
 @AndroidEntryPoint
@@ -39,7 +39,7 @@ class JoinFragment :
             JoinTermsFragment(),
             JoinNameFragment(),
             JoinPhoneFragment(),
-            JoinMailFragment()
+            JoinMailFragment(),
         )
 
         pagerAdapter = JoinAdapter(this, pageList)
@@ -145,8 +145,10 @@ class JoinFragment :
                     getString(R.string.signup_page_indicator, viewModel.pageIndex.value)
                 binding.signupViewpager.setCurrentItem(currentItem + 1, true)
                 updateButtonState(viewModel.pageState[currentItem + 1])
-                if (currentItem == Page.PHONE.page) binding.signupTvNext.text =
-                    getString(R.string.signup_complete)
+                if (currentItem == Page.PHONE.page) {
+                    binding.signupTvNext.text =
+                        getString(R.string.signup_complete)
+                }
             }
         }
     }

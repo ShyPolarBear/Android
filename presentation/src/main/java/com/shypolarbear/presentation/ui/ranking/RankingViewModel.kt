@@ -66,7 +66,7 @@ class RankingViewModel @Inject constructor(
         viewModelScope.launch {
             if (!_totalRankingResponse.value!!.last) {
                 val loadJob = loadTotalRanking(
-                    _totalRankingResponse.value!!.content.last().rankingId
+                    _totalRankingResponse.value!!.content.last().rankingId,
                 )
                 loadJob.join()
             } else {
@@ -74,5 +74,4 @@ class RankingViewModel @Inject constructor(
             }
         }
     }
-
 }

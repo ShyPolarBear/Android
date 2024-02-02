@@ -8,5 +8,4 @@ interface LogoutApi {
 
     @POST("api/auth/logout")
     suspend fun requestLogout(): Response<LogoutResponse>
-
 }

@@ -20,7 +20,7 @@ class ImageEditRepoImpl @Inject constructor(private val api: ImageEditApi) : Ima
             val newImageFiles: List<MultipartBody.Part> = imageModifyRequest.newImageFiles.map { file ->
                 FormDataConverterUtil.getMultiPartBody(NEW_IMAGES, file)
             }
-            val oldImageUrls: List<MultipartBody.Part> = imageModifyRequest.oldImageFiles.map { urls->
+            val oldImageUrls: List<MultipartBody.Part> = imageModifyRequest.oldImageFiles.map { urls ->
                 FormDataConverterUtil.getMultiPartBody(OLD_IMAGES, urls)
             }
 

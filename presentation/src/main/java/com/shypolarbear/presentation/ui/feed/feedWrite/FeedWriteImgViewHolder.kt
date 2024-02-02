@@ -7,8 +7,8 @@ import com.shypolarbear.presentation.util.GlideUtil
 
 class FeedWriteImgViewHolder(
     private val binding: ItemFeedWriteImgBinding,
-    private val onRemoveImgClick: (position: Int) -> Unit = { _ -> }
-): RecyclerView.ViewHolder(binding.root) {
+    private val onRemoveImgClick: (position: Int) -> Unit = { _ -> },
+) : RecyclerView.ViewHolder(binding.root) {
     init {
         binding.apply {
             btnRemoveUploadImg.setOnClickListener {

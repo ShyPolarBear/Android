@@ -14,10 +14,9 @@ import com.shypolarbear.presentation.databinding.ItemFeedDetailPostBinding
 import com.shypolarbear.presentation.ui.feed.feedDetail.FeedDetailLikeBtnType
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedDetailNoImagePostViewHolder
 import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedDetailPostViewHolder
-import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalLikeBtnType
 import com.shypolarbear.presentation.ui.feed.feedTotal.adapter.FeedViewType
 class FeedDetailPostAdapter(
-    private val onPostPropertyClick: (Feed, ImageView) -> Unit = { _, _, -> },
+    private val onPostPropertyClick: (Feed, ImageView) -> Unit = { _, _ -> },
     private val onBtnLikeClick: (
         view: Button,
         isLiked: Boolean,
@@ -25,36 +24,38 @@ class FeedDetailPostAdapter(
         textView: TextView,
         commentId: Int,
         replyId: Int,
-        itemType: FeedDetailLikeBtnType
+        itemType: FeedDetailLikeBtnType,
     ) -> Unit = { _, _, _, _, _, _, _ -> },
-    private val onBtnBackClick: () -> Unit = {}
-): ListAdapter<Feed, RecyclerView.ViewHolder>(FeedPostDiffCallback()) {
+    private val onBtnBackClick: () -> Unit = {},
+) : ListAdapter<Feed, RecyclerView.ViewHolder>(FeedPostDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when(viewType) {
+        return when (viewType) {
             FeedViewType.ITEM_HAS_IMAGES.viewType -> {
                 FeedDetailPostViewHolder(
                     ItemFeedDetailPostBinding.inflate(
                         LayoutInflater.from(
-                            parent.context
-                        ), parent,
-                        false
+                            parent.context,
+                        ),
+                        parent,
+                        false,
                     ),
                     onPostPropertyClick = onPostPropertyClick,
                     onBtnLikeClick = onBtnLikeClick,
-                    onBtnBackClick = onBtnBackClick
+                    onBtnBackClick = onBtnBackClick,
                 )
             }
 
             FeedViewType.ITEM_HAS_NO_IMAGES.viewType -> {
                 FeedDetailNoImagePostViewHolder(
-                    ItemFeedDetailNoImagePostBinding.inflate(LayoutInflater.from(parent.context),
+                    ItemFeedDetailNoImagePostBinding.inflate(
+                        LayoutInflater.from(parent.context),
                         parent,
-                        false
+                        false,
                     ),
                     onPostPropertyClick = onPostPropertyClick,
                     onBtnLikeClick = onBtnLikeClick,
-                    onBtnBackClick = onBtnBackClick
+                    onBtnBackClick = onBtnBackClick,
                 )
             }
 

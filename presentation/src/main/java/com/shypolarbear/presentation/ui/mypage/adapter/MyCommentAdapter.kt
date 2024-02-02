@@ -42,8 +42,8 @@ class MyCommentAdapter(private val _items: List<MyCommentFeed?>) :
                 ItemFeedLoadingBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
-                    false
-                )
+                    false,
+                ),
             )
         }
     }

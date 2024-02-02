@@ -4,7 +4,6 @@ import android.view.View
 import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavAction
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView.Adapter
@@ -20,15 +19,14 @@ import com.shypolarbear.presentation.util.infiniteScroll
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
 
-
-enum class FeedContentType(val state: Int) {
-    POST(0),
-    COMMENT(1)
+enum class FeedContentType {
+    POST,
+    COMMENT,
 }
 
 enum class PostProperty(val state: Int) {
     MODIFY(0),
-    DELETE(1)
+    DELETE(1),
 }
 
 @AndroidEntryPoint
@@ -44,6 +42,9 @@ class MyPageFragment :
         viewModel.myPostResponse.observe(viewLifecycleOwner) { postFeed ->
             postFeed?.let {
                 binding.myFeedProgressbar.isVisible = false
+                if (it.count != 0) {
+                    binding.tvMyPostNonPost.isVisible = false
+                }
                 postAdapter = MyPostAdapter(postFeed.content) { feedId: Int, view: ImageView ->
                     showMyPostPropertyMenu(view, feedId)
                 }
@@ -59,14 +60,16 @@ class MyPageFragment :
 
         binding.apply {
             myFeedProgressbar.isVisible = true
-            binding.tvMyPostPost.isActivated = true
+            tvMyPostPost.isActivated = true
 
             tvMyPostPost.setOnClickListener {
+                showNonDataText(FeedContentType.POST, viewModel.myPostResponse.value?.count)
                 invertActivation(it, tvMyPostComment)
                 setAdapter(postAdapter, FeedContentType.POST)
             }
 
             tvMyPostComment.setOnClickListener {
+                showNonDataText(FeedContentType.COMMENT, viewModel.myCommentResponse.value?.count)
                 invertActivation(it, tvMyPostPost)
                 setAdapter(commentAdapter, FeedContentType.COMMENT)
             }
@@ -74,7 +77,6 @@ class MyPageFragment :
             myPostBtnBack.setOnClickListener {
                 findNavController().popBackStack()
             }
-
         }
     }
 
@@ -110,15 +112,28 @@ class MyPageFragment :
                         viewModel.requestDeleteFeed(feedId = feedId)
                     }
                 }
-            }
+            },
         )
             .showAsDropDown(
                 view,
                 FeedTotalFragment.POWER_MENU_OFFSET_X,
-                FeedTotalFragment.POWER_MENU_OFFSET_Y
+                FeedTotalFragment.POWER_MENU_OFFSET_Y,
             )
     }
 
+    private fun showNonDataText(type: FeedContentType, count: Int?) {
+        if (type == FeedContentType.POST) {
+            binding.tvMyPostNonComment.isVisible = false
+            if (count == 0 || count == null) {
+                binding.tvMyPostNonPost.isVisible = true
+            }
+        } else {
+            binding.tvMyPostNonPost.isVisible = false
+            if (count == 0 || count == null) {
+                binding.tvMyPostNonComment.isVisible = true
+            }
+        }
+    }
 
     private fun invertActivation(onSelected: View, offSelection: View) {
         onSelected.isActivated = true
