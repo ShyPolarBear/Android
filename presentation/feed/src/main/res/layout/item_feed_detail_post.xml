@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_feed_detail_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_feed_detail_user_profile"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_user_base_profile"
+            app:layout_constraintStart_toStartOf="@id/btn_feed_detail_back"
+            app:layout_constraintTop_toBottomOf="@+id/btn_feed_detail_back"
+            app:shapeAppearanceOverlay="@style/radius_24" />
+
+        <TextView
+            android:id="@+id/tv_feed_detail_user_nickname"
+            style="@style/H4"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/test_nickname"
+            app:layout_constraintStart_toEndOf="@id/iv_feed_detail_user_profile"
+            app:layout_constraintTop_toTopOf="@+id/iv_feed_detail_user_profile" />
+
+        <TextView
+            android:id="@+id/tv_feed_detail_posting_time"
+            style="@style/L1"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="2dp"
+            android:text="@string/test_posting_time"
+            android:textColor="@color/Gray_05"
+            app:layout_constraintStart_toEndOf="@id/iv_feed_detail_user_profile"
+            app:layout_constraintTop_toBottomOf="@id/tv_feed_detail_user_nickname" />
+
+        <ImageView
+            android:id="@+id/iv_feed_detail_property"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="62dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_menu_option"
+            android:tint="@color/Gray_05"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="UseAppTint" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewpager_feed_detail_img"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_feed_detail_posting_time" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tablayout_feed_detail_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewpager_feed_detail_img"
+            app:tabBackground="@drawable/selector_feed_image_indicator"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_feed_detail_like"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/ic_btn_like_off"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tablayout_feed_detail_indicator" />
+
+        <TextView
+            android:id="@+id/tv_feed_detail_like"
+            style="@style/B2"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/feed_post_like"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_feed_detail_like"
+            app:layout_constraintStart_toEndOf="@id/btn_feed_detail_like"
+            app:layout_constraintTop_toTopOf="@id/btn_feed_detail_like" />
+
+        <TextView
+            android:id="@+id/tv_feed_detail_like_cnt"
+            style="@style/B2"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginStart="3dp"
+            android:text="@string/test_feed_post_like_cnt"
+            app:layout_constraintStart_toEndOf="@id/tv_feed_detail_like"
+            app:layout_constraintTop_toTopOf="@id/tv_feed_detail_like" />
+
+        <TextView
+            style="@style/B2"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="@string/count"
+            app:layout_constraintStart_toEndOf="@id/tv_feed_detail_like_cnt"
+            app:layout_constraintTop_toTopOf="@id/tv_feed_detail_like_cnt" />
+
+        <TextView
+            android:id="@+id/tv_feed_detail_title"
+            style="@style/H4"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/test_feed_post_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_feed_detail_like" />
+
+        <TextView
+            android:id="@+id/tv_feed_detail_content"
+            style="@style/B2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/test_feed_post_content"
+            app:layout_constraintTop_toBottomOf="@+id/tv_feed_detail_title" />
+
+        <TextView
+            style="@style/B2"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_marginEnd="3dp"
+            android:text="@string/feed_reply"
+            android:textColor="@color/Gray_01"
+            app:layout_constraintEnd_toStartOf="@id/tv_feed_detail_reply_cnt"
+            app:layout_constraintTop_toTopOf="@id/tv_feed_detail_reply_text" />
+
+        <TextView
+            android:id="@+id/tv_feed_detail_reply_cnt"
+            style="@style/B2"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/test_feed_post_reply_cnt"
+            android:textColor="@color/Gray_01"
+            app:layout_constraintEnd_toStartOf="@id/tv_feed_detail_reply_text"
+            app:layout_constraintTop_toTopOf="@id/tv_feed_detail_reply_text" />
+
+        <TextView
+            android:id="@+id/tv_feed_detail_reply_text"
+            style="@style/B2"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/count"
+            android:textColor="@color/Gray_01"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_feed_detail_content" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginTop="14dp"
+            android:background="@color/Blue_06"
+            app:layout_constraintTop_toBottomOf="@id/tv_feed_detail_reply_text" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

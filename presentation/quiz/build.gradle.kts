@@ -1,19 +1,20 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    id("com.android.library")
+    id("kotlin-android")
+    id("dagger.hilt.android.plugin")
+    id("androidx.navigation.safeargs.kotlin")
+
+    kotlin("android")
+    kotlin("kapt")
 }
 
 android {
     namespace = "com.beeeam.quiz"
-    compileSdk = 33
+    compileSdk = Configuration.COMPILE_SDK
 
     defaultConfig {
-        applicationId = "com.beeeam.quiz"
-        minSdk = 24
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
-
+        minSdk = Configuration.MIN_SDK
+        targetSdk = Configuration.TARGET_SDK
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -33,15 +34,35 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        dataBinding = true
+    }
 }
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation(project(":core:base"))
+    implementation(project(":core:util"))
+    implementation(project(":core:designsystem"))
+    implementation(project(":domain"))
+
+    implementation(AndroidX.CORE_KTX)
+    implementation(AndroidX.APP_COMPAT)
+    implementation(Google.MATERIAL)
+    implementation(AndroidX.FRAGMENT_KTX)
+    implementation(AndroidX.LIFECYCLE_VIEWMODEL_KTX)
+    testImplementation(AndroidX.JUNIT)
+    androidTestImplementation(AndroidX.EXT_JUNIT)
+    androidTestImplementation(AndroidX.ESPRESSO_CORE)
+    implementation(AndroidX.NAVIGATION_FRAGMENT_KTX)
+    implementation(AndroidX.NAVIGATION_UI_KTX)
+
+    implementation(Google.HILT_ANDROID)
+    kapt(Google.HILT_ANDROID_COMPILER)
+
+    implementation(KotlinX.KOTLINX_COROUTINE)
+
+    implementation(Jakewharton.TIMBER)
+    implementation(Glide.GLIDE)
+    implementation(AndroidX.RECYCLERVIEW)
 }

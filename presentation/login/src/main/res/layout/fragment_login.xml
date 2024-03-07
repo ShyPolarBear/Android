@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/Blue_05">
+
+
+        <TextView
+            android:id="@+id/tv_login_title"
+            style="@style/H1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_text_title"
+            android:textColor="@color/Blue_01"
+            app:layout_constraintBottom_toTopOf="@+id/iv_login_bear"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_login_subtitle"
+            style="@style/H5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/login_text_subtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_login_title" />
+
+        <ImageView
+            android:id="@+id/iv_login_bear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/login_image_bear"
+            android:src="@drawable/ic_login_bear"
+            app:layout_constraintBottom_toTopOf="@+id/view_bottom_fill"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/view_bottom_fill"
+            android:layout_width="0dp"
+            android:layout_height="109dp"
+            android:background="@color/Blue_01"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/btn_login"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="@drawable/ic_btn_login"
+            android:clickable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view_bottom_fill" />
+
+        <ImageView
+            android:id="@+id/iv_kakaotalk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:contentDescription="@string/login_ic_kakaotalk"
+            android:src="@drawable/ic_kakaotalk"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_login"
+            app:layout_constraintStart_toStartOf="@+id/btn_login"
+            app:layout_constraintTop_toTopOf="@+id/btn_login" />
+
+        <TextView
+            style="@style/Button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_btn_text"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_login"
+            app:layout_constraintEnd_toEndOf="@+id/btn_login"
+            app:layout_constraintStart_toEndOf="@+id/iv_kakaotalk"
+            app:layout_constraintTop_toTopOf="@+id/btn_login" />
+
+        <View
+            android:id="@+id/btn_clicked_login"
+            android:layout_width="0dp"
+            android:visibility="invisible"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="@drawable/ic_btn_login_clicked"
+            android:clickable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view_bottom_fill" />
+
+        <ProgressBar
+            android:id="@+id/progress_login"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:visibility="invisible"
+            android:indeterminateTint="@color/Gray_03"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_kakaotalk"
+            app:layout_constraintEnd_toEndOf="@+id/iv_kakaotalk"
+            app:layout_constraintStart_toStartOf="@+id/iv_kakaotalk"
+            app:layout_constraintTop_toTopOf="@+id/iv_kakaotalk" />
+
+        <TextView
+            android:id="@+id/tv_login_terms"
+            style="@style/l4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="14dp"
+            android:text="@string/login_text_terms"
+            android:textAlignment="center"
+            android:textColorLink="@color/White_01"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_login" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_quiz">
+
+    <fragment
+        android:id="@+id/navigation_quiz_main"
+        android:name="com.beeeam.quiz.main.QuizMainFragment"
+        android:label="QuizMainFragment"
+        tools:layout="@layout/fragment_quiz_main" >
+        <action
+            android:id="@+id/action_quizMainFragment_to_quizDailyOXFragment"
+            app:destination="@id/quizDailyOXFragment" />
+        <action
+            android:id="@+id/action_quizMainFragment_to_quizDailyMultiChoiceFragment"
+            app:destination="@id/quizDailyMultiChoiceFragment" />
+        <action
+            android:id="@+id/action_navigation_quiz_main_to_navigation_feed"
+            app:popUpTo="@+id/navigation_quiz_main"
+            app:popUpToInclusive="true"
+            app:destination="@id/navigation_feed" />
+        <action
+            android:id="@+id/action_navigation_quiz_main_to_feedWriteFragment"
+            app:destination="@id/feedWriteFragment" />
+        <action
+            android:id="@+id/action_navigation_quiz_main_to_feedDetailFragment"
+            app:destination="@id/feedDetailFragment">
+            <argument
+                android:name="feedId"
+                app:argType="integer" />
+        </action>
+
+    </fragment>
+    <fragment
+        android:id="@+id/quizDailyMultiChoiceFragment"
+        android:name="com.beeeam.quiz.QuizDailyMultiChoiceFragment"
+        android:label="QuizDailyMultiChoiceFragment"
+        tools:layout="@layout/fragment_quiz_daily_multi" >
+
+        <action
+            android:id="@+id/action_quizDailyMultiChoiceFragment_to_navigation_quiz_main"
+            app:destination="@id/navigation_quiz_main" />
+        <action
+            android:id="@+id/action_quizDailyMultiChoiceFragment_to_quizDailyOXFragment"
+            app:destination="@id/quizDailyOXFragment" />
+        <action
+            android:id="@+id/action_quizDailyMultiChoiceFragment_self"
+            app:destination="@id/quizDailyMultiChoiceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizDailyOXFragment"
+        android:name="com.beeeam.quiz.QuizDailyOXFragment"
+        android:label="QuizDailyOXFragment"
+        tools:layout="@layout/fragment_quiz_daily_ox" >
+
+        <action
+            android:id="@+id/action_quizDailyOXFragment_to_navigation_quiz_main"
+            app:destination="@id/navigation_quiz_main" />
+        <action
+            android:id="@+id/action_quizDailyOXFragment_to_quizDailyMultiChoiceFragment"
+            app:destination="@id/quizDailyMultiChoiceFragment" />
+        <action
+            android:id="@+id/action_quizDailyOXFragment_self"
+            app:destination="@id/quizDailyOXFragment" />
+    </fragment>
+</navigation>
