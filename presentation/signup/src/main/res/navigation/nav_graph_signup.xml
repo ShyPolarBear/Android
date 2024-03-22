@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_signup">
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.beeeam.signup.JoinFragment"
+        android:label="SignupFragment"
+        tools:layout="@layout/fragment_signup">
+        <argument
+            android:name="acToken"
+            app:argType="string"/>
+        <action
+            android:id="@+id/action_signupFragment_to_signupPhoneFragment"
+            app:destination="@id/signupPhoneFragment" />
+        <action
+            android:id="@+id/action_signupFragment_to_signupNameFragment"
+            app:destination="@id/signupNameFragment" />
+        <action
+            android:id="@+id/action_signupFragment_to_signupTermsFragment"
+            app:destination="@id/signupTermsFragment" />
+        <action
+            android:id="@+id/action_signupFragment_to_signupMailFragment"
+            app:destination="@id/signupMailFragment" />
+        <action
+            android:id="@+id/action_signupFragment_to_feedTotalFragment"
+            app:destination="@id/navigation_feed" />
+        <action
+            android:id="@+id/action_signupFragment_to_quizMainFragment"
+            app:destination="@id/navigation_quiz_main" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupPhoneFragment"
+        android:name="com.beeeam.signup.pages.JoinPhoneFragment"
+        android:label="SignupPhoneFragment"
+        tools:layout="@layout/fragment_signup_phone">
+        <action
+            android:id="@+id/action_signupPhoneFragment_to_signupMailFragment"
+            app:destination="@id/signupMailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupMailFragment"
+        android:name="com.beeeam.signup.pages.JoinMailFragment"
+        android:label="SignupMailFragment"
+        tools:layout="@layout/fragment_signup_mail"/>
+    <fragment
+        android:id="@+id/signupTermsFragment"
+        android:name="com.beeeam.signup.pages.JoinTermsFragment"
+        android:label="SignupTermsFragment"
+        tools:layout="@layout/fragment_signup_terms">
+        <action
+            android:id="@+id/action_signupTermsFragment_to_signupNameFragment"
+            app:destination="@id/signupNameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupNameFragment"
+        android:name="com.beeeam.signup.pages.JoinNameFragment"
+        android:label="SignupNameFragment"
+        tools:layout="@layout/fragment_signup_name">
+        <action
+            android:id="@+id/action_signupNameFragment_to_signupPhoneFragment"
+            app:destination="@id/signupPhoneFragment" />
+    </fragment>
+</navigation>

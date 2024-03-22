@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
 import android.net.Uri
+import com.beeeam.util.Const.MAX_IMAGE_HEIGHT
+import com.beeeam.util.Const.MAX_IMAGE_WIDTH
 import timber.log.Timber
 import java.io.BufferedInputStream
 import java.io.File
@@ -13,9 +15,6 @@ import java.io.FileOutputStream
 import java.util.UUID
 
 object ImageUtil {
-
-    private const val MAX_IMAGE_WIDTH = 1440
-    private const val MAX_IMAGE_HEIGHT = 1440
 
 //    이미지 최대 사이즈 : 1440 * 1440
 //    이미지 최대 용량 : 1440 * 1440 / 1024 / 1024 = 7.91MB로 이미지 최적화한다.

@@ -9,7 +9,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import com.shypolarbear.presentation.util.onBackPressedToFinish
+import com.beeeam.util.onBackPressedToFinish
 
 abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(
     @LayoutRes private val layoutId: Int,

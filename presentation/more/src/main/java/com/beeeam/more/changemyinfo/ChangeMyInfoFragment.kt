@@ -1,7 +1,6 @@
 package com.beeeam.more.changemyinfo
 
 import android.net.Uri
-import android.os.Build
 import android.os.CountDownTimer
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.text.Editable
@@ -9,7 +8,6 @@ import android.text.TextWatcher
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -23,14 +21,14 @@ import com.beeeam.util.Const.NICKNAME_DUPLICATE_CHECK_TIME
 import com.beeeam.util.Const.PHONE_NUMBER_DASH_INCLUDE
 import com.beeeam.util.Const.UPLOADED
 import com.beeeam.util.Const.UPLOADING
+import com.beeeam.util.Const.emailPattern
+import com.beeeam.util.Const.phonePattern
 import com.beeeam.util.GlideUtil
 import com.beeeam.util.ImageUtil
 import com.beeeam.util.InputState
 import com.beeeam.util.afterTextChanged
 import com.beeeam.util.availableState
-import com.beeeam.util.emailPattern
 import com.beeeam.util.keyboardDown
-import com.beeeam.util.phonePattern
 import com.beeeam.util.setColorStateWithInput
 import com.beeeam.util.updateButtonState
 import dagger.hilt.android.AndroidEntryPoint

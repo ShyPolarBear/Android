@@ -1,4 +1,4 @@
-package com.shypolarbear.presentation.ui.feed.feedDetail.adapter
+package com.beeeam.feed.feedDetail.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,9 +14,9 @@ import com.beeeam.feed.databinding.ItemFeedCommentNormalBinding
 import com.beeeam.util.FeedCommentViewType
 import com.beeeam.util.FeedDetailLikeBtnType
 import com.shypolarbear.domain.model.feed.Comment
-import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentDeleteViewHolder
-import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentLoadingViewHolder
-import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedCommentNormalViewHolder
+import com.beeeam.feed.feedDetail.viewholder.FeedCommentDeleteViewHolder
+import com.beeeam.feed.feedDetail.viewholder.FeedCommentLoadingViewHolder
+import com.beeeam.feed.feedDetail.viewholder.FeedCommentNormalViewHolder
 
 class FeedCommentAdapter(
     private val onMyCommentPropertyClick: (view: ImageView, commentId: Int, position: Int, commentAuthor: String, content: String) -> Unit = { _, _, _, _, _ -> },

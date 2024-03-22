@@ -1,4 +1,4 @@
-package com.shypolarbear.presentation.ui.feed.feedWrite
+package com.beeeam.feed.feedWrite
 
 import android.net.Uri
 import androidx.lifecycle.LiveData

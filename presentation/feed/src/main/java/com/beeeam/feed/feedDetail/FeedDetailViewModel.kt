@@ -1,4 +1,4 @@
-package com.shypolarbear.presentation.ui.feed.feedDetail
+package com.beeeam.feed.feedDetail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

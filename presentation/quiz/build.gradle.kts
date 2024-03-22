@@ -43,6 +43,7 @@ dependencies {
 
     implementation(project(":core:base"))
     implementation(project(":core:util"))
+    implementation(project(":core:ui"))
     implementation(project(":core:designsystem"))
     implementation(project(":domain"))
 

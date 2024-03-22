@@ -1,4 +1,4 @@
-package com.shypolarbear.presentation.ui.feed.feedDetail.viewholder
+package com.beeeam.feed.feedDetail.viewholder
 
 import android.widget.Button
 import android.widget.ImageView
@@ -9,7 +9,7 @@ import com.beeeam.util.FeedDetailLikeBtnType
 import com.beeeam.util.GlideUtil
 import com.beeeam.util.showLikeBtnIsLike
 import com.shypolarbear.domain.model.feed.Comment
-import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedReplyAdapter
+import com.beeeam.feed.feedDetail.adapter.FeedReplyAdapter
 
 class FeedCommentNormalViewHolder(
     private val binding: ItemFeedCommentNormalBinding,

@@ -10,13 +10,34 @@ plugins {
 
 android {
     namespace = "com.beeeam.feed"
+    compileSdk = Configuration.COMPILE_SDK
 
+    defaultConfig {
+        minSdk = Configuration.MIN_SDK
+        targetSdk = Configuration.TARGET_SDK
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
     buildFeatures {
         dataBinding = true
     }
 }
-
-
 
 dependencies {
     implementation(project(":core:base"))
@@ -43,7 +64,6 @@ dependencies {
     implementation(KotlinX.KOTLINX_COROUTINE)
 
     implementation(Jakewharton.TIMBER)
-    implementation(AndroidX.SPLASH_SCREEN)
     implementation(PowerMenu.POWER_MENU)
     implementation(Glide.GLIDE)
     implementation(AndroidX.RECYCLERVIEW)

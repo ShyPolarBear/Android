@@ -1,4 +1,4 @@
-package com.shypolarbear.presentation.ui.feed.feedDetail.viewholder
+package com.beeeam.feed.feedDetail.viewholder
 
 import android.widget.Button
 import android.widget.ImageView
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.beeeam.feed.databinding.ItemFeedCommentDeleteBinding
 import com.beeeam.util.FeedDetailLikeBtnType
 import com.shypolarbear.domain.model.feed.Comment
-import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedReplyAdapter
+import com.beeeam.feed.feedDetail.adapter.FeedReplyAdapter
 
 class FeedCommentDeleteViewHolder(
     private val binding: ItemFeedCommentDeleteBinding,

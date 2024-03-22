@@ -5,9 +5,9 @@ import com.beeeam.base.BaseFragment
 import com.beeeam.signup.JoinViewModel
 import com.beeeam.signup.R
 import com.beeeam.signup.databinding.FragmentSignupMailBinding
+import com.beeeam.util.Const.emailPattern
 import com.beeeam.util.InputState
 import com.beeeam.util.afterTextChanged
-import com.beeeam.util.emailPattern
 import com.beeeam.util.keyboardDown
 import com.beeeam.util.setColorStateWithInput
 import dagger.hilt.android.AndroidEntryPoint

@@ -1,4 +1,4 @@
-package com.shypolarbear.presentation.ui.feed.feedTotal.adapter
+package com.beeeam.feed.feedTotal.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.beeeam.feed.databinding.ItemFeedBinding
 import com.beeeam.feed.databinding.ItemFeedNoImageBinding
-import com.beeeam.ui.databinding.ItemFeedLoadingBinding
+import com.beeeam.feed.databinding.ItemFeedLoadingBinding
+import com.beeeam.util.FeedTotalLikeBtnType
 import com.beeeam.util.FeedViewType
 import com.shypolarbear.domain.model.feed.Feed
-import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalLikeBtnType
-import com.shypolarbear.presentation.ui.feed.feedTotal.viewholder.FeedLoadingViewHolder
-import com.shypolarbear.presentation.ui.feed.feedTotal.viewholder.FeedPostNoImageViewHolder
-import com.shypolarbear.presentation.ui.feed.feedTotal.viewholder.FeedPostViewHolder
+import com.beeeam.feed.feedTotal.viewholder.FeedLoadingViewHolder
+import com.beeeam.feed.feedTotal.viewholder.FeedPostNoImageViewHolder
+import com.beeeam.feed.feedTotal.viewholder.FeedPostViewHolder
 
 class FeedPostAdapter(
     private val onMyPostPropertyClick: (view: ImageView, feedId: Int, position: Int) -> Unit = { _, _, _ -> },

@@ -1,4 +1,4 @@
-package com.shypolarbear.presentation.ui.feed.feedTotal.viewholder
+package com.beeeam.feed.feedTotal.viewholder
 
 import android.view.View
 import android.widget.Button
@@ -7,16 +7,14 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.MarginPageTransformer
+import com.beeeam.feed.databinding.ItemFeedBinding
+import com.beeeam.ui.ImageViewPagerAdapter
+import com.beeeam.util.Const.DEFAULT_COMMENT_ID
+import com.beeeam.util.FeedTotalLikeBtnType
+import com.beeeam.util.GlideUtil
+import com.beeeam.util.showLikeBtnIsLike
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shypolarbear.domain.model.feed.Feed
-import com.shypolarbear.presentation.R
-import com.shypolarbear.presentation.databinding.ItemFeedBinding
-import com.shypolarbear.presentation.ui.common.ImageViewPagerAdapter
-import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalLikeBtnType
-import com.shypolarbear.presentation.util.GlideUtil
-import com.shypolarbear.presentation.util.showLikeBtnIsLike
-
-const val DEFAULT_COMMENT_ID = 0
 
 class FeedPostViewHolder(
     private val binding: ItemFeedBinding,
@@ -118,13 +116,13 @@ class FeedPostViewHolder(
         if (!item.authorProfileImage.isNullOrBlank()) {
             GlideUtil.loadImage(itemView.context, item.authorProfileImage, binding.ivFeedPostUserProfile)
         } else {
-            GlideUtil.loadImage(itemView.context, url = null, view = binding.ivFeedPostUserProfile, placeHolder = R.drawable.ic_user_base_profile)
+            GlideUtil.loadImage(itemView.context, url = null, view = binding.ivFeedPostUserProfile, placeHolder = com.beeeam.designsystem.R.drawable.ic_user_base_profile)
         }
 
         if (!item.comment.authorProfileImage.isNullOrBlank()) {
             GlideUtil.loadImage(itemView.context, item.comment.authorProfileImage, binding.ivFeedPostCommentUserProfile)
         } else {
-            GlideUtil.loadImage(itemView.context, url = null, view = binding.ivFeedPostCommentUserProfile, placeHolder = R.drawable.ic_user_base_profile)
+            GlideUtil.loadImage(itemView.context, url = null, view = binding.ivFeedPostCommentUserProfile, placeHolder = com.beeeam.designsystem.R.drawable.ic_user_base_profile)
         }
     }
 

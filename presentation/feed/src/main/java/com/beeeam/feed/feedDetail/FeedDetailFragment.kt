@@ -1,4 +1,4 @@
-package com.shypolarbear.presentation.ui.feed.feedDetail
+package com.beeeam.feed.feedDetail
 
 import android.widget.Button
 import android.widget.ImageView
@@ -14,18 +14,19 @@ import com.beeeam.feed.R
 import com.beeeam.feed.databinding.FragmentFeedDetailBinding
 import com.beeeam.util.CommentLoadType
 import com.beeeam.util.CommentType
+import com.beeeam.util.Const.POWER_MENU_OFFSET_X
+import com.beeeam.util.Const.POWER_MENU_OFFSET_Y
+import com.beeeam.util.Const.fragmentTotalStatus
 import com.beeeam.util.FeedDetailLikeBtnType
+import com.beeeam.util.FragmentTotalStatus
 import com.beeeam.util.PowerMenuUtil
+import com.beeeam.util.WriteChangeDivider
 import com.beeeam.util.infiniteScroll
 import com.beeeam.util.showLikeBtnIsLike
 import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.domain.model.feed.Feed
-import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedCommentAdapter
-import com.shypolarbear.presentation.ui.feed.feedDetail.adapter.FeedDetailPostAdapter
-import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalFragment
-import com.shypolarbear.presentation.ui.feed.feedTotal.FragmentTotalStatus
-import com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider
-import com.shypolarbear.presentation.ui.feed.feedTotal.fragmentTotalStatus
+import com.beeeam.feed.feedDetail.adapter.FeedCommentAdapter
+import com.beeeam.feed.feedDetail.adapter.FeedDetailPostAdapter
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -167,7 +168,12 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             when (item.title) {
                 getString(com.beeeam.designsystem.R.string.feed_post_property_revise) -> {
                     viewModel.commentLoadType = CommentLoadType.INIT
-                    findNavController().navigate(FeedDetailFragmentDirections.actionFeedDetailFragmentToFeedCommentChangeFragment(commentId, content))
+                    findNavController().navigate(
+                        FeedDetailFragmentDirections.actionFeedDetailFragmentToFeedCommentChangeFragment(
+                            commentId,
+                            content
+                        )
+                    )
                 }
                 getString(com.beeeam.designsystem.R.string.feed_post_property_delete) -> {
                     viewModel.requestDeleteFeedComment(commentId, position)
@@ -181,8 +187,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             }
         }.showAsDropDown(
             view,
-            FeedTotalFragment.POWER_MENU_OFFSET_X,
-            FeedTotalFragment.POWER_MENU_OFFSET_Y,
+            POWER_MENU_OFFSET_X,
+            POWER_MENU_OFFSET_Y,
         )
     }
 
@@ -213,8 +219,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             }
         }.showAsDropDown(
             view,
-            FeedTotalFragment.POWER_MENU_OFFSET_X,
-            FeedTotalFragment.POWER_MENU_OFFSET_Y,
+            POWER_MENU_OFFSET_X,
+            POWER_MENU_OFFSET_Y,
         )
     }
 
@@ -233,7 +239,12 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             when (item.title) {
                 getString(com.beeeam.designsystem.R.string.feed_post_property_revise) -> {
                     viewModel.commentLoadType = CommentLoadType.INIT
-                    findNavController().navigate(FeedDetailFragmentDirections.actionFeedDetailFragmentToFeedCommentChangeFragment(commentId, content))
+                    findNavController().navigate(
+                        FeedDetailFragmentDirections.actionFeedDetailFragmentToFeedCommentChangeFragment(
+                            commentId,
+                            content
+                        )
+                    )
                 }
                 getString(com.beeeam.designsystem.R.string.feed_post_property_delete) -> {
                     viewModel.requestDeleteFeedReply(commentId, feedId)
@@ -241,8 +252,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             }
         }.showAsDropDown(
             view,
-            FeedTotalFragment.POWER_MENU_OFFSET_X,
-            FeedTotalFragment.POWER_MENU_OFFSET_Y,
+            POWER_MENU_OFFSET_X,
+            POWER_MENU_OFFSET_Y,
         )
     }
 
@@ -266,8 +277,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             }
         }.showAsDropDown(
             view,
-            FeedTotalFragment.POWER_MENU_OFFSET_X,
-            FeedTotalFragment.POWER_MENU_OFFSET_Y,
+            POWER_MENU_OFFSET_X,
+            POWER_MENU_OFFSET_Y,
         )
     }
 
@@ -347,7 +358,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 getString(com.beeeam.designsystem.R.string.feed_post_property_revise) -> {
                     findNavController().navigate(
                         FeedDetailFragmentDirections.actionFeedDetailFragmentToFeedWriteFragment(
-                            WriteChangeDivider.CHANGE,
+//                            WriteChangeDivider.CHANGE,
                             feedDetailArgs.feedId,
                         ),
                     )
@@ -364,8 +375,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
             }
         }.showAsDropDown(
             view,
-            FeedTotalFragment.POWER_MENU_OFFSET_X,
-            FeedTotalFragment.POWER_MENU_OFFSET_Y,
+            POWER_MENU_OFFSET_X,
+            POWER_MENU_OFFSET_Y,
         )
     }
 

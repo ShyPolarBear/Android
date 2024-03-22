@@ -4,17 +4,15 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.beeeam.base.BaseFragment
+import com.beeeam.quiz.databinding.FragmentQuizDailyOxBinding
 import com.beeeam.quiz.dialog.BackDialog
 import com.beeeam.quiz.dialog.QuizDialog
-import com.beeeam.quiz.databinding.FragmentQuizDailyOxBinding
 import com.beeeam.util.Const.MAX_PAGES
 import com.beeeam.util.DialogType
 import com.beeeam.util.EventObserver
 import com.beeeam.util.QuizNavType
 import com.beeeam.util.detectActivation
 import com.beeeam.util.initProgressBar
-import com.beeeam.util.setQuizNavigation
-import com.beeeam.util.setReviewMode
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Timer
 

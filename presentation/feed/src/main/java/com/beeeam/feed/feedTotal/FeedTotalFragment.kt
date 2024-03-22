@@ -1,4 +1,4 @@
-package com.shypolarbear.presentation.ui.feed.feedTotal
+package com.beeeam.feed.feedTotal
 
 import android.view.View
 import android.widget.Button
@@ -8,24 +8,21 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.beeeam.base.BaseFragment
 import com.beeeam.feed.R
 import com.beeeam.feed.databinding.FragmentFeedTotalBinding
 import com.beeeam.util.Const.POWER_MENU_OFFSET_X
 import com.beeeam.util.Const.POWER_MENU_OFFSET_Y
+import com.beeeam.util.Const.fragmentTotalStatus
 import com.beeeam.util.FeedTotalLikeBtnType
 import com.beeeam.util.FragmentTotalStatus
 import com.beeeam.util.PowerMenuUtil
-import com.beeeam.util.WriteChangeDivider
 import com.beeeam.util.infiniteScroll
 import com.beeeam.util.showLikeBtnIsLike
-import com.shypolarbear.presentation.ui.feed.feedTotal.adapter.FeedPostAdapter
+import com.beeeam.feed.feedTotal.adapter.FeedPostAdapter
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-
-var fragmentTotalStatus = FragmentTotalStatus.INIT
 
 @AndroidEntryPoint
 class FeedTotalFragment : BaseFragment<FragmentFeedTotalBinding, FeedTotalViewModel>(
@@ -113,12 +110,12 @@ class FeedTotalFragment : BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMo
             }
 
             btnFeedPostWrite.setOnClickListener {
-                findNavController().navigate(
-                    FeedTotalFragmentDirections.actionNavigationFeedToFeedWriteFragment(
-                        WriteChangeDivider.WRITE,
-                        0,
-                    ),
-                )
+//                findNavController().navigate(
+//                    FeedTotalFragmentDirections.actionNavigationFeedToFeedWriteFragment(
+//                        WriteChangeDivider.WRITE,
+//                        0,
+//                    ),
+//                )
             }
 
             rvFeedPost.infiniteScroll {
@@ -155,12 +152,12 @@ class FeedTotalFragment : BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMo
         ) { _, item ->
             when (item.title) {
                 getString(com.beeeam.designsystem.R.string.feed_post_property_revise) -> {
-                    findNavController().navigate(
-                        FeedTotalFragmentDirections.actionNavigationFeedToFeedWriteFragment(
-                            WriteChangeDivider.CHANGE,
-                            feedId,
-                        ),
-                    )
+//                    findNavController().navigate(
+//                        FeedTotalFragmentDirections.actionNavigationFeedToFeedWriteFragment(
+//                            WriteChangeDivider.CHANGE,
+//                            feedId,
+//                        ),
+//                    )
                 }
                 getString(com.beeeam.designsystem.R.string.feed_post_property_delete) -> {
                     viewModel.requestDeleteFeed(feedId)
@@ -208,7 +205,7 @@ class FeedTotalFragment : BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMo
         ) { _, item ->
             when (item.title) {
                 getString(com.beeeam.designsystem.R.string.feed_post_property_revise) -> {
-                    findNavController().navigate(FeedTotalFragmentDirections.actionNavigationFeedToFeedCommentChangeFragment(commentId, content))
+//                    findNavController().navigate(FeedTotalFragmentDirections.actionNavigationFeedToFeedCommentChangeFragment(commentId, content))
                 }
                 getString(com.beeeam.designsystem.R.string.feed_post_property_delete) -> {
                     viewModel.requestDeleteFeedComment(commentId)
@@ -274,7 +271,7 @@ class FeedTotalFragment : BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMo
     }
 
     private fun showFeedPostDetail(feedId: Int) {
-        findNavController().navigate(FeedTotalFragmentDirections.actionFeedTotalFragmentToFeedDetailFragment(feedId))
+//        findNavController().navigate(FeedTotalFragmentDirections.actionFeedTotalFragmentToFeedDetailFragment(feedId))
     }
 
     private fun loadSortedFeed(sort: String) {

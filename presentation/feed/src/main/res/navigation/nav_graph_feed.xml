@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_feed"
+    app:startDestination="@id/navigation_feed">
+    <fragment
+        android:id="@+id/navigation_feed"
+        android:name="com.beeeam.feed.feedTotal.FeedTotalFragment"
+        android:label="FeedTotalFragment"
+        tools:layout="@layout/fragment_feed_total" >
+        <action
+            android:id="@+id/action_feedTotalFragment_to_feedDetailFragment"
+            app:destination="@id/feedDetailFragment" />
+        <action
+            android:id="@+id/action_navigation_feed_to_feedWriteFragment"
+            app:destination="@id/feedWriteFragment" />
+        <action
+            android:id="@+id/action_navigation_feed_to_feedCommentChangeFragment"
+            app:destination="@id/feedCommentChangeFragment" />
+        <action
+            android:id="@+id/action_navigation_feed_to_navigation_quiz_main"
+            app:destination="@id/navigation_quiz_main" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedDetailFragment"
+        android:name="com.beeeam.feed.feedDetail.FeedDetailFragment"
+        android:label="FeedDetailFragment"
+        tools:layout="@layout/fragment_feed_detail">
+        <argument
+            android:name="feedId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_feedDetailFragment_to_feedWriteFragment"
+            app:destination="@id/feedWriteFragment" />
+        <action
+            android:id="@+id/action_feedDetailFragment_to_feedCommentChangeFragment"
+            app:destination="@id/feedCommentChangeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedWriteFragment"
+        android:name="com.beeeam.feed.feedWrite.FeedWriteFragment"
+        android:label="FeedWriteFragment"
+        tools:layout="@layout/fragment_feed_write">
+        <!--<argument
+            android:name="divider"
+            app:argType="com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider" />-->
+        <argument
+            android:name="feedId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedCommentChangeFragment"
+        android:name="com.beeeam.feed.feedCommentChange.FeedCommentChangeFragment"
+        android:label="FeedCommentChangeFragment"
+        tools:layout="@layout/fragment_feed_comment_change">
+        <argument
+            android:name="commentId"
+            app:argType="integer" />
+        <argument
+            android:name="content"
+            app:argType="string" />
+    </fragment>
+</navigation>

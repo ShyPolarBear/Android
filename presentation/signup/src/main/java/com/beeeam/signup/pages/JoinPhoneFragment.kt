@@ -7,10 +7,10 @@ import com.beeeam.signup.JoinViewModel
 import com.beeeam.signup.R
 import com.beeeam.signup.databinding.FragmentSignupPhoneBinding
 import com.beeeam.util.Const.PHONE_NUMBER_DASH_INCLUDE
+import com.beeeam.util.Const.phonePattern
 import com.beeeam.util.InputState
 import com.beeeam.util.afterTextChanged
 import com.beeeam.util.keyboardDown
-import com.beeeam.util.phonePattern
 import com.beeeam.util.setColorStateWithInput
 import dagger.hilt.android.AndroidEntryPoint
 

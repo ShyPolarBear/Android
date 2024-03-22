@@ -1,10 +1,9 @@
-package com.shypolarbear.presentation.ui.feed.feedDetail.viewholder
+package com.beeeam.feed.feedDetail.viewholder
 
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.beeeam.feed.R
 import com.beeeam.feed.databinding.ItemFeedDetailPostBinding
 import com.beeeam.ui.ImageViewPagerAdapter
 import com.beeeam.util.FeedDetailLikeBtnType

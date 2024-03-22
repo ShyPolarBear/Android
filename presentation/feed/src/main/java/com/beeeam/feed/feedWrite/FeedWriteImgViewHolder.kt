@@ -1,4 +1,4 @@
-package com.shypolarbear.presentation.ui.feed.feedWrite
+package com.beeeam.feed.feedWrite
 
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView

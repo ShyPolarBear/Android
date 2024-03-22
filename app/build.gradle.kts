@@ -60,6 +60,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":core:designsystem"))
+    implementation(project(":presentation:navigation"))
 
     implementation(AndroidX.APP_COMPAT)
     implementation(AndroidX.CORE_KTX)

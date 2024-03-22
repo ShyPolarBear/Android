@@ -9,9 +9,9 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.beeeam.base.BaseFragment
 import com.beeeam.login.databinding.FragmentLoginBinding
-import com.beeeam.util.LOGIN_FAIL
-import com.beeeam.util.LOGIN_SUCCESS
-import com.beeeam.util.SIGNUP_NEED
+import com.beeeam.util.Const.LOGIN_FAIL
+import com.beeeam.util.Const.LOGIN_SUCCESS
+import com.beeeam.util.Const.SIGNUP_NEED
 import com.beeeam.util.setVisibilityInvert
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError

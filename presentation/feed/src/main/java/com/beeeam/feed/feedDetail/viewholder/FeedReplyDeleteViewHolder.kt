@@ -1,4 +1,4 @@
-package com.shypolarbear.presentation.ui.feed.feedDetail.viewholder
+package com.beeeam.feed.feedDetail.viewholder
 
 import androidx.recyclerview.widget.RecyclerView
 import com.beeeam.feed.databinding.ItemFeedReplyDeleteBinding

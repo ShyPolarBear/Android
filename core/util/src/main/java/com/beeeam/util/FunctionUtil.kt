@@ -24,10 +24,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.beeeam.util.Const.backKeyPressTime
 import com.shypolarbear.domain.model.HttpError
 import org.json.JSONObject
 import timber.log.Timber
@@ -35,48 +34,6 @@ import java.io.File
 import java.util.Timer
 import java.util.TimerTask
 import kotlin.math.ceil
-
-val emailPattern = Regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
-val phonePattern = Regex("[^0-9]")
-
-var backKeyPressTime: Long = 0
-
-const val SIGNUP_NEED = 1006
-const val LOGIN_SUCCESS = 0
-const val LOGIN_FAIL = 1007
-
-enum class InputState(val state: Int) {
-    ACCEPT(0),
-    ERROR(1),
-    ON(2),
-    OFF(3),
-}
-
-enum class DialogType(val point: String) {
-    REVIEW("REVIEW"),
-    DEFAULT("DEFAULT"),
-}
-
-enum class QuizType(val type: String) {
-    MULTI("MULTIPLE_CHOICE"),
-    OX("OX"),
-}
-
-enum class QuizNavType() {
-    MULTI,
-    OX,
-    MAIN,
-}
-
-enum class MyFeedType(val state: Int) {
-    ITEM(1),
-    LOADING(0),
-}
-
-enum class ImageType(val type: String) {
-    PROFILE("profile"),
-    FEED("feed"),
-}
 
 fun Uri.convertUriToPath(context: Context): String {
     val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
@@ -106,38 +63,11 @@ fun simpleHttpErrorCheck(error: Throwable) {
     }
 }
 
-fun Fragment.setQuizNavigation(quizType: String, currentPosition: QuizNavType) {
-    val navIdWithMulti: Int
-    val navIdWithOX: Int
-
-    when (currentPosition) {
-        QuizNavType.MULTI -> {
-            navIdWithMulti = R.id.action_quizDailyMultiChoiceFragment_self
-            navIdWithOX = R.id.action_quizDailyMultiChoiceFragment_to_quizDailyOXFragment
-        }
-
-        QuizNavType.OX -> {
-            navIdWithMulti = R.id.action_quizDailyOXFragment_to_quizDailyMultiChoiceFragment
-            navIdWithOX = R.id.action_quizDailyOXFragment_self
-        }
-
-        QuizNavType.MAIN -> {
-            navIdWithMulti = R.id.action_quizMainFragment_to_quizDailyMultiChoiceFragment
-            navIdWithOX = R.id.action_quizMainFragment_to_quizDailyOXFragment
-        }
-    }
-
-    when (quizType) {
-        QuizType.MULTI.type -> findNavController().navigate(navIdWithMulti)
-        QuizType.OX.type -> findNavController().navigate(navIdWithOX)
-    }
-}
-
 fun ProgressBar.initProgressBar(detailText: TextView, submitIncorrect: () -> Unit): Timer {
     var totalProgress = 15000
     val timer = Timer()
 
-    detailText.text = context.getString(R.string.quiz_daily_time, totalProgress / 100)
+    detailText.text = context.getString(com.beeeam.designsystem.R.string.quiz_daily_time, totalProgress / 100)
 
     timer.scheduleAtFixedRate(
         object : TimerTask() {
@@ -148,7 +78,7 @@ fun ProgressBar.initProgressBar(detailText: TextView, submitIncorrect: () -> Uni
 
                     detailText.post {
                         detailText.text = context.getString(
-                            R.string.quiz_daily_time,
+                            com.beeeam.designsystem.R.string.quiz_daily_time,
                             ceil(totalProgress.toDouble() / 1000).toInt(),
                         )
                     }
@@ -185,38 +115,9 @@ fun TextView.detectActivation(vararg choices: TextView) {
     this.isActivated = this.isActivated.not()
 }
 
-fun ImageView.setReviewMode(
-    type: DialogType,
-    pages: TextView,
-    dialog: BackDialog,
-    resId: Int,
-    progressBar: Timer,
-) {
-    when (type) {
-        DialogType.REVIEW -> {
-            pages.isVisible = true
-            this.setOnClickListener {
-                dialog.showDialog()
-                dialog.alertDialog.setOnCancelListener {
-                    progressBar.cancel()
-                    findNavController().navigate(resId)
-                }
-            }
-        }
-
-        else -> {
-            pages.isVisible = false
-            this.setOnClickListener {
-                progressBar.cancel()
-                findNavController().popBackStack()
-            }
-        }
-    }
-}
-
 fun Button.showLikeBtnIsLike(isLike: Boolean, view: Button) {
-    val likeBtnOn = ContextCompat.getDrawable(context, R.drawable.ic_btn_like_on)
-    val likeBtnOff = ContextCompat.getDrawable(context, R.drawable.ic_btn_like_off)
+    val likeBtnOn = ContextCompat.getDrawable(context, com.beeeam.designsystem.R.drawable.ic_btn_like_on)
+    val likeBtnOff = ContextCompat.getDrawable(context, com.beeeam.designsystem.R.drawable.ic_btn_like_off)
 
     if (isLike) {
         view.background = likeBtnOn
@@ -226,7 +127,9 @@ fun Button.showLikeBtnIsLike(isLike: Boolean, view: Button) {
 }
 
 fun View.selectedComment(isSelected: Boolean, view: View) {
-    val background = if (isSelected) ContextCompat.getColor(context, R.color.Blue_05) else ContextCompat.getColor(context, R.color.White_01)
+    val background =
+        if (isSelected) ContextCompat.getColor(context, com.beeeam.designsystem.R.color.Blue_05)
+        else ContextCompat.getColor(context, com.beeeam.designsystem.R.color.White_01)
 
     view.setBackgroundColor(background)
 }
@@ -266,12 +169,12 @@ fun EditText.setColorStateWithInput(state: InputState, textView: TextView, image
         InputState.ACCEPT -> {
             this.background = ResourcesCompat.getDrawable(
                 resources,
-                R.drawable.background_signup_et_accept,
+                com.beeeam.designsystem.R.drawable.background_signup_et_accept,
                 context.theme,
             )
-            textView.setTextColorById(context, R.color.Success_01)
+            textView.setTextColorById(context, com.beeeam.designsystem.R.color.Success_01)
             imageView.apply {
-                setImageResource(R.drawable.ic_signup_success)
+                setImageResource(com.beeeam.designsystem.R.drawable.ic_signup_success)
                 visibility = View.VISIBLE
             }
         }
@@ -279,12 +182,12 @@ fun EditText.setColorStateWithInput(state: InputState, textView: TextView, image
         InputState.ERROR -> {
             this.background = ResourcesCompat.getDrawable(
                 resources,
-                R.drawable.background_signup_et_error,
+                com.beeeam.designsystem.R.drawable.background_signup_et_error,
                 context.theme,
             )
-            textView.setTextColorById(context, R.color.Error_01)
+            textView.setTextColorById(context, com.beeeam.designsystem.R.color.Error_01)
             imageView.apply {
-                setImageResource(R.drawable.ic_signup_error)
+                setImageResource(com.beeeam.designsystem.R.drawable.ic_signup_error)
                 visibility = View.VISIBLE
             }
         }
@@ -292,18 +195,18 @@ fun EditText.setColorStateWithInput(state: InputState, textView: TextView, image
         InputState.ON -> {
             this.background = ResourcesCompat.getDrawable(
                 resources,
-                R.drawable.background_signup_et_on,
+                com.beeeam.designsystem.R.drawable.background_signup_et_on,
                 context.theme,
             )
-            textView.setTextColorById(context, R.color.Blue_02)
+            textView.setTextColorById(context, com.beeeam.designsystem.R.color.Blue_02)
             imageView.visibility = View.GONE
         }
 
         InputState.OFF -> {
-            textView.setTextColorById(context, R.color.Gray_02)
+            textView.setTextColorById(context, com.beeeam.designsystem.R.color.Gray_02)
             this.background = ResourcesCompat.getDrawable(
                 resources,
-                R.drawable.background_signup_et_off,
+                com.beeeam.designsystem.R.drawable.background_signup_et_off,
                 context.theme,
             )
             imageView.visibility = View.GONE
@@ -372,7 +275,7 @@ fun RecyclerView.infiniteScroll(method: () -> Unit) {
 fun onBackPressedToFinish(context: Context, activity: Activity) {
     if (System.currentTimeMillis() > (backKeyPressTime + 2500)) {
         backKeyPressTime = System.currentTimeMillis()
-        Toast.makeText(context, context.getString(R.string.msg_on_back_pressed_end), Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context.getString(com.beeeam.designsystem.R.string.msg_on_back_pressed_end), Toast.LENGTH_SHORT).show()
         return
     } else if (System.currentTimeMillis() <= (backKeyPressTime + 2500)) {
         activity.finish()
@@ -383,14 +286,14 @@ fun updateButtonState(context: Context, button: Button, isAccept: Boolean) {
     if (isAccept) {
         button.background = AppCompatResources.getDrawable(
             context,
-            R.drawable.background_solid_blue_01_radius_15,
+            com.beeeam.designsystem.R.drawable.background_solid_blue_01_radius_15,
         )
-        button.setTextColor(context.getColor(R.color.White_01))
+        button.setTextColor(context.getColor(com.beeeam.designsystem.R.color.White_01))
     } else {
         button.background = AppCompatResources.getDrawable(
             context,
-            R.drawable.background_solid_gray_06_radius_15,
+            com.beeeam.designsystem.R.drawable.background_solid_gray_06_radius_15,
         )
-        button.setTextColor(context.getColor(R.color.Gray_03))
+        button.setTextColor(context.getColor(com.beeeam.designsystem.R.color.Gray_03))
     }
 }

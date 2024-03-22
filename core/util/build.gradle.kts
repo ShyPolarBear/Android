@@ -1,19 +1,18 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    id("com.android.library")
+    id("kotlin-android")
+    id("androidx.navigation.safeargs.kotlin")
+
+    kotlin("android")
 }
 
 android {
     namespace = "com.beeeam.util"
-    compileSdk = 33
+    compileSdk = Configuration.COMPILE_SDK
 
     defaultConfig {
-        applicationId = "com.beeeam.util"
-        minSdk = 24
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
-
+        minSdk = Configuration.MIN_SDK
+        targetSdk = Configuration.TARGET_SDK
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -37,11 +36,22 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation(project(":domain"))
+    implementation(project(":core:designsystem"))
+
+    implementation(AndroidX.CORE_KTX)
+    implementation(AndroidX.APP_COMPAT)
+    implementation(Google.MATERIAL)
+    implementation(AndroidX.FRAGMENT_KTX)
+    implementation(AndroidX.LIFECYCLE_VIEWMODEL_KTX)
+    testImplementation(AndroidX.JUNIT)
+    androidTestImplementation(AndroidX.EXT_JUNIT)
+    androidTestImplementation(AndroidX.ESPRESSO_CORE)
+
+    implementation(KotlinX.KOTLINX_COROUTINE)
+
+    implementation(Jakewharton.TIMBER)
+    implementation(PowerMenu.POWER_MENU)
+    implementation(Glide.GLIDE)
+    implementation(AndroidX.RECYCLERVIEW)
 }

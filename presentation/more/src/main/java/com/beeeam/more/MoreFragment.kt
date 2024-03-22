@@ -34,7 +34,7 @@ class MoreFragment : BaseFragment<FragmentMoreBinding, MoreViewModel>(
                 if (!info.profileImage.isNullOrBlank()) {
                     GlideUtil.loadImage(requireContext(), info.profileImage, binding.ivMoreUserProfile)
                 } else {
-                    GlideUtil.loadImage(requireContext(), url = null, view = binding.ivMoreUserProfile, placeHolder = R.drawable.ic_user_base_profile)
+                    GlideUtil.loadImage(requireContext(), url = null, view = binding.ivMoreUserProfile, placeHolder = com.beeeam.designsystem.R.drawable.ic_user_base_profile)
                 }
             }
 

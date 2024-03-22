@@ -14,8 +14,6 @@ import com.beeeam.util.EventObserver
 import com.beeeam.util.QuizNavType
 import com.beeeam.util.detectActivation
 import com.beeeam.util.initProgressBar
-import com.beeeam.util.setQuizNavigation
-import com.beeeam.util.setReviewMode
 import com.shypolarbear.domain.model.quiz.Choice
 import java.util.Timer
 

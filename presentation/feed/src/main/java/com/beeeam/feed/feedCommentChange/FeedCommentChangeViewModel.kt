@@ -1,12 +1,12 @@
-package com.shypolarbear.presentation.ui.feed.feedCommentChange
+package com.beeeam.feed.feedCommentChange
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.beeeam.base.BaseViewModel
+import com.beeeam.util.Const.UPLOADED
+import com.beeeam.util.Const.UPLOADING
 import com.shypolarbear.domain.usecase.feed.RequestFeedCommentChangeUseCase
-import com.shypolarbear.presentation.ui.feed.feedWrite.UPLOADED
-import com.shypolarbear.presentation.ui.feed.feedWrite.UPLOADING
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

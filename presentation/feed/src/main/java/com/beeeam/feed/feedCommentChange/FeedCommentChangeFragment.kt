@@ -1,4 +1,4 @@
-package com.shypolarbear.presentation.ui.feed.feedCommentChange
+package com.beeeam.feed.feedCommentChange
 
 import android.widget.Toast
 import androidx.fragment.app.viewModels
@@ -7,8 +7,8 @@ import androidx.navigation.fragment.navArgs
 import com.beeeam.base.BaseFragment
 import com.beeeam.feed.R
 import com.beeeam.feed.databinding.FragmentFeedCommentChangeBinding
-import com.shypolarbear.presentation.ui.feed.feedWrite.UPLOADED
-import com.shypolarbear.presentation.ui.feed.feedWrite.UPLOADING
+import com.beeeam.util.Const.UPLOADED
+import com.beeeam.util.Const.UPLOADING
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

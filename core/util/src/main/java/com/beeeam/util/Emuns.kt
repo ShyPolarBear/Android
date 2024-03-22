@@ -75,3 +75,36 @@ enum class LoginState(val state: String) {
     LOGIN("Login"),
     LOGOUT("Logout"),
 }
+
+enum class InputState(val state: Int) {
+    ACCEPT(0),
+    ERROR(1),
+    ON(2),
+    OFF(3),
+}
+
+enum class DialogType(val point: String) {
+    REVIEW("REVIEW"),
+    DEFAULT("DEFAULT"),
+}
+
+enum class QuizType(val type: String) {
+    MULTI("MULTIPLE_CHOICE"),
+    OX("OX"),
+}
+
+enum class QuizNavType() {
+    MULTI,
+    OX,
+    MAIN,
+}
+
+enum class MyFeedType(val state: Int) {
+    ITEM(1),
+    LOADING(0),
+}
+
+enum class ImageType(val type: String) {
+    PROFILE("profile"),
+    FEED("feed"),
+}

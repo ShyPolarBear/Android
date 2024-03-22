@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.beeeam.base.BaseViewModel
-import com.beeeam.util.LOGIN_FAIL
-import com.beeeam.util.SIGNUP_NEED
+import com.beeeam.util.Const.LOGIN_FAIL
+import com.beeeam.util.Const.SIGNUP_NEED
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.domain.model.login.LoginRequest
 import com.shypolarbear.domain.usecase.RequestLoginUseCase

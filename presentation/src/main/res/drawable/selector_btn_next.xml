@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/activated_btn_next" android:state_activated="true" />
-    <item android:drawable="@drawable/unactivated_btn_next" android:state_activated="false" />
-</selector>

@@ -1,4 +1,4 @@
-package com.shypolarbear.presentation.ui.feed.feedTotal.viewholder
+package com.beeeam.feed.feedTotal.viewholder
 
 import android.view.View
 import android.widget.Button
@@ -6,12 +6,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.beeeam.feed.databinding.ItemFeedNoImageBinding
+import com.beeeam.util.FeedTotalLikeBtnType
+import com.beeeam.util.GlideUtil
+import com.beeeam.util.showLikeBtnIsLike
 import com.shypolarbear.domain.model.feed.Feed
-import com.shypolarbear.presentation.R
-import com.shypolarbear.presentation.databinding.ItemFeedNoImageBinding
-import com.shypolarbear.presentation.ui.feed.feedTotal.FeedTotalLikeBtnType
-import com.shypolarbear.presentation.util.GlideUtil
-import com.shypolarbear.presentation.util.showLikeBtnIsLike
 
 class FeedPostNoImageViewHolder(
     private val binding: ItemFeedNoImageBinding,
@@ -114,13 +113,13 @@ class FeedPostNoImageViewHolder(
         if (!item.authorProfileImage.isNullOrBlank()) {
             GlideUtil.loadImage(itemView.context, item.authorProfileImage, binding.ivFeedPostNoImageUserProfile)
         } else {
-            GlideUtil.loadImage(itemView.context, url = null, view = binding.ivFeedPostNoImageUserProfile, placeHolder = R.drawable.ic_user_base_profile)
+            GlideUtil.loadImage(itemView.context, url = null, view = binding.ivFeedPostNoImageUserProfile, placeHolder = com.beeeam.designsystem.R.drawable.ic_user_base_profile)
         }
 
         if (!item.comment.authorProfileImage.isNullOrBlank()) {
             GlideUtil.loadImage(itemView.context, item.comment.authorProfileImage, binding.ivFeedPostNoImageCommentUserProfile)
         } else {
-            GlideUtil.loadImage(itemView.context, url = null, view = binding.ivFeedPostNoImageCommentUserProfile, placeHolder = R.drawable.ic_user_base_profile)
+            GlideUtil.loadImage(itemView.context, url = null, view = binding.ivFeedPostNoImageCommentUserProfile, placeHolder = com.beeeam.designsystem.R.drawable.ic_user_base_profile)
         }
     }
 }

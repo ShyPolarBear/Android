@@ -1,4 +1,4 @@
-package com.shypolarbear.presentation.ui.feed.feedDetail.adapter
+package com.beeeam.feed.feedDetail.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.beeeam.feed.databinding.ItemFeedDetailNoImagePostBinding
 import com.beeeam.feed.databinding.ItemFeedDetailPostBinding
 import com.beeeam.util.FeedDetailLikeBtnType
+import com.beeeam.util.FeedViewType
 import com.shypolarbear.domain.model.feed.Feed
-import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedDetailNoImagePostViewHolder
-import com.shypolarbear.presentation.ui.feed.feedDetail.viewholder.FeedDetailPostViewHolder
-import com.shypolarbear.presentation.ui.feed.feedTotal.adapter.FeedViewType
+import com.beeeam.feed.feedDetail.viewholder.FeedDetailNoImagePostViewHolder
+import com.beeeam.feed.feedDetail.viewholder.FeedDetailPostViewHolder
 class FeedDetailPostAdapter(
     private val onPostPropertyClick: (Feed, ImageView) -> Unit = { _, _ -> },
     private val onBtnLikeClick: (
