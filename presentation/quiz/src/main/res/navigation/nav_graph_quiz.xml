@@ -30,7 +30,7 @@
                 android:name="feedId"
                 app:argType="integer" />
         </action>
-
+        <deepLink app:uri="shyPolarBear://fragmentQuizMain" />
     </fragment>
     <fragment
         android:id="@+id/quizDailyMultiChoiceFragment"

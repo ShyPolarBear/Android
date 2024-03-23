@@ -22,8 +22,10 @@ import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDeepLinkRequest
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.beeeam.util.Const.backKeyPressTime
@@ -296,4 +298,10 @@ fun updateButtonState(context: Context, button: Button, isAccept: Boolean) {
         )
         button.setTextColor(context.getColor(com.beeeam.designsystem.R.color.Gray_03))
     }
+}
+
+fun createNavDeepLinkRequest(uri: String): NavDeepLinkRequest {
+    return NavDeepLinkRequest.Builder
+        .fromUri(uri.toUri())
+        .build()
 }

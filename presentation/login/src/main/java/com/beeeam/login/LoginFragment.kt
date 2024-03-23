@@ -12,6 +12,7 @@ import com.beeeam.login.databinding.FragmentLoginBinding
 import com.beeeam.util.Const.LOGIN_FAIL
 import com.beeeam.util.Const.LOGIN_SUCCESS
 import com.beeeam.util.Const.SIGNUP_NEED
+import com.beeeam.util.createNavDeepLinkRequest
 import com.beeeam.util.setVisibilityInvert
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
@@ -44,7 +45,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
             code?.let {
                 when (it) {
                     SIGNUP_NEED -> findNavController().navigate(sendTokenToJoin)
-                    LOGIN_SUCCESS -> findNavController().navigate(R.id.action_loginFragment_to_quizMainFragment)
+                    LOGIN_SUCCESS -> findNavController().navigate(createNavDeepLinkRequest("shyPolarBear://fragmentQuizMain"))
                     LOGIN_FAIL -> {
                         setVisibilityInvert(
                             binding.btnClickedLogin,

@@ -2,8 +2,11 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/nav_graph_quiz">
+    app:startDestination="@id/nav_graph_splash">
 
+    <include app:graph="@navigation/nav_graph_splash"/>
+    <include app:graph="@navigation/nav_graph_login"/>
+    <include app:graph="@navigation/nav_graph_signup"/>
     <include app:graph="@navigation/nav_graph_quiz"/>
     <include app:graph="@navigation/nav_graph_feed"/>
     <include app:graph="@navigation/nav_graph_ranking"/>

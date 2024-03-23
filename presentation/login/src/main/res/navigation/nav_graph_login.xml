@@ -16,5 +16,6 @@
                 android:name="acToken"
                 app:argType="string"/>
         </action>
+        <deepLink app:uri="shyPolarBear://fragmentLogin" />
     </fragment>
 </navigation>

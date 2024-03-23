@@ -7,9 +7,9 @@ plugins {
     kotlin("android")
     kotlin("kapt")
 }
-android {
-    namespace = "com.beeeam.navigation"
 
+android {
+    namespace = "com.beeeam.splash"
     compileSdk = Configuration.COMPILE_SDK
 
     defaultConfig {
@@ -39,20 +39,13 @@ android {
     }
 }
 
-
 dependencies {
+
     implementation(project(":core:base"))
     implementation(project(":core:util"))
     implementation(project(":core:designsystem"))
     implementation(project(":core:ui"))
     implementation(project(":domain"))
-    implementation(project(":presentation:feed"))
-    implementation(project(":presentation:login"))
-    implementation(project(":presentation:more"))
-    implementation(project(":presentation:quiz"))
-    implementation(project(":presentation:ranking"))
-    implementation(project(":presentation:signup"))
-    implementation(project(":presentation:splash"))
 
     implementation(AndroidX.CORE_KTX)
     implementation(AndroidX.APP_COMPAT)
@@ -72,5 +65,5 @@ dependencies {
     implementation(KotlinX.KOTLINX_COROUTINE)
 
     implementation(Jakewharton.TIMBER)
-    implementation(AndroidX.SPLASH_SCREEN)
+    implementation(Glide.GLIDE)
 }
