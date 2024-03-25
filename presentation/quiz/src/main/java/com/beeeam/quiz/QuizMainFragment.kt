@@ -81,6 +81,6 @@ class QuizMainFragment :
     }
 
     private fun showFeedPostDetail(feedId: Int) {
-        findNavController().navigate(QuizMainFragmentDirections.actionNavigationQuizMainToFeedDetailFragment(feedId))
+        findNavController().navigate(createNavDeepLinkRequest("shyPolarBear://fragmentFeedDetail/${feedId}"))
     }
 }

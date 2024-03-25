@@ -37,6 +37,7 @@
         <action
             android:id="@+id/action_feedDetailFragment_to_feedCommentChangeFragment"
             app:destination="@id/feedCommentChangeFragment" />
+        <deepLink app:uri="shyPolarBear://fragmentFeedDetail/{feedId}" />
     </fragment>
     <fragment
         android:id="@+id/feedWriteFragment"

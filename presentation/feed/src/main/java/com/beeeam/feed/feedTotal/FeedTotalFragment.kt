@@ -154,12 +154,12 @@ class FeedTotalFragment : BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMo
         ) { _, item ->
             when (item.title) {
                 getString(com.beeeam.designsystem.R.string.feed_post_property_revise) -> {
-//                    findNavController().navigate(
-//                        FeedTotalFragmentDirections.actionNavigationFeedToFeedWriteFragment(
-//                            WriteChangeDivider.CHANGE,
-//                            feedId,
-//                        ),
-//                    )
+                    findNavController().navigate(
+                        FeedTotalFragmentDirections.actionNavigationFeedToFeedWriteFragment(
+                            WriteChangeDivider.CHANGE,
+                            feedId,
+                        ),
+                    )
                 }
                 getString(com.beeeam.designsystem.R.string.feed_post_property_delete) -> {
                     viewModel.requestDeleteFeed(feedId)
@@ -207,7 +207,7 @@ class FeedTotalFragment : BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMo
         ) { _, item ->
             when (item.title) {
                 getString(com.beeeam.designsystem.R.string.feed_post_property_revise) -> {
-//                    findNavController().navigate(FeedTotalFragmentDirections.actionNavigationFeedToFeedCommentChangeFragment(commentId, content))
+                    findNavController().navigate(FeedTotalFragmentDirections.actionNavigationFeedToFeedCommentChangeFragment(commentId, content))
                 }
                 getString(com.beeeam.designsystem.R.string.feed_post_property_delete) -> {
                     viewModel.requestDeleteFeedComment(commentId)
