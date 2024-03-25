@@ -21,6 +21,7 @@ import com.beeeam.util.PowerMenuUtil
 import com.beeeam.util.infiniteScroll
 import com.beeeam.util.showLikeBtnIsLike
 import com.beeeam.feed.feedTotal.adapter.FeedPostAdapter
+import com.beeeam.util.WriteChangeDivider
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -111,12 +112,12 @@ class FeedTotalFragment : BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMo
             }
 
             btnFeedPostWrite.setOnClickListener {
-//                findNavController().navigate(
-//                    FeedTotalFragmentDirections.actionNavigationFeedToFeedWriteFragment(
-//                        WriteChangeDivider.WRITE,
-//                        0,
-//                    ),
-//                )
+                findNavController().navigate(
+                    FeedTotalFragmentDirections.actionNavigationFeedToFeedWriteFragment(
+                        WriteChangeDivider.WRITE,
+                        0,
+                    ),
+                )
             }
 
             rvFeedPost.infiniteScroll {
