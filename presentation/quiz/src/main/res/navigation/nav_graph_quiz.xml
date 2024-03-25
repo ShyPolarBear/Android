@@ -24,6 +24,9 @@
         android:label="QuizDailyMultiChoiceFragment"
         tools:layout="@layout/fragment_quiz_daily_multi" >
         <action
+            android:id="@+id/action_quizDailyMultiChoiceFragment_to_navigation_quiz_main"
+            app:destination="@id/navigation_quiz_main" />
+        <action
             android:id="@+id/action_quizDailyMultiChoiceFragment_to_quizDailyOXFragment"
             app:destination="@id/quizDailyOXFragment" />
         <action
@@ -36,6 +39,9 @@
         android:name="com.beeeam.quiz.QuizDailyOXFragment"
         android:label="QuizDailyOXFragment"
         tools:layout="@layout/fragment_quiz_daily_ox" >
+        <action
+            android:id="@+id/action_quizDailyOXFragment_to_navigation_quiz_main"
+            app:destination="@id/navigation_quiz_main" />
         <action
             android:id="@+id/action_quizDailyOXFragment_to_quizDailyMultiChoiceFragment"
             app:destination="@id/quizDailyMultiChoiceFragment" />

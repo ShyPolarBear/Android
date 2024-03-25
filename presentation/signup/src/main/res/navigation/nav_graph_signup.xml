@@ -8,6 +8,9 @@
         android:name="com.beeeam.signup.JoinFragment"
         android:label="SignupFragment"
         tools:layout="@layout/fragment_signup">
+        <argument
+            android:name="acToken"
+            app:argType="string"/>
         <deepLink app:uri="shyPolarBear://fragmentSignup/{acToken}" />
     </fragment>
     <fragment
