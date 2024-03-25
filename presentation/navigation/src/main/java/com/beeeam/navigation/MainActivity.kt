@@ -33,7 +33,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
                     com.beeeam.signup.R.id.signupFragment, com.beeeam.login.R.id.loginFragment, com.beeeam.quiz.R.id.quizDailyOXFragment,
                     com.beeeam.quiz.R.id.quizDailyMultiChoiceFragment, com.beeeam.feed.R.id.feedWriteFragment, com.beeeam.feed.R.id.feedDetailFragment,
                     com.beeeam.myinfo.R.id.changeMyInfoFragment, com.beeeam.feed.R.id.feedCommentChangeFragment,
-                    /*com.beeeam.more.R.id.myPageFragment,*/ com.beeeam.splash.R.id.splashFragment,
+                    com.beeeam.myinfo.R.id.myPageFragment, com.beeeam.splash.R.id.splashFragment,
                     -> bottomNavigationBar.visibility = View.INVISIBLE
                     else -> bottomNavigationBar.visibility = View.VISIBLE
                 }

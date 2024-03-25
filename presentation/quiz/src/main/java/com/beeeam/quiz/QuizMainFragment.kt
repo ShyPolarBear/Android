@@ -25,7 +25,6 @@ class QuizMainFragment :
         viewModel.loadFeedRecentData()
         viewModel.getMyInfo()
         viewModel.feed.observe(viewLifecycleOwner) { recentFeed ->
-            Timber.d(recentFeed.toString())
             recentFeed?.let {
                 recentFeedAdapter.submitList(recentFeed)
             }
