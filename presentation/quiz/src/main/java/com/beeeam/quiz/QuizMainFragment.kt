@@ -73,12 +73,6 @@ class QuizMainFragment :
                 findNavController().navigate(createNavDeepLinkRequest("shyPolarBear://fragmentFeedTotal"))
             }
             quizMainBtnWrite.setOnClickListener {
-//                findNavController().navigate(
-//                    QuizMainFragmentDirections.actionNavigationQuizMainToFeedWriteFragment(
-//                        WriteChangeDivider.WRITE,
-//                        0,
-//                    ),
-//                )
                 findNavController().navigate(
                     createNavDeepLinkRequest("shyPolarBear://fragmentFeedWrite/${WriteChangeDivider.WRITE}/${0}")
                 )

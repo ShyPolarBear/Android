@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.beeeam.base.BaseFragment
 import com.beeeam.feed.R
 import com.beeeam.feed.databinding.FragmentFeedTotalBinding
@@ -271,7 +272,7 @@ class FeedTotalFragment : BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMo
     }
 
     private fun showFeedPostDetail(feedId: Int) {
-//        findNavController().navigate(FeedTotalFragmentDirections.actionFeedTotalFragmentToFeedDetailFragment(feedId))
+        findNavController().navigate(FeedTotalFragmentDirections.actionFeedTotalFragmentToFeedDetailFragment(feedId))
     }
 
     private fun loadSortedFeed(sort: String) {
