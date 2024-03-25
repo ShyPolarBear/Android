@@ -50,15 +50,13 @@ class QuizMainViewModel @Inject constructor(
                 .onSuccess { response ->
                     if (response.data.content.isEmpty()) return@onSuccess
 
-                    val imageContainList = mutableListOf<Feed>()
+                    val feedList = mutableListOf<Feed>()
+
                     for (item in response.data.content) {
-                        if (item.feedImages.isNotEmpty()) imageContainList.add(item)
-                        if (imageContainList.size == Const.MAX_PAGES) break
+                        if (feedList.size == Const.MAX_PAGES) break
+                        else feedList.add(item)
                     }
-                    if (imageContainList.size < Const.MAX_PAGES) {
-                        loadFeedRecentMore(imageContainList, response.data.content.last().feedId)
-                    }
-                    _feed.value = imageContainList
+                    _feed.value = feedList
                 }
                 .onFailure { error ->
                     simpleHttpErrorCheck(error)
@@ -66,18 +64,18 @@ class QuizMainViewModel @Inject constructor(
         }
     }
 
-    private fun loadFeedRecentMore(imageContainList: MutableList<Feed>, lastFeedId: Int) {
-        viewModelScope.launch {
-            feedTotalUseCase("recent", lastFeedId).onSuccess { plusResponse ->
-                for (item in plusResponse.data.content) {
-                    if (item.feedImages.isNotEmpty()) imageContainList.add(item)
-                    if (imageContainList.size == Const.MAX_PAGES) break
-                }
-            }.onFailure { error ->
-                simpleHttpErrorCheck(error)
-            }
-        }
-    }
+//    private fun loadFeedRecentMore(imageContainList: MutableList<Feed>, lastFeedId: Int) {
+//        viewModelScope.launch {
+//            feedTotalUseCase("recent", lastFeedId).onSuccess { plusResponse ->
+//                for (item in plusResponse.data.content) {
+//                    if (item.feedImages.isNotEmpty()) imageContainList.add(item)
+//                    if (imageContainList.size == Const.MAX_PAGES) break
+//                }
+//            }.onFailure { error ->
+//                simpleHttpErrorCheck(error)
+//            }
+//        }
+//    }
 
     fun requestQuiz() {
         viewModelScope.launch {

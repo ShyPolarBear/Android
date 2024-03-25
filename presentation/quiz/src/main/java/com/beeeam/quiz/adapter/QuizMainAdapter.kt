@@ -20,7 +20,11 @@ class QuizMainAdapter(private val onMoveToDetailClick: (feedId: Int) -> Unit = {
             binding.apply {
                 itemQuizMainTv.text = item.title
                 itemRecentFeed.setOnClickListener { onMoveToDetailClick(item.feedId) }
-                GlideUtil.loadImage(binding.root.context, item.feedImages.first(), itemQuizMainIv)
+                if (item.feedImages.isNullOrEmpty()) {
+                    GlideUtil.loadImage(binding.root.context, "", itemQuizMainIv)
+                } else {
+                    GlideUtil.loadImage(binding.root.context, item.feedImages.first(), itemQuizMainIv)
+                }
             }
         }
     }

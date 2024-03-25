@@ -11,6 +11,7 @@ import com.beeeam.util.WriteChangeDivider
 import com.beeeam.util.createNavDeepLinkRequest
 import com.beeeam.util.setSpecificTextColor
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class QuizMainFragment :
@@ -24,6 +25,7 @@ class QuizMainFragment :
         viewModel.loadFeedRecentData()
         viewModel.getMyInfo()
         viewModel.feed.observe(viewLifecycleOwner) { recentFeed ->
+            Timber.d(recentFeed.toString())
             recentFeed?.let {
                 recentFeedAdapter.submitList(recentFeed)
             }
