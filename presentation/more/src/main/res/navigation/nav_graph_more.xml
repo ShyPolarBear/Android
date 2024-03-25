@@ -15,9 +15,6 @@
         <action
             android:id="@+id/action_navigation_more_to_myPageFragment"
             app:destination="@id/myPageFragment" />
-        <action
-            android:id="@+id/action_navigation_more_to_loginFragment"
-            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment
@@ -33,16 +30,5 @@
     <fragment
         android:id="@+id/myPageFragment"
         android:name="com.beeeam.more.mypage.MyPageFragment"
-        android:label="MyPageFragment" >
-        <action
-            android:id="@+id/action_myPageFragment_to_navigation_more"
-            app:destination="@id/navigation_more" />
-        <action
-            android:id="@+id/action_myPageFragment_to_feedDetailFragment"
-            app:destination="@id/feedDetailFragment">
-            <argument
-                android:name="feedId"
-                app:argType="integer" />
-        </action>
-    </fragment>
+        android:label="MyPageFragment" />
 </navigation>

@@ -18,6 +18,7 @@ import com.beeeam.util.Const.POWER_MENU_OFFSET_Y
 import com.beeeam.util.FeedContentType
 import com.beeeam.util.PostProperty
 import com.beeeam.util.PowerMenuUtil
+import com.beeeam.util.createNavDeepLinkRequest
 import com.beeeam.util.infiniteScroll
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
@@ -98,8 +99,7 @@ class MyPageFragment :
             onItemClickListener = { position, item ->
                 when (position) {
                     PostProperty.MODIFY.state -> {
-                        myFeedToDetail = MyPageFragmentDirections.actionMyPageFragmentToFeedDetailFragment(feedId)
-                        findNavController().navigate(myFeedToDetail)
+                        findNavController().navigate(createNavDeepLinkRequest("shyPolarBear://fragmentFeedDetail/${feedId}"))
                     }
                     PostProperty.DELETE.state -> {
                         viewModel.requestDeleteFeed(feedId = feedId)
