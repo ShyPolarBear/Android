@@ -16,9 +16,7 @@ import com.beeeam.util.CommentLoadType
 import com.beeeam.util.CommentType
 import com.beeeam.util.Const.POWER_MENU_OFFSET_X
 import com.beeeam.util.Const.POWER_MENU_OFFSET_Y
-import com.beeeam.util.Const.fragmentTotalStatus
 import com.beeeam.util.FeedDetailLikeBtnType
-import com.beeeam.util.FragmentTotalStatus
 import com.beeeam.util.PowerMenuUtil
 import com.beeeam.util.WriteChangeDivider
 import com.beeeam.util.infiniteScroll
@@ -148,7 +146,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     }
 
     override fun onBackPressed() {
-        fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
         findNavController().popBackStack()
     }
 
@@ -365,7 +362,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 }
                 getString(com.beeeam.designsystem.R.string.feed_post_property_delete) -> {
                     viewModel.requestDeleteFeed(feedDetailArgs.feedId)
-                    fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
                     findNavController().popBackStack()
                 }
                 getString(com.beeeam.designsystem.R.string.feed_post_property_report),
@@ -381,7 +377,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
     }
 
     private fun moveToBack() {
-        fragmentTotalStatus = FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK
         findNavController().popBackStack()
     }
 

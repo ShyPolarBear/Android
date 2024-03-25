@@ -40,12 +40,6 @@ enum class WriteChangeDivider(val fragmentType: Int) {
     CHANGE(1),
 }
 
-enum class FragmentTotalStatus(val status: Int) {
-    INIT(0),
-    WRITE_BACK_BTN_CLICK(1),
-    POST_CHANGE_OR_DETAIL_BACK(2),
-}
-
 enum class FeedTotalLikeBtnType(val itemType: Int) {
     POST_LIKE_BTN(0),
     BEST_COMMENT_LIKE_BTN(1),

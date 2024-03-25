@@ -14,9 +14,7 @@ import com.beeeam.feed.R
 import com.beeeam.feed.databinding.FragmentFeedTotalBinding
 import com.beeeam.util.Const.POWER_MENU_OFFSET_X
 import com.beeeam.util.Const.POWER_MENU_OFFSET_Y
-import com.beeeam.util.Const.fragmentTotalStatus
 import com.beeeam.util.FeedTotalLikeBtnType
-import com.beeeam.util.FragmentTotalStatus
 import com.beeeam.util.PowerMenuUtil
 import com.beeeam.util.infiniteScroll
 import com.beeeam.util.showLikeBtnIsLike
@@ -72,18 +70,11 @@ class FeedTotalFragment : BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMo
             binding.progressFeedTotalLoading.isVisible = true
             binding.layoutFeed.isVisible = false
 
-            when (fragmentTotalStatus) {
-                FragmentTotalStatus.INIT, FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK -> {
-                    viewModel.clearFeedList()
-                    viewModel.loadFeedTotalData(feedSort)
-                }
-                FragmentTotalStatus.WRITE_BACK_BTN_CLICK -> { }
-            }
+            loadSortedFeed(feedSort)
             setFeedPost()
 
             swipeLayoutFeedPost.setOnRefreshListener {
-                viewModel.clearFeedList()
-                viewModel.loadFeedTotalData(feedSort)
+                loadSortedFeed(feedSort)
                 swipeLayoutFeedPost.isRefreshing = false
             }
 
@@ -127,6 +118,12 @@ class FeedTotalFragment : BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMo
                 }
             }
         }
+    }
+
+    private fun loadSortedFeed(sort: String) {
+        feedSort = sort
+        viewModel.clearFeedList()
+        viewModel.loadFeedTotalData(sort)
     }
 
     private fun setFeedPost() {
@@ -274,11 +271,5 @@ class FeedTotalFragment : BaseFragment<FragmentFeedTotalBinding, FeedTotalViewMo
 
     private fun showFeedPostDetail(feedId: Int) {
         findNavController().navigate(FeedTotalFragmentDirections.actionFeedTotalFragmentToFeedDetailFragment(feedId))
-    }
-
-    private fun loadSortedFeed(sort: String) {
-        feedSort = sort
-        viewModel.clearFeedList()
-        viewModel.loadFeedTotalData(sort)
     }
 }

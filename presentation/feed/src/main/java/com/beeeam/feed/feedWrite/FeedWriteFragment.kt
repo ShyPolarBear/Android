@@ -21,8 +21,6 @@ import com.beeeam.util.Const.IMAGE_MAX_COUNT
 import com.beeeam.util.Const.TITLE_RANGE
 import com.beeeam.util.Const.UPLOADED
 import com.beeeam.util.Const.UPLOADING
-import com.beeeam.util.Const.fragmentTotalStatus
-import com.beeeam.util.FragmentTotalStatus
 import com.beeeam.util.ImageUtil
 import com.beeeam.util.WriteChangeDivider
 import com.beeeam.util.updateButtonState
@@ -84,7 +82,7 @@ class FeedWriteFragment : BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMo
                 feedWriteImgAdapter.submitList(it.toList())
             }
 
-            btnFeedWriteBack.setOnClickListener { moveToBack(FragmentTotalStatus.WRITE_BACK_BTN_CLICK) }
+            btnFeedWriteBack.setOnClickListener { findNavController().popBackStack() }
 
             btnFeedWriteAddPhoto.setOnClickListener { addImg() }
 
@@ -158,7 +156,7 @@ class FeedWriteFragment : BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMo
     }
 
     override fun onBackPressed() {
-        moveToBack(FragmentTotalStatus.WRITE_BACK_BTN_CLICK)
+        findNavController().popBackStack()
     }
 
     private fun uploadPost() {
@@ -243,7 +241,7 @@ class FeedWriteFragment : BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMo
         viewModel.uploadState.observe(viewLifecycleOwner) {
             when (viewModel.uploadState.value) {
                 UPLOADING -> { }
-                UPLOADED -> { moveToBack(FragmentTotalStatus.POST_CHANGE_OR_DETAIL_BACK) }
+                UPLOADED -> { findNavController().popBackStack() }
             }
         }
     }
@@ -260,11 +258,6 @@ class FeedWriteFragment : BaseFragment<FragmentFeedWriteBinding, FeedWriteViewMo
     }
 
     private fun removeImg(position: Int) { viewModel.removeImgList(position) }
-
-    private fun moveToBack(moveState: FragmentTotalStatus) {
-        fragmentTotalStatus = moveState
-        findNavController().popBackStack()
-    }
 
     private fun uploadImage(addedImageUriList: List<Uri>): List<File> {
         return addedImageUriList.map { imageUtil.uriToOptimizeImageFile(requireContext(), it)!! }

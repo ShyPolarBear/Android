@@ -2,7 +2,6 @@ package com.beeeam.util
 
 object Const {
     var backKeyPressTime: Long = 0
-    var fragmentTotalStatus = FragmentTotalStatus.INIT
 
     val emailPattern = Regex("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
     val phonePattern = Regex("[^0-9]")
