@@ -21,6 +21,7 @@
         <action
             android:id="@+id/action_navigation_feed_to_navigation_quiz_main"
             app:destination="@id/navigation_quiz_main" />
+        <deepLink app:uri="shyPolarBear://fragmentFeedTotal" />
     </fragment>
     <fragment
         android:id="@+id/feedDetailFragment"
@@ -42,12 +43,13 @@
         android:name="com.beeeam.feed.feedWrite.FeedWriteFragment"
         android:label="FeedWriteFragment"
         tools:layout="@layout/fragment_feed_write">
-        <!--<argument
+        <argument
             android:name="divider"
-            app:argType="com.shypolarbear.presentation.ui.feed.feedTotal.WriteChangeDivider" />-->
+            app:argType="com.beeeam.util.WriteChangeDivider" />
         <argument
             android:name="feedId"
             app:argType="integer" />
+        <deepLink app:uri="shyPolarBear://fragmentFeedWrite/{divider}/{feedId}" />
     </fragment>
     <fragment
         android:id="@+id/feedCommentChangeFragment"

@@ -358,7 +358,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding, FeedDetailVie
                 getString(com.beeeam.designsystem.R.string.feed_post_property_revise) -> {
                     findNavController().navigate(
                         FeedDetailFragmentDirections.actionFeedDetailFragmentToFeedWriteFragment(
-//                            WriteChangeDivider.CHANGE,
+                            WriteChangeDivider.CHANGE,
                             feedDetailArgs.feedId,
                         ),
                     )

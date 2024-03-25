@@ -8,6 +8,7 @@ import com.beeeam.quiz.databinding.FragmentQuizMainBinding
 import com.beeeam.util.EventObserver
 import com.beeeam.util.QuizNavType
 import com.beeeam.util.WriteChangeDivider
+import com.beeeam.util.createNavDeepLinkRequest
 import com.beeeam.util.setSpecificTextColor
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -69,7 +70,7 @@ class QuizMainFragment :
                 }
             }
             quizMainTvMore.setOnClickListener {
-                findNavController().navigate(R.id.action_navigation_quiz_main_to_navigation_feed)
+                findNavController().navigate(createNavDeepLinkRequest("shyPolarBear://fragmentFeedTotal"))
             }
             quizMainBtnWrite.setOnClickListener {
 //                findNavController().navigate(
@@ -78,6 +79,9 @@ class QuizMainFragment :
 //                        0,
 //                    ),
 //                )
+                findNavController().navigate(
+                    createNavDeepLinkRequest("shyPolarBear://fragmentFeedWrite/${WriteChangeDivider.WRITE}/${0}")
+                )
             }
         }
     }
