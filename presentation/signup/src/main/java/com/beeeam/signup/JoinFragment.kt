@@ -14,6 +14,7 @@ import com.beeeam.signup.pages.JoinPhoneFragment
 import com.beeeam.signup.pages.JoinTermsFragment
 import com.beeeam.util.Const.NAME_RANGE
 import com.beeeam.util.Page
+import com.beeeam.util.createNavDeepLinkRequest
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -64,7 +65,7 @@ class JoinFragment :
             viewModel.tokens.observe(viewLifecycleOwner) { tokens ->
                 tokens?.let {
                     lifecycleScope.launch {
-                        findNavController().navigate(R.id.action_signupFragment_to_quizMainFragment)
+                        findNavController().navigate(createNavDeepLinkRequest("shyPolarBear://fragmentQuizMain"))
                     }
                 }
             }

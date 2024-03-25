@@ -32,7 +32,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
     private val linkify = Linkify()
     private val transformFilter = Linkify.TransformFilter { match, url -> "" }
     private lateinit var kakaoCallBack: (OAuthToken?, Throwable?) -> Unit
-    private lateinit var sendTokenToJoin: NavDirections
+    private lateinit var acToken: String
 
     override fun initView() {
         val terms = Pattern.compile(getString(com.beeeam.designsystem.R.string.terms))
@@ -44,7 +44,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
         viewModel.responseCode.observe(viewLifecycleOwner) { code ->
             code?.let {
                 when (it) {
-                    SIGNUP_NEED -> findNavController().navigate(sendTokenToJoin)
+                    SIGNUP_NEED -> findNavController().navigate(createNavDeepLinkRequest("shyPolarBear://fragmentSignup/${acToken}"))
                     LOGIN_SUCCESS -> findNavController().navigate(createNavDeepLinkRequest("shyPolarBear://fragmentQuizMain"))
                     LOGIN_FAIL -> {
                         setVisibilityInvert(
@@ -94,8 +94,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
                 )
             } else if (token != null) {
                 Timber.tag("KAKAO").i("카카오계정으로 로그인 성공")
-                sendTokenToJoin =
-                    LoginFragmentDirections.actionLoginFragmentToSignupFragment(token.accessToken)
+                acToken = token.accessToken
                 viewModel.requestLogin(token.accessToken)
             }
         }
@@ -118,8 +117,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
                     UserApiClient.instance.loginWithKakaoAccount(context, callback = kakaoCallBack)
                 } else if (token != null) {
                     Timber.tag("KAKAO").i("카카오톡 login 성공")
-                    sendTokenToJoin =
-                        LoginFragmentDirections.actionLoginFragmentToSignupFragment(token.accessToken)
+                    acToken = token.accessToken
                     viewModel.requestLogin(token.accessToken)
                 }
             }

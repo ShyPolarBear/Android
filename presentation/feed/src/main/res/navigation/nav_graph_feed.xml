@@ -18,9 +18,6 @@
         <action
             android:id="@+id/action_navigation_feed_to_feedCommentChangeFragment"
             app:destination="@id/feedCommentChangeFragment" />
-        <action
-            android:id="@+id/action_navigation_feed_to_navigation_quiz_main"
-            app:destination="@id/navigation_quiz_main" />
         <deepLink app:uri="shyPolarBear://fragmentFeedTotal" />
     </fragment>
     <fragment

@@ -15,27 +15,14 @@
         <action
             android:id="@+id/action_quizMainFragment_to_quizDailyMultiChoiceFragment"
             app:destination="@id/quizDailyMultiChoiceFragment" />
-        <action
-            android:id="@+id/action_navigation_quiz_main_to_feedWriteFragment"
-            app:destination="@id/feedWriteFragment" />
-        <action
-            android:id="@+id/action_navigation_quiz_main_to_feedDetailFragment"
-            app:destination="@id/feedDetailFragment">
-            <argument
-                android:name="feedId"
-                app:argType="integer" />
-        </action>
         <deepLink app:uri="shyPolarBear://fragmentQuizMain" />
     </fragment>
+
     <fragment
         android:id="@+id/quizDailyMultiChoiceFragment"
         android:name="com.beeeam.quiz.QuizDailyMultiChoiceFragment"
         android:label="QuizDailyMultiChoiceFragment"
         tools:layout="@layout/fragment_quiz_daily_multi" >
-
-        <action
-            android:id="@+id/action_quizDailyMultiChoiceFragment_to_navigation_quiz_main"
-            app:destination="@id/navigation_quiz_main" />
         <action
             android:id="@+id/action_quizDailyMultiChoiceFragment_to_quizDailyOXFragment"
             app:destination="@id/quizDailyOXFragment" />
@@ -43,15 +30,12 @@
             android:id="@+id/action_quizDailyMultiChoiceFragment_self"
             app:destination="@id/quizDailyMultiChoiceFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/quizDailyOXFragment"
         android:name="com.beeeam.quiz.QuizDailyOXFragment"
         android:label="QuizDailyOXFragment"
         tools:layout="@layout/fragment_quiz_daily_ox" >
-
-        <action
-            android:id="@+id/action_quizDailyOXFragment_to_navigation_quiz_main"
-            app:destination="@id/navigation_quiz_main" />
         <action
             android:id="@+id/action_quizDailyOXFragment_to_quizDailyMultiChoiceFragment"
             app:destination="@id/quizDailyMultiChoiceFragment" />

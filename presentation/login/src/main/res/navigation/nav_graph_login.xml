@@ -6,16 +6,6 @@
         android:id="@+id/loginFragment"
         android:name="com.beeeam.login.LoginFragment"
         android:label="LoginFragment" >
-        <action
-            android:id="@+id/action_loginFragment_to_quizMainFragment"
-            app:destination="@id/navigation_quiz_main" />
-        <action
-            android:id="@+id/action_loginFragment_to_signupFragment"
-            app:destination="@id/signupFragment">
-            <argument
-                android:name="acToken"
-                app:argType="string"/>
-        </action>
         <deepLink app:uri="shyPolarBear://fragmentLogin" />
     </fragment>
 </navigation>
