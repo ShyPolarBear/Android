@@ -3,7 +3,7 @@ package com.beeeam.signup.pages
 import android.telephony.PhoneNumberFormattingTextWatcher
 import androidx.fragment.app.viewModels
 import com.beeeam.base.BaseFragment
-import com.beeeam.signup.JoinViewModel
+import com.beeeam.signup.SignupViewModel
 import com.beeeam.signup.R
 import com.beeeam.signup.databinding.FragmentSignupPhoneBinding
 import com.beeeam.util.Const.PHONE_NUMBER_DASH_INCLUDE
@@ -15,14 +15,14 @@ import com.beeeam.util.setColorStateWithInput
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class JoinPhoneFragment :
-    BaseFragment<FragmentSignupPhoneBinding, JoinViewModel>(R.layout.fragment_signup_phone) {
-    override val viewModel: JoinViewModel by viewModels({ requireParentFragment() })
+class SignupPhoneFragment :
+    BaseFragment<FragmentSignupPhoneBinding, SignupViewModel>(R.layout.fragment_signup_phone) {
+    override val viewModel: SignupViewModel by viewModels({ requireParentFragment() })
     private lateinit var phoneNumber: String
     override fun initView() {
         binding.apply {
             etSignupPhone.apply {
-                keyboardDown(this@JoinPhoneFragment)
+                keyboardDown(this@SignupPhoneFragment)
                 addTextChangedListener(PhoneNumberFormattingTextWatcher("KR"))
                 afterTextChanged { s ->
                     val state = when {

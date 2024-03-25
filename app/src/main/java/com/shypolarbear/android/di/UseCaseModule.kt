@@ -2,7 +2,7 @@ package com.shypolarbear.android.di
 
 import com.shypolarbear.domain.repository.ExampleRepo
 import com.shypolarbear.domain.repository.InfoRepo
-import com.shypolarbear.domain.repository.JoinRepo
+import com.shypolarbear.domain.repository.SignupRepo
 import com.shypolarbear.domain.repository.LoginRepo
 import com.shypolarbear.domain.repository.LogoutRepo
 import com.shypolarbear.domain.repository.TokenRepo
@@ -13,7 +13,7 @@ import com.shypolarbear.domain.repository.mypage.MyFeedRepo
 import com.shypolarbear.domain.repository.quiz.QuizRepo
 import com.shypolarbear.domain.repository.ranking.RankingRepo
 import com.shypolarbear.domain.usecase.ExampleUseCase
-import com.shypolarbear.domain.usecase.RequestJoinUseCase
+import com.shypolarbear.domain.usecase.RequestSignupUseCase
 import com.shypolarbear.domain.usecase.RequestLoginUseCase
 import com.shypolarbear.domain.usecase.RequestLogoutUseCase
 import com.shypolarbear.domain.usecase.RequestTokenRenewUseCase
@@ -64,8 +64,8 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideJoinUseCase(repo: JoinRepo): RequestJoinUseCase {
-        return RequestJoinUseCase(repo)
+    fun provideSignupUseCase(repo: SignupRepo): RequestSignupUseCase {
+        return RequestSignupUseCase(repo)
     }
 
     @Singleton

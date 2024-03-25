@@ -2,7 +2,7 @@ package com.shypolarbear.android.di
 
 import com.shypolarbear.data.api.ExampleApi
 import com.shypolarbear.data.api.InfoApi
-import com.shypolarbear.data.api.JoinApi
+import com.shypolarbear.data.api.SignupApi
 import com.shypolarbear.data.api.LoginApi
 import com.shypolarbear.data.api.LogoutApi
 import com.shypolarbear.data.api.TokenApi
@@ -17,7 +17,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -34,8 +33,8 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun provideJoinApi(@NormalRetrofit retrofit: Retrofit): JoinApi {
-        return retrofit.create(JoinApi::class.java)
+    fun provideSignupApi(@NormalRetrofit retrofit: Retrofit): SignupApi {
+        return retrofit.create(SignupApi::class.java)
     }
 
     @Singleton

@@ -8,10 +8,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.beeeam.base.BaseFragment
 import com.beeeam.signup.databinding.FragmentSignupBinding
-import com.beeeam.signup.pages.JoinMailFragment
-import com.beeeam.signup.pages.JoinNameFragment
-import com.beeeam.signup.pages.JoinPhoneFragment
-import com.beeeam.signup.pages.JoinTermsFragment
+import com.beeeam.signup.pages.SignupMailFragment
+import com.beeeam.signup.pages.SignupNameFragment
+import com.beeeam.signup.pages.SignupPhoneFragment
+import com.beeeam.signup.pages.SignupTermsFragment
 import com.beeeam.util.Const.NAME_RANGE
 import com.beeeam.util.Page
 import com.beeeam.util.createNavDeepLinkRequest
@@ -20,22 +20,22 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
-class JoinFragment :
-    BaseFragment<FragmentSignupBinding, JoinViewModel>(R.layout.fragment_signup) {
-    override val viewModel: JoinViewModel by viewModels()
-    private lateinit var pagerAdapter: JoinAdapter
-    private val args: JoinFragmentArgs by navArgs()
+class SignupFragment :
+    BaseFragment<FragmentSignupBinding, SignupViewModel>(R.layout.fragment_signup) {
+    override val viewModel: SignupViewModel by viewModels()
+    private lateinit var pagerAdapter: SignupAdapter
+    private val args: SignupFragmentArgs by navArgs()
     override fun initView() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
 
         val pageList = listOf(
-            JoinTermsFragment(),
-            JoinNameFragment(),
-            JoinPhoneFragment(),
-            JoinMailFragment(),
+            SignupTermsFragment(),
+            SignupNameFragment(),
+            SignupPhoneFragment(),
+            SignupMailFragment(),
         )
 
-        pagerAdapter = JoinAdapter(this, pageList)
+        pagerAdapter = SignupAdapter(this, pageList)
 
         binding.apply {
             viewModel.termData.observe(viewLifecycleOwner) { resTerms ->
@@ -93,7 +93,7 @@ class JoinFragment :
 
                     Page.MAIL.page -> {
                         if (viewModel.pageState.all { it }) {
-                            viewModel.requestJoin(args.acToken)
+                            viewModel.requestSignup(args.acToken)
                         }
                     }
                 }

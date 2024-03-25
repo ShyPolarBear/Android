@@ -17,7 +17,6 @@ import com.beeeam.util.CommentType
 import com.beeeam.util.Const.POWER_MENU_OFFSET_X
 import com.beeeam.util.Const.POWER_MENU_OFFSET_Y
 import com.beeeam.util.FeedDetailLikeBtnType
-import com.beeeam.util.PowerMenuUtil
 import com.beeeam.util.WriteChangeDivider
 import com.beeeam.util.infiniteScroll
 import com.beeeam.util.showLikeBtnIsLike
@@ -25,6 +24,7 @@ import com.shypolarbear.domain.model.feed.Comment
 import com.shypolarbear.domain.model.feed.Feed
 import com.beeeam.feed.feedDetail.adapter.FeedCommentAdapter
 import com.beeeam.feed.feedDetail.adapter.FeedDetailPostAdapter
+import com.beeeam.util.PowerMenuUtil
 import com.skydoves.powermenu.PowerMenuItem
 import dagger.hilt.android.AndroidEntryPoint
 

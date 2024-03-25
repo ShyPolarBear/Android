@@ -1,6 +1,6 @@
-package com.shypolarbear.domain.model.join
+package com.shypolarbear.domain.model.signup
 
-data class JoinRequest(
+data class SignupRequest(
     val socialAccessToken: String,
     val nickName: String,
     val phoneNumber: String,

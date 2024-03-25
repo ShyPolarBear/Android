@@ -5,7 +5,7 @@
     android:id="@+id/nav_graph_signup">
     <fragment
         android:id="@+id/signupFragment"
-        android:name="com.beeeam.signup.JoinFragment"
+        android:name="com.beeeam.signup.SignupFragment"
         android:label="SignupFragment"
         tools:layout="@layout/fragment_signup">
         <argument
@@ -15,24 +15,24 @@
     </fragment>
     <fragment
         android:id="@+id/signupPhoneFragment"
-        android:name="com.beeeam.signup.pages.JoinPhoneFragment"
+        android:name="com.beeeam.signup.pages.SignupPhoneFragment"
         android:label="SignupPhoneFragment"
         tools:layout="@layout/fragment_signup_phone">
     </fragment>
     <fragment
         android:id="@+id/signupMailFragment"
-        android:name="com.beeeam.signup.pages.JoinMailFragment"
+        android:name="com.beeeam.signup.pages.SignupMailFragment"
         android:label="SignupMailFragment"
         tools:layout="@layout/fragment_signup_mail"/>
     <fragment
         android:id="@+id/signupTermsFragment"
-        android:name="com.beeeam.signup.pages.JoinTermsFragment"
+        android:name="com.beeeam.signup.pages.SignupTermsFragment"
         android:label="SignupTermsFragment"
         tools:layout="@layout/fragment_signup_terms">
     </fragment>
     <fragment
         android:id="@+id/signupNameFragment"
-        android:name="com.beeeam.signup.pages.JoinNameFragment"
+        android:name="com.beeeam.signup.pages.SignupNameFragment"
         android:label="SignupNameFragment"
         tools:layout="@layout/fragment_signup_name">
     </fragment>

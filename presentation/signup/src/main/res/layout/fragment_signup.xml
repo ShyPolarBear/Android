@@ -5,7 +5,7 @@
     <data>
         <variable
             name="signupViewModel"
-            type="com.beeeam.signup.JoinViewModel" />
+            type="com.beeeam.signup.SignupViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

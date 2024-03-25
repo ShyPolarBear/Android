@@ -7,7 +7,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import com.beeeam.base.BaseFragment
-import com.beeeam.signup.JoinViewModel
+import com.beeeam.signup.SignupViewModel
 import com.beeeam.signup.R
 import com.beeeam.signup.databinding.FragmentSignupNameBinding
 import com.beeeam.util.Const.NAME_RANGE
@@ -19,15 +19,15 @@ import com.beeeam.util.setColorStateWithInput
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class JoinNameFragment :
-    BaseFragment<FragmentSignupNameBinding, JoinViewModel>(R.layout.fragment_signup_name) {
-    override val viewModel: JoinViewModel by viewModels({ requireParentFragment() })
+class SignupNameFragment :
+    BaseFragment<FragmentSignupNameBinding, SignupViewModel>(R.layout.fragment_signup_name) {
+    override val viewModel: SignupViewModel by viewModels({ requireParentFragment() })
 
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             uri?.let { profileImage ->
                 GlideUtil.loadCircleImage(requireContext(), uri, binding.ivSignupNameProfile)
-                viewModel.requestImageUploadWithJoin(listOf(ImageUtil.uriToOptimizeImageFile(requireContext(), profileImage)!!))
+                viewModel.requestImageUploadWithSignup(listOf(ImageUtil.uriToOptimizeImageFile(requireContext(), profileImage)!!))
             }
         }
 
@@ -39,7 +39,7 @@ class JoinNameFragment :
             }
 
             etSignupNickname.apply {
-                keyboardDown(this@JoinNameFragment)
+                keyboardDown(this@SignupNameFragment)
                 addTextChangedListener(object : TextWatcher {
                     override fun beforeTextChanged(
                         s: CharSequence?,

@@ -8,8 +8,8 @@ import com.beeeam.util.ImageType
 import com.shypolarbear.domain.model.HttpError
 import com.shypolarbear.domain.model.Tokens
 import com.shypolarbear.domain.model.image.ImageUploadRequest
-import com.shypolarbear.domain.model.join.JoinRequest
-import com.shypolarbear.domain.usecase.RequestJoinUseCase
+import com.shypolarbear.domain.model.signup.SignupRequest
+import com.shypolarbear.domain.usecase.RequestSignupUseCase
 import com.shypolarbear.domain.usecase.image.RequestImageUploadUseCase
 import com.shypolarbear.domain.usecase.tokens.SetAccessTokenUseCase
 import com.shypolarbear.domain.usecase.tokens.SetRefreshTokenUseCase
@@ -20,8 +20,8 @@ import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
-class JoinViewModel @Inject constructor(
-    private val joinUseCase: RequestJoinUseCase,
+class SignupViewModel @Inject constructor(
+    private val signupUseCase: RequestSignupUseCase,
     private val setAccessTokenUseCase: SetAccessTokenUseCase,
     private val setRefreshTokenUseCase: SetRefreshTokenUseCase,
     private val imageUploadUseCase: RequestImageUploadUseCase,
@@ -46,7 +46,7 @@ class JoinViewModel @Inject constructor(
     private val _pageIndex = MutableLiveData<Int>(1)
     val pageIndex: LiveData<Int> = _pageIndex
 
-    fun requestImageUploadWithJoin(profileImage: List<File>) {
+    fun requestImageUploadWithSignup(profileImage: List<File>) {
         viewModelScope.launch {
             imageUploadUseCase.invoke(
                 ImageUploadRequest(ImageType.PROFILE.type, profileImage),
@@ -56,10 +56,10 @@ class JoinViewModel @Inject constructor(
         }
     }
 
-    fun requestJoin(socialAccessToken: String? = null) {
+    fun requestSignup(socialAccessToken: String? = null) {
         viewModelScope.launch {
-            val responseJoin = joinUseCase.invoke(
-                JoinRequest(
+            val responseSignup = signupUseCase.invoke(
+                SignupRequest(
                     socialAccessToken = socialAccessToken!!,
                     nickName = nameData.value!!,
                     phoneNumber = phoneData.value!!,
@@ -68,7 +68,7 @@ class JoinViewModel @Inject constructor(
                 ),
             )
 
-            responseJoin
+            responseSignup
                 .onSuccess { response ->
                     setAccessTokenUseCase(response.data.accessToken)
                     setRefreshTokenUseCase(response.data.refreshToken)

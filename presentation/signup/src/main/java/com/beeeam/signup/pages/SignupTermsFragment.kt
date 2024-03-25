@@ -3,16 +3,16 @@ package com.beeeam.signup.pages
 import android.widget.CheckBox
 import androidx.fragment.app.viewModels
 import com.beeeam.base.BaseFragment
-import com.beeeam.signup.JoinViewModel
+import com.beeeam.signup.SignupViewModel
 import com.beeeam.signup.R
 import com.beeeam.signup.databinding.FragmentSignupTermsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class JoinTermsFragment :
-    BaseFragment<FragmentSignupTermsBinding, JoinViewModel>(R.layout.fragment_signup_terms) {
+class SignupTermsFragment :
+    BaseFragment<FragmentSignupTermsBinding, SignupViewModel>(R.layout.fragment_signup_terms) {
 
-    override val viewModel: JoinViewModel by viewModels({ requireParentFragment() })
+    override val viewModel: SignupViewModel by viewModels({ requireParentFragment() })
     enum class TERMS(val position: Int) {
         PRIVACY(0),
         TERM(1),
