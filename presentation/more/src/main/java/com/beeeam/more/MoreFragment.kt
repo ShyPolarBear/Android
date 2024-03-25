@@ -10,6 +10,7 @@ import com.beeeam.myinfo.R
 import com.beeeam.myinfo.databinding.FragmentMoreBinding
 import com.beeeam.util.GlideUtil
 import com.beeeam.util.LoginState
+import com.beeeam.util.createNavDeepLinkRequest
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -75,7 +76,7 @@ class MoreFragment : BaseFragment<FragmentMoreBinding, MoreViewModel>(
                 when (viewModel.loginState.value) {
                     LoginState.LOGIN -> { }
                     LoginState.LOGOUT -> {
-                        findNavController().navigate(R.id.action_navigation_more_to_loginFragment)
+                        findNavController().navigate(createNavDeepLinkRequest("shyPolarBear://fragmentLogin"))
                     }
                     else -> {}
                 }
