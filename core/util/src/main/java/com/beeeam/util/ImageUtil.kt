@@ -16,9 +16,6 @@ import java.util.UUID
 
 object ImageUtil {
 
-//    이미지 최대 사이즈 : 1440 * 1440
-//    이미지 최대 용량 : 1440 * 1440 / 1024 / 1024 = 7.91MB로 이미지 최적화한다.
-
     fun uriToOptimizeImageFile(context: Context, uri: Uri): File? {
         try {
             val storage = context.cacheDir
@@ -27,28 +24,26 @@ object ImageUtil {
             val tempFile = File(storage, fileName)
             tempFile.createNewFile()
 
-            val fos = FileOutputStream(tempFile)
-
             decodeOptimizeBitmapFromUri(context, uri)?.apply {
-                compress(Bitmap.CompressFormat.JPEG, 90, fos)
+                var compressQuality = 100
+                do {
+                    val fos = FileOutputStream(tempFile)
+                    compress(Bitmap.CompressFormat.JPEG, compressQuality, fos)
+                    compressQuality -= 5
+
+                    fos.flush()
+                    fos.close()
+                } while (tempFile.length() / (1024.0 * 1024.0) > 2.0)
                 recycle()
             } ?: throw NullPointerException()
 
-            fos.flush()
-            fos.close()
-
             return tempFile
         } catch (e: Exception) {
-            Timber.e("${e.message}")
+            Timber.d("Error: ${e.message}")
         }
 
         return null
     }
-
-//    BitmapFactory를 사용하게 되면 Bitmap.Config는 기본으로 ARGB_8888으로 설정된다.
-//    이미지의 최대 가로/세로 길이가 1280이라고 할 때,
-//    Bitmap의 최대 크기는 1280 * 1280 * 4 = 6.25MB가 된다.
-//    즉 해당 함수는 Bitmap을 6.25MB 이하로 만들어준다.
 
     private fun decodeOptimizeBitmapFromUri(context: Context, uri: Uri): Bitmap? {
         val input = BufferedInputStream(context.contentResolver.openInputStream(uri))
